@@ -1,0 +1,4082 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HFW Shadow Fleet - Comprehensive Design Document</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* --- Base Styles (Mobile First) --- */
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        /* NEW: Add right margin to accommodate always-visible aside */
+        margin-right: 240px;
+      }
+
+      .spectre-post-container {
+        font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+        background-color: #0b0e13;
+        color: #f0f0f0;
+        padding: 1.5rem;
+        font-size: 18px;
+        line-height: 1.6;
+        margin-left: 0;
+        /* NEW: Add right margin to accommodate always-visible aside */
+        margin-right: 240px;
+        transition: margin-left 0.3s ease, margin-right 0.3s ease;
+      }
+      .spectre-post-container header {
+        background-color: #1a1a1a;
+        padding: 1rem 2rem;
+        text-align: center;
+        border-bottom: 1px solid #2a2a2a;
+      }
+      .spectre-post-container header h1 {
+        color: #ff4c4c;
+        font-family: "Orbitron", sans-serif;
+        margin: 0;
+        font-size: 2.5rem;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+      }
+
+      /* --- Main Navigation (Sidebar on Desktop) Styles --- */
+      .spectre-post-container nav {
+        /* Mobile First: Top Bar */
+        position: static;
+        width: auto;
+        height: auto;
+        transform: none;
+        z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        background: #111;
+        border-right: none;
+        border-bottom: 2px solid #ff4c4c;
+        padding: 0.5rem 0;
+        border-radius: 0;
+        box-shadow: none;
+        margin-bottom: 1.5rem;
+      }
+      .spectre-post-container nav a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: auto;
+        padding: 0.8rem 1rem;
+        color: #ffaaaa;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 1rem;
+        font-family: "Orbitron", sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease,
+          transform 0.2s ease-out, box-shadow 0.2s ease-out,
+          font-weight 0.2s ease;
+        border: 1px solid transparent;
+        font-weight: normal;
+      }
+      .spectre-post-container nav a svg {
+        width: 1em;
+        height: 1em;
+        fill: currentColor;
+        vertical-align: middle;
+        flex-shrink: 0;
+      }
+      .spectre-post-container nav a:hover {
+        background-color: #ff4c4c;
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        border-color: #ff4c4c;
+      }
+      .spectre-post-container nav a.nav-active {
+        background-color: #3a3a3a;
+        color: #ffffff;
+        font-weight: bold;
+        box-shadow: inset 2px 0 4px rgba(0, 0, 0, 0.4);
+      }
+      .spectre-post-container nav a.nav-active:hover {
+        background-color: #444;
+        color: #fff;
+        transform: translateY(-1px);
+      }
+      .spectre-post-container .nav-logo {
+        padding: 0.5rem 1rem;
+        text-align: center;
+        flex-basis: 100%;
+        order: 0;
+      }
+      .spectre-post-container .nav-logo-top {
+        order: -1;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #333;
+        margin-bottom: 0.5rem;
+      }
+      .spectre-post-container .nav-logo img {
+        max-width: 400px;
+        max-height: 200px;
+        height: auto;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      /* --- Right-hand “On This Section” Aside --- */
+      .spectre-post-aside {
+        position: fixed;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 240px;
+        overflow-y: auto; /* Main scroll for the entire aside */
+        background: #111;
+        border: none;
+        border-left: 2px solid #ff4c4c;
+        border-radius: 0;
+        padding: 0; /* Padding will be on inner elements */
+        font-family: "Orbitron", sans-serif;
+        color: #ffaaaa;
+        /* REMOVED: display: none; */
+        z-index: 1000;
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
+        display: flex; /* ENSURED this is the default display */
+        flex-direction: column;
+      }
+      .aside-top-logo {
+        padding: 1rem; /* Consistent padding around logo */
+        text-align: center;
+        border-bottom: 1px solid #333;
+        margin-bottom: 0; /* Remove margin if title is directly below */
+        flex-shrink: 0;
+      }
+      .aside-top-logo img {
+        max-width: 180px;
+        max-height: 100px;
+        height: auto;
+        display: inline-block;
+      }
+      .spectre-post-aside h2 {
+        font-size: 1.1rem;
+        color: #ff4c4c;
+        text-transform: uppercase;
+        margin: 0; /* Remove default margins */
+        padding: 1rem 1rem 0.5rem 1rem; /* Add padding */
+        border-bottom: 1px solid #333;
+        flex-shrink: 0;
+      }
+      .spectre-post-aside ul {
+        list-style: none;
+        padding: 0.5rem 1rem 1rem 1rem; /* Add padding around the list */
+        margin: 0;
+        flex-grow: 1; /* Allows this list to take available space and push down bio */
+        overflow-y: auto; /* Allows independent scrolling of the list if it gets too long */
+        flex-shrink: 1; /* Allows this list to shrink if content below needs space */
+      }
+      .spectre-post-aside li {
+        margin: 0.1rem 0;
+      }
+      .spectre-post-aside a {
+        color: #ffaaaa;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+        text-transform: none;
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 0.6rem;
+        border-radius: 4px;
+        transition: background-color 0.3s ease, color 0.3s ease,
+          border-left-color 0.3s ease;
+        border-left: 3px solid transparent;
+      }
+      .spectre-post-aside a svg {
+        width: 0.8em;
+        height: 0.8em;
+        fill: currentColor;
+        margin-right: 0.6em;
+        opacity: 0.7;
+        transition: opacity 0.3s ease;
+        flex-shrink: 0;
+      }
+      .spectre-post-aside a:hover {
+        background-color: #2a2a2a;
+        color: #fff;
+      }
+      .spectre-post-aside a:hover svg {
+        opacity: 1;
+      }
+      .spectre-post-aside a.active {
+        background-color: #333;
+        color: #ffffff;
+        font-weight: bold;
+        border-left-color: #ff4c4c;
+      }
+      .spectre-post-aside a.active svg {
+        opacity: 1;
+        color: #ff4c4c;
+      }
+
+      /* NEW: Styles for Dr. Thorne's biography section in the aside */
+      .aside-bio-section {
+        padding: 1rem;
+        border-top: 1px solid #333;
+        margin-top: 1rem;
+        flex-shrink: 0; /* Prevents this section from shrinking if list grows */
+        color: #f0f0f0; /* Ensure text color is readable */
+        font-size: 0.85rem; /* Smaller font for dense content */
+        line-height: 1.5;
+        background-color: rgba(255, 76, 76, 0.05); /* Slightly different background */
+        border-radius: 0 0 5px 5px; /* Rounded corners at bottom */
+      }
+
+      .aside-bio-heading {
+        font-size: 1rem; /* Slightly smaller than main aside H2 */
+        color: #ff8c8c; /* Different accent color than #ff4c4c for distinction */
+        text-transform: uppercase;
+        margin: 0 0 0.5rem 0; /* Adjusted margin */
+        padding-bottom: 0.3rem;
+        border-bottom: 1px dashed #444; /* Dotted line for stylistic difference */
+        font-family: "Orbitron", sans-serif;
+      }
+
+      .aside-bio-content {
+        max-height: 30vh; /* Example: 30% of viewport height, adjust as needed */
+        overflow-y: auto; /* Make this section independently scrollable */
+        padding-right: 0.5rem; /* Add padding to prevent scrollbar from touching text */
+        /* Custom scrollbar styles for Webkit browsers */
+        scrollbar-width: thin; /* Firefox */
+        scrollbar-color: #ff4c4c #111; /* Thumb and track color for Firefox */
+      }
+
+      /* Webkit scrollbar styling */
+      .aside-bio-content::-webkit-scrollbar {
+          width: 6px;
+      }
+      .aside-bio-content::-webkit-scrollbar-track {
+          background: #1a1a1a;
+      }
+      .aside-bio-content::-webkit-scrollbar-thumb {
+          background-color: #ff4c4c;
+          border-radius: 3px;
+          border: 1px solid #0b0e13;
+      }
+
+
+      @media (min-width: 992px) {
+        /* --- In your @media (min-width: 992px) block --- */
+        .spectre-post-container nav {
+          position: fixed;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 300px; /* You can adjust this, e.g., back to max-width: 320px if preferred */
+          z-index: 1001;
+          display: flex;
+          flex-direction: column;
+          /* align-items: stretch; */ /* Changed from stretch */
+          align-items: flex-start; /* Ensures items don't try to stretch in ways that might conflict */
+          background: #111;
+          border-right: 2px solid #ff4c4c;
+          border-bottom: none;
+          border-radius: 0;
+          box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
+          padding: 1.5rem 0; /* Padding for top/bottom of the nav scrolling area */
+          overflow-y: auto; /* Should enable vertical scroll for overflowing content */
+          overflow-x: hidden; /* Prevent horizontal scroll */
+          flex-wrap: nowrap; /* Explicitly prevent wrapping into columns */
+          margin-bottom: 0;
+        }
+
+        .spectre-post-container nav a {
+          width: 100%; /* Make each link take the full width of the nav container */
+          box-sizing: border-box; /* Include padding and border in the element's total width and height */
+          white-space: nowrap;
+          padding: 0.8rem 1.5rem; /* Adjust padding as needed, now that it's full width */
+          margin: 0; /* Remove horizontal margins, rely on padding for spacing from nav edges */
+          display: inline-flex; /* Keep for icon and text alignment within the link */
+          align-items: center;
+          gap: 0.5rem;
+          color: #ffaaaa;
+          text-decoration: none;
+          text-transform: uppercase;
+          font-size: 1rem;
+          font-family: "Orbitron", sans-serif;
+          transition: background-color 0.3s ease, color 0.3s ease,
+            transform 0.2s ease-out, box-shadow 0.2s ease-out,
+            font-weight 0.2s ease;
+          border: none; /* Remove individual borders if width is 100%, or style as needed */
+          /* border-bottom: 1px solid #222; */ /* Optional: separator between links */
+          font-weight: normal;
+        }
+
+        /* Keep existing hover and active styles for nav a, they should still work */
+        .spectre-post-container nav a:hover {
+          background-color: #ff4c4c;
+          color: #fff;
+          /* transform: translateX(3px) translateY(-1px); */ /* transform might be less necessary if links are full width */
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .spectre-post-container nav a.nav-active {
+          background-color: #333; /* Slightly different from aside's active for distinction */
+          color: #ffffff;
+          font-weight: bold;
+          box-shadow: inset 3px 0 5px rgba(0, 0, 0, 0.5);
+        }
+        .spectre-post-container nav a.nav-active:hover {
+          background-color: #444;
+          color: #fff;
+        }
+        .spectre-post-container .nav-logo {
+          flex-basis: auto;
+          padding: 1rem;
+        }
+        .spectre-post-container .nav-logo-top {
+          margin-bottom: 1rem;
+          border-bottom: none;
+        }
+
+        .spectre-post-aside {
+          /* No changes needed here, as it's already display: flex; in base */
+        }
+      }
+
+      /* --- General Content Styles --- */
+      .spectre-post-container .container {
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0;
+      }
+      .spectre-post-container h2 {
+        font-size: 1.8rem;
+        color: #ff4c4c;
+        text-transform: uppercase;
+        font-family: "Orbitron", sans-serif;
+        border-bottom: 1px solid #444;
+        padding-bottom: 0.5rem;
+        margin-top: 2rem;
+        margin-bottom: 1.5rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .spectre-post-container h3 {
+        font-size: 1.4rem;
+        color: #ff8c8c;
+        text-transform: uppercase;
+        font-family: "Orbitron", sans-serif;
+        border-bottom: 1px solid #333;
+        padding-bottom: 0.3rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .spectre-post-container h4 {
+        font-size: 1.2rem;
+        color: #ffaaaa;
+        font-family: "Orbitron", sans-serif;
+        margin-top: 1.2rem;
+        margin-bottom: 0.8rem;
+      }
+      .spectre-post-container h2:first-child,
+      .spectre-post-container h3:first-child {
+        margin-top: 0;
+      }
+      .spectre-post-container p {
+        margin-bottom: 1.2rem;
+      }
+      .scenario-narrative {
+        background-color: rgba(20, 20, 25, 0.5);
+        padding: 1.5rem;
+        border-left: 3px solid #ff4c4c;
+        margin-bottom: 1.5rem;
+        border-radius: 0 5px 5px 0;
+      }
+      .scenario-narrative p {
+        margin-bottom: 0.8rem;
+        text-indent: 1.5em;
+      }
+      .scenario-narrative p:first-of-type {
+        text-indent: 0;
+      }
+      .scenario-narrative h3 + p {
+        text-indent: 0;
+      }
+      .scenario-narrative h4 {
+        font-size: 1.1rem;
+        color: #ff6a6a;
+        text-transform: none;
+        border-bottom: 1px dashed #555;
+        padding-bottom: 0.2rem;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+      }
+      .scenario-narrative strong {
+        color: #ffaaaa;
+        font-family: "Orbitron", sans-serif;
+      }
+      .spectre-post-container .back-to-top {
+        font-size: 14px;
+        color: #ffaaaa;
+        text-decoration: underline;
+        margin-left: 1em;
+        text-transform: none;
+        font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+        vertical-align: middle;
+        transition: color 0.3s ease;
+      }
+      .spectre-post-container .back-to-top:hover {
+        color: #fff;
+      }
+
+      /* --- UNIFIED BUTTON STYLES --- */
+      .styled-button {
+        cursor: pointer;
+        font-family: "Orbitron", sans-serif;
+        text-transform: uppercase;
+        transition: background 0.3s, color 0.3s, border-color 0.3s,
+          transform 0.2s ease-out, box-shadow 0.3s ease;
+        border-radius: 6px;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        display: inline-block;
+      }
+
+      .spectre-post-container .ship-family-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 3px solid #ff4c4c;
+      }
+      .spectre-post-container .ship-family-tabs button.family-tab {
+        /* This already inherits .styled-button via HTML class */
+        background-color: #1f1f1f;
+        border: 1px solid #4a4a4a;
+        color: #ff8c8c;
+        padding: 0.9rem 1.8rem;
+        margin: 0.5rem;
+        font-size: 1.1rem;
+      }
+      .spectre-post-container .ship-family-tabs button.family-tab:hover {
+        border-color: #ff6a6a;
+        color: #0b0e13;
+        background-color: #ff4c4c;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3);
+      }
+      .spectre-post-container .ship-family-tabs button.family-tab.active-family {
+        background: linear-gradient(to bottom, #ff4c4c, #d13b3b);
+        color: #ffffff;
+        border-color: #c02c2c;
+        box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4),
+          inset 0 1px 3px rgba(0, 0, 0, 0.2);
+        transform: translateY(0px);
+      }
+
+      .ship-family-content-wrapper {
+        display: none;
+        padding-top: 1rem;
+      }
+      .ship-family-content-wrapper.active-family-content {
+        display: block;
+      }
+
+      .spectre-post-container .variant-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 1rem;
+      }
+      .spectre-post-container .variant-tabs button {
+        /* This inherits .styled-button via HTML class */
+        background-color: #1a1a1a;
+        border: 1px solid #444;
+        color: #ffaaaa;
+        padding: 0.7rem 1.4rem;
+        margin: 0.3rem;
+        font-size: 1rem;
+      }
+      .spectre-post-container .variant-tabs button:hover {
+        border-color: #ff4c4c;
+        color: #0b0e13;
+        background-color: #ff6a6a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(255, 106, 106, 0.25);
+      }
+      .spectre-post-container .variant-tabs button.active {
+        background: linear-gradient(to bottom, #ff6a6a, #ff4c4c);
+        color: #0b0e13;
+        border-color: #ff4c4c;
+        box-shadow: 0 2px 5px rgba(255, 76, 76, 0.3),
+          inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        transform: translateY(0px);
+      }
+
+      .model-control-btn {
+        /* Class for model viewer buttons, inherits .styled-button via HTML class */
+        background-color: #1f1f1f;
+        border: 1px solid #383838;
+        color: #ffaaaa;
+        padding: 0.5rem 1rem;
+        margin: 0.2rem;
+        font-size: 0.85rem;
+        font-weight: normal;
+        letter-spacing: 0.2px;
+      }
+      .model-control-btn:hover {
+        border-color: #ff4c4c;
+        color: #fff;
+        background-color: #2a2a2a;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .spectre-post-container .variant-content {
+        display: none;
+        background-color: rgba(30, 30, 30, 0.6);
+        padding: 1.5rem;
+        border-radius: 5px;
+        margin-top: 1rem;
+        border: 1px solid #333;
+      }
+      .spectre-post-container .variant-content h3 {
+        border-bottom: none !important;
+        margin-top: 0 !important;
+        margin-bottom: 1rem !important;
+        color: #ff4c4c;
+        font-size: 1.6rem;
+      }
+      .spectre-post-container .variant-content h4 {
+        font-size: 1.3rem;
+        color: #ff8c8c;
+        text-transform: uppercase;
+        font-family: "Orbitron", sans-serif;
+        border-bottom: 1px dotted #444;
+        padding-bottom: 0.2rem;
+        margin-top: 1.2rem;
+        margin-bottom: 0.8rem;
+      }
+      .spectre-post-container .variant-content ul {
+        list-style: disc;
+        padding-left: 25px;
+        margin: 1rem 0 0 0;
+      }
+      .spectre-post-container .variant-content li {
+        margin-bottom: 0.7rem;
+        padding-left: 5px;
+      }
+      .spectre-post-container .variant-content.active {
+        display: block;
+      }
+
+      .spectre-post-container .section {
+        background-color: rgba(255, 76, 76, 0.03);
+        padding: 2rem;
+        border-radius: 8px;
+        margin-top: 2.5rem;
+        border: 1px solid #2a2a2a;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+      }
+      .spectre-post-container table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        table-layout: fixed;
+      }
+      .spectre-post-container th,
+      .spectre-post-container td {
+        padding: 0.5rem 1rem;
+        border-bottom: 1px solid #333;
+        color: #f0f0f0;
+        text-align: left;
+        vertical-align: top;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+      .spectre-post-container th {
+        background-color: #1f1f1f;
+        color: #ffaaaa;
+        font-family: "Orbitron", sans-serif;
+        width: 25%;
+        font-size: 0.95rem;
+      }
+      .spectre-post-container td {
+        width: 75%;
+      }
+      .spectre-post-container img:hover {
+        transform: scale(1.02);
+        transition: transform 0.3s ease;
+        box-shadow: 0 0 15px rgba(255, 76, 76, 0.3);
+      }
+      .spectre-post-container a img {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: block;
+        max-width: 100%;
+        height: auto;
+      }
+      .spectre-post-container .gallery {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 1rem;
+        overflow-x: auto;
+        padding: 1rem;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 6px;
+        border: 1px solid #2a2a2a;
+        justify-content: flex-start;
+      }
+      .spectre-post-container .gallery img {
+        width: auto;
+        height: 426px;
+        max-height: 426px;
+        max-width: 640px;
+        flex-shrink: 0;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #444;
+        object-fit: cover;
+      }
+      .spectre-post-container .caption {
+        text-align: center;
+        font-size: 16px;
+        color: #ffaaaa;
+        margin-top: 0.5rem;
+      }
+      .spectre-post-container details {
+        background-color: #1a1a1a;
+        border: 1px solid #333;
+        border-radius: 5px;
+        padding: 0.8rem 1.2rem;
+        margin-top: 1rem;
+        transition: background-color 0.3s ease;
+      }
+      .spectre-post-container details:hover {
+        background-color: #222;
+      }
+      .spectre-post-container details summary {
+        cursor: pointer;
+        font-family: "Orbitron", sans-serif;
+        color: #ffaaaa;
+        outline: none;
+        list-style: none;
+        display: block;
+        padding: 0.3rem 0;
+      }
+      .spectre-post-container details summary::-webkit-details-marker {
+        display: none;
+      }
+      .spectre-post-container details summary h3 {
+        margin: 0;
+        display: inline;
+        color: #ffaaaa;
+        border-bottom: none;
+        font-size: 1.2rem;
+      }
+      .spectre-post-container details summary::before {
+        content: "▶";
+        display: inline-block;
+        color: #ffaaaa;
+        font-size: 1rem;
+        margin-right: 0.8rem;
+        transition: transform 0.2s ease;
+        vertical-align: middle;
+      }
+      .spectre-post-container details[open] summary::before {
+        transform: rotate(90deg);
+      }
+      .spectre-post-container details div {
+        padding-top: 1rem;
+        margin-top: 0.5rem;
+        border-top: 1px solid #333;
+      }
+      .spectre-post-container blockquote {
+        border-left: 4px solid #ff4c4c;
+        margin: 1rem 0 0.5rem 0;
+        padding: 0.5rem 1.5rem;
+        font-style: italic;
+        color: #ddd;
+        background-color: rgba(255, 76, 76, 0.02);
+      }
+      .spectre-post-container blockquote br {
+        display: none;
+      }
+      .spectre-post-container blockquote + p {
+        margin-left: 1.5rem;
+        font-size: 15px;
+        color: #aaa;
+        margin-top: 0.2rem;
+        margin-bottom: 1.5rem;
+      }
+      .spectre-post-container img:not([src]),
+      .spectre-post-container img[src=""] {
+        display: none;
+      }
+
+      @media (min-width: 992px) {
+        .spectre-post-container {
+          margin-left: 320px; /* Width of left nav */
+          margin-right: 240px; /* Width of right aside */
+          padding: 1.5rem 2rem;
+        }
+        .spectre-post-container .container {
+          max-width: none;
+          margin: 0;
+          padding: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="spectre-post-container" id="spectre-top">
+      <header>
+        <h1>HFW Shadow Fleet - Comprehensive Design Document</h1>
+        <p style="color: #aaaaaa; font-size: 0.9em; margin-top: 0.2em">
+          Developed by Hephaestus Forge Works (An Anvil Aerospace Subsidiary)
+        </p>
+      </header>
+
+      <nav>
+        <div class="nav-logo nav-logo-top">
+          <img
+            alt="Anvil Logo"
+            src="https://imagizer.imageshack.com/img922/7540/a21t3g.png"
+            onerror="this.onerror=null;this.src='https://placehold.co/400x200/1a1a1a/ff4c4c?text=Anvil+Logo';"
+          />
+        </div>
+        <a href="#spectre-concept-image"
+          ><svg
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect>
+            <circle cx="9" cy="9" r="2"></circle>
+            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg
+          >
+          Gallery</a
+        >
+        <a href="#spectre-genesis"
+          ><svg
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
+            <path d="M5 12v6a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3v-6"></path>
+            <path d="M18 3a3 3 0 0 0-3 3v6h4V6a3 3 0 0 0-3-3Z"></path>
+            <path d="M6 3a3 3 0 0 0-3 3v6h4V6a3 3 0 0 0-3-3Z"></path></svg
+          >
+          Genesis</a
+        >
+        <a href="#spectre-hfw-overview"
+          ><svg
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg
+          >
+          HFW Overview</a
+        >
+        <a href="#spectre-founding-docs"
+          ><svg
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
+            ></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" x2="8" y1="13" y2="13"></line>
+            <line x1="16" x2="8" y1="17" y2="17"></line>
+            <line x1="3" x2="3.01" y1="6" y2="6"></line>
+            <line x1="3" x2="3.01" y1="12" y2="12"></line>
+            <line x1="3" x2="3.01" y1="18" y2="18"></line></svg
+          >
+          Founding Docs</a
+        >
+        <a href="#spectre-specs"
+          ><svg
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line x1="8" x2="21" y1="6" y2="6"></line>
+            <line x1="8" x2="21" y1="12" y2="12"></line>
+            <line x1="8" x2="21" y1="18" y2="18"></line>
+            <line x1="3" x2="3.01" y1="6" y2="6"></line>
+            <line x1="3" x2="3.01" y1="12" y2="12"></line>
+            <line x1="3" x2="3.01" y1="18" y2="18"></line></svg
+          >
+          Specs</a
+        >
+        <a href="#spectre-variants"
+          ><svg
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M11 17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"></path>
+            <path d="M15 5h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6"></path></svg
+          >
+          HFW Variants</a
+        >
+        <a href="#spectre-stealth-doctrine"
+          ><svg
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M11 17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"></path>
+            <path d="M15 5h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6"></path></svg
+          >
+          Stealth</a
+        >
+        <a href="#spectre-scenarios"
+          ><svg
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
+            ></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" x2="8" y1="13" y2="13"></line>
+            <line x1="16" x2="8" y1="17" y2="17"></line>
+            <line x1="10" x2="8" y1="9" y2="9"></line></svg
+          >
+          Scenarios</a
+        >
+        <a href="#spectre-interior"
+          ><svg
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect height="18" rx="2" width="18" x="3" y="3"></rect>
+            <path d="M3 9h18"></path>
+            <path d="M9 21V9"></path></svg
+          >
+          Interior</a
+        >
+        <a href="#spectre-talent"
+          ><svg
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg
+          >
+          Talent</a
+        >
+        <a href="#spectre-comparison"
+          ><svg
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M12 3v18"></path>
+            <path d="M3.5 8.5v7"></path>
+            <path d="M20.5 12v-7"></path></svg
+          >
+          Comparison</a
+        >
+        <a href="#spectre-environment"
+          ><svg
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M21.2 15c.7-1.2 1-2.5.7-3.9-.6-2.4-2.4-4.2-4.8-4.8-.4-.1-.8-.2-1.2-.2-1.4-.1-2.7.1-3.9.7-1.2.6-2.2 1.4-3 2.4-.8 1-1.3 2.1-1.6 3.2C2 14.8 3.2 18 6.2 19.7c1 .6 2.1.9 3.2 1 .8.1 1.5 0 2.3-.2 1.1-.3 2.2-.8 3.1-1.5.9-.7 1.7-1.5 2.4-2.4.7-.9 1.2-2 1.5-3.1.2-.8.2-1.6 0-2.3z"
+            ></path>
+            <path d="M12 6V2"></path>
+            <path d="m4.9 4.9 2.8 2.8"></path>
+            <path d="M2 12h4"></path>
+            <path d="m4.9 19.1 2.8-2.8"></path>
+            <path d="M12 18v4"></path>
+            <path d="m19.1 19.1-2.8-2.8"></path>
+            <path d="M22 12h-4"></path>
+            <path d="m19.1 4.9-2.8 2.8"></path></svg
+          >
+          Environment</a
+        >
+        <a href="#spectre-testimonials"
+          ><svg
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg
+          >
+          Testimonials</a
+        >
+        <a href="#revenant-acquisition"
+          ><svg
+            class="feather feather-gitlab"
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.59A4.28 4.28 0 0 1 8.09 2h7.82a4.28 4 0 0 1 3.06 1.64l2.44 7.59 1.22 3.78a.84.84 0 0 1-.3.94z"
+            ></path>
+            <line x1="10.53" x2="10.53" y1="20.24" y2="22.24"></line>
+            <line x1="13.47" x2="13.47" y1="20.24" y2="22.24"></line>
+            <line x1="16.41" x2="18.41" y1="18.23" y2="18.23"></line>
+            <line x1="5.59" x2="7.59" y1="18.23" y2="18.23"></line></svg
+          >
+          Revenant Acquisition</a
+        >
+        <a href="#spectre-conclusion"
+          ><svg
+            fill="none"
+            height="1em"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline></svg
+          >
+          Conclusion</a
+        >
+      </nav>
+
+      <div class="container">
+        <div class="section" id="spectre-concept-image">
+          <h2>
+            Concept Gallery
+            <a class="back-to-top" href="#spectre-top">[Back to Top]</a>
+          </h2>
+          <p>
+            Visual representations illustrating the scale and design of HFW's
+            covert assets.
+          </p>
+          <div class="gallery">
+            <div class="gallery-item">
+              <a
+                href="https://imagizer.imageshack.com/img922/7601/xbT5I0.png"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><img
+                  alt="Anvil Spectre in flight"
+                  src="https://imagizer.imageshack.com/img922/7601/xbT5I0.png"
+                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+1';"
+              /></a>
+            </div>
+            <div class="gallery-item">
+              <a
+                href="https://imagizer.imageshack.com/img923/6872/oFrnl2.png"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><img
+                  alt="Anvil Spectre from above"
+                  src="https://imagizer.imageshack.com/img923/6872/oFrnl2.png"
+                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+2';"
+              /></a>
+            </div>
+            <div class="gallery-item">
+              <a
+                href="https://imagizer.imageshack.com/img922/2747/bWMmuY.png"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><img
+                  alt="Anvil Spectre in a hangar"
+                  src="https://imagizer.imageshack.com/img922/2747/bWMmuY.png"
+                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+3';"
+              /></a>
+            </div>
+            <div class="gallery-item">
+              <a
+                href="https://imagizer.imageshack.com/img924/3701/5OqxrV.png"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><img
+                  alt="Anvil Spectre in stealth mode"
+                  src="https://imagizer.imageshack.com/img924/3701/5OqxrV.png"
+                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+4';"
+              /></a>
+            </div>
+            <div class="gallery-item">
+              <a
+                href="https://imagizer.imageshack.com/img924/9325/K5BWUN.png"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><img
+                  alt="Anvil Spectre close-up"
+                  src="https://imagizer.imageshack.com/img924/9325/K5BWUN.png"
+                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+5';"
+              /></a>
+            </div>
+            <div class="gallery-item">
+              <a
+                href="https://imagizer.imageshack.com/img923/3776/K0oowz.png"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><img
+                  alt="Anvil Spectre with landing gear"
+                  src="https://imagizer.imageshack.com/img923/3776/K0oowz.png"
+                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+6';"
+              /></a>
+            </div>
+            <div class="gallery-item">
+              <a
+                href="https://imagizer.imageshack.com/img923/5609/8WQlWI.png"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><img
+                  alt="Anvil Spectre interior view"
+                  src="https://imagizer.imageshack.com/img923/5609/8WQlWI.png"
+                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+7';"
+              /></a>
+            </div>
+            <div class="gallery-item">
+              <a
+                href="https://imagizer.imageshack.com/img924/6461/3YOXUo.png"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><img
+                  alt="Anvil Spectre cockpit"
+                  src="https://imagizer.imageshack.com/img924/6461/3YOXUo.png"
+                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+8';"
+              /></a>
+            </div>
+            <div class="gallery-item">
+              <a
+                href="https://imagizer.imageshack.com/img923/1767/t0R7xS.png"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><img
+                  alt="Anvil Spectre in combat"
+                  src="https://imagizer.imageshack.com/img923/1767/t0R7xS.png"
+                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+9';"
+              /></a>
+            </div>
+            <div class="gallery-item">
+              <a
+                href="https://imagizer.imageshack.com/img923/2812/IhfzVK.png"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><img
+                  alt="Anvil Spectre in space"
+                  src="https://imagizer.imageshack.com/img923/2812/IhfzVK.png"
+                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+10';"
+              /></a>
+            </div>
+          </div>
+        </div>
+
+        <section class="section" id="spectre-genesis">
+          <h2>
+            The Genesis of the Shadow<a class="back-to-top" href="#spectre-top"
+              >[Back to Top]</a
+            >
+          </h2>
+          <p>
+            The year is 2933. Imperator Taryn Glauss, facing a galaxy simmering
+            with unrest, confronted the formidable Vanduul threat looming on
+            the borders, alongside the insidious emergence of Xenothreat.
+            Intelligence reports depicted a highly organized, technologically
+            advanced force that disregarded established power structures,
+            rendering traditional overwhelming force ineffective. During a tense
+            briefing on this growing menace, the concept of a precision weapon—a
+            scalpel rather than a hammer—took shape. This instrument would
+            operate unseen, gather crucial intelligence, and strike decisively
+            before the enemy even knew it was targeted.
+          </p>
+          <p>
+            Recognizing the profound urgency, Imperator Taryn Glauss's
+            administration identified the strategic need for such advanced
+            covert platforms. This high-level UEE concern prompted Dr. Aris
+            Thorne, Anvil Aerospace's Lead Aerospace Engineer & Director of
+            Advanced Bio-Engineering and Strategic R&D, to formulate a radical
+            solution: the creation of a specialized clandestine R&D division. To
+            meet this unique challenge, Anvil Aerospace leveraged and formalized
+            its internal clandestine R&D efforts, leading to Dr. Thorne's
+            proposal for and the subsequent approval (late 2933 by Anvil's
+            board, with implicit backing from Glauss's administration ) and
+            establishment of
+            <b>Hephaestus Forge Works (HFW)</b>. HFW was conceived to develop
+            the advanced technologies and capabilities necessary to address
+            these escalating and unconventional threats, operating with
+            significant autonomy under the Anvil Aerospace umbrella, shrouded in
+            secrecy.
+          </p>
+          <p>
+            From late 2933 through early 2940, HFW focused on building its
+            operational base, "The Forge," and conducting foundational research
+            into next-generation stealth and weapons systems. With The Forge
+            operational in early 2940, HFW presented its advanced concepts,
+            including a fully conceptualized covert platform. It was then, in
+            2940, that Imperator Kelos Costigan (who took office in 2938),
+            recognizing the matured capability of HFW and the persistent
+            galactic threats, issued the formal presidential directive
+            validating and commissioning the <b>Spectre project</b>, tasking
+            HFW with its full-scale development and production.
+          </p>
+          <p>
+            As prime contractor for the Spectre, HFW built upon centuries of UEE
+            research into signature reduction and Anvil's own pioneering work.
+            They developed the Spectre's next-generation, multi-layered hull
+            material and coating, an advanced derivative significantly absorbing
+            and diffusing EM, IR, and cross-section signatures. This passive
+            signature reduction was augmented by sophisticated active systems
+            integrated by HFW through strategic subcontracts and internal
+            breakthroughs:
+          </p>
+          <ul>
+            <li>
+              <b>Esperia</b> was subcontracted for their expertise in replicating
+              historical Tevarin technology, providing the Spectre's unique
+              'ghost mode' electronic cockpit.
+            </li>
+            <li>
+              HFW integrated an advanced version of the retractable armored
+              shutter system (akin to the Carrack's).
+            </li>
+            <li>
+              HFW integrated signature masking components influenced by
+              <b>MISC/Mirai's Xi'an tech research</b> and incorporated advanced
+              targeting and Electronic Warfare systems from
+              <b>Aegis Dynamics</b>.
+            </li>
+            <li>
+              The <b>adaptive countershading</b> system (hallmark of the Shadow
+              variant) was a major internal HFW breakthrough.
+            </li>
+          </ul>
+          <p>
+            Early prototypes underwent rigorous testing against actual Ninetails
+            targets, validating their capabilities. The experiences of
+            individuals like Jax “Whisper” Rylan, a former Ninetails technician
+            who survived such an attack and was later recruited by HFW,
+            underscored the profound impact of these new stealth platforms.
+            Covert Spectre deployments fueled rumors of 'friendly ghosts,'
+            eventually leading military analysts to suspect HFW's involvement.
+            This led to the development of the specialized Spectre variants
+            (Shadow, Strike, Lockdown, Pulse) and the parallel project for The
+            Forge's ultimate sentinel: the Spectre Revenant.
+          </p>
+        </section>
+
+        <section class="section" id="spectre-hfw-overview">
+          <h2>
+            Hephaestus Forge Works (HFW): Comprehensive Overview<a
+              class="back-to-top"
+              href="#spectre-top"
+              >[Back to Top]</a
+            >
+          </h2>
+          <p>
+            <b>Hephaestus Forge Works (HFW)</b> is the highly specialized and
+            clandestine advanced research and development division operating
+            under the umbrella of Anvil Aerospace. Born from the visionary
+            proposal of Dr. Aris Thorne in <b>2933</b>, and formally
+            established in <b>early 2940</b>, HFW was conceived to address the
+            escalating and unconventional threats posed by entities like
+            Xenothreat and the Vanduul. Its very foundation was inspired by the
+            legendary "Skunk Works" and "Phantom Works" of historical Earth,
+            designed to push the very boundaries of military technology far
+            beyond standard development cycles.
+          </p>
+          <p>
+            Under the directorship of its founder, Dr. Aris Thorne, HFW operates
+            with unparalleled autonomy and is shrouded in absolute secrecy. It
+            serves as Anvil's dedicated crucible for delivering bleeding-edge,
+            classified solutions that address unique and critical requirements
+            deemed beyond the scope of standard development. HFW's mandate
+            prioritizes radical innovation and rapid results, consistently
+            employing unconventional approaches to both technology development
+            and personnel cultivation.
+          </p>
+          <p>
+            HFW's main operational base, known simply as <b>The Forge</b>, is a
+            marvel of clandestine engineering. Located deep within a volatile
+            nebula on a
+            <b>newly discovered, fairly small, rogue moon</b> – one unburdened
+            by the gravitational pull of a parent planet – its initial unstable
+            orbit necessitated a monumental, multi-year project (2934-2940) to
+            stabilize its trajectory through precise gravitational nudges and
+            powerful terraforming bursts. The moon itself underwent an act of
+            <b>geological reconstruction</b>, transforming its vast, ancient
+            natural caverns into a single, integrated, and self-sustaining
+            giant moon base. This intricate process included the meticulous
+            integration of <b>complex artificial gravity systems</b>, engineered
+            to avoid any gravitational fluctuations that could destabilize the
+            delicate orbital mechanics of the surrounding asteroid field, thus
+            maintaining The Forge's hidden advantage.
+          </p>
+          <p>
+            This heavily fortified moon base serves as the central hub for
+            HFW's research, development, prototyping, and testing activities. It
+            houses their most sensitive projects, including the groundbreaking
+            Spectre program and its state-of-the-art facilities like the
+            specialized regeneration center for the Phoenix Protocol training
+            program. The strategic importance of safeguarding The Forge drives
+            the development of dedicated defensive assets like the Spectre
+            Revenant.
+          </p>
+          <p>
+            HFW is renowned for its unique <b>Talent Acquisition Doctrine</b>.
+            This approach supplements standard recruitment by discreetly
+            observing and actively recruiting individuals who demonstrate
+            exceptional aptitude or possess unique, hard-won experience
+            relevant to HFW's clandestine mission – regardless of their origin
+            or past affiliations. From its inception, this doctrine led to the
+            formation of the <b>Ghost Teams</b>, elite field operatives and
+            intelligence gatherers whose unconventional skills were crucial for
+            HFW's data acquisition and early field testing. This unconventional
+            approach recognizes that firsthand encounters with bleeding-edge
+            technology or deep understanding of specific operational challenges
+            can forge perspectives and skills unobtainable through traditional
+            means. It was through this very doctrine that operatives like
+            <b>Jax "Whisper" Rylan</b>, a former Ninetails outpost technician
+            whose profound experience surviving a Spectre attack fostered an
+            unparalleled expertise in detecting stealth threats, was brought
+            into The Forge's expanding ranks following his critical involvement
+            in Dr. Thorne's rescue. His unique insights now directly contribute
+            to the refinement of The Forge's cutting-edge designs, including
+            the Spectre program itself.
+          </p>
+          <p>
+            In essence, Hephaestus Forge Works represents Anvil Aerospace's
+            unwavering commitment to pushing beyond conventional limits in
+            stealth, electronic warfare, advanced combat systems, and
+            bio-engineering. Operating as a shadow within a shadow, HFW delivers
+            the groundbreaking tools necessary for the UEE to maintain decisive
+            superiority against unforeseen and rapidly evolving threats,
+            ensuring the future is not merely designed, but <b>forged</b>.
+          </p>
+        </section>
+
+        <section class="section" id="spectre-founding-docs">
+          <h2>
+            Founding Documents & Key Moments<a
+              class="back-to-top"
+              href="#spectre-top"
+              >[Back to Top]</a
+            >
+          </h2>
+          <h3 id="spectre-founding-docs-a-hephaestus-forge-works-proposal">
+            A. Hephaestus Forge Works: A Strategic Proposal (May 21, 2933)
+          </h3>
+          <p>
+            <b>To:</b> The Board of Directors, Anvil Aerospace<br /><b
+              >From:</b
+            >
+            Dr. Aris Thorne, Lead Aerospace Engineer & Director of Advanced
+            Bio-Engineering and Strategic R&D<br /><b
+              >Date:</b
+            >
+            May 21, 2933<br /><b
+              >Subject:</b
+            >
+            Proposal for the Establishment of Hephaestus Forge Works – An
+            Advanced Development Division
+          </p>
+          <h4 id="spectre-founding-docs-the-imperative">
+            I. The Imperative: Adapting to Evolving Threats
+          </h4>
+          <p>
+            Echoing the mid-20th century Cold War era, when the USA established
+            dedicated 'top secret' development enclaves, these organizations
+            were paramount in ensuring national security. Tasked with countering
+            potential Soviet threats, their singular focus was on maintaining a
+            decisive technological advantage, pushing the boundaries of
+            engineering to deliver unparalleled capabilities.
+          </p>
+          <p>
+            Today, Anvil Aerospace faces a similarly critical juncture. The
+            ongoing and escalating threat of
+            <b>Xenothreat incursions</b>, coupled with the persistent and
+            unpredictable danger of <b>Vanduul attacks</b>, presents an
+            existential challenge to galactic security and, by extension, to our
+            core business and the safety of our clients. These adversaries
+            operate with unconventional tactics and often possess unknown
+            technological advantages, demanding a response that is agile,
+            innovative, and, at times, discreet. Standard development cycles,
+            while robust, may not be sufficient to meet the rapid evolution of
+            these threats.
+          </p>
+          <h4 id="spectre-founding-docs-introducing-hfw">
+            II. Introducing: Hephaestus Forge Works
+          </h4>
+          <p>
+            To address this critical need, I am formally proposing the creation
+            of a specialized, <b>clandestine arm of Anvil Aerospace</b>, to be
+            known henceforth as <b>Hephaestus Forge Works (HFW)</b>. This
+            initiative stems from a deep conviction that Anvil's future security
+            and leadership depend on a dedicated entity capable of rapid,
+            unconventional innovation.
+          </p>
+          <p>
+            This designation is not merely a name; it is a declaration of
+            purpose and a homage to a storied legacy:
+          </p>
+          <ul>
+            <li>
+              <b>Hephaestus:</b> Drawing inspiration from the Greek god of
+              blacksmiths, artisans, fire, and volcanoes, "Hephaestus" embodies
+              the spirit of masterful craftsmanship, intense dedication, and
+              transformative creation from raw elements. It perfectly aligns
+              with Anvil's reputation for rugged, reliable, and powerful
+              starcraft, emphasizing the foundational, hands-on engineering that
+              defines our brand.
+            </li>
+            <li>
+              <b>Forge Works:</b> This directly connects HFW to the historical
+              "Works" of bygone eras – the renowned Skunk Works and Phantom
+              Works. These were not just departments; they were cultures of
+              innovation, secrecy, and rapid prototyping, where brilliant minds
+              operated with unparalleled autonomy to deliver groundbreaking
+              solutions under extreme pressure. "Forge Works" signifies a
+              dedicated environment where cutting-edge concepts are hammered
+              into reality, often outside conventional scrutiny.
+            </li>
+          </ul>
+          <h4 id="spectre-founding-docs-mission-and-capabilities">
+            III. Mission and Capabilities of The Forge
+          </h4>
+          <p>
+            Hephaestus Forge Works will operate with a focused mandate: to
+            ensure Anvil Aerospace, and by extension the UEE, maintains the upper
+            hand against emerging and unconventional threats. Its core
+            capabilities will include:
+          </p>
+          <ul>
+            <li>
+              <b>Rapid Research & Development (R&D):</b> Accelerated
+              development cycles for experimental technologies, counter-measures,
+              and specialized components.
+            </li>
+            <li>
+              <b>Advanced Prototyping:</b> The ability to quickly design, build,
+              and test proof-of-concept vehicles and systems that push beyond
+              current industry standards.
+            </li>
+            <li>
+              <b>Threat-Specific Adaptation:</b> Developing bespoke modifications
+              and entirely new craft tailored to neutralize specific Xenothreat
+              and Vanduul capabilities.
+            </li>
+            <li>
+              <b>Clandestine Operations Support:</b> Designing and integrating
+              systems for covert missions, intelligence gathering, and
+              specialized combat scenarios.
+            </li>
+            <li>
+              <b>Talent Incubation:</b> Attracting and empowering the most
+              brilliant and unconventional engineers, scientists, and
+              strategists, providing them with the resources and freedom to
+              innovate without bureaucratic impedance.
+            </li>
+          </ul>
+          <h4 id="spectre-founding-docs-strategic-advantage">
+            IV. Strategic Advantage and Conclusion
+          </h4>
+          <p>
+            The establishment of Hephaestus Forge Works is not merely an
+            expansion; it is a strategic imperative. It represents Anvil
+            Aerospace's commitment to proactive defense, ensuring that we are
+            not just reacting to threats, but anticipating and neutralizing them
+            with unparalleled speed and ingenuity. We've grown and learned
+            immensely since our inception, pushing the boundaries of aerospace
+            engineering. Now, it is time to channel that expertise into a
+            dedicated, focused effort for the most critical challenges ahead.
+          </p>
+          <p>
+            In the spirit of the Skunk and the Phantom, we present
+            <b>The Forge</b>: Anvil Aerospace's unwavering commitment to securing
+            the future, one groundbreaking innovation at a time.
+          </p>
+
+          <h3 id="spectre-founding-docs-b-genesis-of-the-forge">
+            B. The Genesis of The Forge: HFW's Establishment (2933-2940)
+          </h3>
+          <p>
+            The escalating threats from Xenothreat and the persistent Vanduul
+            incursions had already begun to strain Anvil Aerospace's
+            conventional R&D pipelines. Recognizing this critical juncture, Dr.
+            Aris Thorne, a Lead Aerospace Engineer and Director of Advanced
+            Bio-Engineering and Strategic R&D, formulated a radical solution. On
+            May 21, 2933 , he submitted a compelling proposal to the Anvil
+            Aerospace Board of Directors: the creation of a dedicated, agile,
+            and clandestine division. His vision, echoing the 'top secret'
+            development enclaves of the mid-20th century Cold War, promised to
+            ensure Anvil's decisive technological advantage against these
+            evolving threats.
+          </p>
+          <h4 id="spectre-founding-docs-establishing-the-command">
+            Establishing the Command: Proposal Acceptance and Leadership (Late
+            2933)
+          </h4>
+          <p>
+            Dr. Thorne's foresight resonated deeply with the Board. After
+            intense, highly classified deliberations, the proposal for
+            Hephaestus Forge Works (HFW) was unanimously accepted. Thorne's
+            unparalleled expertise and proven ability to innovate under pressure
+            made him the unequivocal choice to lead this nascent division. He
+            was officially appointed as the Director of Hephaestus Forge Works,
+            a mandate that would largely subsume his previous roles and focus his
+            formidable intellect on building The Forge from the ground up.
+          </p>
+          <h4 id="spectre-founding-docs-assembling-the-unconventional">
+            Assembling the Unconventional: Recruitment (Early 2934)
+          </h4>
+          <p>
+            With the Board's full backing and a substantial, classified budget,
+            Dr. Thorne immediately embarked on HFW's most critical initial task:
+            recruitment. This was no ordinary hiring drive. Thorne sought not
+            just brilliance, but unconventional thinking, adaptability, and
+            unwavering discretion. He targeted individuals who thrived on
+            impossible challenges, possessed diverse and often unorthodox skill
+            sets, and were willing to operate in the shadows for the greater
+            good. Leveraging his extensive network in advanced research, he
+            quietly approached top-tier engineers, rogue scientists, brilliant
+            tacticians, and even former covert operatives. This meticulous,
+            off-the-books process ensured absolute secrecy. Among these early,
+            hand-picked specialists were the precursors to what would become
+            known as the Ghost Teams – elite field operatives and intelligence
+            gatherers whose unique skills would be crucial for HFW's clandestine
+            data acquisition and eventual field testing of its advanced
+            prototypes.
+          </p>
+          <h4 id="spectre-founding-docs-sanctuary-found">
+            Sanctuary Found: Locating The Forge (Mid 2934)
+          </h4>
+          <p>
+            Simultaneously, a dedicated team, personally overseen by Dr. Thorne,
+            commenced the exhaustive search for HFW's operational heart – "The
+            Forge." The requirements were stringent: extreme seclusion, far from
+            established shipping lanes and civilian scrutiny; proximity to raw
+            materials and energy sources for advanced manufacturing; natural
+            defensibility; and environmental conditions conducive to highly
+            sensitive research without external interference.
+          </p>
+          <p>
+            After months of scouting countless systems and derelict
+            installations, a site was identified deep within a nebula known for
+            its volatile atmospheric conditions and treacherous asteroid fields.
+            This natural deterrent provided the perfect cover. The chosen
+            location was a newly discovered, fairly small, rogue moon – one
+            unburdened by the gravitational pull of a parent planet . Its
+            independent trajectory, while offering unparalleled isolation, also
+            presented a unique challenge: an unstable orbit that threatened to
+            eventually drift into interstellar space. Anvil's engineers
+            immediately initiated a complex, long-term project to stabilize its
+            trajectory, employing a combination of subtle gravitational nudges
+            and powerful, precisely calibrated bursts from advanced terraforming
+            equipment. This monumental effort secured the moon's long-term
+            stability and, by extension, the enduring secrecy of The Forge.
+            Beneath its surface, a vast, ancient network of natural caverns was
+            found, imperfect and requiring immense effort to stabilize and
+            expand, yet offering unmatched inherent secrecy and strategic
+            isolation.
+          </p>
+          <h4 id="spectre-founding-docs-forging-the-future">
+            Forging the Future: Construction and Integration (Late 2934 - Mid
+            2940)
+          </h4>
+          <p>
+            Construction of Hephaestus Forge Works commenced in late 2934, an
+            undertaking of unprecedented scale and secrecy. Anvil Aerospace
+            deployed a highly specialized, covert construction division,
+            operating under strict non-disclosure agreements and layers of
+            misdirection. Massive excavation and structural reinforcement
+            projects transformed the natural caverns into a sprawling,
+            multi-level facility. This was no mere base construction; it was an
+            act of geological reconstruction, effectively turning the entire
+            small moon into a single, integrated, and self-sustaining giant moon
+            base.
+          </p>
+          <p>
+            Within this re-engineered celestial body, advanced environmental
+            controls, state-of-the-art manufacturing bays, secure research labs,
+            and integrated defensive systems were meticulously installed, all
+            designed to seamlessly integrate with the moon's re-engineered
+            internal structure. Crucially, the integration of complex
+            artificial gravity systems was meticulously engineered to avoid any
+            gravitational fluctuations that could destabilize the delicate
+            orbital mechanics of the surrounding asteroid field, thus
+            maintaining The Forge's hidden advantage. The construction timeline
+            was aggressive, driven by the urgency of the external threats, with
+            resources funneled through shell corporations and disguised supply
+            chains.
+          </p>
+          <p>
+            By early 2940 , the primary construction was complete, and the most
+            critical systems were brought online. Hephaestus Forge Works
+            officially began its operational phase, a hidden crucible where
+            Anvil's most daring innovations would be born, all under the direct
+            leadership of its visionary founder, Dr. Aris Thorne.
+          </p>
+          <h4 id="spectre-founding-docs-operational-readiness-jax">
+            Operational Readiness and Field Integration: The Rescue and
+            Recruitment of Jax (Post-2940)
+          </h4>
+          <p>
+            As The Forge became fully operational, its focus shifted to the
+            rigorous testing and validation of its advanced prototypes. It was
+            during this period that Dr. Thorne himself, while overseeing a
+            critical off-world data acquisition mission, found himself in dire
+            straits. His rescue was orchestrated by an elite, newly formed field
+            team, including the skilled HFW operative Ghost, and crucially, a
+            highly capable independent pilot named Jax, along with other key
+            individuals. This pivotal event not only saved The Forge's director
+            but also served as a real-world crucible for HFW's burgeoning field
+            capabilities. Following his ordeal and the successful rescue, Jax's
+            unique experiences and skill sets proved invaluable. He was
+            subsequently recruited into the expanding ranks of HFW's field
+            teams, directly contributing to the refinement of The Forge's
+            cutting-edge designs and projects like the Spectre-class vessels.
+          </p>
+
+          <h3 id="spectre-founding-docs-aris-thorne-address">
+            C. Dr. Aris Thorne's Address to Hephaestus Forge Works (Early 2940)
+          </h3>
+          <blockquote>
+            <p>
+              *(Delivered to the assembled, hand-picked personnel of Hephaestus
+              Forge Works, deep within the newly operational moon base, early
+              2940. The air is thick with the hum of newly activated systems and
+              the quiet anticipation of groundbreaking work.)*
+            </p>
+            <p>
+              "Look around you. Look at what we have built. For years, the
+              threats have mounted. The Vanduul, relentless and inscrutable.
+              Xenothreat, a festering wound in the fabric of our existence.
+              Conventional responses, however valiant, have shown their limits.
+              We have seen the cost. We have felt the strain.
+            </p>
+            <p>
+              But today... today, we stand in the crucible of a new beginning.
+              This isn't just a facility; it is a declaration. This is
+              <b>The Forge</b>.
+            </p>
+            <p>
+              Each of you was chosen not just for your brilliance, but for your
+              courage, your unconventional thinking, and your unwavering
+              commitment to a future worth fighting for. You are the minds who
+              dare to ask 'what if,' the hands that will build the impossible,
+              and the spirits resilient enough to work in the shadows,
+              unheralded, for the salvation of countless lives.
+            </p>
+            <p>
+              We are not merely Anvil Aerospace's advanced R&D. We are its
+              shield. Its spear. We are the inheritors of a legacy born in the
+              shadows of past conflicts – the spirit of the Skunk Works, the
+              Phantom Works – where ingenuity was the ultimate weapon, and
+              secrecy the ultimate defense. We carry that torch, but we carry it
+              into a new era, against enemies unlike any seen before.
+            </p>
+            <p>
+              Here, within these re-engineered walls, we will not just design;
+              we will **forge**. We will hammer out solutions from raw
+              possibility. We will ignite the fires of innovation and temper
+              them with relentless testing. We will build the tools, the ships,
+              the countermeasures that will turn the tide.
+            </p>
+            <p>
+              Our work will be unseen. Our victories, often uncelebrated. But
+              know this: every circuit we lay, every alloy we perfect, every line
+              of code we write, every prototype that takes flight from these
+              hidden bays... it is a blow struck for humanity. It is a promise
+              kept.
+            </p>
+            <p>
+              This is not a war we can afford to lose. And from this day
+              forward, with every spark from The Forge, we will ensure we don't.
+              For the future is not merely designed, it is **forged**!"
+            </p>
+          </blockquote>
+        </section>
+
+        <div class="section" id="spectre-specs">
+          <h2>
+            Specifications &amp; Capabilities (HFW Fleet)<a
+              class="back-to-top"
+              href="#spectre-top"
+              >[Back to Top]</a
+            >
+          </h2>
+          <p>
+            Key specifications for primary HFW platforms. The Spectre and
+            Revenant share a lineage, while the Eidolon, Phantom, and Daemon
+            represent distinct applications of HFW's advanced engineering.
+          </p>
+          <h3>General Specifications (Spectre & Revenant)</h3>
+          <table>
+            <tbody>
+              <tr>
+                <th>Attribute</th>
+                <th>Value (Base Spectre / Spectre Revenant)</th>
+              </tr>
+              <tr>
+                <th>Length</th>
+                <td>80 meters / 121 meters</td>
+              </tr>
+              <tr>
+                <th>Wingspan (Extended)</th>
+                <td>61 meters / 84.4 meters</td>
+              </tr>
+              <tr>
+                <th>Wingspan (Folded)</th>
+                <td>45 meters / 60 meters</td>
+              </tr>
+              <tr>
+                <th>Height (Gear Up)</th>
+                <td>15 meters / 20 meters</td>
+              </tr>
+              <tr>
+                <th>Height (Gear Down)</th>
+                <td>18 meters / 23 meters</td>
+              </tr>
+              <tr>
+                <th>Crew Complement</th>
+                <td>3–5 (Spectre) / 3-5 (Revenant, avg 3)</td>
+              </tr>
+              <tr>
+                <th>Cargo Capacity</th>
+                <td>~90 SCU / 270 SCU</td>
+              </tr>
+              <tr>
+                <th>Configuration</th>
+                <td>Three-deck (Spectre)</td>
+              </tr>
+              <tr>
+                <th>VTOL Capability</th>
+                <td>Full (Both)</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            <em>Note: Detailed specifications for Eidolon, Phantom, and Daemon are within their respective family tabs in the "HFW Ship Variants" section.</em>
+          </p>
+
+          <h3>Key Design Features &amp; Systems (Common HFW Principles)</h3>
+          <ul>
+            <li>
+              <b>Stealth Integration:</b> Managed by HFW, combines passive
+              signature reduction (e.g., Next-Gen Void Armor derivatives, hull
+              shaping) with active measures (e.g., Adaptive Countershading,
+              Advanced EW Suite, Acoustic Dampening). Relies on careful power
+              management and operational doctrine.
+            </li>
+            <li>
+              <b>Power Systems:</b> Typically feature stealth-grade main and
+              auxiliary power plants ensuring ample power and crucial
+              redundancy.
+            </li>
+            <li>
+              <b>Shield Philosophy:</b> Prioritizes stealth over active
+              shielding during infiltration for most platforms. Stealth-grade
+              shield generators offer protection when activated.
+            </li>
+            <li>
+              <b>'Ghost Mode' Cockpit & Total Immersion Interior:</b> Advanced
+              Anvil-Esperia display technology projecting 360-degree external
+              views, often extending beyond the bridge.
+            </li>
+            <li>
+              <b>Advanced Materials & Construction:</b> Use of exotic materials,
+              often involving HFW's internal breakthroughs and insights from
+              unconventional research (including alien technology influences like
+              MISC/Mirai's Xi'an tech research ).
+            </li>
+          </ul>
+          <h3>Core Systems Summary (Base Spectre / Spectre Revenant Example)</h3>
+          <table>
+            <tbody>
+              <tr>
+                <th>System</th>
+                <th>Quantity &amp; Size (Base Spectre / Spectre Revenant)</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <th>Quantum Drive</th>
+                <td>1x Size 2 / 1x Size 3</td>
+                <td>Stealth Grade</td>
+              </tr>
+              <tr>
+                <th>Jump Module</th>
+                <td>1x Size 2 / 1x Size 3</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <th>Radar</th>
+                <td>1x Size 2 / 1x Size 3</td>
+                <td>Advanced/low-emission</td>
+              </tr>
+              <tr>
+                <th>Computers</th>
+                <td>6x Size 2 / 6x Size 3</td>
+                <td>Stealth Grade, Redundant</td>
+              </tr>
+              <tr>
+                <th>Fuel Tanks</th>
+                <td>2x Size 2 / 2x Size 3</td>
+                <td>Stealth Grade</td>
+              </tr>
+              <tr>
+                <th>Countermeasures</th>
+                <td>2x (Spectre) / Multiple Advanced (Revenant - specific count TBD)</td>
+                <td>Standard/Type</td>
+              </tr>
+              <tr>
+                <th>Power Plant (Main)</th>
+                <td>2x Size 2 / 2x Size 3</td>
+                <td>Stealth Grade</td>
+              </tr>
+              <tr>
+                <th>Power Plant (Auxiliary)</th>
+                <td>1x Size 2 / 3x Size 2</td>
+                <td>Bridge/Stealth Systems, Stealth Grade</td>
+              </tr>
+              <tr>
+                <th>Coolers</th>
+                <td>4x Size 2 / 12x Size 2</td>
+                <td>Stealth Grade</td>
+              </tr>
+              <tr>
+                <th>Shield Generators</th>
+                <td>4x Size 2 / 4x Size 3</td>
+                <td>Stealth Grade (Typically offline)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section" id="spectre-viewer">
+          <script
+            nomodule
+            src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"
+          ></script>
+          <script
+            type="module"
+            src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+          ></script>
+          <div
+            style="
+              margin: 1rem 0;
+              text-align: center;
+              display: flex;
+              justify-content: center;
+              gap: 10px;
+              flex-wrap: wrap;
+            "
+          >
+            <button
+              class="model-control-btn styled-button"
+              onclick="switchModel('shadow')"
+            >
+              Spectre Shadow
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="switchModel('revenant')"
+            >
+              Spectre Revenant
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="switchModel('eidolon_shadow')"
+            >
+              Eidolon Shadow
+            </button>
+          </div>
+          <model-viewer
+            id="spectreViewer"
+            src="https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb"
+            alt="Anvil Spectre Shadow"
+            camera-controls
+            interaction-prompt="none"
+            style="width: 100%; height: 600px; background-color: #15181d;"
+          ></model-viewer>
+          <div
+            class="viewer-legend"
+            style="
+              position: relative;
+              bottom: 1rem;
+              left: 1rem;
+              background: rgba(0, 0, 0, 0.7);
+              padding: 1rem;
+              border-radius: 4px;
+              color: #fff;
+              font-size: 0.9rem;
+              max-width: 220px;
+              z-index: 5;
+            "
+          >
+            <strong>Controls:</strong>
+            <ul style="margin: 0.5rem 0 0 1rem; padding: 0; list-style: disc inside;">
+              <li>Rotate: Click &amp; drag</li>
+              <li>Zoom: Mouse wheel / pinch or slider</li>
+              <li>Pan: Right-click &amp; drag</li>
+              <li>Preset Views: Buttons below</li>
+              <li>Switch Models: Above</li>
+            </ul>
+          </div>
+          <div style="margin: 1rem 0; text-align: center;">
+            <button
+              class="model-control-btn styled-button"
+              onclick="setView('0deg 75deg 7m')"
+            >
+              Front
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="setView('180deg 75deg 7m')"
+            >
+              Back
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="setView('90deg 75deg 7m')"
+            >
+              Left
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="setView('-90deg 75deg 7m')"
+            >
+              Right
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="setView('0deg 0deg 7m')"
+            >
+              Top
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="setView('0deg 180deg 7m')"
+            >
+              Bottom
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="setView('45deg 60deg 7m')"
+            >
+              F-L&nbsp;Top
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="setView('-45deg 60deg 7m')"
+            >
+              F-R&nbsp;Top
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="setView('135deg 60deg 7m')"
+            >
+              B-L&nbsp;Top
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="setView('-135deg 60deg 7m')"
+            >
+              B-R&nbsp;Top
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="setView('45deg 120deg 7m')"
+            >
+              F-L&nbsp;Bot
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="setView('-45deg 120deg 7m')"
+            >
+              F-R&nbsp;Bot
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="setView('135deg 120deg 7m')"
+            >
+              B-L&nbsp;Bot
+            </button>
+            <button
+              class="model-control-btn styled-button"
+              onclick="setView('-135deg 120deg 7m')"
+            >
+              B-R&nbsp;Bot
+            </button>
+            <button class="model-control-btn styled-button" onclick="recenter()">
+              Recenter
+            </button>
+          </div>
+        </div>
+
+        <div class="section" id="spectre-variants">
+          <h2>
+            HFW Ship Variants<a class="back-to-top" href="#spectre-top"
+              >[Back to Top]</a
+            >
+          </h2>
+          <p>
+            Select a ship family to view its specialized variants developed by
+            Hephaestus Forge Works. Each variant is tailored for specific roles
+            within HFW's covert operations doctrine.
+          </p>
+
+          <div class="ship-family-tabs">
+            <button
+              class="family-tab styled-button active-family"
+              onclick="showFamily('spectre', this)"
+            >
+              Spectre Series
+            </button>
+            <button
+              class="family-tab styled-button"
+              onclick="showFamily('eidolon', this)"
+            >
+              Eidolon Series
+            </button>
+            <button
+              class="family-tab styled-button"
+              onclick="showFamily('phantom', this)"
+            >
+              Phantom Series
+            </button>
+            <button
+              class="family-tab styled-button"
+              onclick="showFamily('daemon', this)"
+            >
+              Daemon Project
+            </button>
+          </div>
+
+          <div
+            class="ship-family-content-wrapper active-family-content"
+            id="content-family-spectre"
+          >
+            <p>
+              The Anvil Spectre project introduces a new echelon of covert
+              warfare vessels. The operational doctrine emphasizes the
+              coordinated deployment of the Spectre family, allowing them to
+              tackle complex threats through combined arms tactics.
+            </p>
+            <div class="variant-tabs spectre-variant-tabs">
+              <button
+                class="styled-button active"
+                onclick="showVariantContent('variant-spectre-shadow', this, 'spectre')"
+              >
+                Spectre Shadow
+              </button>
+              <button
+                class="styled-button"
+                onclick="showVariantContent('variant-spectre-strike', this, 'spectre')"
+              >
+                Spectre Strike
+              </button>
+              <button
+                class="styled-button"
+                onclick="showVariantContent('variant-spectre-lockdown', this, 'spectre')"
+              >
+                Spectre Lockdown
+              </button>
+              <button
+                class="styled-button"
+                onclick="showVariantContent('variant-spectre-pulse', this, 'spectre')"
+              >
+                Spectre Pulse
+              </button>
+              <button
+                class="styled-button"
+                onclick="showVariantContent('variant-spectre-revenant', this, 'spectre')"
+              >
+                Spectre Revenant
+              </button>
+            </div>
+
+            <div class="variant-content active" id="variant-spectre-shadow">
+              <h3>Spectre Shadow (Stealth/Electronic Warfare)</h3>
+              <p>
+                <b>Role:</b> Advanced stealth infiltration, electronic warfare,
+                intelligence gathering, and signature masking. The premier
+                stealth platform of the line.
+              </p>
+              <p>
+                <b>Description:</b> The ultimate force multiplier, designed by
+                HFW to control the flow of information and support fleet
+                operations from the deepest shadows. Capable of infiltrating the
+                most heavily defended territories.
+              </p>
+              <p><b>Key Features &amp; Systems:</b></p>
+              <ul>
+                <li>
+                  <b>Unrivaled Stealth:</b> Represents the pinnacle of HFW's
+                  signature management within Anvil, integrating next-generation
+                  Void Armor derivatives for passive reduction with advanced
+                  active systems like adaptive countershading, acoustic
+                  dampening, sophisticated EM/IR signature masking, and sensor
+                  scrambling. Features an electronic 'ghost mode' cockpit
+                  operable with armored shutters closed.
+                </li>
+                <li>
+                  <b>Dominant EW:</b> Powerful electronic warfare suite
+                  (dedicated Size 2 component) for jamming, masking friendly
+                  vessels, and deploying electronic deception. Advanced sensor
+                  array for intelligence gathering. Long-range, secure comms.
+                </li>
+                <li><b>Data Hacking:</b> Capable of remotely hacking enemy systems.</li>
+                <li><b>Wild Weasel:</b> Potential for Anti-Radiation Missiles (ARMs).</li>
+                <li>
+                  <b>Thermal Obscurant Launchers:</b> Deploys "hot smoke"
+                  providing strong visual obscuration and a thermal bloom to
+                  break sensor locks and mask escape maneuvers. (Utilizes
+                  modified Incendiary Turret emplacements).
+                </li>
+                <li>
+                  <b>Armament:</b> 2x forward-firing Size 5 Railguns for
+                  opportunistic strikes/defense. Limited Incendiary Turret
+                  emplacements (primarily for obscurants).
+                </li>
+                <li>
+                  <b>Drones:</b> Deployable Reconnaissance, Electronic Warfare,
+                  and Data Link Drones.
+                </li>
+                <li><b>Specialist Role:</b> Electronic Warfare Officer (EWO).</li>
+                <li><b>Autoloader:</b> Includes system for optional ARMs.</li>
+              </ul>
+            </div>
+            <div class="variant-content" id="variant-spectre-strike">
+              <h3>Spectre Strike (Heavy Stealth Attack/Ground Support)</h3>
+              <p>
+                <b>Role:</b> Delivering powerful, targeted strikes against ships
+                and ground installations using stealth for insertion.
+              </p>
+              <p>
+                <b>Description:</b> A dedicated heavy strike platform blending
+                moderate stealth with devastating pinpoint firepower for
+                surgical assaults.
+              </p>
+              <p><b>Key Features &amp; Systems:</b></p>
+              <ul>
+                <li>
+                  <b>Potent Firepower:</b> Armed with 2x Size 5 and 2x Size 4
+                  forward-firing Railguns. Specialized Penetrator Munitions
+                  available.
+                </li>
+                <li>
+                  <b>Ground Attack:</b> Features a more prominent array of
+                  Incendiary Turrets for focused damage on ground assets and
+                  personnel.
+                </li>
+                <li>
+                  <b>Stealth:</b> Incorporates moderate signature reduction and
+                  masking technology, sufficient for positional advantage before
+                  engaging, but less persistent than the Shadow. Activation of
+                  primary weapons generates significant signature bloom.
+                </li>
+                <li>
+                  <b>Power/Targeting:</b> Enhanced power distribution system and
+                  improved targeting sensors.
+                </li>
+                <li>
+                  <b>Railgun Overcharge:</b> Specialized capacitors allow a
+                  single, high-power shot at the cost of extreme heat, massive
+                  signature bloom, and component stress.
+                </li>
+                <li>
+                  <b>Drones:</b> Deployable Targeting and Defense Suppression
+                  Drones.
+                </li>
+                <li><b>Specialist Role:</b> Weapons Specialist.</li>
+                <li><b>Wild Weasel:</b> Can use its railguns for defense suppression.</li>
+              </ul>
+            </div>
+            <div class="variant-content" id="variant-spectre-lockdown">
+              <h3>Spectre Lockdown (Interdiction/Quantum Enforcement)</h3>
+              <p><b>Role:</b> Quantum Enforcement and Interdiction.</p>
+              <p>
+                <b>Description:</b> Offers unique strategic advantage by
+                controlling quantum travel, trapping enemies and setting the
+                stage for coordinated attacks.
+              </p>
+              <p><b>Key Features &amp; Systems:</b></p>
+              <ul>
+                <li>
+                  <b>Quantum Enforcement:</b> Equipped with a Quantum
+                  Enforcement Device (QED) with snare capability (Likely Size 3
+                  component).
+                </li>
+                <li>
+                  <b>Stealth/EW:</b> Features good signature reduction
+                  capabilities allowing for covert QED deployment, though
+                  baseline signature is higher than Shadow. QED activation
+                  creates a substantial, temporary signature.
+                </li>
+                <li>
+                  <b>Armament:</b> QED, 2x forward-firing Size 5 Railguns.
+                  Potential for ARMs. (No Incendiary Turrets).
+                </li>
+                <li>
+                  <b>Specialist Role:</b> Focused on QED and EW operations.
+                </li>
+                <li><b>Wild Weasel:</b> Can use potential ARMs or railguns.</li>
+                <li>
+                  <b>Gameplay:</b> Ideal for disrupting enemy movements, setting
+                  up ambushes, controlling access.
+                </li>
+                <li><b>Autoloader:</b> Includes system for optional ARMs.</li>
+              </ul>
+            </div>
+            <div class="variant-content" id="variant-spectre-pulse">
+              <h3>Spectre Pulse (EMP/Electronic Warfare)</h3>
+              <p>
+                <b>Role:</b> Electronic Warfare and Target Disablement via EMP
+                and Distortion weapons.
+              </p>
+              <p>
+                <b>Description:</b> Provides powerful non-lethal options for
+                disabling enemy vessels from a distance, while retaining lethal
+                backup capabilities.
+              </p>
+              <p><b>Key Features &amp; Systems:</b></p>
+              <ul>
+                <li>
+                  <b>EMP Warfare:</b> Features a powerful EMP device (Likely
+                  Size 3 component) capable of synchronized output. Systems are
+                  EMP hardened.
+                </li>
+                <li>
+                  <b>Non-Lethal Focus:</b> Armed with 2x Size 5 Distortion
+                  Cannons and 4x Size 5 EMP Torpedo Launch Ports (24 torpedoes)
+                  with integrated autoloading system.
+                </li>
+                <li>
+                  <b>Lethal Backup:</b> Retains 2x Size 4 Railguns. (No
+                  Incendiary Turrets).
+                </li>
+                <li>
+                  <b>Stealth:</b> Moderate signature reduction focused on
+                  minimizing detection prior to system use; higher baseline
+                  signature than Shadow. EMP/Distortion/Torpedo use generates
+                  significant signatures.
+                </li>
+                <li>
+                  <b>Specialist Role:</b> Dedicated operator for EMP,
+                  distortion, and torpedo systems.
+                </li>
+                <li>
+                  <b>Wild Weasel:</b> Can use EMP, distortion, or railguns.
+                </li>
+                <li>
+                  <b>Gameplay:</b> Disabling ships, facilitating boarding,
+                  crippling formations.
+                </li>
+              </ul>
+            </div>
+            <div class="variant-content" id="variant-spectre-revenant">
+              <h3>Spectre Revenant (Heavy Interceptor/Light Destroyer)</h3>
+              <p>
+                Initiated by HFW as the ultimate sentinel for the Forge's
+                perimeter and a dedicated asset of the HFW base. Leverages
+                Spectre advancements scaled for heavy defense and anti-capital
+                capability. Represents HFW's triumph in achieving Shadow-class
+                stealth on a platform of unprecedented size for such a covert
+                profile.
+              </p>
+              <p>
+                <b>Role:</b> Heavy Interceptor/Light Destroyer. Primary: Main
+                line of defense for HFW base, eliminating capital ships.
+                Secondary: Super heavy fire support away from base.
+              </p>
+              <p>
+                <b>Description:</b> Larger, combat-focused "death machine."
+                Purpose-built defensive asset intended to neutralize capital
+                threats. Features advanced stealth despite size (121m),
+                prioritizing direct combat effectiveness and mission endurance.
+              </p>
+              <h4>Key Design Features &amp; Systems:</h4>
+              <ul>
+                <li>
+                  <b>Stealth Capability:</b> Features a signature reduction
+                  system. Achieving this level of signature reduction on a
+                  platform of its size (121m) presents engineering challenges.
+                  The stealth capability allows for control over engagement
+                  initiation.
+                </li>
+                <li>
+                  <b>Dual Combat Doctrine:</b> Design supports both long-range
+                  engagement using forward armament and close-quarters combat
+                  leveraging positioning and concentrated fire from forward guns
+                  and turrets. Fully capable of going into 'knife-fight' range,
+                  and coming out unscathed.
+                </li>
+                <li>
+                  <b>Threat Engagement:</b> Configuration is designed for
+                  engaging large threats, including capital ships.
+                </li>
+                <li>
+                  <b>Team Operations:</b> Designed to operate effectively as part
+                  of a coordinated force.
+                </li>
+                <li>
+                  <b>Base Integration:</b> Asset integrated with the HFW base,
+                  intended for coordination with base defenses and sensors. Can
+                  fly independently, but to keep base integration it must remain
+                  within range.
+                </li>
+                <li>
+                  <b>Hover/VTOL:</b> Retains full hover capabilities with more
+                  powerful engines. Can accelerate rapidly in vertical axis if
+                  needed, even in a high-G environment.
+                </li>
+                <li>
+                  <b>Transport Capacity:</b> Capacity for 270 SCU cargo,
+                  capable of transporting up to three Ursa rovers.
+                </li>
+              </ul>
+              <h4>Armament:</h4>
+              <ul>
+                <li>Forward-Facing: 4x Size 6 Railguns and 4x Size 5 Railguns.</li>
+                <li>
+                  Turrets: 6x Quad-mounted turrets, each mounting Size 5
+                  Railguns. 24 Railguns all together.
+                </li>
+                <li>
+                  Point Defense: 8x Dual Point Defense Cannons (Size 3). 16 PDCs
+                  all together.
+                </li>
+              </ul>
+              <p>
+                <b>Specialist Role:</b> Operates with a crew of 3-5 (average 3),
+                utilizing streamlined control systems despite managing larger
+                weapons and systems.
+              </p>
+              <h4>Pilot Training Program (Phoenix Protocol)</h4>
+              <p>
+                Operating the Spectre Revenant—a complex synthesis of Spectre
+                Shadow tier stealth on a massive, heavily armed platform—requires
+                a unique blend of tactical intuition, instinctual reaction, and
+                unparalleled resilience. To cultivate the elite individuals
+                capable of mastering the Revenant's dual doctrine, HFW initiated
+                the "Phoenix Protocol" training program. This is not merely
+                simulation; it's a radical fusion of neural interface technology
+                and a state-of-the-art, highly classified regeneration facility
+                housed deep within the secured levels of The Forge base,
+                creating an environment indistinguishable from reality for the
+                participant.
+              </p>
+              <p><b>The Process:</b></p>
+              <ul>
+                <li>
+                  <b>Perfect-Reality Simulation:</b> Pilots interface directly with
+                  simulations perfectly replicating real-time combat scenarios
+                  tailored to the Revenant's intended operational environment.
+                  For the pilot, sensory input and physiological responses are
+                  impossible to distinguish from reality.
+                </li>
+                <li>
+                  <b>Inescapable Scenarios:</b> Once initiated, the simulation
+                  cannot be exited freely by the pilot; it runs to its
+                  conclusion, whether that is mission success, failure, or the
+                  pilot's "death" within the simulated environment.
+                </li>
+                <li>
+                  <b>Consequence-Reduced Learning via Regeneration:</b> A tactical
+                  error resulting in simulated "death" triggers the specialized
+                  HFW regeneration facility via the neural interface. The pilot's
+                  body is then physically regenerated, often within minutes.
+                </li>
+                <li>
+                  <b>"Super-Regen" and Learning Retention:</b> The HFW facility's
+                  technology is specifically engineered to minimize or eliminate
+                  negative long-term degradation, allowing pilots to undergo
+                  repeated simulation "deaths" without typical physical toll.
+                </li>
+                <li>
+                  <b>Immediate Debrief and Re-Engagement:</b> Upon regeneration,
+                  the pilot undergoes an immediate, intensive debriefing, rapidly
+                  internalizing critical lessons from failure.
+                </li>
+              </ul>
+              <p>
+                <b>HFW's Rationale:</b> This program, while ethically complex, is
+                deemed necessary due to the Revenant's immense cost and strategic
+                importance. It provides unparalleled speed and depth of learning.
+              </p>
+              <p>
+                <b>Pilot Implications:</b> Offers a path to unparalleled mastery.
+                However, the psychological experience of repeatedly facing what
+                feels like one's own death remains intense.
+              </p>
+              <ul>
+                <li>
+                  The Legend of the 'First Flight': Whispers persist of a pilot
+                  who never "died" in the Phoenix Protocol simulation.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            class="ship-family-content-wrapper"
+            id="content-family-eidolon"
+            style="display: none;"
+          >
+            <h4>The Anvil Eidolon Series: Agile Shadows for Close Support</h4>
+            <p>
+              Following the successful deployment and operational validation of
+              the Spectre series, Hephaestus Forge Works recognized a critical
+              gap in its "shadow fleet." While Spectres excelled at deep
+              infiltration, precision strikes, and strategic battlefield
+              control, they lacked the agility and close-in combat capability
+              required for dedicated escort, rapid interception, and localized
+              point defense against smaller, more numerous threats. The
+              escalating unconventional threats from Xenothreat and the
+              persistent Vanduul incursions demanded not just powerful covert
+              platforms, but a reactive, elusive escort capable of operating
+              within a Spectre's signature profile or providing rapid response
+              around HFW's clandestine base, The Forge.
+            </p>
+            <p>
+              Under the continued visionary leadership of Dr. Aris Thorne, HFW
+              initiated a new, highly classified project: the Eidolon series.
+              Leveraging the groundbreaking advancements pioneered during the
+              Spectre's development—including next-generation signature
+              reduction materials, adaptive countershading, and advanced
+              electronic systems—HFW engineers were tasked with scaling down
+              these complex technologies into a compact, single-pilot fighter
+              frame. The goal was to create a vessel that could operate unseen,
+              yet possess the firepower and specialized capabilities to
+              seamlessly integrate with and augment Spectre and Spectre
+              Revenant deployments. The Eidolon would be the invisible hand
+              supporting the invisible hammer, ensuring HFW's dominance in the
+              shadows of future conflicts.
+            </p>
+
+            <h4>A. General Specifications & Key Features (Base Eidolon)</h4>
+            <ul>
+              <li>Dimensions: Length: 33.7m, Width: 31.4m, Height (Gear Down): 7m</li>
+              <li>Crew: 1 (Pilot)</li>
+              <li>Cargo: 2-4 SCU (specialized internal)</li>
+              <li>VTOL: Full</li>
+              <li>
+                Stealth Integration: Spectre-derived materials, scaled-down
+                adaptive countershading & acoustic dampening.
+              </li>
+              <li>'Ghost Mode' Cockpit: Adapted Esperia/Tevarin tech.</li>
+              <li>
+                Full Interior for Extended Missions: Bed, food prep, storage,
+                shower/toilet, suit locker.
+              </li>
+              <li>
+                Armament Philosophy: Min fixed S3 (except S1 PD), max S5. Min 4
+                fixed weapons, capacity for at least 4x S5 torpedoes (internal).
+                Primarily railguns; ARM capable. Retractable/stealth mounts.
+              </li>
+              <li>Component Sizes: Primarily S1 or S2.</li>
+              <li>
+                Escape Enhancement: Miniaturized Thermal Obscurant Launcher on
+                all variants.
+              </li>
+            </ul>
+            <h4>B. Core Systems Summary (Base Eidolon)</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th>System</th>
+                  <th>Quantity &amp; Size</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Quantum Drive</td>
+                  <td>1x Size 1</td>
+                  <td>Stealth Grade, optimized for speed &amp; range</td>
+                </tr>
+                <tr>
+                  <td>Jump Module</td>
+                  <td>1x Size 1</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>Radar</td>
+                  <td>1x Size 1</td>
+                  <td>Advanced/low-emission model</td>
+                </tr>
+                <tr>
+                  <td>Computers</td>
+                  <td>2x Size 1</td>
+                  <td>Stealth Grade, Redundant</td>
+                </tr>
+                <tr>
+                  <td>Fuel Tanks</td>
+                  <td>2x Size 1</td>
+                  <td>Stealth Grade</td>
+                </tr>
+                <tr>
+                  <td>Countermeasures</td>
+                  <td>1x</td>
+                  <td>Standard Size/Type</td>
+                </tr>
+                <tr>
+                  <td>Power Plant</td>
+                  <td>1x Size 2</td>
+                  <td>Stealth Grade</td>
+                </tr>
+                <tr>
+                  <td>Coolers</td>
+                  <td>2x Size 1</td>
+                  <td>Stealth Grade</td>
+                </tr>
+                <tr>
+                  <td>Shield Generators</td>
+                  <td>2x Size 1</td>
+                  <td>Stealth Grade (Typically offline)</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="variant-tabs eidolon-variant-tabs">
+              <button
+                class="styled-button active"
+                onclick="showVariantContent('variant-eidolon-shadow', this, 'eidolon')"
+              >
+                Eidolon Shadow
+              </button>
+              <button
+                class="styled-button"
+                onclick="showVariantContent('variant-eidolon-strike', this, 'eidolon')"
+              >
+                Eidolon Strike
+              </button>
+              <button
+                class="styled-button"
+                onclick="showVariantContent('variant-eidolon-lockdown', this, 'eidolon')"
+              >
+                Eidolon Lockdown
+              </button>
+              <button
+                class="styled-button"
+                onclick="showVariantContent('variant-eidolon-pulse', this, 'eidolon')"
+              >
+                Eidolon Pulse
+              </button>
+              <button
+                class="styled-button"
+                onclick="showVariantContent('variant-eidolon-revenant', this, 'eidolon')"
+              >
+                Eidolon Revenant
+              </button>
+            </div>
+            <div class="variant-content active" id="variant-eidolon-shadow">
+              <h3>Eidolon Shadow (Stealth Recon & EW Escort)</h3>
+              <p>
+                <b>Role:</b> Advanced stealth reconnaissance, electronic
+                warfare, intelligence gathering, and dedicated escort.
+              </p>
+              <p>
+                <b>Description:</b> The premier stealth variant of the Eidolon
+                line, designed to operate at the forefront of covert
+                engagements, providing scouting and electronic cover. Its
+                unrivaled stealth allows it to precede larger Spectre forces or
+                aid in their deep infiltration.
+              </p>
+              <p>
+                <b>Key Features:</b> Unrivaled signature management for its
+                class, incorporating enhanced adaptive countershading and
+                advanced acoustic dampening for deep infiltration. Features a
+                sophisticated, miniaturized electronic warfare suite (Size 2
+                component) for jamming, sensor scrambling, and deploying
+                electronic deception, making it an ideal escort for the larger
+                Spectre Shadow. Can carry deployable reconnaissance and data link
+                drones. Integrates a Thermal Obscurant Launcher. Possesses
+                Anti-Radiation Missile (ARM) capability.
+              </p>
+              <p>
+                <b>Armament:</b> 4x fixed Size 3 railguns, housed in retractable
+                stealth compartments. Capacity for 4x Size 5 torpedoes in
+                internal bays.
+              </p>
+              <p><b>Specialist Role:</b> Focus on EW and sensor operations.</p>
+            </div>
+            <div class="variant-content" id="variant-eidolon-strike">
+              <h3>Eidolon Strike (High-Speed Interdiction & Strike Escort)</h3>
+              <p>
+                <b>Role:</b> Delivering rapid, targeted strikes against
+                high-value targets or engaging enemy fighters using speed and
+                stealth for insertion.
+              </p>
+              <p>
+                <b>Description:</b> A dedicated heavy strike fighter blending
+                agility with focused firepower, designed to complement the
+                Spectre Strike in surgical assaults. Its primary goal is to
+                engage, then rapidly disengage or reposition.
+              </p>
+              <p>
+                <b>Key Features:</b> Incorporates moderate signature reduction
+                sufficient for rapid positioning before engaging. Features
+                enhanced power distribution to weapon systems and specialized
+                capacitors for "Railgun Overcharge" – a single, high-power shot
+                at the cost of extreme heat and signature bloom. Can deploy
+                targeting drones. Integrates a Thermal Obscurant Launcher.
+                Possesses ARM capability.
+              </p>
+              <p>
+                <b>Armament:</b> 2x fixed Size 4 railguns and 2x fixed Size 3
+                railguns, all utilizing retractable housings. Capacity for 4x
+                Size 5 torpedoes in internal bays.
+              </p>
+            </div>
+            <div class="variant-content" id="variant-eidolon-lockdown">
+              <h3>Eidolon Lockdown (Point-Defense & Interdiction Support)</h3>
+              <p>
+                <b>Role:</b> Providing localized quantum enforcement,
+                interdiction support, and point defense for larger Spectre or
+                Revenant assets.
+              </p>
+              <p>
+                <b>Description:</b> Offers crucial strategic advantage by
+                controlling localized quantum travel and protecting larger ships
+                from incoming threats within a limited range.
+              </p>
+              <p>
+                <b>Key Features:</b> Equipped with a miniaturized Quantum
+                Enforcement Device (QED) (Size 2 component) with limited snare
+                capability, allowing for discreet local interdiction. Good
+                signature reduction for covert QED deployment, though QED
+                activation creates a temporary signature. Prioritizes rapid
+                target acquisition and weapon cycling for defense. Integrates a
+                Thermal Obscurant Launcher. Possesses ARM capability.
+              </p>
+              <p>
+                <b>Armament:</b> 4x fixed Size 3 railguns, and 2x Size 1 point
+                defense cannons, designed with minimal external profile when
+                stowed or integrated. Capacity for 4x Size 5 torpedoes in
+                internal bays.
+              </p>
+            </div>
+            <div class="variant-content" id="variant-eidolon-pulse">
+              <h3>Eidolon Pulse (EM/EW Suppression & Electronic Cover)</h3>
+              <p>
+                <b>Role:</b> Electronic Warfare (EW) and target disablement via
+                EMP and distortion effects, providing electronic cover.
+              </p>
+              <p>
+                <b>Description:</b> Designed to provide powerful non-lethal and
+                disruptive options for disabling enemy fighters and small ships,
+                while retaining lethal backup. Works to create openings for
+                friendly forces.
+              </p>
+              <p>
+                <b>Key Features:</b> Features a miniaturized EMP device (Size 2
+                component) capable of synchronized output for localized area
+                denial or disabling enemy systems. EMP hardened systems.
+                Moderate signature reduction, with EMP/distortion use generating
+                temporary signatures. Integrates a Thermal Obscurant Launcher.
+                Possesses ARM capability.
+              </p>
+              <p>
+                <b>Armament:</b> Primarily armed with 2x fixed Size 3 distortion
+                cannons and 2x fixed Size 3 railguns for lethal backup,
+                integrated into stealth-optimized mounts. Capacity for 4x Size 5
+                torpedoes in internal bays.
+              </p>
+            </div>
+            <div class="variant-content" id="variant-eidolon-revenant">
+              <h3>Eidolon Revenant (Heavy Interceptor & Capital Escort)</h3>
+              <p>
+                <b>Role:</b> The ultimate heavy interceptor and capital escort
+                for the HFW fleet, specifically designed to support and protect
+                the larger Spectre Revenant and The Forge's perimeter from
+                capital-grade threats or swarms of smaller attackers. It aids a
+                larger Spectre Revenant in assaulting and defending against
+                capital ships, not acting as a solo capital ship killer.
+              </p>
+              <p>
+                <b>Description:</b> The most heavily armed and durable variant
+                of the Eidolon series, leveraging advanced Shadow-class stealth
+                on a fighter platform to act as a potent, unseen guardian or a
+                precision asset for crippling capital ship subsystems. It hits
+                harder than the Eidolon Strike.
+              </p>
+              <p>
+                <b>Key Features:</b> Achieves Shadow-class stealth at a fighter
+                scale, allowing it to dictate engagement terms and evade
+                counter-fire. Features enhanced power generation and cooling for
+                sustained combat, similar to its larger counterpart, the Spectre
+                Revenant. Designed for rapid engagement of threats attempting to
+                bypass larger defenses. Integrates a Thermal Obscurant Launcher
+                for rapid disengagement, allowing for hit-and-fade tactics
+                against larger targets. Possesses ARM capability.
+              </p>
+              <p>
+                <b>Armament:</b> 2x fixed Size 5 railguns and 2x fixed Size 4
+                railguns, utilizing retractable housings or integrated into the
+                hull for optimal stealth. Capacity for 4x Size 5 torpedoes in
+                internal bays for anti-capital punch.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="ship-family-content-wrapper"
+            id="content-family-phantom"
+            style="display: none;"
+          >
+            <h4>The Anvil Valkyrie Phantom: Stealthy Insertion</h4>
+            <p>
+              Recognizing that even the most potent strike or disabling force
+              requires boots on the ground or assets on the surface to fully
+              secure an objective , Hephaestus Forge Works developed the Anvil
+              Valkyrie Phantom, a specialized variant of Anvil Aerospace's
+              robust Valkyrie dropship.
+            </p>
+            <h5>A. Rationale and Design Philosophy</h5>
+            <p>
+              The standard Valkyrie lacked the signature management for true
+              covert operations. HFW adopted the proven Valkyrie frame,
+              stripped non-essential/signature-heavy elements, and performed all
+              subsequent R&D, modification, and production internally at The
+              Forge. This self-sufficient approach integrated new, advanced, and
+              often alien-derived technologies to achieve stealth without
+              compromising core functions: 20 operators, vehicle bay, and
+              structural toughness. The result is a Military / Special
+              Operations Transport providing an unparalleled capability for
+              delivering forces and vehicles into contested territory with
+              minimal detection. Unlike pure stealth platforms, the Phantom
+              retains significant toughness and onboard firepower.
+            </p>
+
+            <div class="variant-tabs phantom-variant-tabs">
+              <button
+                class="styled-button active"
+                onclick="showVariantContent('variant-phantom-base', this, 'phantom')"
+              >
+                Valkyrie Phantom (Base)
+              </button>
+              <button
+                class="styled-button"
+                onclick="showVariantContent('variant-phantom-pathfinder', this, 'phantom')"
+              >
+                Phantom Pathfinder
+              </button>
+              <button
+                class="styled-button"
+                onclick="showVariantContent('variant-phantom-breacher', this, 'phantom')"
+              >
+                Phantom Breacher
+              </button>
+              <button
+                class="styled-button"
+                onclick="showVariantContent('variant-phantom-medical', this, 'phantom')"
+              >
+                Phantom Medical
+              </button>
+            </div>
+
+            <div class="variant-content active" id="variant-phantom-base">
+              <h3>Anvil Valkyrie Phantom (Base)</h3>
+              <h4>B. Specifications & Core Systems</h4>
+              <p>
+                <b>General Specifications:</b> Length: ~38.5m, Beam: ~30m,
+                Height: ~9m. Max Crew: 5 (Pilot, Co-Pilot, 2x Gunners, 1x
+                Crew/EWO/Support). Troop Capacity: 20 Operators. Vehicle
+                Capacity: 1x Ursa Rover/Cyclone. Cargo Grid (Nominal): 90 SCU.
+                VTOL: Full (enhanced acoustic dampening).
+              </p>
+              <p>
+                <b>Core Systems (Stealth Grade, HFW integrated):</b> 2xS2 Power
+                Plants, 2xS2 Coolers, 4xS2 Shield Generators, 1xS2 Quantum
+                Drive, 1xS2 Advanced Stealth Radar (Passive/Active Modes). Fuel
+                Tanks: 4xS1 (Std). Fuel Intake: 2xS1 (Std). Computers: Standard
+                Suite + Blades for Stealth/EW Management.
+              </p>
+              <h4>C. Stealth Systems Suite</h4>
+              <p>
+                Relies on HFW-integrated systems: Spectre-derived Hull Materials,
+                Geometric Shaping, Active Masking, Acoustic Dampening (VTOL
+                optimized), and Retractable Hardpoints.
+              </p>
+              <h4>D. Armament</h4>
+              <ul>
+                <li>Pilot Fixed Guns: 2x Size 2 (retractable).</li>
+                <li>
+                  Remote Wing Turrets: 2x Size 5 (retractable, S4 repeaters,
+                  pilot-slavable).
+                </li>
+                <li>
+                  Retractable Remote Turrets (Top/Bottom): 2x Size 4 (each 2xS3
+                  guns), 'ghost mode' displays.
+                </li>
+                <li>Door Guns: 2x Size 1 Gimbal Mounts.</li>
+                <li>Missiles: All standard missile hardpoints removed.</li>
+              </ul>
+              <h4>E. Capacity & Internal Layout</h4>
+              <p>
+                Maintains standard personnel/vehicle capacity. Internal layout
+                adapted by HFW, utilizing freed space (e.g. from removed manned
+                turrets) for new hardware. Features low-light tactical interior
+                lighting.
+              </p>
+              <p>
+                <b>Operational Doctrine:</b> Excels in Contested Zone Insertion
+                and Special Operations. Designed for Synergistic Operations with
+                the Spectre series.
+              </p>
+            </div>
+            <div class="variant-content" id="variant-phantom-pathfinder">
+              <h3>Valkyrie Phantom Pathfinder</h3>
+              <p><b>Role:</b> Stealthy Reconnaissance and Forward Observation.</p>
+              <p>
+                <b>Description:</b> This variant is designed to precede the main
+                force, gathering critical intelligence and establishing
+                observation points in contested or denied territory.
+              </p>
+              <p>
+                <b>Key Features:</b> Replaces some troop capacity or internal
+                storage space with enhanced sensor arrays, long-range
+                communication systems, and expanded capacity for deployable
+                reconnaissance drones. It provides the clandestine "eyes" for a
+                stealth operation.
+              </p>
+            </div>
+            <div class="variant-content" id="variant-phantom-breacher">
+              <h3>Valkyrie Phantom Breacher</h3>
+              <p><b>Role:</b> Covert Entry and Assault Facilitation.</p>
+              <p>
+                <b>Description:</b> Tailored for bypassing hardened defenses and
+                facilitating entry into fortified structures or areas.
+              </p>
+              <p>
+                <b>Key Features:</b> Reconfigures internal space to carry
+                specialized breaching equipment, heavy explosive charges, and
+                potentially automated defense suppression systems. Works closely
+                with Spectre Strike variants to create entry points for assault
+                teams.
+              </p>
+            </div>
+            <div class="variant-content" id="variant-phantom-medical">
+              <h3>Valkyrie Phantom Medical</h3>
+              <p><b>Role:</b> Combat Search and Rescue (CSAR) and Medical Extraction.</p>
+              <p>
+                <b>Description:</b> This variant prioritizes casualty collection
+                and medical care in hot zones, utilizing its stealth to approach
+                and extract personnel under fire with reduced risk.
+              </p>
+              <p>
+                <b>Key Features:</b> Internal layout is modified to include
+                advanced medical facilities, trauma bays, and specialized
+                extraction equipment. It is designed to work rapidly and
+                discreetly to retrieve wounded personnel.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="ship-family-content-wrapper"
+            id="content-family-daemon"
+            style="display: none;"
+          >
+            <div class="variant-content active" id="variant-daemon-solo">
+              <h3>Daemon: HFW’s Extreme Racing Prototype</h3>
+              <p>
+                HFW’s Extreme Racing Prototype, now in limited production as a
+                “super-scout” racer—sold under strict contract to military forces
+                and, in civilian trim, to approved private pilots.
+              </p>
+              <h4>1. Origins & Rationale</h4>
+              <p>
+                <b>Project Genesis (2942):</b> Over regular Murray Cup
+                watch-parties, Dr. Aris Thorne, Jax “Whisper” Rylan, and the
+                Ghost Teams would gather to analyze top-tier racing technology.
+                Inspired by their shared passion, they challenged
+                themselves—collectively—to push HFW’s size-1 stealth and
+                vectored-thrust research into a dedicated speed platform. Their
+                collaborative spirit and healthy competitiveness drove the
+                Daemon’s development from day one.
+              </p>
+              <p>
+                <b>Public-Facing Racing Series:</b> HFW positions Daemon as its
+                “racing face,” marketing it under the stringent Super Scout
+                contract: Military Buyers receive Block 1 with full safety,
+                control, and low-signature systems. Civilian Buyers get the same
+                performance and safety, but no classified avionics (EW suites,
+                counter-signature tech).
+              </p>
+              <p>
+                <b>Uncompromised Safety:</b> No weapon mounts—ever. Mandatory HFW
+                flight-training program for all new pilots. Advanced
+                safety-override systems to prevent pilot loss in catastrophic
+                maneuvers.
+              </p>
+              <h4>2. Status & Production</h4>
+              <p>
+                <b>Current Production:</b> Ongoing Block 1 runs—hulls serialized
+                and logged by HFW.
+              </p>
+              <p>
+                <b>Super Scout Contract:</b> Bulk sales to UEE reconnaissance and
+                special-ops units.
+              </p>
+              <p>
+                <b>Civilian Fleet:</b> Limited civilian release (price-point
+                comparable to a small house), tracked via mandatory Pilot
+                Certification.
+              </p>
+              <h4>3. Key Design & Safety Features</h4>
+              <p>
+                <b>Propulsion & Control:</b> 4× Size 1 vectored main thrusters
+                (2 tail, 2 mid-wing); 8× Size 1 omni-thrusters for 6-DOF
+                pinpoint control; Differential thrust + control-surface logic
+                governed by dual redundant flight-assist AIs.
+              </p>
+              <p>
+                <b>Safety Systems:</b> Auto-Limiter (prevents sustained G-loads
+                > 50 G without sequential pilot confirmation); Stall-Recovery AI
+                (instantly deploys counter-thrust); Ejection Pod (enclosed,
+                high-G-tolerant, onboard life support, certified to 10 km
+                altitude).
+              </p>
+              <p>
+                <b>Signature Management:</b> Naturally low-EM hull panels
+                (unclassified coating); Passive IR diffusion meshes (no active
+                stealth).
+              </p>
+              <h4>4. Pilot & Interior</h4>
+              <p>
+                <b>Mandatory Training:</b> All owners must complete HFW’s Daemon
+                Flight School—no exceptions.
+              </p>
+              <p>
+                <b>Cockpit:</b> Single-deck “race cabin”: reclined seat,
+                micro-galley, shoilet, armor locker, weapons-free design; 2 SCU
+                accessory bay (tools, spares, race-kit); Force-sensor mini-stick
+                + thought-filtered assist (full manual override at any time).
+              </p>
+              <h4>5. Performance Specs</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Attribute</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Length</td>
+                    <td>25 m</td>
+                  </tr>
+                  <tr>
+                    <td>Wingspan</td>
+                    <td>11.9 m</td>
+                  </tr>
+                  <tr>
+                    <td>Height</td>
+                    <td>3.69 m</td>
+                  </tr>
+                  <tr>
+                    <td>Mass (Empty)</td>
+                    <td>~18 t</td>
+                  </tr>
+                  <tr>
+                    <td>Top Speed (Vacuum)</td>
+                    <td>≥ 1400 m/s</td>
+                  </tr>
+                  <tr>
+                    <td>Roll Rate</td>
+                    <td>≥ 720 °/s</td>
+                  </tr>
+                  <tr>
+                    <td>Sustained G-Load</td>
+                    <td>50 G (auto-limited)</td>
+                  </tr>
+                  <tr>
+                    <td>Crew</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Cargo</td>
+                    <td>~ 2 SCU</td>
+                  </tr>
+                  <tr>
+                    <td>Power Plant</td>
+                    <td>1× Size 1 stealth-grade reactor</td>
+                  </tr>
+                  <tr>
+                    <td>Coolers</td>
+                    <td>2× Size 1</td>
+                  </tr>
+                  <tr>
+                    <td>Shields</td>
+                    <td>1× Size 1 (typically offline during sprints)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <section class="section" id="spectre-stealth-doctrine">
+          <h2>
+            Stealth Operations & Signature Management Doctrine<a
+              class="back-to-top"
+              href="#spectre-top"
+              >[Back to Top]</a
+            >
+          </h2>
+          <p>
+            Mastering HFW's advanced signature reduction capabilities requires
+            strict adherence to a specialized operational doctrine focused on
+            leveraging both technology and environment to remain undetected. For
+            platforms optimized for high stealth, pilot training emphasizes
+            proactive signature management in all operational phases.
+          </p>
+          <p>Key tactics include:</p>
+          <ul>
+            <li>
+              <b>Environmental Concealment:</b> Pilots are trained to exploit
+              the natural environment for passive concealment. This includes
+              utilizing planetary terrain (flying through valleys, canyons,
+              mountain ranges, or dense urban areas) to break radar line-of-sight
+              and increase sensor clutter. In space, navigating asteroid fields,
+              nebulae, or dust clouds can significantly aid in masking the
+              vessel's signature.
+            </li>
+            <li>
+              <b>Low-Altitude Flight & Terrain Following:</b> When operating in
+              atmosphere, maintaining a low altitude profile dramatically reduces
+              radar cross-section against ground-based sensors and can make the
+              ship difficult to spot visually against a complex background.
+              Precise VTOL and powerful hover capabilities enable pilots to hug
+              terrain contours and fly below detection thresholds.
+            </li>
+            <li>
+              <b>Passive Cooling and 'Going Cold':</b> Heat is a major signature
+              source. During periods of minimal activity or while waiting in
+              ambush, pilots initiate passive cooling protocols, shutting down
+              non-essential systems and reducing power draw to the absolute
+              minimum. This allows the ship's advanced coolers to dissipate
+              built-in thermal energy quietly. Finding a concealed location
+              enhances this tactic by reducing thermal radiation into open space
+              or viewable atmosphere.
+            </li>
+            <li>
+              <b>Utilizing Water for Concealment and Cooling:</b> For platforms
+              capable of multi-domain operation, water offers unique advantages.
+              Flying just above or partially submerged in shallow water can
+              enhance visual and radar stealth. Crucially, deep water is an
+              excellent thermal sink, allowing ships to fully submerge and
+              dissipate large amounts of heat quickly and quietly, significantly
+              reducing their IR signature. Resting on a seabed or within
+              underwater geological features provides unparalleled passive
+              concealment for long-duration covert patrols.
+            </li>
+            <li>
+              <b>Seeking Strategic Hiding Positions:</b> Pilots are trained to
+              identify and utilize features in the environment for physical
+              concealment when stationary. This includes landing under large
+              overhangs, deep within narrow valleys, inside caves, or submerging
+              within concealed underwater trenches. These positions minimize
+              exposure to sensors and provide secure locations for passive
+              cooling or waiting for optimal engagement opportunities.
+            </li>
+            <li>
+              <b>Layered Signature Control:</b> These environmental and passive
+              tactics are always combined with active stealth systems (EW
+              masking, acoustic dampening, adaptive countershading where
+              applicable) for a multi-layered defense against detection, making
+              the ships exceptionally difficult to find even when actively
+              scanned.
+            </li>
+          </ul>
+          <p>
+            While core principles apply to all HFW stealth assets, variants like
+            the Spectre Shadow and Eidolon Shadow excel at deep, persistent
+            stealth leveraging these tactics. Larger platforms like the Spectre
+            Revenant may apply these same principles for strategic positioning
+            before engaging or for effective concealment/cooling after combat,
+            though size may limit access to some smaller hiding spots.
+          </p>
+        </section>
+
+        <section class="section" id="spectre-scenarios">
+          <h2>
+            Operational Scenarios<a class="back-to-top" href="#spectre-top"
+              >[Back to Top]</a
+            >
+          </h2>
+          <div class="scenario-narrative">
+            <h3>Scenario 1: Xenothreat Convoy Interdiction (Pyro System)</h3>
+            <h4>Spectre Shadow - "Ghost" (Pilot):</h4>
+            <p>
+              Pyro system. Always a hive of scum and villainy, even more so now
+              with Xenothreat digging in. My job: find the rats. The Shadow
+              slipped through the asteroid fields like a phantom, our adaptive
+              countershading shimmering against the debris. Sensors were alive,
+              picking up the faint signatures of the XT convoy. Three transports,
+              lumbering like bloated ticks, and a pair of those aggressive Ares
+              fighters buzzing around them. I laid down a trail of EW drones,
+              little digital gremlins to blind any eyes that might be watching.
+              Net (Lockdown) was already in position, a silent sentinel waiting
+              at the jump point. Hammer (Strike) was nestled in our ambush zone,
+              his railguns probably humming with anticipation. Surge (Pulse) was
+              our insurance policy, hanging back, ready to shut down anything that
+              got too spicy. It was textbook, the kind of coordinated dance we'd
+              practiced a hundred times. Now, just had to give the signal.
+            </p>
+            <h4>Spectre Lockdown - "Net" (Pilot):</h4>
+            <p>
+              Hanging at the Lagrange point, the void stretched out before me,
+              deceptively empty. Pyro was a mess of jump routes, and predicting
+              exactly where they’d try to bolt was always a gamble. But Ghost’s
+              intel was solid. I felt the familiar thrum of the QED charging,
+              ready to drop the net the moment their quantum drives spun up.
+              Patience was key. Let Hammer do the talking with his railguns,
+              scare them good and proper. Then, the frantic scramble to
+              escape… that’s when I’d make my move. Just gotta be ready,
+              fingers on the trigger, waiting for that tell-tale shimmer of a
+              jump attempt. Gotcha! Quantum drive spooled, and I slammed the
+              QED. Pulled them right back. "Ghost, NetCatcher should be
+              inbound. Quarry's all yours."
+            </p>
+            <h4>Spectre Strike - "Hammer" (Pilot):</h4>
+            <p>
+              My teeth were practically grinding. All that waiting… but that’s
+              the name of the game in stealth. The lead transport filled my
+              targeting display, a fat, juicy target practically begging for a
+              taste of my railguns. Ghost’s voice in my ear, “Three… two…
+              one… fire.” The twin size fives roared, even though you couldn’t
+              hear a damn thing outside. Watched those slugs tear through their
+              shields like wet paper, right into the engines. Beautiful. The whole
+              convoy went into a panic. Those Ares boys started swarming, but I
+              was already ghosting back into the black, letting Surge handle the
+              fireworks.
+            </p>
+            <h4>Spectre Pulse - "Surge" (Pilot):</h4>
+            <p>
+              Hammer hit them hard, just like we planned. The XT escorts were
+              all riled up, trying to figure out what the hell just happened.
+              That’s my cue. I pushed the EMP charge, feeling the energy build
+              in my ship. A clean, focused burst – enough to fry their shields
+              and knock out their engines. The void lit up for a split second,
+              then… silence. The Ares fighters were drifting, their lights out.
+              The second transport, the one Lockdown snared, was just a big,
+              helpless target. Another clean sweep. Felt good to turn the lights
+              out on those pirates.
+            </p>
+            <h4>Spectre Shadow - "Ghost" (Pilot):</h4>
+            <p>
+              Another textbook op. The XT supply chain was in disarray, and we
+              were already light seconds away, melting back into the shadows.
+              Four Spectres, four different roles, one perfectly executed plan.
+              That’s how you redefine covert warfare.
+            </p>
+          </div>
+          <div class="scenario-narrative">
+            <h3>Scenario 2: Ground Support Under Fire</h3>
+            <p>
+              The air tasted of ozone and burnt metal. Our little outpost,
+              barely more than reinforced hab units and a SAM emplacement, was
+              getting hammered. Red bolts from Xenothreat energy weapons
+              sizzled past, impacting the ferrocrete with sickening thuds. My
+              pulse rifle spitting controlled bursts towards the advancing XT
+              figures. They were relentless, their guttural battle cries
+              echoing across the desolate plain.
+            </p>
+            <p>
+              “We’re taking heavy fire!” Sergeant Reyes yelled, his voice
+              strained over the squad comms. “SAM’s down! Anyone got eyes on
+              air support?” Hope was dwindling fast. We were outnumbered,
+              outgunned, and pinned.
+            </p>
+            <p>
+              Then, a ripple seemed to distort the air above us, a fleeting
+              shimmer against the ochre sky. The crackle of XT comms in my
+              helmet suddenly turned to garbled static. “What the hell’s
+              happening?” Corporal Miller cursed beside me, slapping his helmet.
+            </p>
+            <p>
+              A calm voice, UEE air support, cut through the electronic noise,
+              clear as crystal: “<strong
+                >Spectre Shadow</strong
+              >
+              on station. Engaging electronic countermeasures. Hold the line,
+              Marines.”
+            </p>
+            <p>
+              Almost immediately, the tide of the attack shifted. The coordinated
+              XT assault faltered. Their energy fire became wild, missing our
+              positions by meters. I saw one of their heavy weapon teams suddenly
+              turn on each other, confused and disoriented.
+            </p>
+            <p>
+              Then came the thunder – silent thunder. Invisible streaks of force
+              slammed into the XT lines. A heavy weapon emplacement vanished in
+              a shower of sparks and twisted metal. An armored personnel carrier
+              further down the LZ erupted in flames.
+            </p>
+            <p>
+              “<strong
+                >Spectre Strike</strong
+              >
+              is in the AO,” the calm voice confirmed. “Eliminating priority
+              targets.”
+            </p>
+            <p>
+              The XT advance ground to a halt, their remaining forces scrambling
+              for cover, their communication a mess, their heavy support
+              neutralized. But they weren't giving up. I saw a reinforced squad,
+              likely their last push, emerge from behind a ridge. They were
+              moving fast, energy shields flickering.
+            </p>
+            <p>
+              That’s when the air crackled with raw power. A wave of invisible
+              force washed over the LZ. The XT figures with shields stumbled,
+              their glowing barriers winked out, and they froze in their tracks,
+              weapons drooping.
+            </p>
+            <p>
+              “<strong
+                >Spectre Pulse</strong
+              >
+              has neutralized their heavy elements,” the air support voice
+              reported. “LZ is secure. Stand down, Marines.”
+            </p>
+            <p>
+              The silence that followed was almost deafening, broken only by the
+              whine of cooling armor and our ragged breaths. We’d been on the
+              brink, but the “friendly ghosts,” the Spectres, had turned the
+              impossible into reality. I never saw them, not truly, just those
+              fleeting shimmers in the sky, but we owed them everything. The LZ
+              was ours.
+            </p>
+          </div>
+        </section>
+
+        <section class="section" id="spectre-interior">
+          <h2>
+            Spectre Interior Layout & Systems<a
+              class="back-to-top"
+              href="#spectre-top"
+              >[Back to Top]</a
+            >
+          </h2>
+          <p>
+            The Spectre's three-deck configuration maximizes internal space for
+            crew comfort, system integration, and operational endurance. Vertical
+            transit is primarily achieved via central stairwells, supplemented by
+            additional maintenance access points and a small service elevator
+            for engineering. The design focuses on eliminating unnecessary volume
+            to maximize combat endurance and crew comfort. A reinforced,
+            autoloading ammunition bay is integrated for rapid reloading and
+            robust protection for incendiary munitions; relevant variants
+            (Pulse, and optionally Shadow/Lockdown) also incorporate autoloading
+            systems for torpedoes or missiles. Strategic placement of component
+            and engine access points facilitates easy maintenance.
+          </p>
+          <p>
+            A truly unique feature enabled by the advanced Anvil-Esperia display
+            technology is the 'total immersion' interior. Not limited to the
+            bridge, the system can project the real-time external view onto almost
+            any internal surface – walls, floors, and ceilings – effectively
+            making them virtual windows on demand. This provides vastly improved
+            situational awareness for the entire crew, regardless of their
+            location within the ship, and can be toggled off for privacy or
+            standard interior views.
+          </p>
+          <p><b>Key Interior Features Summary (Base Spectre):</b></p>
+          <ul>
+            <li>
+              Bridge: Retractable armored shutters; internal 'ghost mode'
+              electronic displays.
+            </li>
+            <li>Private Quarters: Captain, Co-Pilot, Specialist.</li>
+            <li>Shared Bunks: 2 Additional Crew.</li>
+            <li>Galley & Mess: Shared common area.</li>
+            <li>
+              Drone Maintenance Bay: With full deployment and repair capacity.
+            </li>
+            <li>Salvage Bay: Supports RMC/CM and onboard 3D printer.</li>
+            <li>
+              Ammunition Bay: Armored, with autoloader for incendiary munitions
+              / variant specific ordnance.
+            </li>
+            <li>Engineering Access: All core components accessible internally.</li>
+          </ul>
+          <p>
+            <em>Note: The Eidolon series, despite being fighters, also feature compact full interiors for extended missions . The Valkyrie Phantom retains its dropship interior optimized for troop and vehicle transport alongside HFW modifications . The Spectre Revenant's interior is geared towards its role as a heavy interceptor with a focused crew.</em>
+          </p>
+        </section>
+
+        <section class="section" id="spectre-talent">
+          <h2>
+            HFW Talent Acquisition Doctrine<a
+              class="back-to-top"
+              href="#spectre-top"
+              >[Back to Top]</a
+            >
+          </h2>
+          <p>
+            Operating under a mandate that prioritizes results and innovation
+            above convention, Hephaestus Forge Works employs a unique approach
+            to talent acquisition. Standard UEE military and corporate recruitment
+            pools are supplemented by discreet observation of individuals
+            demonstrating exceptional aptitude or possessing unique, hard-won
+            experience relevant to HFW's clandestine mission – regardless of
+            their origin or past affiliations.
+          </p>
+          <p>
+            The profound impact of HFW technology on individuals like Marcus Cole
+            (whose encounter ignited an intense drive to master advanced
+            engineering) and Jax Rylan (whose experience surviving a Spectre
+            attack forged an unparalleled expertise in threat detection) has not
+            gone unnoticed. While security protocols remain stringent, HFW
+            recognizes that firsthand encounters with bleeding-edge technology or
+            deep understanding of specific operational challenges can forge
+            perspectives and skills unobtainable through traditional means. Such
+            individuals, possessing intimate knowledge of operational
+            vulnerabilities or driven by a unique understanding of the
+            technology's impact, represent a potential, albeit unconventional,
+            resource pool.
+          </p>
+          <p>
+            From its inception, this doctrine led to the formation of the Ghost
+            Teams, elite field operatives and intelligence gatherers whose
+            unconventional skills were crucial for HFW's data acquisition and
+            early field testing. It was through this very doctrine that
+            operatives like Jax "Whisper" Rylan, a former Ninetails outpost
+            technician, was brought into The Forge's expanding ranks following
+            his critical involvement in Dr. Thorne's rescue, his unique insights
+            now directly contributing to the refinement of The Forge's
+            cutting-edge designs.
+          </p>
+          <p>
+            HFW believes that true technological superiority requires embracing
+            talent from every shadow, potentially turning former adversaries,
+            reshaped by HFW's own creations, into future assets. The case of
+            Marcus “Wraith” Cole, a former Ninetails member currently at
+            Klescher Rehabilitation Facility, illustrates this. His intense focus
+            on understanding the advanced technology he witnessed, and his rapid
+            progress in engineering studies, has allegedly drawn cautious
+            interest from talent scouts operating outside typical UEE channels,
+            highlighting HFW's potential reach and unconventional recruitment
+            pathways.
+          </p>
+        </section>
+
+        <section class="section" id="spectre-comparison">
+          <h2>
+            Ship Comparison Module<a class="back-to-top" href="#spectre-top"
+              >[Back to Top]</a
+            >
+          </h2>
+          <p>
+            This chart compares primary HFW platforms to some other relevant
+            vessels within the UEE arsenal, highlighting key differentiators.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Ship</th>
+                <th>Length</th>
+                <th>Role</th>
+                <th>Crew</th>
+                <th>Cargo</th>
+                <th>Signature Management</th>
+                <th>Key Differentiator</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Anvil Spectre (Base)</b></td>
+                <td>80m</td>
+                <td>Stealth Multi-Role</td>
+                <td>3–5</td>
+                <td>~90 SCU</td>
+                <td>
+                  Next-Gen Passive + Active Masking/EW + Adaptive Countershading
+                  + Acoustic Dampening
+                </td>
+                <td>Versatile Covert Ops Platform</td>
+              </tr>
+              <tr>
+                <td><b>Anvil Spectre Revenant</b></td>
+                <td>121m</td>
+                <td>Heavy Interceptor / Light Destroyer</td>
+                <td>3–5</td>
+                <td>270 SCU</td>
+                <td>Shadow-class Stealth (for size)</td>
+                <td>Unparalleled Stealth for Size/Firepower; Unique Acquisition</td>
+              </tr>
+              <tr>
+                <td><b>Anvil Eidolon (Avg.)</b></td>
+                <td>~34m</td>
+                <td>Stealth Space Superiority Fighter / Escort</td>
+                <td>1</td>
+                <td>2-4 SCU</td>
+                <td>
+                  Spectre-derived Stealth + Adaptive Countershading (scaled)
+                </td>
+                <td>Agile, Full-Interior Stealth Fighter with Variant Specializations</td>
+              </tr>
+              <tr>
+                <td><b>Anvil Valkyrie Phantom</b></td>
+                <td>~38.5m</td>
+                <td>Special Ops Transport</td>
+                <td>5 + 20 Ops</td>
+                <td>90 SCU + Vehicle</td>
+                <td>Advanced Signature Reduction & Masking</td>
+                <td>Stealthy Troop/Vehicle Insertion with Fire Support</td>
+              </tr>
+              <tr>
+                <td>Aegis Hammerhead</td>
+                <td>~115m</td>
+                <td>Heavy Frigate / Anti-fighter Screen</td>
+                <td>3–9</td>
+                <td>40 SCU</td>
+                <td>Standard (Not Stealthy)</td>
+                <td>Dedicated Anti-fighter Screen; Large Crew</td>
+              </tr>
+              <tr>
+                <td>RSI Polaris</td>
+                <td>~155m</td>
+                <td>Frigate / Torpedo Bomber / Command</td>
+                <td>6–12</td>
+                <td>576 SCU</td>
+                <td>Standard (Not Stealthy)</td>
+                <td>Capital Torpedo Strikes; Hangar Bay</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="section" id="spectre-environment">
+          <h2>
+            Environmental Considerations (Future Implementation)<a
+              class="back-to-top"
+              href="#spectre-top"
+              >[Back to Top]</a
+            >
+          </h2>
+          <p>
+            <b>Cooling Leverage:</b> Pilots might be able to leverage
+            environmental conditions—such as submersion in water or differing
+            atmospheric properties—to further enhance cooling efficiency
+            (if/when game mechanics allow).
+          </p>
+          <p>
+            <b>Heat Management:</b> Varying atmospheres and weather conditions
+            could affect thermal signatures, offering additional tactical
+            considerations.
+          </p>
+        </section>
+
+        <section class="section" id="spectre-testimonials">
+          <h2>
+            Field Testimonials<a class="back-to-top" href="#spectre-top"
+              >[Back to Top]</a
+            >
+          </h2>
+          <blockquote>
+            “We never saw a thing. One minute, the patrol grid was clear, next
+            minute, half the outpost comms went dead and the main generator blew
+            sky high. No warnings, no visual, nothing. Just... gone. Whatever
+            hit us, it moved like a ghost.”
+          </blockquote>
+          <p>— Jax “Whisper” Rylan, HFW Operative (formerly Ninetails)</p>
+          <blockquote>
+            “We were pinned down...Comms were jammed solid...Our comms came back
+            online, clear as day. Command said they saw a ‘signature spike’ in
+            the area, then nothing. We called them the friendly ghosts after
+            that.”
+          </blockquote>
+          <p>– Corporal Anya Sharma, 12th Rapid Deployment Brigade (re: Spectre Shadow)</p>
+          <blockquote>
+            “We thought it was the end. Then, out of nowhere, a series of
+            massive railgun shots ripped through their lines...Like a silent
+            thunder...We never saw what fired those shots, but it cleared a path
+            for us.”
+          </blockquote>
+          <p>– Sergeant Major Elias Vance, 7th Expeditionary Unit (re: Spectre Strike)</p>
+          <blockquote>
+            “They were laughing at us on comms...Then, their quantum drives
+            sputtered...They were stuck, like a fly in amber. We moved in and
+            took them without a shot fired.”
+          </blockquote>
+          <p>– Security Officer Jian Li, Sector Patrol Delta-7 (re: Spectre Lockdown)</p>
+          <blockquote>
+            “We were facing a heavily shielded enemy vessel...Then, everything
+            went dark—their lights, engines, even their weapons. Just… off...It
+            was the Pulse. They turned off the lights, and we won the day.”
+          </blockquote>
+          <p>– Flight Lieutenant Commander Rylan Voss, 9th Special Operations Wing (re: Spectre Pulse)</p>
+        </section>
+
+        <section class="section" id="revenant-acquisition">
+          <h2>
+            Spectre Revenant Acquisition<a
+              class="back-to-top"
+              href="#spectre-top"
+              >[Back to Top]</a
+            >
+          </h2>
+          <p>
+            The Spectre Revenant stands apart from the other Anvil Spectre
+            variants not only in its size and role but also in how it can be
+            obtained. As a dedicated, highly classified asset of Hephaestus Forge
+            Works (HFW) and the primary sentinel of the Forge base perimeter, the
+            Revenant is <b>never available for standard purchase</b>, either
+            through in-game vendors or on the RSI website store.
+          </p>
+          <p>
+            Instead, acquiring a Spectre Revenant is an undertaking tied directly
+            to significant, challenging in-game events that reflect the vessel's
+            unique status and HFW's unconventional nature. There are two primary
+            paths to obtaining a Revenant, differentiated by a player's legal
+            standing and the nature of their interaction with the asset:
+          </p>
+          <h3>Lawful Acquisition (Recovery for HFW)</h3>
+          <p>
+            <b>Method:</b> Players with a strong legal standing in the UEE may
+            discover or be tasked with missions to recover a lost or previously
+            stolen Spectre Revenant from a dangerous location or a hostile third
+            party (e.g., pirates, Xenothreat forces, a rival clandestine group).
+            Successfully locating, disabling (if necessary), and securing the
+            Revenant requires exceptional skill, stealth, and combat prowess
+            against significant opposition.
+          </p>
+          <p>
+            <b>HFW Response:</b> Upon successful recovery by a demonstrably
+            lawful entity, Hephaestus Forge Works will track the asset and the
+            individuals responsible for its retrieval. Rather than simply
+            reclaiming the vessel, HFW, operating under its unique Talent
+            Acquisition Doctrine, will recognize the unparalleled skill and
+            capability demonstrated by the lawful player(s) in retrieving such a
+            valuable and dangerous asset. As a form of profound acknowledgment and
+            implicit recruitment/vetting, HFW will effectively
+            <b>"gift" the recovered Revenant</b> to the player who initiated and
+            successfully completed the retrieval.
+          </p>
+          <p>
+            <b>Outcome:</b> The Spectre Revenant becomes <b>account-bound</b> to
+            that player's account. However, this unique gift comes with implicit
+            expectations. Should a lawful player who possesses an HFW-gifted
+            Revenant engage in major criminal activities using the ship, or
+            attempt to compromise, reverse-engineer, or share the Revenant's
+            highly sensitive HFW technology, HFW will perceive this as a
+            betrayal of the trust placed in them. If the Revenant is destroyed
+            while the lawful player is engaged in such triggering hostile or
+            compromising actions against HFW's interests, HFW will ensure the
+            ship is permanently reclaimed/destroyed. This specific act of
+            breaching trust results in the player losing access to the Revenant
+            permanently; it will fall out of their account and can no longer be
+            claimed or recovered.
+          </p>
+          <h3>Criminal Acquisition (Theft from HFW)</h3>
+          <p>
+            <b>Method:</b> Criminal players may attempt the extraordinarily
+            difficult task of directly infiltrating or assaulting HFW assets (such
+            as the Forge itself during a rare, high-stakes event, or
+            intercepting a Revenant on a critical mission) to steal one.
+            Successfully disabling and exfiltrating a Revenant from HFW's direct
+            control is an undertaking requiring immense skill, coordination, and
+            audacity against state-of-the-art defenses and potentially other
+            Revenants.
+          </p>
+          <p>
+            <b>HFW Response:</b> Hephaestus Forge Works will immediately detect
+            the theft of a Revenant. While they recognize the exceptional (and
+            dangerous) capability required to succeed in such a high-risk
+            endeavor against them, their response is not one of reward. HFW will
+            issue a clear, non-hollow warning to the criminal player who stole
+            the asset, often through unconventional and unsettling means. This
+            warning serves as an acknowledgment of their formidable nature but
+            also a dire threat of significant reprisal should they target HFW
+            assets again or fail to heed the message. HFW has the resources to
+            make good on its threats and is
+            <b>known to follow through relentlessly on 'promises' they make</b
+            >.
+          </p>
+          <p>
+            <b>Outcome:</b> The Spectre Revenant successfully stolen also
+            becomes <b>account-bound</b> to that player's account. However,
+            should a criminal player who possesses a stolen Revenant attempt
+            further hostile actions against HFW assets (especially attempting to
+            steal another Revenant), and their current Revenant is destroyed during
+            this confrontation, HFW will ensure the ship is permanently
+            reclaimed/destroyed. This specific act of defiance results in the
+            player losing access to the Revenant permanently; it will fall out of
+            their account and can no longer be claimed or recovered. This is the
+            ultimate price of repeatedly provoking HFW after having already taken
+            one of their prized assets.
+          </p>
+          <h3>Account Limitation and Trade Restrictions</h3>
+          <p>
+            Regardless of the method of acquisition (Lawful Recovery or Criminal
+            Theft), a player <b>can only possess one</b> Spectre Revenant on
+            their account at any given time. Furthermore, due to the Revenant's
+            highly classified nature and HFW's persistent tracking, this ship
+            cannot be sold or traded on the player market. Attempting to sell a
+            recovered Revenant is simply not possible within HFW's system, and
+            attempting to sell a <i>stolen</i> one is virtually impossible as no
+            legitimate or even moderately cautious black-market buyer would risk
+            the inevitable and relentless reprisal from HFW. Possessing a stolen
+            Revenant puts a target on your back; selling it would put targets on
+            <i>everyone</i> involved.
+          </p>
+          <h3>The Mark of HFW</h3>
+          <p>
+            Crucially, if a player loses their Spectre Revenant because they
+            triggered HFW's negative response (either through breaching implicit
+            trust as a lawful owner or through repeated defiance as a criminal),
+            <b>they will be permanently marked by Hephaestus Forge Works</b
+            >. This mark signifies that they are no longer considered a potential
+            asset or even a tolerated entity; they are a liability or an
+            antagonist. A player marked by HFW
+            <b>will never be able to acquire another Spectre Revenant</b> through
+            any means, whether lawful recovery or attempting theft again. The path
+            to owning this unique vessel is permanently closed to them. Reversing
+            this mark, if possible at all, would require extraordinary and
+            significant reparations to HFW, potentially involving high-risk
+            missions or a fundamental shift in their relationship and reputation
+            with the clandestine organization (the specifics of such reparations
+            would be exceptionally rare and challenging).
+          </p>
+        </section>
+
+        <section class="section" id="spectre-conclusion">
+          <h2>
+            Conclusion: The Forged Shield of the UEE
+            <a class="back-to-top" href="#spectre-top">[Back to Top]</a>
+          </h2>
+          <p>
+            Hephaestus Forge Works, born from the visionary proposal of Dr. Aris
+            Thorne in 2933 and validated by the strategic imperatives of multiple
+            UEE administrations, stands as a unique and indispensable instrument
+            of Anvil Aerospace and the United Empire of Earth. Operating from its
+            clandestine fortress, The Forge—a marvel of engineering carved into
+            a rogue moon—HFW embodies a commitment to radical innovation,
+            unconventional thinking, and the relentless pursuit of technological
+            superiority.
+          </p>
+          <p>
+            Inspired by the pioneering spirit of Earth's historical "Skunk Works"
+            and "Phantom Works," HFW has consistently pushed beyond conventional
+            limits in stealth technology, electronic warfare, advanced combat
+            systems, and even bio-engineering, as evidenced by the Phoenix
+            Protocol's regeneration capabilities. Its unique Talent Acquisition
+            Doctrine has brought together a cadre of brilliant, often unorthodox,
+            minds and skilled operatives like Jax "Whisper" Rylan, capable of
+            wielding the sophisticated tools The Forge produces.
+          </p>
+          <p>
+            The Anvil Spectre family—Shadow, Strike, Lockdown, and Pulse
+            —redefined covert operations. The Spectre Revenant stands as an
+            unparalleled guardian, a testament to HFW's ability to scale its
+            stealth mastery to capital-class vessels. The Valkyrie Phantom
+            ensures that HFW's influence can reach the surface, delivering
+            specialized teams where they are needed most, unseen. And with the
+            integration of the agile and highly specialized Eidolon series, HFW's
+            "Shadow Fleet" has become a comprehensive system capable of
+            addressing a wide spectrum of covert and defensive requirements.
+          </p>
+          <p>
+            The directive from Imperator Kelos Costigan in 2940, which validated
+            and formally launched the Spectre project through the already
+            operational HFW , marked a significant leap forward in the UEE's
+            covert military technology. The subsequent development of the entire
+            Shadow Fleet ensures unparalleled performance and reliability during
+            extended, high-stakes operations. These vessels do more than simply
+            evade detection—they control the battlefield through superior
+            intelligence, decisive strikes, strategic denial, and overwhelming
+            localized force when required.
+          </p>
+          <p>
+            As the United Empire of Earth faces ever-evolving threats from the
+            shadows, from the insidious Xenothreat to the overwhelming might of
+            the Vanduul, the creations of Hephaestus Forge Works emerge not just
+            as individual ships, but as symbols of Anvil Aerospace's innovative
+            spirit and critical systems for safeguarding the future. Their
+            combined capabilities, born from the fires of The Forge and wielded
+            by uniquely skilled individuals, promise to shift the balance of
+            power, offering a decisive edge in the ongoing struggle.
+          </p>
+          <p>The future, as Dr. Thorne proclaimed, is not merely designed; it is <b>forged</b>.</p>
+          <blockquote>
+            "It wasn't just chaos; it was precise. In the heart of the inferno,
+            just for a heartbeat, I <i>saw</i> it. A silhouette against the glare,
+            impossibly dark, impossibly silent. Then it just... faded, gone back
+            into the swirling smoke. It destroyed everything, everyone. But it
+            left <i>me</i>. Untouched. Seeing that power, realizing you were
+            <i>observed</i>, <i>judged</i>, and deliberately spared by something
+            you couldn't fight, couldn't even comprehend... that changes you.
+            Remakes you from the ground up. There was no going back to the life
+            I knew. Now, here at Klescher, I spend my days trying to understand
+            the physics behind that ghost... figuring out how you build something
+            that effective. Maybe even how you counter it."
+          </blockquote>
+          <blockquote>
+            <p>
+              – Marcus “Wraith” Cole, Former Ninetails. Cole surrendered to UEE
+              authorities shortly after the incident described, an action he
+              attributes directly to witnessing the unidentified vessel's
+              capabilities and his inexplicable survival. He is currently
+              pursuing engineering studies with intense focus at the Klescher
+              Rehabilitation Facility. Reports indicate he dedicates significant
+              personal time to simulating advanced ship systems, particularly
+              stealth mechanics, power management, and potential countermeasures,
+              viewing his incarceration as an opportunity to understand the
+              technology that reshaped his life.
+              <b>His rapid progress and unique perspective has allegedly drawn cautious interest from talent scouts operating outside typical UEE channels.</b>
+            </p>
+          </blockquote>
+        </section>
+
+        <section>
+          <div>
+            <p align="center">
+              My reflection is the following: I did this because it seemed like
+              it would be a fun project, and so far it has been.
+            </p>
+          </div>
+        </section>
+      </div>
+      <aside id="section-aside" class="spectre-post-aside">
+        <div class="aside-top-logo">
+          <img
+            alt="Profile Logo"
+            src="https://imagizer.imageshack.com/img924/8747/qCer6W.png"
+            onerror="this.onerror=null;this.src='https://placehold.co/180x100/1a1a1a/ff4c4c?text=Profile+Logo';"
+          />
+        </div>
+        <h2>On This Section</h2>
+        <ul></ul>
+        <div class="aside-bio-section">
+          <h2 class="aside-bio-heading">Dr. Aris D. Thorne: Visionary</h2>
+          <div class="aside-bio-content">
+            <p>
+              **Dr. Aris David Thorne** (born 2910, Portland, Earth) is
+              considered Anvil Aerospace's single most valuable person and
+              asset, recognized as **likely the smartest person alive**—the
+              Stephen Hawking or Albert Einstein of his era. His academic path
+              defied convention, earning **sixteen doctorates** across diverse
+              fields from aerospace engineering to cognitive psychology and
+              medicine. He excelled by seeing the **interconnectedness of all
+              knowledge**, a polymathic approach that revolutionized his studies
+              at institutions like Terra's University of Rhetor and Archimedes
+              Institute.
+            </p>
+            <p>
+              Thorne's profound understanding of **all forms of technology**
+              catapulted Anvil's ships to a tier unmatched by any other Human
+              manufacturer. His leadership led to the creation of
+              **Hephaestus Forge Works (HFW)**, his equivalent of nuclear
+              technology development: a secret division dedicated to forging
+              paradigm-shifting military solutions.
+            </p>
+            <p>
+              Despite his monumental intellect, Dr. Thorne is a **humble and
+              dedicated leader, well-loved by his staff**. He insists on **full
+              disclosure** for all HFW personnel, ensuring they have **all the
+              information needed** to assess mission viability. This respect
+              fosters an unparalleled familial loyalty. His rescue from
+              danger, for instance, wasn't a strategic necessity to protect
+              classified information, but a visceral "he's family, get him back
+              NOW!" imperative from his devoted teams.
+            </p>
+            <p>
+              His influence extends even to **Aegis Dynamics**. Despite Aegis's
+              checkered history and their usual guardedness, their respect for
+              Thorne's unparalleled vision and expertise is immense. Debating
+              Thorne is akin to "a three-year-old playing chess against a
+              Grandmaster"; his mind **runs circles around the smartest in the
+              UEE, and potentially even the Xi'an, Tevarin, and Banu**. This
+              intellectual gravity, paired with his humility, convinced Aegis to
+              share their advanced EW and sensor technology, a testament to his
+              singular standing.
+            </p>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+<script>
+  // ────────────────────────────────────────────────────────────────
+  // 1) Make updateAside() global so showFamily/Variant can call it
+  // ────────────────────────────────────────────────────────────────
+  function updateAside() {
+    const aside = document.getElementById("section-aside");
+    if (!aside) return;
+    const list = aside.querySelector("ul");
+    if (!list) return;
+
+    // Arrow icon for each entry
+    const svgIcon =
+      '<svg viewBox="0 0 24 24" width="0.8em" height="0.8em" fill="currentColor" ' +
+      'style="vertical-align:-0.1em;margin-right:0.6em;opacity:0.7;">' +
+      '<path d="M10 17l5-5-5-5v10z"></path></svg>';
+
+    // Grab ALL .section containers (not just <section> tags)
+    const sections = Array.from(document.querySelectorAll(".section"));
+    const scrollY = window.scrollY;
+    const vh = window.innerHeight;
+    const offset = vh * 0.35;
+
+    // Find the active main section based on scroll
+    let activeSection = null;
+    for (let i = sections.length - 1; i >= 0; i--) {
+      const sec = sections[i];
+      const top = sec.getBoundingClientRect().top + window.pageYOffset;
+      if (scrollY >= top - offset) {
+        activeSection = sec;
+        break;
+      }
+    }
+    // If at bottom of page, snap to last
+    if (
+      window.innerHeight + scrollY >= document.body.offsetHeight - 50 &&
+      sections.length
+    ) {
+      activeSection = sections[sections.length - 1];
+    }
+
+    // Clear out old entries
+    list.innerHTML = "";
+
+    if (!activeSection) {
+      // Before first section
+      const li = document.createElement("li");
+      li.style.padding = "0.5rem 1rem";
+      li.style.fontSize = "0.9rem";
+      li.style.color = "#777";
+      li.textContent = "No active section sub-headings.";
+      list.appendChild(li);
+      aside.style.display = "flex";
+      return;
+    }
+
+    // If we're in the Variants section, drill into the active tab's content
+    let source = activeSection;
+    if (activeSection.id === "spectre-variants") {
+      const fam = activeSection.querySelector(
+        ".ship-family-content-wrapper.active-family-content"
+      );
+      if (fam) {
+        const varc = fam.querySelector(".variant-content.active");
+        source = varc || fam;
+      }
+    }
+
+    // Gather all <h3> & <h4> under that source
+    const headings = Array.from(source.querySelectorAll("h3, h4"));
+    if (!headings.length) {
+      const li = document.createElement("li");
+      li.style.padding = "0.5rem 1rem";
+      li.style.fontSize = "0.9rem";
+      li.style.color = "#777";
+      li.textContent = "No sub-sections.";
+      list.appendChild(li);
+      aside.style.display = "flex";
+      return;
+    }
+
+    // Build list items
+    let highlighted = false;
+    headings.forEach((h) => {
+      // Ensure each heading has an ID
+      if (!h.id) {
+        h.id =
+          activeSection.id +
+          "-" +
+          h.tagName.toLowerCase() +
+          "-" +
+          h.textContent
+            .trim()
+            .toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/[^\w-]+/g, "");
+      }
+      const a = document.createElement("a");
+      a.href = `#${h.id}`;
+      a.innerHTML = svgIcon + h.textContent.trim();
+
+      // indent <h4>
+      if (h.tagName.toLowerCase() === "h4") {
+        a.style.paddingLeft = "1.5rem";
+      }
+
+      // highlight based on its position in viewport
+      const rect = h.getBoundingClientRect();
+      if (rect.top >= 0 && rect.top < offset && !highlighted) {
+        a.classList.add("active");
+        highlighted = true;
+      }
+
+      // smooth scroll + immediate highlight on click
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.scrollTo({
+          top: document.getElementById(h.id).offsetTop - vh * 0.1,
+          behavior: "smooth",
+        });
+        list.querySelectorAll("a").forEach((n) => n.classList.remove("active"));
+        a.classList.add("active");
+        setTimeout(updateAside, 0);
+      });
+
+      const li = document.createElement("li");
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+
+    // If nothing was auto-highlighted, try to respect the URL hash
+    if (!highlighted && window.location.hash) {
+      const activeByHash = list.querySelector(`a[href="${window.location.hash}"]`);
+      if (activeByHash) {
+        list.querySelectorAll("a").forEach((n) => n.classList.remove("active"));
+        activeByHash.classList.add("active");
+      }
+    }
+
+    aside.style.display = "flex";
+  }
+  // Expose it
+  window.updateAside = updateAside;
+
+
+  // ────────────────────────────────────────────────────────────────
+  // 2) Left-nav section highlighter (unchanged)
+  // ────────────────────────────────────────────────────────────────
+  function handleSpectreNavScroll() {
+    const navLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
+    const sections = [];
+    navLinks.forEach((link) => {
+      const sec = document.querySelector(link.getAttribute("href"));
+      if (sec) sections.push(sec);
+    });
+    const scrollY = window.scrollY;
+    const offset = window.innerHeight * 0.4;
+    let current = "";
+    for (let i = sections.length - 1; i >= 0; i--) {
+      const top = sections[i].getBoundingClientRect().top + window.pageYOffset;
+      if (scrollY >= top - offset) {
+        current = sections[i].id;
+        break;
+      }
+    }
+    if (window.innerHeight + scrollY >= document.body.offsetHeight - 50 && sections.length) {
+      current = sections[sections.length - 1].id;
+    }
+    navLinks.forEach((link) => {
+      link.classList.toggle("nav-active", link.getAttribute("href") === `#${current}`);
+    });
+  }
+
+
+  // ────────────────────────────────────────────────────────────────
+  // 3) Tab-switchers (just added updateAside calls)
+  // ────────────────────────────────────────────────────────────────
+  function showFamily(familyIdSuffix, clickedFamilyButton) {
+    const pc = document.querySelector(".spectre-post-container");
+    if (!pc) return;
+    pc.querySelectorAll(".ship-family-tabs button.family-tab").forEach((t) =>
+      t.classList.remove("active-family")
+    );
+    clickedFamilyButton?.classList.add("active-family");
+
+    pc.querySelectorAll(".ship-family-content-wrapper").forEach((w) => {
+      w.style.display = "none";
+      w.classList.remove("active-family-content");
+    });
+    const activeWrapper = pc.querySelector(`#content-family-${familyIdSuffix}`);
+    if (activeWrapper) {
+      activeWrapper.style.display = "block";
+      activeWrapper.classList.add("active-family-content");
+      // ensure the first variant is “active”
+      const btns = activeWrapper.querySelectorAll(".variant-tabs button");
+      btns.forEach((b) => b.classList.remove("active"));
+      if (btns[0]) btns[0].classList.add("active");
+      btns[0]?.click(); // this will showVariantContent & queue updateAside
+    }
+
+    setTimeout(updateAside, 50);
+  }
+
+  function showVariantContent(variantContentId, clickedVariantButton, familyIdSuffix) {
+    const fam = document.querySelector(
+      `.ship-family-content-wrapper#content-family-${familyIdSuffix}.active-family-content`
+    );
+    if (!fam) return;
+    fam.querySelectorAll(".variant-tabs button").forEach((b) =>
+      b.classList.remove("active")
+    );
+    clickedVariantButton?.classList.add("active");
+    fam.querySelectorAll(".variant-content").forEach((c) =>
+      c.classList.remove("active")
+    );
+    document.getElementById(variantContentId)?.classList.add("active");
+    setTimeout(updateAside, 50);
+  }
+
+
+  // ────────────────────────────────────────────────────────────────
+  // 4) Model-viewer helpers (unchanged)
+  // ────────────────────────────────────────────────────────────────
+  const viewer = document.querySelector("#spectreViewer");
+  const modelMap = {
+    shadow: "https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb",
+    revenant: "https://ArchKaine.github.io/ship-models/Spectre_Revenant.glb",
+    eidolon_shadow: "https://ArchKaine.github.io/ship-models/Eidolon Shadow.glb",
+  };
+  let initialOrbit;
+  if (viewer) {
+    viewer.addEventListener("load", () => {
+      initialOrbit = viewer.getAttribute("camera-orbit") || "0deg 75deg 7m";
+    });
+  }
+  function switchModel(key) {
+    if (!viewer || !modelMap[key]) return;
+    viewer.src = modelMap[key];
+    viewer.alt = "Anvil " + key.replace(/_/g, " ");
+    const orbits = { shadow: "0deg 75deg 7m", revenant: "0deg 75deg 10m", eidolon_shadow: "0deg 75deg 5m" };
+    viewer.setAttribute("camera-orbit", orbits[key] || initialOrbit);
+    viewer.jumpCameraToGoal();
+  }
+  function setView(orbit) {
+    viewer?.setAttribute("camera-orbit", orbit);
+    viewer?.jumpCameraToGoal();
+  }
+  function recenter() {
+    viewer?.setAttribute("camera-orbit", initialOrbit);
+    viewer?.jumpCameraToGoal();
+  }
+
+
+  // ────────────────────────────────────────────────────────────────
+  // 5) Wire up on DOMContentLoaded
+  // ────────────────────────────────────────────────────────────────
+  document.addEventListener("DOMContentLoaded", () => {
+    // Left nav highlight
+    window.addEventListener("scroll", handleSpectreNavScroll);
+
+    // Aside highlight & menu on scroll / hashchange / resize
+    window.addEventListener("scroll", updateAside);
+    window.addEventListener("hashchange", updateAside);
+    window.addEventListener("resize", updateAside);
+
+    // Kick off for the very first family tab
+    const firstFamily = document.querySelector(".ship-family-tabs button.family-tab");
+    if (firstFamily) firstFamily.click();
+
+    // Initial run after everything's loaded
+    setTimeout(() => {
+      updateAside();
+      handleSpectreNavScroll();
+    }, 250);
+  });
+</script>
+
+  </body>
+</html>
