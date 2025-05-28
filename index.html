@@ -39,38 +39,69 @@
             ); /* Another noise layer for complexity */
         background-attachment: fixed; /* Ensures background stays in place on scroll */
       }
+
       body {
         margin: 0;
         padding: 0;
-        /* NEW: Set a dark background color with subtle texture using gradients */
-        background-color: #0A0A0A; /* A deep, dark base black */
-        background-image: 
-            radial-gradient(at center center, #200000 0%, transparent 70%), /* Subtle red glow from center */
-            repeating-linear-gradient(
-                45deg,
-                rgba(255, 255, 255, 0.01) 0px,
-                rgba(255, 255, 255, 0.01) 2px,
-                transparent 2px,
-                transparent 4px
-            ); /* Fine noise texture */
+        height: 100%; /* Ensure body also fills height */
+        /* NEW: Add padding to account for the fixed top navigation bar */
+        padding-top: 50px; /* Adjust this value based on the exact height of your #top-nav-bar */
         /* NEW: Add right margin to accommodate always-visible aside */
         margin-right: 240px;
       }
 
+      /* NEW: Styles for the new top navigation bar */
+      #top-nav-bar {
+        background-color: rgba(0, 0, 0, 0.9); /* A slightly transparent black for depth */
+        padding: 0.8rem 1.5rem;
+        text-align: center;
+        position: fixed; /* Stays at the top when scrolling */
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10000; /* High z-index to ensure it's always on top */
+        border-bottom: 1px solid #333; /* Subtle separation line */
+        display: flex; /* Use flexbox for alignment */
+        justify-content: center; /* Center the links */
+        gap: 1.5rem; /* Space between links */
+        flex-wrap: wrap; /* Allow wrapping on very small screens */
+      }
+
+      #top-nav-bar a {
+        color: #ffaaaa; /* Light red/pinkish color for links */
+        text-decoration: none;
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.5rem 0.8rem;
+        border-radius: 4px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      #top-nav-bar a:hover {
+        background-color: #ff4c4c; /* Red highlight on hover */
+        color: #fff;
+      }
+
+
       .spectre-post-container {
         font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
-        background-color: #0b0e13;
+        /* NEW: Use RGBA for a subtle transparency to let the body texture show through */
+        background-color: rgba(11, 14, 19, 0.95); /* Existing color, but with 95% opacity */
         color: #f0f0f0;
         padding: 1.5rem;
         font-size: 18px;
         line-height: 1.6;
         margin-left: 0;
+        min-height: 100vh; /* Ensure it covers at least the viewport height */
         /* NEW: Add right margin to accommodate always-visible aside */
         margin-right: 240px;
         transition: margin-left 0.3s ease, margin-right 0.3s ease;
       }
       .spectre-post-container header {
-        background-color: #1a1a1a;
+        /* NEW: Make header slightly transparent to layer with body background */
+        background-color: rgba(26, 26, 26, 0.95); /* Original #1a1a1a with opacity */
         padding: 1rem 2rem;
         text-align: center;
         border-bottom: 1px solid #2a2a2a;
@@ -95,7 +126,8 @@
         flex-direction: column;
         flex-wrap: nowrap;
         justify-content: center;
-        background: #111;
+        /* NEW: Make nav slightly transparent to layer with body background */
+        background: rgba(17, 17, 17, 0.95); /* Original #111 with opacity */
         border-right: none;
         border-bottom: 2px solid #ff4c4c;
         padding: 0.5rem 0;
@@ -152,10 +184,8 @@
         order: 0;
       }
       .spectre-post-container .nav-logo-top {
-        order: -1;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid #333;
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
+        border-bottom: none;
       }
       .spectre-post-container .nav-logo img {
         max-width: 400px;
@@ -173,7 +203,8 @@
         bottom: 0;
         width: 240px;
         overflow-y: auto; /* Main scroll for the entire aside */
-        background: #111;
+        /* NEW: Make aside slightly transparent to layer with body background */
+        background: rgba(17, 17, 17, 0.95); /* Original #111 with opacity */
         border: none;
         border-left: 2px solid #ff4c4c;
         border-radius: 0;
@@ -307,314 +338,22 @@
 
 
       @media (min-width: 992px) {
-        /* --- In your @media (min-width: 992px) block --- */
-        .spectre-post-container nav {
-          position: fixed;
-          left: 0;
-          top: 0;
-          bottom: 0;
-          width: 300px; /* You can adjust this, e.g., back to max-width: 320px if preferred */
-          z-index: 1001;
-          display: flex;
-          flex-direction: column;
-          /* align-items: stretch; */ /* Changed from stretch */
-          align-items: flex-start; /* Ensures items don't try to stretch in ways that might conflict */
-          background: #111;
-          border-right: 2px solid #ff4c4c;
-          border-bottom: none;
-          border-radius: 0;
-          box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
-          padding: 1.5rem 0; /* Padding for top/bottom of the nav scrolling area */
-          overflow-y: auto; /* Should enable vertical scroll for overflowing content */
-          overflow-x: hidden; /* Prevent horizontal scroll */
-          flex-wrap: nowrap; /* Explicitly prevent wrapping into columns */
-          margin-bottom: 0;
+        .spectre-post-container {
+          margin-left: 320px; /* Width of left nav */
+          margin-right: 240px; /* Width of right aside */
+          padding: 1.5rem 2rem;
         }
-
-        .spectre-post-container nav a {
-          width: 100%; /* Make each link take the full width of the nav container */
-          box-sizing: border-box; /* Include padding and border in the element's total width and height */
-          white-space: nowrap;
-          padding: 0.8rem 1.5rem; /* Adjust padding as needed, now that it's full width */
-          margin: 0; /* Remove horizontal margins, rely on padding for spacing from nav edges */
-          display: inline-flex; /* Keep for icon and text alignment within the link */
-          align-items: center;
-          gap: 0.5rem;
-          color: #ffaaaa;
-          text-decoration: none;
-          text-transform: uppercase;
-          font-size: 1rem;
-          font-family: "Orbitron", sans-serif;
-          transition: background-color 0.3s ease, color 0.3s ease,
-            transform 0.2s ease-out, box-shadow 0.2s ease-out,
-            font-weight 0.2s ease;
-          border: none; /* Remove individual borders if width is 100%, or style as needed */
-          /* border-bottom: 1px solid #222; */ /* Optional: separator between links */
-          font-weight: normal;
-        }
-
-        /* Keep existing hover and active styles for nav a, they should still work */
-        .spectre-post-container nav a:hover {
-          background-color: #ff4c4c;
-          color: #fff;
-          /* transform: translateX(3px) translateY(-1px); */ /* transform might be less necessary if links are full width */
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        .spectre-post-container nav a.nav-active {
-          background-color: #333; /* Slightly different from aside's active for distinction */
-          color: #ffffff;
-          font-weight: bold;
-          box-shadow: inset 3px 0 5px rgba(0, 0, 0, 0.5);
-        }
-        .spectre-post-container nav a.nav-active:hover {
-          background-color: #444;
-          color: #fff;
-        }
-        .spectre-post-container .nav-logo {
-          flex-basis: auto;
-          padding: 1rem;
-        }
-        .spectre-post-container .nav-logo-top {
-          margin-bottom: 1rem;
-          border-bottom: none;
-        }
-
-        .spectre-post-aside {
-          /* No changes needed here, as it's already display: flex; in base */
+        .spectre-post-container .container {
+          max-width: none;
+          margin: 0;
+          padding: 0;
         }
       }
 
       /* --- General Content Styles --- */
-      .spectre-post-container .container {
-        max-width: 1280px;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 0;
-      }
-      .spectre-post-container h2 {
-        font-size: 1.8rem;
-        color: #ff4c4c;
-        text-transform: uppercase;
-        font-family: "Orbitron", sans-serif;
-        border-bottom: 1px solid #444;
-        padding-bottom: 0.5rem;
-        margin-top: 2rem;
-        margin-bottom: 1.5rem;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-      }
-      .spectre-post-container h3 {
-        font-size: 1.4rem;
-        color: #ff8c8c;
-        text-transform: uppercase;
-        font-family: "Orbitron", sans-serif;
-        border-bottom: 1px solid #333;
-        padding-bottom: 0.3rem;
-        margin-top: 1.5rem;
-        margin-bottom: 1rem;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-      }
-      .spectre-post-container h4 {
-        font-size: 1.2rem;
-        color: #ffaaaa;
-        font-family: "Orbitron", sans-serif;
-        margin-top: 1.2rem;
-        margin-bottom: 0.8rem;
-      }
-      .spectre-post-container h2:first-child,
-      .spectre-post-container h3:first-child {
-        margin-top: 0;
-      }
-      .spectre-post-container p {
-        margin-bottom: 1.2rem;
-      }
-      .scenario-narrative {
-        background-color: rgba(20, 20, 25, 0.5);
-        padding: 1.5rem;
-        border-left: 3px solid #ff4c4c;
-        margin-bottom: 1.5rem;
-        border-radius: 0 5px 5px 0;
-      }
-      .scenario-narrative p {
-        margin-bottom: 0.8rem;
-        text-indent: 1.5em;
-      }
-      .scenario-narrative p:first-of-type {
-        text-indent: 0;
-      }
-      .scenario-narrative h3 + p {
-        text-indent: 0;
-      }
-      .scenario-narrative h4 {
-        font-size: 1.1rem;
-        color: #ff6a6a;
-        text-transform: none;
-        border-bottom: 1px dashed #555;
-        padding-bottom: 0.2rem;
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
-      }
-      .scenario-narrative strong {
-        color: #ffaaaa;
-        font-family: "Orbitron", sans-serif;
-      }
-      .spectre-post-container .back-to-top {
-        font-size: 14px;
-        color: #ffaaaa;
-        text-decoration: underline;
-        margin-left: 1em;
-        text-transform: none;
-        font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
-        vertical-align: middle;
-        transition: color 0.3s ease;
-      }
-      .spectre-post-container .back-to-top:hover {
-        color: #fff;
-      }
-
-      /* --- UNIFIED BUTTON STYLES --- */
-      .styled-button {
-        cursor: pointer;
-        font-family: "Orbitron", sans-serif;
-        text-transform: uppercase;
-        transition: background 0.3s, color 0.3s, border-color 0.3s,
-          transform 0.2s ease-out, box-shadow 0.3s ease;
-        border-radius: 6px;
-        font-weight: bold;
-        letter-spacing: 0.5px;
-        display: inline-block;
-      }
-
-      .spectre-post-container .ship-family-tabs {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-bottom: 2rem;
-        padding-bottom: 1rem;
-        border-bottom: 3px solid #ff4c4c;
-      }
-      .spectre-post-container .ship-family-tabs button.family-tab {
-        /* This already inherits .styled-button via HTML class */
-        background-color: #1f1f1f;
-        border: 1px solid #4a4a4a;
-        color: #ff8c8c;
-        padding: 0.9rem 1.8rem;
-        margin: 0.5rem;
-        font-size: 1.1rem;
-      }
-      .spectre-post-container .ship-family-tabs button.family-tab:hover {
-        border-color: #ff6a6a;
-        color: #0b0e13;
-        background-color: #ff4c4c;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3);
-      }
-      .spectre-post-container .ship-family-tabs button.family-tab.active-family {
-        background: linear-gradient(to bottom, #ff4c4c, #d13b3b);
-        color: #ffffff;
-        border-color: #c02c2c;
-        box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4),
-          inset 0 1px 3px rgba(0, 0, 0, 0.2);
-        transform: translateY(0px);
-      }
-
-      .ship-family-content-wrapper {
-        display: none;
-        padding-top: 1rem;
-      }
-      .ship-family-content-wrapper.active-family-content {
-        display: block;
-      }
-
-      .spectre-post-container .variant-tabs {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-bottom: 1rem;
-      }
-      .spectre-post-container .variant-tabs button {
-        /* This inherits .styled-button via HTML class */
-        background-color: #1a1a1a;
-        border: 1px solid #444;
-        color: #ffaaaa;
-        padding: 0.7rem 1.4rem;
-        margin: 0.3rem;
-        font-size: 1rem;
-      }
-      .spectre-post-container .variant-tabs button:hover {
-        border-color: #ff4c4c;
-        color: #0b0e13;
-        background-color: #ff6a6a;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(255, 106, 106, 0.25);
-      }
-      .spectre-post-container .variant-tabs button.active {
-        background: linear-gradient(to bottom, #ff6a6a, #ff4c4c);
-        color: #0b0e13;
-        border-color: #ff4c4c;
-        box-shadow: 0 2px 5px rgba(255, 76, 76, 0.3),
-          inset 0 1px 2px rgba(0, 0, 0, 0.1);
-        transform: translateY(0px);
-      }
-
-      .model-control-btn {
-        /* Class for model viewer buttons, inherits .styled-button via HTML class */
-        background-color: #1f1f1f;
-        border: 1px solid #383838;
-        color: #ffaaaa;
-        padding: 0.5rem 1rem;
-        margin: 0.2rem;
-        font-size: 0.85rem;
-        font-weight: normal;
-        letter-spacing: 0.2px;
-      }
-      .model-control-btn:hover {
-        border-color: #ff4c4c;
-        color: #fff;
-        background-color: #2a2a2a;
-        transform: translateY(-1px);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      }
-
-      .spectre-post-container .variant-content {
-        display: none;
-        background-color: rgba(30, 30, 30, 0.6);
-        padding: 1.5rem;
-        border-radius: 5px;
-        margin-top: 1rem;
-        border: 1px solid #333;
-      }
-      .spectre-post-container .variant-content h3 {
-        border-bottom: none !important;
-        margin-top: 0 !important;
-        margin-bottom: 1rem !important;
-        color: #ff4c4c;
-        font-size: 1.6rem;
-      }
-      .spectre-post-container .variant-content h4 {
-        font-size: 1.3rem;
-        color: #ff8c8c;
-        text-transform: uppercase;
-        font-family: "Orbitron", sans-serif;
-        border-bottom: 1px dotted #444;
-        padding-bottom: 0.2rem;
-        margin-top: 1.2rem;
-        margin-bottom: 0.8rem;
-      }
-      .spectre-post-container .variant-content ul {
-        list-style: disc;
-        padding-left: 25px;
-        margin: 1rem 0 0 0;
-      }
-      .spectre-post-container .variant-content li {
-        margin-bottom: 0.7rem;
-        padding-left: 5px;
-      }
-      .spectre-post-container .variant-content.active {
-        display: block;
-      }
-
       .spectre-post-container .section {
-        background-color: rgba(255, 76, 76, 0.03);
+        /* NEW: Make sections slightly transparent to layer with body background */
+        background-color: rgba(255, 76, 76, 0.03); /* Existing color with opacity */
         padding: 2rem;
         border-radius: 8px;
         margin-top: 2.5rem;
@@ -651,7 +390,7 @@
       .spectre-post-container img:hover {
         transform: scale(1.02);
         transition: transform 0.3s ease;
-        box-shadow: 0 0 15px rgba(255, 76, 76, 0.3);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Changed to black for consistency */
       }
       .spectre-post-container a img {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -665,7 +404,8 @@
         gap: 1rem;
         overflow-x: auto;
         padding: 1rem;
-        background-color: rgba(0, 0, 0, 0.3);
+        /* NEW: Use RGBA background for transparency */
+        background-color: rgba(0, 0, 0, 0.3); /* Original color with opacity */
         border-radius: 6px;
         border: 1px solid #2a2a2a;
         justify-content: flex-start;
@@ -689,7 +429,8 @@
         margin-top: 0.5rem;
       }
       .spectre-post-container details {
-        background-color: #1a1a1a;
+        /* NEW: Use RGBA background for transparency */
+        background-color: rgba(26, 26, 26, 0.95); /* Original #1a1a1a with opacity */
         border: 1px solid #333;
         border-radius: 5px;
         padding: 0.8rem 1.2rem;
@@ -741,7 +482,8 @@
         padding: 0.5rem 1.5rem;
         font-style: italic;
         color: #ddd;
-        background-color: rgba(255, 76, 76, 0.02);
+        /* NEW: Removed blue tint from scenario-narrative rgba */
+        background-color: rgba(10, 10, 10, 0.5); /* Changed from rgba(20, 20, 25, 0.5) to remove blue tint and adjust for contrast */
       }
       .spectre-post-container blockquote br {
         display: none;
@@ -773,6 +515,13 @@
     </style>
   </head>
   <body>
+    <div id="top-nav-bar">
+      <a href="https://archkaine.github.io/HFW/">Home</a>
+      <a href="https://archkaine.github.io/HFW/blog">Blog</a>
+      <a href="https://archkaine.github.io/HFW/brian-history">Brian's History</a>
+      <a href="https://archkaine.github.io/HFW/hu-kenshivata">Hu-kenshivata</a>
+      <a href="https://archkaine.github.io/HFW/shadow-fleet">Shadow Fleet</a>
+    </div>
     <div class="spectre-post-container" id="spectre-top">
       <header>
         <h1>HFW Shadow Fleet - Comprehensive Design Document</h1>
