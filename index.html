@@ -20,6 +20,17 @@
       body {
         margin: 0;
         padding: 0;
+        /* NEW: Set a dark background color with subtle texture using gradients */
+        background-color: #0A0A0A; /* A deep, dark base black */
+        background-image: 
+            radial-gradient(at center center, #200000 0%, transparent 70%), /* Subtle red glow from center */
+            repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.01) 0px,
+                rgba(255, 255, 255, 0.01) 2px,
+                transparent 2px,
+                transparent 4px
+            ); /* Fine noise texture */
         /* NEW: Add right margin to accommodate always-visible aside */
         margin-right: 240px;
       }
@@ -1566,7 +1577,7 @@
             its volatile atmospheric conditions and treacherous asteroid fields.
             This natural deterrent provided the perfect cover. The chosen
             location was a newly discovered, fairly small, rogue moon – one
-            unburdened by the gravitational pull of a parent planet . Its
+            unburdened by the gravitational pull of a parent planet – its
             independent trajectory, while offering unparalleled isolation, also
             presented a unique challenge: an unstable orbit that threatened to
             eventually drift into interstellar space. Anvil's engineers
@@ -3757,42 +3768,42 @@
           <h2 class="aside-bio-heading">Dr. Aris D. Thorne: Visionary</h2>
           <div class="aside-bio-content">
             <p>
-              **Dr. Aris David Thorne** (born 2910, Portland, Earth) is
+              Dr. Aris David Thorne (born 2910, Portland, Earth) is
               considered Anvil Aerospace's single most valuable person and
-              asset, recognized as **likely the smartest person alive**—the
+              asset, recognized as likely the smartest person alive—the
               Stephen Hawking or Albert Einstein of his era. His academic path
-              defied convention, earning **sixteen doctorates** across diverse
+              defied convention, earning sixteen doctorates across diverse
               fields from aerospace engineering to cognitive psychology and
-              medicine. He excelled by seeing the **interconnectedness of all
-              knowledge**, a polymathic approach that revolutionized his studies
+              medicine. He excelled by seeing the interconnectedness of all
+              knowledge, a polymathic approach that revolutionized his studies
               at institutions like Terra's University of Rhetor and Archimedes
               Institute.
             </p>
             <p>
-              Thorne's profound understanding of **all forms of technology**
+              Thorne's profound understanding of all forms of technology
               catapulted Anvil's ships to a tier unmatched by any other Human
               manufacturer. His leadership led to the creation of
-              **Hephaestus Forge Works (HFW)**, his equivalent of nuclear
+              Hephaestus Forge Works (HFW), his equivalent of nuclear
               technology development: a secret division dedicated to forging
               paradigm-shifting military solutions.
             </p>
             <p>
-              Despite his monumental intellect, Dr. Thorne is a **humble and
-              dedicated leader, well-loved by his staff**. He insists on **full
-              disclosure** for all HFW personnel, ensuring they have **all the
-              information needed** to assess mission viability. This respect
+              Despite his monumental intellect, Dr. Thorne is a humble and
+              dedicated leader, well-loved by his staff. He insists on full
+              disclosure for all HFW personnel, ensuring they have all the
+              information needed to assess mission viability. This respect
               fosters an unparalleled familial loyalty. His rescue from
               danger, for instance, wasn't a strategic necessity to protect
               classified information, but a visceral "he's family, get him back
               NOW!" imperative from his devoted teams.
             </p>
             <p>
-              His influence extends even to **Aegis Dynamics**. Despite Aegis's
+              His influence extends even to Aegis Dynamics. Despite Aegis's
               checkered history and their usual guardedness, their respect for
               Thorne's unparalleled vision and expertise is immense. Debating
               Thorne is akin to "a three-year-old playing chess against a
-              Grandmaster"; his mind **runs circles around the smartest in the
-              UEE, and potentially even the Xi'an, Tevarin, and Banu**. This
+              Grandmaster"; his mind runs circles around the smartest in the
+              UEE, and potentially even the Xi'an, Tevarin, and Banu. This
               intellectual gravity, paired with his humility, convinced Aegis to
               share their advanced EW and sensor technology, a testament to his
               singular standing.
@@ -3802,281 +3813,416 @@
       </aside>
     </div>
 
-<script>
-  // ────────────────────────────────────────────────────────────────
-  // 1) Make updateAside() global so showFamily/Variant can call it
-  // ────────────────────────────────────────────────────────────────
-  function updateAside() {
-    const aside = document.getElementById("section-aside");
-    if (!aside) return;
-    const list = aside.querySelector("ul");
-    if (!list) return;
+    <script>
+      // Function to switch between SHIP FAMILIES
+      function showFamily(familyIdSuffix, clickedFamilyButton) {
+        const postContainer = document.querySelector(".spectre-post-container");
+        if (!postContainer) return;
 
-    // Arrow icon for each entry
-    const svgIcon =
-      '<svg viewBox="0 0 24 24" width="0.8em" height="0.8em" fill="currentColor" ' +
-      'style="vertical-align:-0.1em;margin-right:0.6em;opacity:0.7;">' +
-      '<path d="M10 17l5-5-5-5v10z"></path></svg>';
+        const familyTabs = postContainer.querySelectorAll(
+          ".ship-family-tabs button.family-tab"
+        );
+        familyTabs.forEach((tab) => tab.classList.remove("active-family"));
 
-    // Grab ALL .section containers (not just <section> tags)
-    const sections = Array.from(document.querySelectorAll(".section"));
-    const scrollY = window.scrollY;
-    const vh = window.innerHeight;
-    const offset = vh * 0.35;
+        if (clickedFamilyButton) {
+          clickedFamilyButton.classList.add("active-family");
+        }
 
-    // Find the active main section based on scroll
-    let activeSection = null;
-    for (let i = sections.length - 1; i >= 0; i--) {
-      const sec = sections[i];
-      const top = sec.getBoundingClientRect().top + window.pageYOffset;
-      if (scrollY >= top - offset) {
-        activeSection = sec;
-        break;
-      }
-    }
-    // If at bottom of page, snap to last
-    if (
-      window.innerHeight + scrollY >= document.body.offsetHeight - 50 &&
-      sections.length
-    ) {
-      activeSection = sections[sections.length - 1];
-    }
-
-    // Clear out old entries
-    list.innerHTML = "";
-
-    if (!activeSection) {
-      // Before first section
-      const li = document.createElement("li");
-      li.style.padding = "0.5rem 1rem";
-      li.style.fontSize = "0.9rem";
-      li.style.color = "#777";
-      li.textContent = "No active section sub-headings.";
-      list.appendChild(li);
-      aside.style.display = "flex";
-      return;
-    }
-
-    // If we're in the Variants section, drill into the active tab's content
-    let source = activeSection;
-    if (activeSection.id === "spectre-variants") {
-      const fam = activeSection.querySelector(
-        ".ship-family-content-wrapper.active-family-content"
-      );
-      if (fam) {
-        const varc = fam.querySelector(".variant-content.active");
-        source = varc || fam;
-      }
-    }
-
-    // Gather all <h3> & <h4> under that source
-    const headings = Array.from(source.querySelectorAll("h3, h4"));
-    if (!headings.length) {
-      const li = document.createElement("li");
-      li.style.padding = "0.5rem 1rem";
-      li.style.fontSize = "0.9rem";
-      li.style.color = "#777";
-      li.textContent = "No sub-sections.";
-      list.appendChild(li);
-      aside.style.display = "flex";
-      return;
-    }
-
-    // Build list items
-    let highlighted = false;
-    headings.forEach((h) => {
-      // Ensure each heading has an ID
-      if (!h.id) {
-        h.id =
-          activeSection.id +
-          "-" +
-          h.tagName.toLowerCase() +
-          "-" +
-          h.textContent
-            .trim()
-            .toLowerCase()
-            .replace(/\s+/g, "-")
-            .replace(/[^\w-]+/g, "");
-      }
-      const a = document.createElement("a");
-      a.href = `#${h.id}`;
-      a.innerHTML = svgIcon + h.textContent.trim();
-
-      // indent <h4>
-      if (h.tagName.toLowerCase() === "h4") {
-        a.style.paddingLeft = "1.5rem";
-      }
-
-      // highlight based on its position in viewport
-      const rect = h.getBoundingClientRect();
-      if (rect.top >= 0 && rect.top < offset && !highlighted) {
-        a.classList.add("active");
-        highlighted = true;
-      }
-
-      // smooth scroll + immediate highlight on click
-      a.addEventListener("click", (e) => {
-        e.preventDefault();
-        window.scrollTo({
-          top: document.getElementById(h.id).offsetTop - vh * 0.1,
-          behavior: "smooth",
+        const familyWrappers = postContainer.querySelectorAll(
+          ".ship-family-content-wrapper"
+        );
+        familyWrappers.forEach((wrapper) => {
+          wrapper.style.display = "none";
+          wrapper.classList.remove("active-family-content");
         });
-        list.querySelectorAll("a").forEach((n) => n.classList.remove("active"));
-        a.classList.add("active");
-        setTimeout(updateAside, 0);
+
+        const activeFamilyWrapper = postContainer.querySelector(
+          `#content-family-${familyIdSuffix}`
+        );
+        if (activeFamilyWrapper) {
+          activeFamilyWrapper.style.display = "block";
+          activeFamilyWrapper.classList.add("active-family-content");
+
+          const firstVariantButton =
+            activeFamilyWrapper.querySelector(".variant-tabs button");
+          if (firstVariantButton) {
+            const variantButtonsInFamily = activeFamilyWrapper.querySelectorAll(
+              ".variant-tabs button"
+            );
+            let alreadyActive = false;
+            variantButtonsInFamily.forEach((btn) => {
+              if (btn.classList.contains("active")) alreadyActive = true;
+            });
+
+            if (!alreadyActive || !firstVariantButton.classList.contains("active")) {
+              variantButtonsInFamily.forEach((btn) =>
+                btn.classList.remove("active")
+              );
+              firstVariantButton.classList.add("active");
+
+              const firstVariantContentIdMatch =
+                firstVariantButton.getAttribute("onclick").match(/'([^']+)'/);
+              if (firstVariantContentIdMatch && firstVariantContentIdMatch[1]) {
+                const firstVariantContentId = firstVariantContentIdMatch[1];
+                const variantContentsInFamily =
+                  activeFamilyWrapper.querySelectorAll(".variant-content");
+                variantContentsInFamily.forEach((content) =>
+                  content.classList.remove("active")
+                );
+                const firstVariantContent =
+                  document.getElementById(firstVariantContentId);
+                if (firstVariantContent) {
+                  firstVariantContent.classList.add("active");
+                }
+              }
+            } else {
+              const activeVariantContentIdMatch =
+                firstVariantButton.getAttribute("onclick").match(/'([^']+)'/);
+              if (activeVariantContentIdMatch && activeVariantContentIdMatch[1]) {
+                const activeVariantContentId = activeVariantContentIdMatch[1];
+                const activeVariantContent =
+                  document.getElementById(activeVariantContentId);
+                if (activeVariantContent) {
+                  const allVariantContentsInFamily =
+                    activeFamilyWrapper.querySelectorAll(".variant-content");
+                  allVariantContentsInFamily.forEach((content) => {
+                    if (content.id !== activeVariantContentId)
+                      content.classList.remove("active");
+                  });
+                  activeVariantContent.classList.add("active");
+                }
+              }
+            }
+          } else {
+            const soloContent =
+              activeFamilyWrapper.querySelector(".variant-content");
+            if (soloContent) {
+              const allContentsInWrapper =
+                activeFamilyWrapper.querySelectorAll(".variant-content");
+              allContentsInWrapper.forEach((content) =>
+                content.classList.remove("active")
+              );
+              soloContent.classList.add("active");
+            }
+          }
+        }
+        // NEW: Call updateAside() to refresh the right sidebar after tab content changes
+        setTimeout(updateAside, 50); // Small delay to allow content to render
+      }
+
+      function showVariantContent(variantContentId, clickedVariantButton, familyIdSuffix) {
+        const postContainer = document.querySelector(".spectre-post-container");
+        if (!postContainer) return;
+
+        const activeFamilyWrapper = postContainer.querySelector(
+          `#content-family-${familyIdSuffix}.active-family-content`
+        );
+        if (!activeFamilyWrapper) {
+          return;
+        }
+
+        const variantButtonsInFamily = activeFamilyWrapper.querySelectorAll(
+          ".variant-tabs button"
+        );
+        variantButtonsInFamily.forEach((btn) => btn.classList.remove("active"));
+
+        if (clickedVariantButton) {
+          clickedVariantButton.classList.add("active");
+        }
+
+        const variantContentsInFamily =
+          activeFamilyWrapper.querySelectorAll(".variant-content");
+        variantContentsInFamily.forEach((content) =>
+          content.classList.remove("active")
+        );
+
+        const activeVariantContent = document.getElementById(variantContentId);
+        if (activeVariantContent) {
+          activeVariantContent.classList.add("active");
+        }
+        // NEW: Call updateAside() to refresh the right sidebar after variant content changes
+        setTimeout(updateAside, 50); // Small delay to allow content to render
+      }
+
+      const viewer = document.querySelector("#spectreViewer");
+      const modelMap = {
+        shadow: "https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb",
+        revenant: "https://ArchKaine.github.io/ship-models/Spectre_Revenant.glb",
+        eidolon_shadow: "https://ArchKaine.github.io/ship-models/Eidolon Shadow.glb",
+      };
+      let initialOrbit;
+
+      if (viewer) {
+        viewer.addEventListener("load", () => {
+          if (viewer.cameraTarget && viewer.cameraOrbit) {
+            initialOrbit = viewer.cameraOrbit.toString();
+          } else {
+            initialOrbit = viewer.getAttribute("camera-orbit") || "0deg 75deg 7m";
+          }
+        });
+      }
+
+      function switchModel(modelKey) {
+        if (!viewer || !modelMap[modelKey]) {
+          console.warn("Model or viewer not found for key:", modelKey);
+          return;
+        }
+        viewer.setAttribute("src", modelMap[modelKey]);
+
+        let altText = `Anvil ${modelKey
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, (l) => l.toUpperCase())}`;
+        viewer.setAttribute("alt", altText);
+        viewer.autoRotate = false;
+
+        const defaultOrbits = {
+          shadow: "0deg 75deg 7m",
+          revenant: "0deg 75deg 10m",
+          eidolon_shadow: "0deg 75deg 5m",
+        };
+        const newOrbit = defaultOrbits[modelKey] || initialOrbit || "0deg 75deg 7m";
+        viewer.setAttribute("camera-orbit", newOrbit);
+        if (!initialOrbit && modelKey === Object.keys(modelMap)[0])
+          initialOrbit = newOrbit;
+        viewer.jumpCameraToGoal();
+      }
+
+      function setView(orbit) {
+        if (!viewer) return;
+        viewer.setAttribute("camera-orbit", orbit);
+        viewer.jumpCameraToGoal();
+        viewer.autoRotate = false;
+      }
+
+      function recenter() {
+        if (!viewer || !initialOrbit) return;
+        viewer.setAttribute("camera-orbit", initialOrbit);
+        viewer.jumpCameraToGoal();
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const firstFamilyButton = document.querySelector(
+          ".ship-family-tabs button.family-tab"
+        );
+        if (firstFamilyButton) {
+          const firstFamilyIdSuffixMatch =
+            firstFamilyButton.getAttribute("onclick").match(/'([^']*)'/);
+          if (firstFamilyIdSuffixMatch && firstFamilyIdSuffixMatch[1]) {
+            const firstFamilyIdSuffix = firstFamilyIdSuffixMatch[1];
+            showFamily(firstFamilyIdSuffix, firstFamilyButton);
+          }
+        }
+
+        function handleSpectreNavScroll() {
+          const postContainer = document.querySelector(".spectre-post-container");
+          if (!postContainer) return;
+          const navLinks = postContainer.querySelectorAll('nav a[href^="#"]');
+          const sections = [];
+          navLinks.forEach((link) => {
+            const href = link.getAttribute("href");
+            if (href && href.startsWith("#") && href.length > 1 && href !== "#spectre-top") {
+              const sectionId = href.substring(1);
+              try {
+                const section = postContainer.querySelector(`#${CSS.escape(sectionId)}`);
+                if (section) sections.push(section);
+              } catch (e) {
+                console.warn("Invalid selector for nav scroll:", `#${sectionId}`, e);
+              }
+            }
+          });
+          if (sections.length === 0) return;
+
+          let currentSectionId = "";
+          const scrollPosition = window.scrollY;
+          const offset = window.innerHeight * 0.4; // Offset for highlighting
+
+          for (let i = sections.length - 1; i >= 0; i--) {
+            const section = sections[i];
+            const sectionRect = section.getBoundingClientRect();
+            const sectionTop = sectionRect.top + window.pageYOffset;
+            if (scrollPosition >= sectionTop - offset) {
+              currentSectionId = section.id;
+              break; // Found the active section, break loop
+            }
+          }
+
+          // Handle being at the very bottom of the page
+          if (
+            window.innerHeight + scrollPosition >= document.body.offsetHeight - 50
+          ) {
+            const lastSection = sections[sections.length - 1];
+            if (lastSection) currentSectionId = lastSection.id;
+          }
+
+          navLinks.forEach((link) => {
+            link.classList.remove("nav-active");
+            if (currentSectionId && link.getAttribute("href") === `#${currentSectionId}`) {
+              link.classList.add("nav-active");
+            }
+          });
+        }
+        window.addEventListener("scroll", handleSpectreNavScroll);
+
+        (function () {
+          const aside = document.getElementById("section-aside");
+          if (!aside) return;
+          const list = aside.querySelector("ul");
+          if (!list) return;
+          const svgIcon =
+            '<svg viewBox="0 0 24 24" width="0.8em" height="0.8em" fill="currentColor" style="vertical-align: -0.1em; margin-right: 0.6em; opacity: 0.7;"><path d="M10 17l5-5-5-5v10z"></path></svg>';
+
+          function updateAside() {
+            const sections = Array.from(document.querySelectorAll("section.section"));
+            const scrollY = window.scrollY;
+            const viewportHeight = window.innerHeight;
+            const offset = viewportHeight * 0.35; // Detection offset for active section
+
+            let activeMainSection = null;
+
+            // Determine the currently active main section (h2 level) based on scroll position
+            for (let i = sections.length - 1; i >= 0; i--) {
+              const section = sections[i];
+              const sectionRect = section.getBoundingClientRect();
+              const sectionTop = sectionRect.top + window.pageYOffset;
+
+              if (scrollY >= sectionTop - offset) {
+                activeMainSection = section;
+                break;
+              }
+            }
+
+            // Handle being at the very bottom of the page
+            if (
+              window.innerHeight + scrollY >= document.body.offsetHeight - 50 &&
+              sections.length > 0
+            ) {
+              activeMainSection = sections[sections.length - 1];
+            }
+
+            list.innerHTML = ""; // Clear existing list items
+
+            if (!activeMainSection) {
+              // If no main section is active (e.g., at very top of page before first section)
+              const noSubsections = document.createElement("li");
+              noSubsections.style.padding = "0.5rem 1rem";
+              noSubsections.style.fontSize = "0.9rem";
+              noSubsections.style.color = "#777";
+              noSubsections.textContent = "No active section sub-headings.";
+              list.appendChild(noSubsections);
+              aside.style.display = "flex"; // Ensure aside is displayed
+              return;
+            }
+
+            let relevantHeadings = [];
+            let contentSourceElement = activeMainSection; // Default source for headings
+
+            // Check if the activeMainSection is the "HFW Ship Variants" section, which contains dynamic family tabs
+            if (activeMainSection.id === 'spectre-variants') {
+                const activeFamilyWrapper = activeMainSection.querySelector('.ship-family-content-wrapper.active-family-content');
+                if (activeFamilyWrapper) {
+                    const activeVariantContent = activeFamilyWrapper.querySelector('.variant-content.active');
+                    if (activeVariantContent) {
+                        contentSourceElement = activeVariantContent; // Headings come from the active variant content
+                    } else {
+                        // Fallback: If no specific variant is active but a family wrapper is shown, use its general content
+                        contentSourceElement = activeFamilyWrapper;
+                    }
+                }
+            }
+            // Add similar 'else if' blocks here for any other main sections that contain dynamic tabbed content
+            // For example, if you add another section like <section id="new-fleet-designs"> with tabs:
+            // else if (activeMainSection.id === 'new-fleet-designs') { /* ... similar logic to spectre-variants ... */ }
+
+
+            relevantHeadings = Array.from(contentSourceElement.querySelectorAll('h3, h4'));
+
+
+            if (!relevantHeadings.length) {
+                const noSubsections = document.createElement("li");
+                noSubsections.style.padding = "0.5rem 1rem";
+                noSubsections.style.fontSize = "0.9rem";
+                noSubsections.style.color = "#777";
+                noSubsections.textContent = "No sub-sections";
+                list.appendChild(noSubsections);
+                aside.style.display = "flex";
+                return;
+            }
+
+            let currentHeadingActivelyHighlighted = false;
+
+            relevantHeadings.forEach((heading) => {
+              let headingId = heading.id;
+              if (!headingId) {
+                // Generate a unique ID if it doesn't exist, using activeMainSection ID and tag name for uniqueness
+                headingId = activeMainSection.id + "-" + heading.tagName.toLowerCase() + "-" + heading.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "");
+                heading.id = headingId;
+              }
+              const a = document.createElement("a");
+              a.href = `#${headingId}`;
+              const linkTextNode = heading.cloneNode(true);
+              const backToTopSpan = linkTextNode.querySelector(".back-to-top");
+              if (backToTopSpan) backToTopSpan.remove();
+
+              // Indent h4s to show hierarchy
+              if (heading.tagName.toLowerCase() === 'h4') {
+                  a.style.paddingLeft = '1.5rem';
+              }
+
+              a.innerHTML = svgIcon + linkTextNode.textContent.trim();
+
+              const headingRect = heading.getBoundingClientRect();
+              // Highlight based on current scroll position
+              if (headingRect.top >= 0 && headingRect.top < offset && !currentHeadingActivelyHighlighted) {
+                a.classList.add("active");
+                currentHeadingActivelyHighlighted = true;
+              }
+
+              a.addEventListener("click", (e) => {
+                e.preventDefault(); // Prevent default hash jump
+                const targetElement = document.getElementById(headingId);
+                if (targetElement) {
+                  window.scrollTo({
+                    top: targetElement.offsetTop - (window.innerHeight * 0.1), // Scroll slightly above for better context
+                    behavior: "smooth",
+                  });
+                }
+
+                // Immediately update active class on click for responsiveness
+                list.querySelectorAll("a").forEach((n) =>
+                  n.classList.remove("active")
+                );
+                a.classList.add("active");
+                // IMPORTANT: Re-evaluate aside content after a click, in case it changes visible sub-sections
+                setTimeout(updateAside, 0);
+              });
+              const li = document.createElement("li");
+              li.appendChild(a);
+              list.appendChild(li);
+            });
+
+            // If no heading was highlighted by scroll, try to highlight based on URL hash
+            if (!currentHeadingActivelyHighlighted && window.location.hash) {
+              const activeLinkByHash = list.querySelector(
+                `a[href="${window.location.hash}"]`
+              );
+              if (activeLinkByHash) {
+                list.querySelectorAll("a").forEach((n) =>
+                  n.classList.remove("active")
+                );
+                activeLinkByHash.classList.add("active");
+              }
+            }
+            aside.style.display = "flex"; // Ensure aside is displayed
+          }
+          window.addEventListener("scroll", updateAside);
+          window.addEventListener("hashchange", updateAside);
+          window.addEventListener("resize", updateAside); // Update on resize too
+          setTimeout(() => {
+            updateAside();
+            handleSpectreNavScroll(); // Also ensure left nav highlighting is updated on load
+          }, 250);
+        })();
       });
-
-      const li = document.createElement("li");
-      li.appendChild(a);
-      list.appendChild(li);
-    });
-
-    // If nothing was auto-highlighted, try to respect the URL hash
-    if (!highlighted && window.location.hash) {
-      const activeByHash = list.querySelector(`a[href="${window.location.hash}"]`);
-      if (activeByHash) {
-        list.querySelectorAll("a").forEach((n) => n.classList.remove("active"));
-        activeByHash.classList.add("active");
-      }
-    }
-
-    aside.style.display = "flex";
-  }
-  // Expose it
-  window.updateAside = updateAside;
-
-
-  // ────────────────────────────────────────────────────────────────
-  // 2) Left-nav section highlighter (unchanged)
-  // ────────────────────────────────────────────────────────────────
-  function handleSpectreNavScroll() {
-    const navLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
-    const sections = [];
-    navLinks.forEach((link) => {
-      const sec = document.querySelector(link.getAttribute("href"));
-      if (sec) sections.push(sec);
-    });
-    const scrollY = window.scrollY;
-    const offset = window.innerHeight * 0.4;
-    let current = "";
-    for (let i = sections.length - 1; i >= 0; i--) {
-      const top = sections[i].getBoundingClientRect().top + window.pageYOffset;
-      if (scrollY >= top - offset) {
-        current = sections[i].id;
-        break;
-      }
-    }
-    if (window.innerHeight + scrollY >= document.body.offsetHeight - 50 && sections.length) {
-      current = sections[sections.length - 1].id;
-    }
-    navLinks.forEach((link) => {
-      link.classList.toggle("nav-active", link.getAttribute("href") === `#${current}`);
-    });
-  }
-
-
-  // ────────────────────────────────────────────────────────────────
-  // 3) Tab-switchers (just added updateAside calls)
-  // ────────────────────────────────────────────────────────────────
-  function showFamily(familyIdSuffix, clickedFamilyButton) {
-    const pc = document.querySelector(".spectre-post-container");
-    if (!pc) return;
-    pc.querySelectorAll(".ship-family-tabs button.family-tab").forEach((t) =>
-      t.classList.remove("active-family")
-    );
-    clickedFamilyButton?.classList.add("active-family");
-
-    pc.querySelectorAll(".ship-family-content-wrapper").forEach((w) => {
-      w.style.display = "none";
-      w.classList.remove("active-family-content");
-    });
-    const activeWrapper = pc.querySelector(`#content-family-${familyIdSuffix}`);
-    if (activeWrapper) {
-      activeWrapper.style.display = "block";
-      activeWrapper.classList.add("active-family-content");
-      // ensure the first variant is “active”
-      const btns = activeWrapper.querySelectorAll(".variant-tabs button");
-      btns.forEach((b) => b.classList.remove("active"));
-      if (btns[0]) btns[0].classList.add("active");
-      btns[0]?.click(); // this will showVariantContent & queue updateAside
-    }
-
-    setTimeout(updateAside, 50);
-  }
-
-  function showVariantContent(variantContentId, clickedVariantButton, familyIdSuffix) {
-    const fam = document.querySelector(
-      `.ship-family-content-wrapper#content-family-${familyIdSuffix}.active-family-content`
-    );
-    if (!fam) return;
-    fam.querySelectorAll(".variant-tabs button").forEach((b) =>
-      b.classList.remove("active")
-    );
-    clickedVariantButton?.classList.add("active");
-    fam.querySelectorAll(".variant-content").forEach((c) =>
-      c.classList.remove("active")
-    );
-    document.getElementById(variantContentId)?.classList.add("active");
-    setTimeout(updateAside, 50);
-  }
-
-
-  // ────────────────────────────────────────────────────────────────
-  // 4) Model-viewer helpers (unchanged)
-  // ────────────────────────────────────────────────────────────────
-  const viewer = document.querySelector("#spectreViewer");
-  const modelMap = {
-    shadow: "https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb",
-    revenant: "https://ArchKaine.github.io/ship-models/Spectre_Revenant.glb",
-    eidolon_shadow: "https://ArchKaine.github.io/ship-models/Eidolon Shadow.glb",
-  };
-  let initialOrbit;
-  if (viewer) {
-    viewer.addEventListener("load", () => {
-      initialOrbit = viewer.getAttribute("camera-orbit") || "0deg 75deg 7m";
-    });
-  }
-  function switchModel(key) {
-    if (!viewer || !modelMap[key]) return;
-    viewer.src = modelMap[key];
-    viewer.alt = "Anvil " + key.replace(/_/g, " ");
-    const orbits = { shadow: "0deg 75deg 7m", revenant: "0deg 75deg 10m", eidolon_shadow: "0deg 75deg 5m" };
-    viewer.setAttribute("camera-orbit", orbits[key] || initialOrbit);
-    viewer.jumpCameraToGoal();
-  }
-  function setView(orbit) {
-    viewer?.setAttribute("camera-orbit", orbit);
-    viewer?.jumpCameraToGoal();
-  }
-  function recenter() {
-    viewer?.setAttribute("camera-orbit", initialOrbit);
-    viewer?.jumpCameraToGoal();
-  }
-
-
-  // ────────────────────────────────────────────────────────────────
-  // 5) Wire up on DOMContentLoaded
-  // ────────────────────────────────────────────────────────────────
-  document.addEventListener("DOMContentLoaded", () => {
-    // Left nav highlight
-    window.addEventListener("scroll", handleSpectreNavScroll);
-
-    // Aside highlight & menu on scroll / hashchange / resize
-    window.addEventListener("scroll", updateAside);
-    window.addEventListener("hashchange", updateAside);
-    window.addEventListener("resize", updateAside);
-
-    // Kick off for the very first family tab
-    const firstFamily = document.querySelector(".ship-family-tabs button.family-tab");
-    if (firstFamily) firstFamily.click();
-
-    // Initial run after everything's loaded
-    setTimeout(() => {
-      updateAside();
-      handleSpectreNavScroll();
-    }, 250);
-  });
-</script>
-
+    </script>
   </body>
 </html>
