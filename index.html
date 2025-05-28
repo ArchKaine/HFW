@@ -15,8 +15,30 @@
       }
       html {
         scroll-behavior: smooth;
+        /* NEW: Make HTML and BODY fill the viewport for consistent background */
+        height: 100%;
+        width: 100%;
+        /* NEW: Apply a deep black background with subtle red glows and noise texture */
+        background-color: #000000; /* Absolute black base */
+        background-image:
+            radial-gradient(at top left, rgba(255, 0, 0, 0.1) 0%, transparent 50%), /* Subtle red from top-left */
+            radial-gradient(at bottom right, rgba(150, 0, 0, 0.08) 0%, transparent 50%), /* Another red from bottom-right */
+            repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.01) 0px,
+                rgba(255, 255, 255, 0.01) 2px,
+                transparent 2px,
+                transparent 4px
+            ), /* Fine noise texture */
+            repeating-linear-gradient(
+                -45deg,
+                rgba(255, 255, 255, 0.01) 0px,
+                rgba(255, 255, 255, 0.01) 2px,
+                transparent 2px,
+                transparent 4px
+            ); /* Another noise layer for complexity */
+        background-attachment: fixed; /* Ensures background stays in place on scroll */
       }
-
       body {
         margin: 0;
         padding: 0;
