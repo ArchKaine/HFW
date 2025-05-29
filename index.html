@@ -46,7 +46,16 @@ html, body {
 /* Grid area assignments */
 .spectre-post-container > header { grid-area: header; }
 .spectre-post-container > nav { grid-area: nav; }
-.spectre-post-container > .container { grid-area: content; }
+/* Main content area scrolling */
+.spectre-post-container > .container {
+  grid-area: content;
+  overflow-y: auto;
+  min-height: 0;    /* Allows vertical shrinking for scrolling */
+  min-width: 0;     /* ADDED: Allows the 1fr column to shrink below its content's default min-width */
+  padding: 0 2rem;  /* Your existing padding */
+  box-sizing: border-box;
+  background-color: #0b0e13;
+}
 .spectre-post-container > .spectre-post-aside { grid-area: aside; }
 
 /* Sticky sidebars: nav and aside */
