@@ -1,0 +1,274 @@
+/* --- Base Styles (Mobile First) --- */
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  /* Make HTML and BODY fill the viewport for consistent background */
+  height: 100%;
+  width: 100%;
+  /* NEW: Apply a deep black background with subtle red glows and noise texture */
+  background-color: #000000; /* Absolute black base */
+  background-image:
+      radial-gradient(at top left, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+      radial-gradient(at bottom right, rgba(150, 0, 0, 0.08) 0%, transparent 50%),
+      repeating-linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.01) 0px,
+          rgba(255, 255, 255, 0.01) 2px,
+          transparent 2px,
+          transparent 4px
+      ),
+      repeating-linear-gradient(
+          -45deg,
+          rgba(255, 255, 255, 0.01) 0px,
+          rgba(255, 255, 255, 0.01) 2px,
+          transparent 2px,
+          transparent 4px
+      );
+  background-attachment: fixed;
+}
+
+/* ─── Global Top Menu ─────────────────────────────────────────────────── */
+#global-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #111;
+  border-bottom: 2px solid #ff4c4c;
+  z-index: 1002;
+}
+#global-nav ul {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+#global-nav a {
+  color: #ffaaaa;
+  font-family: "Orbitron", sans-serif;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+#global-nav a:hover,
+#global-nav a.active {
+  background-color: #ff4c4c;
+  color: #fff;
+}
+
+/* push the page content down so it sits below the fixed nav */
+body {
+  margin-top: 3rem;
+  margin: 0;
+  padding: 0;
+  /* NEW: Add right margin to accommodate always-visible aside */
+  margin-right: 240px;
+}
+
+/* --- Content Container --- */
+.spectre-post-container {
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+  background-color: #0b0e13;
+  color: #f0f0f0;
+  padding: 1.5rem;
+  font-size: 18px;
+  line-height: 1.6;
+  margin-left: 0;
+  margin-right: 240px;
+  transition: margin-left 0.3s ease, margin-right 0.3s ease;
+}
+.spectre-post-container header {
+  background-color: #1a1a1a;
+  padding: 1rem 2rem;
+  text-align: center;
+  border-bottom: 1px solid #2a2a2a;
+}
+.spectre-post-container header h1 {
+  color: #ff4c4c;
+  font-family: "Orbitron", sans-serif;
+  margin: 0;
+  font-size: 2.5rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* --- Main Navigation (Sidebar on Desktop) Styles --- */
+.spectre-post-container nav {
+  position: static;
+  width: auto;
+  height: auto;
+  transform: none;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #111;
+  border-bottom: 2px solid #ff4c4c;
+  padding: 0.5rem 0;
+}
+.spectre-post-container nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  color: #ffaaaa;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 1rem;
+  font-family: "Orbitron", sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    transform 0.2s ease-out, box-shadow 0.2s ease-out,
+    font-weight 0.2s ease;
+  border: 1px solid transparent;
+  font-weight: normal;
+}
+.spectre-post-container nav a svg {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+.spectre-post-container nav a:hover {
+  background-color: #ff4c4c;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border-color: #ff4c4c;
+}
+.spectre-post-container nav a.nav-active {
+  background-color: #3a3a3a;
+  color: #ffffff;
+  font-weight: bold;
+  box-shadow: inset 2px 0 4px rgba(0, 0, 0, 0.4);
+}
+.spectre-post-container nav a.nav-active:hover {
+  background-color: #444;
+}
+
+/* --- Right-hand “On This Section” Aside --- */
+.spectre-post-aside {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 240px;
+  overflow-y: auto;
+  background: #111;
+  border-left: 2px solid #ff4c4c;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.4);
+}
+.aside-top-logo {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #333;
+}
+.aside-top-logo img {
+  max-width: 180px;
+  max-height: 100px;
+}
+.spectre-post-aside h2 {
+  font-size: 1.1rem;
+  color: #ff4c4c;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 1rem 1rem 0.5rem;
+  border-bottom: 1px solid #333;
+}
+.spectre-post-aside ul {
+  list-style: none;
+  padding: 0.5rem 1rem 1rem;
+  margin: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+.spectre-post-aside a {
+  color: #ffaaaa;
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s, color 0.3s, border-left-color 0.3s;
+  border-left: 3px solid transparent;
+}
+.spectre-post-aside a:hover {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+.spectre-post-aside a.active {
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+  border-left-color: #ff4c4c;
+}
+
+/* Bio section */
+.aside-bio-section {
+  padding: 1rem;
+  border-top: 1px solid #333;
+  margin-top: 1rem;
+  background-color: rgba(255, 76, 76, 0.05);
+  border-radius: 0 0 5px 5px;
+}
+.aside-bio-heading {
+  font-size: 1rem;
+  color: #ff8c8c;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px dashed #444;
+  font-family: "Orbitron", sans-serif;
+}
+.aside-bio-content {
+  max-height: 30vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: #ff4c4c #111;
+}
+.aside-bio-content::-webkit-scrollbar {
+  width: 6px;
+}
+.aside-bio-content::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+.aside-bio-content::-webkit-scrollbar-thumb {
+  background-color: #ff4c4c;
+  border-radius: 3px;
+  border: 1px solid #0b0e13;
+}
+
+/* Responsive tweaks */
+@media (min-width: 992px) {
+  .spectre-post-container nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    background: #111;
+    border-right: 2px solid #ff4c4c;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
+    padding: 1.5rem 0;
+    overflow-y: auto;
+  }
+  .spectre-post-container nav a {
+    width: 100%;
+    padding: 0.8rem 1.5rem;
+    border: none;
+  }
+  .spectre-post-container {
+    margin-left: 320px;
+    margin-right: 240px;
+    padding: 1.5rem 2rem;
+  }
+}
