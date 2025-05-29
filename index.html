@@ -16,13 +16,13 @@
 /* --- Base Styles & Full Viewport Setup --- */
 html, body {
   height: 100%;
-  width: 100%; /* Allows body to determine if scrollbar is needed based on its content */
+  width: 100%; 
   margin: 0;
   padding: 0;
-  overflow-y: hidden; /* Main page vertical scroll is prevented; columns handle their own */
-  overflow-x: auto;   /* Allow horizontal scroll if site (1920px) is wider than viewport */
+  overflow-y: hidden; 
+  overflow-x: auto;   
   font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
-  background-color: #07090D; /* Background for viewport "gutters" if site is centered & viewport > 1920px */
+  background-color: #07090D; 
   color: #f0f0f0;
   box-sizing: border-box;
 }
@@ -37,21 +37,21 @@ html, body {
     "header header header"
     "nav    content aside";
   grid-template-rows: auto 1fr;
-  grid-template-columns: 320px 1280px 320px; /* Fixed widths for all columns */
-  gap: 0; /* No space between columns; use padding inside columns for spacing */
-  height: 100vh; /* Container itself is full viewport height */
+  grid-template-columns: 320px 1280px 320px; 
+  gap: 0; 
+  height: 100vh; 
   
-  width: 1920px; /* Total fixed width of the site */
-  margin: 0 auto;    /* Centers the 1920px container if viewport is wider */
+  width: 1920px; 
+  margin: 0 auto;    
   
-  overflow: hidden; /* Ensures internal column scrolling, clips if something tries to break out */
+  overflow: hidden; 
   font-size: 18px; 
   line-height: 1.6; 
-  background-color: #0b0e13; /* Main background for the actual site area */
+  background-color: #0b0e13; 
 }
 
 /* Grid area assignments */
-.spectre-post-container > header { grid-area: header; background-color: #1a1a1a; }
+.spectre-post-container > header { grid-area: header; background-color: #1a1a1a; padding: 1rem 2rem; text-align: center; border-bottom: 1px solid #2a2a2a;}
 .spectre-post-container > nav { grid-area: nav; }
 .spectre-post-container > .container { grid-area: content; }
 .spectre-post-container > .spectre-post-aside { grid-area: aside; }
@@ -65,23 +65,19 @@ html, body {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 }
 
-/* Sticky sidebars: nav and aside */
+/* Sticky sidebars: nav and aside - Full Height Appearance */
 .spectre-post-container > nav,
 .spectre-post-container > .spectre-post-aside {
   position: sticky;
   top: 0;
-  align-self: start;
-  max-height: 100%; /* Max height is 100% of the grid row's calculated height */
+  align-self: stretch; /* Makes the grid item fill the row's height */
+  height: 100%;     /* Ensures they take the full height of the 1fr grid row */
   background-color: #111;
 }
-.spectre-post-container > nav {
-    /* border-bottom: 2px solid #ff4c4c; /* From original mobile nav, remove if not needed for desktop */
-    /* Desktop border-right will be handled by media query */
-}
+/* Sidebar borders (desktop focused) */
 .spectre-post-container > .spectre-post-aside {
-    border-left: 2px solid #ff4c4c; /* Original aside border */
+    border-left: 2px solid #ff4c4c;
 }
-
 
 /* Inner scroll wrappers for nav and aside */
 .nav-scroll-wrapper,
@@ -138,9 +134,9 @@ html, body {
 
 /* Main content area */
 .spectre-post-container > .container {
-  overflow-y: auto; /* Vertical scroll for content */
-  overflow-x: auto; /* Allow horizontal scroll within this fixed-width (1280px) column if content demands */
-  min-height: 0;    /* Allows shrinking for flex/grid */
+  overflow-y: auto; 
+  overflow-x: auto; /* Allow horizontal scroll if content within 1280px is wider */
+  min-height: 0;    
   padding: 1.5rem 2rem; 
   box-sizing: border-box;
 }
@@ -148,7 +144,7 @@ html, body {
    margin-top: 0; 
 }
 
-/* --- Content Responsiveness & Overflow Management (Toned Down) --- */
+/* --- Content Responsiveness & Overflow Management --- */
 .spectre-post-container > .container img {
   max-width: 100%; 
   height: auto;   
@@ -156,8 +152,8 @@ html, body {
 }
 .spectre-post-container > .container table,
 .spectre-post-container > .container pre {
-    max-width: 100%; /* Allow them to be as wide as the 1280px column */
-    overflow-x: auto; /* Add scrollbars if their content is wider than 100% of 1280px */
+    max-width: 100%; /* They will be max 100% of the 1280px column */
+    overflow-x: auto; /* If their content is wider than that, they get a scrollbar */
     word-wrap: break-word; 
 }
 .spectre-post-container > .container .section p,
@@ -165,18 +161,19 @@ html, body {
 .spectre-post-container > .container .section div:not(.gallery):not(.gallery-item):not([class*='tabs']):not([class*='content-wrapper']),
 .spectre-post-container > .container .section td,
 .spectre-post-container > .container .section th {
-    word-wrap: break-word; /* General good practice for text wrapping */
+    word-wrap: break-word; 
 }
 /* --- END Content Responsiveness & Overflow Management --- */
 
 /* General Content Styles (Headings, Paragraphs, etc.) */
-/* ... (Keep all general content styles from the previous full CSS block, ensuring they are scoped with .spectre-post-container .container if they apply to the main content area) ... */
 .spectre-post-container .container h2 { font-size: 1.8rem; color: #ff4c4c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px solid #444; padding-bottom: 0.5rem; margin-top: 2rem; margin-bottom: 1.5rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); }
 .spectre-post-container .container h3 { font-size: 1.4rem; color: #ff8c8c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px solid #333; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 1rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); }
 .spectre-post-container .container h4 { font-size: 1.2rem; color: #ffaaaa; font-family: "Orbitron", sans-serif; margin-top: 1.2rem; margin-bottom: 0.8rem; }
 .spectre-post-container .container .section > h2:first-child,
 .spectre-post-container .container .section > h3:first-child { margin-top: 0; }
 .spectre-post-container .container p { margin-bottom: 1.2rem; }
+/* ... (rest of your general content styles: scenario-narrative, back-to-top, styled-button, tabs, model-viewer, variants, section, table, gallery, caption, details, blockquote etc. should follow here, ensure selectors are scoped with .spectre-post-container .container if they apply to main content area) ... */
+/* Ensure all original content styles are included below, similar to the previous full merge */
 .spectre-post-container .container .scenario-narrative { background-color: rgba(20, 20, 25, 0.5); padding: 1.5rem; border-left: 3px solid #ff4c4c; margin-bottom: 1.5rem; border-radius: 0 5px 5px 0; }
 .spectre-post-container .container .scenario-narrative p { margin-bottom: 0.8rem; text-indent: 1.5em; }
 .spectre-post-container .container .scenario-narrative p:first-of-type { text-indent: 0; }
@@ -211,7 +208,7 @@ html, body {
 .spectre-post-container .container th { background-color: #1f1f1f; color: #ffaaaa; font-family: "Orbitron", sans-serif; width: 25%; font-size: 0.95rem; }
 .spectre-post-container .container td { width: 75%; }
 .spectre-post-container .container a img:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(255, 76, 76, 0.3); }
-.spectre-post-container .container .gallery { display: flex; flex-wrap: nowrap; gap: 1rem; overflow-x: auto; padding: 1rem; background-color: rgba(0, 0, 0, 0.3); border-radius: 6px; border: 1px solid #2a2a2a; justify-content: flex-start; max-width: 100%; min-width: 0; } /* Kept min-width: 0 from diagnostics */
+.spectre-post-container .container .gallery { display: flex; flex-wrap: nowrap; gap: 1rem; overflow-x: auto; padding: 1rem; background-color: rgba(0, 0, 0, 0.3); border-radius: 6px; border: 1px solid #2a2a2a; justify-content: flex-start; max-width: 100%; /* min-width: 0; /* Kept this from previous attempts, generally good */ }
 .spectre-post-container .container .gallery img { width: auto; height: 426px; max-height: 426px; max-width: 640px; flex-shrink: 0; border-radius: 6px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid #444; object-fit: cover; }
 .spectre-post-container .container .caption { text-align: center; font-size: 16px; color: #ffaaaa; margin-top: 0.5rem; }
 .spectre-post-container .container details { background-color: #1a1a1a; border: 1px solid #333; border-radius: 5px; padding: 0.8rem 1.2rem; margin-top: 1rem; transition: background-color 0.3s ease; }
