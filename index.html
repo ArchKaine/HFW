@@ -3,51 +3,120 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HFW Shadow Fleet - Comprehensive Design Document</title>    
+    <title>HFW Shadow Fleet - Comprehensive Design Document</title>
     <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/ArchKaine/HFW@main/styles.css"
-/>
-
-    <link
-      href="styles.css"
       rel="stylesheet"
+      href="styles.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/ArchKaine/HFW@main/styles.css"
     />
 
-    *** before.html
-@@ <head>
-     <script defer src="https://archkaine.github.io/HFW/scripts.js"></script>
-+    <!-- ────────────────────────────────────────────────────────────────── -->
-+    <!-- Grid layout for header / nav / content / aside  (no content moved) -->
-+    <style>
-+      .spectre-post-container {
-+        display: grid !important;
-+        grid-template-areas:
-+          "header  header  header"
-+          "nav     content aside";
-+        grid-template-columns: 300px 1fr 300px;
-+        gap: 1rem;
-+      }
-+      /* assign each direct child into its grid slot */
-+      .spectre-post-container > header        { grid-area: header; }
-+      .spectre-post-container > nav           { grid-area: nav; }
-+      .spectre-post-container > .container    { grid-area: content; }
-+      .spectre-post-container > .spectre-post-aside { grid-area: aside; }
-+      /* keep nav & aside pinned */
-+      .spectre-post-container > nav,
-+      .spectre-post-aside {
-+        position: sticky;
-+        top: 0;
-+        align-self: start;
-+      }
-+    </style>
-*** after.html
+    <style>
+      /* --- Inline Grid Layout & Sticky Positioning --- */
+      body {
+        /* Ensure no conflicting body margins if set in external CSS */
+        /* Recommendation: body { margin: 0; } in external styles.css */
+      }
 
-    
-    <!--<script defer src="https://archkaine.github.io/HFW/scripts.js"></script> -->
-  </head>
-<body>
-   <div class="spectre-post-container" id="spectre-top">
+      .spectre-post-container {
+        display: grid !important; /* Ensures grid layout is applied */
+        grid-template-areas:
+          "header header header"
+          "nav    content aside";
+        grid-template-rows: auto 1fr; /* Header auto, rest takes remaining space */
+        grid-template-columns: 300px 1fr 300px; /* Nav, Content, Aside widths */
+        gap: 1rem; /* Spacing between grid items */
+        /*
+          Assuming a 3rem global navigation bar OUTSIDE this .spectre-post-container.
+          If no such external header, use height: 100vh;
+          Remove margin-left and margin-right from external CSS for this class.
+        */
+        height: calc(100vh - 3rem);
+        overflow: hidden; /* Prevents body scrollbars if children are handled */
+      }
+
+      /* Grid area assignments */
+      .spectre-post-container > header { grid-area: header; }
+      .spectre-post-container > nav { grid-area: nav; }
+      .spectre-post-container > .container { grid-area: content; }
+      .spectre-post-container > .spectre-post-aside { grid-area: aside; }
+
+      /* Sticky sidebars: nav and aside */
+      .spectre-post-container > nav,
+      .spectre-post-container > .spectre-post-aside {
+        position: sticky;
+        top: 0; /* Stick to the top of .spectre-post-container */
+        align-self: start; /* Align to the start of their grid cell */
+        /*
+          Max height allows internal scrolling if content is taller than viewport.
+          Adjust 3rem if the main container's top offset changes.
+        */
+        max-height: calc(100vh - 3rem);
+        /*
+          IMPORTANT: Remove 'overflow-y: auto;' from these elements
+          in your EXTERNAL styles.css. Scrolling is handled by inner wrappers.
+        */
+      }
+
+      /* Inner scroll wrappers for nav and aside */
+      .nav-scroll-wrapper,
+      .aside-scroll-wrapper {
+        height: 100%;
+        overflow-y: auto;
+        /*
+          Adjust padding as needed.
+          Original nav padding: 1.5rem 0 (desktop)
+          Original aside padding was on inner elements.
+        */
+        padding: 1rem;
+      }
+      /* Custom scrollbar styling for Webkit (optional, can be expanded) */
+      .nav-scroll-wrapper::-webkit-scrollbar,
+      .aside-scroll-wrapper::-webkit-scrollbar {
+        width: 8px;
+      }
+      .nav-scroll-wrapper::-webkit-scrollbar-track,
+      .aside-scroll-wrapper::-webkit-scrollbar-track {
+        background: #1a1a1a;
+      }
+      .nav-scroll-wrapper::-webkit-scrollbar-thumb,
+      .aside-scroll-wrapper::-webkit-scrollbar-thumb {
+        background-color: #ff4c4c;
+        border-radius: 4px;
+        border: 1px solid #0b0e13;
+      }
+       /* Firefox scrollbar styling (optional, can be expanded) */
+      .nav-scroll-wrapper,
+      .aside-scroll-wrapper {
+        scrollbar-width: thin;
+        scrollbar-color: #ff4c4c #1a1a1a;
+      }
+
+
+      /* Main content area scrolling */
+      .spectre-post-container > .container {
+        overflow-y: auto; /* Allows main content to scroll */
+        min-height: 0;    /* Essential for grid children that scroll */
+        /*
+          Padding for the content area can be applied here or rely on
+          the grid 'gap' and internal padding of '.section' elements.
+          Original .spectre-post-container had padding: 1.5rem 2rem; (desktop)
+          Original .container (as grid child) had padding: 0;
+        */
+         padding: 0 1rem; /* Example: horizontal padding for content area, adjust as needed */
+      }
+
+      /* Ensure sections within .container have appropriate top margin if first-child margin was removed */
+      .spectre-post-container > .container > .section:first-child {
+         margin-top: 1.5rem; /* Or your desired top spacing */
+      }
+
+    </style>
+    </head>
+  <body>
+    <div class="spectre-post-container" id="spectre-top">
       <header>
         <h1>HFW Shadow Fleet - Comprehensive Design Document</h1>
         <p style="color: #aaaaaa; font-size: 0.9em; margin-top: 0.2em">
@@ -56,304 +125,306 @@
       </header>
 
       <nav>
-        <div class="nav-logo nav-logo-top">
-          <img
-            alt="Anvil Logo"
-            src="https://imagizer.imageshack.com/img922/7540/a21t3g.png"
-            onerror="this.onerror=null;this.src='https://placehold.co/400x200/1a1a1a/ff4c4c?text=Anvil+Logo';"
-          />
+        <div class="nav-scroll-wrapper">
+          <div class="nav-logo nav-logo-top">
+            <img
+              alt="Anvil Logo"
+              src="https://imagizer.imageshack.com/img922/7540/a21t3g.png"
+              onerror="this.onerror=null;this.src='https://placehold.co/400x200/1a1a1a/ff4c4c?text=Anvil+Logo';"
+            />
+          </div>
+          <a href="#spectre-concept-image"
+            ><svg
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect>
+              <circle cx="9" cy="9" r="2"></circle>
+              <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg
+            >
+            Gallery</a
+          >
+          <a href="#spectre-genesis"
+            ><svg
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
+              <path d="M5 12v6a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3v-6"></path>
+              <path d="M18 3a3 3 0 0 0-3 3v6h4V6a3 3 0 0 0-3-3Z"></path>
+              <path d="M6 3a3 3 0 0 0-3 3v6h4V6a3 3 0 0 0-3-3Z"></path></svg
+            >
+            Genesis</a
+          >
+           <a href="#spectre-hfw-overview"
+            ><svg
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg
+            >
+            HFW Overview</a
+          >
+          <a href="#spectre-founding-docs"
+            ><svg
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
+              ></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" x2="8" y1="13" y2="13"></line>
+              <line x1="16" x2="8" y1="17" y2="17"></line>
+              <line x1="3" x2="3.01" y1="6" y2="6"></line>
+              <line x1="3" x2="3.01" y1="12" y2="12"></line>
+              <line x1="3" x2="3.01" y1="18" y2="18"></line></svg
+            >
+            Founding Docs</a
+          >
+          <a href="#spectre-specs"
+            ><svg
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <line x1="8" x2="21" y1="6" y2="6"></line>
+              <line x1="8" x2="21" y1="12" y2="12"></line>
+              <line x1="8" x2="21" y1="18" y2="18"></line>
+              <line x1="3" x2="3.01" y1="6" y2="6"></line>
+              <line x1="3" x2="3.01" y1="12" y2="12"></line>
+              <line x1="3" x2="3.01" y1="18" y2="18"></line></svg
+            >
+            Specs</a
+          >
+          <a href="#spectre-variants"
+            ><svg
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M11 17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"></path>
+              <path d="M15 5h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6"></path></svg
+            >
+            HFW Variants</a
+          >
+          <a href="#spectre-stealth-doctrine"
+            ><svg
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M11 17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"></path>
+              <path d="M15 5h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6"></path></svg
+            >
+            Stealth</a
+          >
+          <a href="#spectre-scenarios"
+            ><svg
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
+              ></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" x2="8" y1="13" y2="13"></line>
+              <line x1="16" x2="8" y1="17" y2="17"></line>
+              <line x1="10" x2="8" y1="9" y2="9"></line></svg
+            >
+            Scenarios</a
+          >
+          <a href="#spectre-interior"
+            ><svg
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect height="18" rx="2" width="18" x="3" y="3"></rect>
+              <path d="M3 9h18"></path>
+              <path d="M9 21V9"></path></svg
+            >
+            Interior</a
+          >
+          <a href="#spectre-talent"
+            ><svg
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg
+            >
+            Talent</a
+          >
+          <a href="#spectre-comparison"
+            ><svg
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M12 3v18"></path>
+              <path d="M3.5 8.5v7"></path>
+              <path d="M20.5 12v-7"></path></svg
+            >
+            Comparison</a
+          >
+          <a href="#spectre-environment"
+            ><svg
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M21.2 15c.7-1.2 1-2.5.7-3.9-.6-2.4-2.4-4.2-4.8-4.8-.4-.1-.8-.2-1.2-.2-1.4-.1-2.7.1-3.9.7-1.2.6-2.2 1.4-3 2.4-.8 1-1.3 2.1-1.6 3.2C2 14.8 3.2 18 6.2 19.7c1 .6 2.1.9 3.2 1 .8.1 1.5 0 2.3-.2 1.1-.3 2.2-.8 3.1-1.5.9-.7 1.7-1.5 2.4-2.4.7-.9 1.2-2 1.5-3.1.2-.8.2-1.6 0-2.3z"
+              ></path>
+              <path d="M12 6V2"></path>
+              <path d="m4.9 4.9 2.8 2.8"></path>
+              <path d="M2 12h4"></path>
+              <path d="m4.9 19.1 2.8-2.8"></path>
+              <path d="M12 18v4"></path>
+              <path d="m19.1 19.1-2.8-2.8"></path>
+              <path d="M22 12h-4"></path>
+              <path d="m19.1 4.9-2.8 2.8"></path></svg
+            >
+            Environment</a
+          >
+          <a href="#spectre-testimonials"
+            ><svg
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg
+            >
+            Testimonials</a
+          >
+          <a href="#revenant-acquisition"
+            ><svg
+              class="feather feather-gitlab"
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.59A4.28 4.28 0 0 1 8.09 2h7.82a4.28 4 0 0 1 3.06 1.64l2.44 7.59 1.22 3.78a.84.84 0 0 1-.3.94z"
+              ></path>
+              <line x1="10.53" x2="10.53" y1="20.24" y2="22.24"></line>
+              <line x1="13.47" x2="13.47" y1="20.24" y2="22.24"></line>
+              <line x1="16.41" x2="18.41" y1="18.23" y2="18.23"></line>
+              <line x1="5.59" x2="7.59" y1="18.23" y2="18.23"></line></svg
+            >
+            Revenant Acquisition</a
+          >
+          <a href="#spectre-conclusion"
+            ><svg
+              fill="none"
+              height="1em"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline></svg
+            >
+            Conclusion</a
+          >
         </div>
-        <a href="#spectre-concept-image"
-          ><svg
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect>
-            <circle cx="9" cy="9" r="2"></circle>
-            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg
-          >
-          Gallery</a
-        >
-        <a href="#spectre-genesis"
-          ><svg
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
-            <path d="M5 12v6a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3v-6"></path>
-            <path d="M18 3a3 3 0 0 0-3 3v6h4V6a3 3 0 0 0-3-3Z"></path>
-            <path d="M6 3a3 3 0 0 0-3 3v6h4V6a3 3 0 0 0-3-3Z"></path></svg
-          >
-          Genesis</a
-        >
-        <a href="#spectre-hfw-overview"
-          ><svg
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg
-          >
-          HFW Overview</a
-        >
-        <a href="#spectre-founding-docs"
-          ><svg
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
-            ></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" x2="8" y1="13" y2="13"></line>
-            <line x1="16" x2="8" y1="17" y2="17"></line>
-            <line x1="3" x2="3.01" y1="6" y2="6"></line>
-            <line x1="3" x2="3.01" y1="12" y2="12"></line>
-            <line x1="3" x2="3.01" y1="18" y2="18"></line></svg
-          >
-          Founding Docs</a
-        >
-        <a href="#spectre-specs"
-          ><svg
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <line x1="8" x2="21" y1="6" y2="6"></line>
-            <line x1="8" x2="21" y1="12" y2="12"></line>
-            <line x1="8" x2="21" y1="18" y2="18"></line>
-            <line x1="3" x2="3.01" y1="6" y2="6"></line>
-            <line x1="3" x2="3.01" y1="12" y2="12"></line>
-            <line x1="3" x2="3.01" y1="18" y2="18"></line></svg
-          >
-          Specs</a
-        >
-        <a href="#spectre-variants"
-          ><svg
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M11 17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"></path>
-            <path d="M15 5h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6"></path></svg
-          >
-          HFW Variants</a
-        >
-        <a href="#spectre-stealth-doctrine"
-          ><svg
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M11 17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"></path>
-            <path d="M15 5h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6"></path></svg
-          >
-          Stealth</a
-        >
-        <a href="#spectre-scenarios"
-          ><svg
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
-            ></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" x2="8" y1="13" y2="13"></line>
-            <line x1="16" x2="8" y1="17" y2="17"></line>
-            <line x1="10" x2="8" y1="9" y2="9"></line></svg
-          >
-          Scenarios</a
-        >
-        <a href="#spectre-interior"
-          ><svg
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect height="18" rx="2" width="18" x="3" y="3"></rect>
-            <path d="M3 9h18"></path>
-            <path d="M9 21V9"></path></svg
-          >
-          Interior</a
-        >
-        <a href="#spectre-talent"
-          ><svg
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg
-          >
-          Talent</a
-        >
-        <a href="#spectre-comparison"
-          ><svg
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M12 3v18"></path>
-            <path d="M3.5 8.5v7"></path>
-            <path d="M20.5 12v-7"></path></svg
-          >
-          Comparison</a
-        >
-        <a href="#spectre-environment"
-          ><svg
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21.2 15c.7-1.2 1-2.5.7-3.9-.6-2.4-2.4-4.2-4.8-4.8-.4-.1-.8-.2-1.2-.2-1.4-.1-2.7.1-3.9.7-1.2.6-2.2 1.4-3 2.4-.8 1-1.3 2.1-1.6 3.2C2 14.8 3.2 18 6.2 19.7c1 .6 2.1.9 3.2 1 .8.1 1.5 0 2.3-.2 1.1-.3 2.2-.8 3.1-1.5.9-.7 1.7-1.5 2.4-2.4.7-.9 1.2-2 1.5-3.1.2-.8.2-1.6 0-2.3z"
-            ></path>
-            <path d="M12 6V2"></path>
-            <path d="m4.9 4.9 2.8 2.8"></path>
-            <path d="M2 12h4"></path>
-            <path d="m4.9 19.1 2.8-2.8"></path>
-            <path d="M12 18v4"></path>
-            <path d="m19.1 19.1-2.8-2.8"></path>
-            <path d="M22 12h-4"></path>
-            <path d="m19.1 4.9-2.8 2.8"></path></svg
-          >
-          Environment</a
-        >
-        <a href="#spectre-testimonials"
-          ><svg
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg
-          >
-          Testimonials</a
-        >
-        <a href="#revenant-acquisition"
-          ><svg
-            class="feather feather-gitlab"
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.59A4.28 4.28 0 0 1 8.09 2h7.82a4.28 4 0 0 1 3.06 1.64l2.44 7.59 1.22 3.78a.84.84 0 0 1-.3.94z"
-            ></path>
-            <line x1="10.53" x2="10.53" y1="20.24" y2="22.24"></line>
-            <line x1="13.47" x2="13.47" y1="20.24" y2="22.24"></line>
-            <line x1="16.41" x2="18.41" y1="18.23" y2="18.23"></line>
-            <line x1="5.59" x2="7.59" y1="18.23" y2="18.23"></line></svg
-          >
-          Revenant Acquisition</a
-        >
-        <a href="#spectre-conclusion"
-          ><svg
-            fill="none"
-            height="1em"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-            <polyline points="22 4 12 14.01 9 11.01"></polyline></svg
-          >
-          Conclusion</a
-        >
       </nav>
 
       <div class="container">
@@ -1209,9 +1280,10 @@
           <div
             class="viewer-legend"
             style="
-              position: relative;
-              bottom: 1rem;
-              left: 1rem;
+              position: relative; /* Adjusted to be relative to its normal flow for stability */
+              bottom: auto; /* Removed fixed bottom positioning */
+              left: auto; /* Removed fixed left positioning */
+              margin: -3rem 1rem 1rem 1rem; /* Negative margin to overlap bottom of viewer slightly if desired, or adjust */
               background: rgba(0, 0, 0, 0.7);
               padding: 1rem;
               border-radius: 4px;
@@ -1219,6 +1291,7 @@
               font-size: 0.9rem;
               max-width: 220px;
               z-index: 5;
+              /* Consider display: inline-block or float if you want it beside the buttons */
             "
           >
             <strong>Controls:</strong>
@@ -3049,267 +3122,363 @@
             </p>
           </div>
         </section>
-      </div>
-      <aside id="section-aside" class="spectre-post-aside">
-        <div class="aside-top-logo">
-          <img
-            alt="Profile Logo"
-            src="https://imagizer.imageshack.com/img924/8747/qCer6W.png"
-            onerror="this.onerror=null;this.src='https://placehold.co/180x100/1a1a1a/ff4c4c?text=Profile+Logo';"
-          />
         </div>
-        
-        <h2>On This Section</h2>
-        <ul class="aside-toc"></ul>
-        <div class="aside-bio-section">
-          <h2 class="aside-bio-heading">Dr. Aris D. Thorne: Visionary</h2>
-          <div class="aside-bio-content">
-            <p>
-              **Dr. Aris David Thorne** (born 2910, Portland, Earth) is
-              considered Anvil Aerospace's single most valuable person and
-              asset, recognized as **likely the smartest person alive**—the
-              Stephen Hawking or Albert Einstein of his era. His academic path
-              defied convention, earning **sixteen doctorates** across diverse
-              fields from aerospace engineering to cognitive psychology and
-              medicine. He excelled by seeing the **interconnectedness of all
-              knowledge**, a polymathic approach that revolutionized his studies
-              at institutions like Terra's University of Rhetor and Archimedes
-              Institute.
-            </p>
-            <p>
-              Thorne's profound understanding of **all forms of technology**
-              catapulted Anvil's ships to a tier unmatched by any other Human
-              manufacturer. His leadership led to the creation of
-              **Hephaestus Forge Works (HFW)**, his equivalent of nuclear
-              technology development: a secret division dedicated to forging
-              paradigm-shifting military solutions.
-            </p>
-            <p>
-              Despite his monumental intellect, Dr. Thorne is a **humble and
-              dedicated leader, well-loved by his staff**. He insists on **full
-              disclosure** for all HFW personnel, ensuring they have **all the
-              information needed** to assess mission viability. This respect
-              fosters an unparalleled familial loyalty. His rescue from
-              danger, for instance, wasn't a strategic necessity to protect
-              classified information, but a visceral "he's family, get him back
-              NOW!" imperative from his devoted teams.
-            </p>
-            <p>
-              His influence extends even to **Aegis Dynamics**. Despite Aegis's
-              checkered history and their usual guardedness, their respect for
-              Thorne's unparalleled vision and expertise is immense. Debating
-              Thorne is akin to "a three-year-old playing chess against a
-              Grandmaster"; his mind **runs circles around the smartest in the
-              UEE, and potentially even the Xi'an, Tevarin, and Banu**. This
-              intellectual gravity, paired with his humility, convinced Aegis to
-              share their advanced EW and sensor technology, a testament to his
-              singular standing.
-            </p>
+
+      <aside id="section-aside" class="spectre-post-aside">
+        <div class="aside-scroll-wrapper">
+          <div class="aside-top-logo">
+            <img
+              alt="Profile Logo"
+              src="https://imagizer.imageshack.com/img924/8747/qCer6W.png"
+              onerror="this.onerror=null;this.src='https://placehold.co/180x100/1a1a1a/ff4c4c?text=Profile+Logo';"
+            />
+          </div>
+          <h2>On This Section</h2>
+          <ul class="aside-toc"></ul>
+          <div class="aside-bio-section">
+            <h2 class="aside-bio-heading">Dr. Aris D. Thorne: Visionary</h2>
+            <div class="aside-bio-content">
+              <p>
+                **Dr. Aris David Thorne** (born 2910, Portland, Earth) is
+                considered Anvil Aerospace's single most valuable person and
+                asset, recognized as **likely the smartest person alive**—the
+                Stephen Hawking or Albert Einstein of his era. His academic path
+                defied convention, earning **sixteen doctorates** across diverse
+                fields from aerospace engineering to cognitive psychology and
+                medicine. He excelled by seeing the **interconnectedness of all
+                knowledge**, a polymathic approach that revolutionized his studies
+                at institutions like Terra's University of Rhetor and Archimedes
+                Institute.
+              </p>
+              <p>
+                Thorne's profound understanding of **all forms of technology**
+                catapulted Anvil's ships to a tier unmatched by any other Human
+                manufacturer. His leadership led to the creation of
+                **Hephaestus Forge Works (HFW)**, his equivalent of nuclear
+                technology development: a secret division dedicated to forging
+                paradigm-shifting military solutions.
+              </p>
+              <p>
+                Despite his monumental intellect, Dr. Thorne is a **humble and
+                dedicated leader, well-loved by his staff**. He insists on **full
+                disclosure** for all HFW personnel, ensuring they have **all the
+                information needed** to assess mission viability. This respect
+                fosters an unparalleled familial loyalty. His rescue from
+                danger, for instance, wasn't a strategic necessity to protect
+                classified information, but a visceral "he's family, get him back
+                NOW!" imperative from his devoted teams.
+              </p>
+              <p>
+                His influence extends even to **Aegis Dynamics**. Despite Aegis's
+                checkered history and their usual guardedness, their respect for
+                Thorne's unparalleled vision and expertise is immense. Debating
+                Thorne is akin to "a three-year-old playing chess against a
+                Grandmaster"; his mind **runs circles around the smartest in the
+                UEE, and potentially even the Xi'an, Tevarin, and Banu**. This
+                intellectual gravity, paired with his humility, convinced Aegis to
+                share their advanced EW and sensor technology, a testament to his
+                singular standing.
+              </p>
+            </div>
           </div>
         </div>
       </aside>
     </div>
-<script>
-// 1) Build & update the “On This Section” aside
-function updateAside() {
-  const aside = document.getElementById("section-aside");
-  if (!aside) return;
-  const list = aside.querySelector("ul.aside-toc") || aside.querySelector("ul");
-  if (!list) return;
+    <script>
+      // Cache frequently accessed DOM elements
+      const asideElement = document.getElementById("section-aside");
+      const asideTocList = asideElement ? asideElement.querySelector("ul.aside-toc") : null;
+      const mainContentScroller = document.querySelector(".spectre-post-container > .container");
+      const spectreNavLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
+      const pageSections = Array.from(document.querySelectorAll(".spectre-post-container > .container > .section")); // More specific selector
 
-  const svgIcon =
-    '<svg viewBox="0 0 24 24" width="0.8em" height="0.8em" fill="currentColor" ' +
-    'style="vertical-align:-0.1em;margin-right:0.6em;opacity:0.7;">' +
-    '<path d="M10 17l5-5-5-5v10z"></path></svg>';
+      // 1) Build & update the “On This Section” aside
+      function updateAside() {
+        if (!asideElement || !asideTocList || !mainContentScroller) return;
 
-  const sections = Array.from(document.querySelectorAll(".section"));
-  const scrollY = window.scrollY;
-  const vh = window.innerHeight;
-  const offset = vh * 0.35;
+        const svgIcon =
+          '<svg viewBox="0 0 24 24" width="0.8em" height="0.8em" fill="currentColor" ' +
+          'style="vertical-align:-0.1em;margin-right:0.6em;opacity:0.7;">' +
+          '<path d="M10 17l5-5-5-5v10z"></path></svg>';
 
-  // find the current main section
-  let activeSection = null;
-  for (let i = sections.length - 1; i >= 0; i--) {
-    const sec = sections[i];
-    const top = sec.getBoundingClientRect().top + window.pageYOffset;
-    if (scrollY >= top - offset) {
-      activeSection = sec;
-      break;
-    }
-  }
+        const viewportHeight = window.innerHeight;
+        const activationOffset = viewportHeight * 0.35; // Point in viewport to consider a section/heading "active"
 
-  // only force last if user has actually scrolled
-  if (
-    scrollY > 0 &&
-    window.innerHeight + scrollY >= document.body.offsetHeight - 50 &&
-    sections.length
-  ) {
-    activeSection = sections[sections.length - 1];
-  }
+        let activeSection = null;
+        for (let i = pageSections.length - 1; i >= 0; i--) {
+          const sec = pageSections[i];
+          const rect = sec.getBoundingClientRect();
+          if (rect.top < activationOffset && rect.bottom > activationOffset * 0.5) { // Check if section is meaningfully in view
+            activeSection = sec;
+            break;
+          }
+        }
+        
+        if (!activeSection && pageSections.length > 0 && mainContentScroller.scrollTop < 50) { // If at the very top
+            activeSection = pageSections[0];
+        } else if (mainContentScroller.scrollTop + mainContentScroller.clientHeight >= mainContentScroller.scrollHeight - 50 && pageSections.length) { // If at the very bottom
+            activeSection = pageSections[pageSections.length - 1];
+        }
 
-  list.innerHTML = "";
-  if (!activeSection) {
-    const li = document.createElement("li");
-    li.style.padding = "0.5rem 1rem";
-    li.style.fontSize = "0.9rem";
-    li.style.color = "#777";
-    li.textContent = "No active section sub-headings.";
-    list.appendChild(li);
-    aside.style.display = "flex";
-    return;
-  }
 
-  // if in variants, drill down into the active variant
-  let source = activeSection;
-  if (activeSection.id === "spectre-variants") {
-    const fam = activeSection.querySelector(".ship-family-content-wrapper.active-family-content");
-    if (fam) {
-      source = fam.querySelector(".variant-content.active") || fam;
-    }
-  }
+        asideTocList.innerHTML = ""; 
 
-  // include H2 as a fallback if you want; otherwise use "h3, h4"
-  const headings = Array.from(source.querySelectorAll("h2, h3, h4"));
+        if (!activeSection) {
+          const li = document.createElement("li");
+          li.style.padding = "0.5rem 1rem";
+          li.style.fontSize = "0.9rem";
+          li.style.color = "#777";
+          li.textContent = "Scroll to a section.";
+          asideTocList.appendChild(li);
+          asideElement.style.display = "flex"; 
+          return;
+        }
 
-  if (!headings.length) {
-    const li = document.createElement("li");
-    li.style.padding = "0.5rem 1rem";
-    li.style.fontSize = "0.9rem";
-    li.style.color = "#777";
-    li.textContent = "No sub-sections.";
-    list.appendChild(li);
-    aside.style.display = "flex";
-    return;
-  }
+        let sourceForHeadings = activeSection;
+        if (activeSection.id === "spectre-variants") {
+          const activeFamilyContent = activeSection.querySelector(
+            ".ship-family-content-wrapper.active-family-content"
+          );
+          if (activeFamilyContent) {
+            sourceForHeadings =
+              activeFamilyContent.querySelector(".variant-content.active") ||
+              activeFamilyContent;
+          }
+        }
 
-  let highlighted = false;
-  headings.forEach(h => {
-    if (!h.id) {
-      h.id = activeSection.id + "-" + h.tagName.toLowerCase() + "-" +
-             h.textContent.trim().toLowerCase()
-               .replace(/\s+/g, "-")
-               .replace(/[^\w-]+/g, "");
-    }
-    const a = document.createElement("a");
-    a.href = "#" + h.id;
-    a.innerHTML = svgIcon + h.textContent.trim();
-    if (h.tagName.toLowerCase() === "h4") {
-      a.style.paddingLeft = "1.5rem";
-    }
-    const rect = h.getBoundingClientRect();
-    if (!highlighted && rect.top >= 0 && rect.top < offset) {
-      a.classList.add("active");
-      highlighted = true;
-    }
-    a.addEventListener("click", e => {
-      e.preventDefault();
-      window.scrollTo({
-        top: document.getElementById(h.id).offsetTop - vh * 0.1,
-        behavior: "smooth",
+        const headings = Array.from(
+          sourceForHeadings.querySelectorAll("h2, h3, h4")
+        );
+
+        if (!headings.length) {
+          const li = document.createElement("li");
+          li.style.padding = "0.5rem 1rem";
+          li.style.fontSize = "0.9rem";
+          li.style.color = "#777";
+          const sectionTitle = activeSection.querySelector('h2');
+          li.textContent = `No sub-headings in ${sectionTitle ? sectionTitle.textContent.trim() : 'current section'}.`;
+          asideTocList.appendChild(li);
+          asideElement.style.display = "flex";
+          return;
+        }
+
+        let anItemWasHighlighted = false;
+        headings.forEach((h) => {
+          if (!h.id) { 
+            h.id = `${activeSection.id}-${h.tagName.toLowerCase()}-${h.textContent
+              .trim()
+              .toLowerCase()
+              .replace(/\s+/g, "-")
+              .replace(/[^\w-]+/g, "")}`.replace(/[^a-zA-Z0-9-_]/g, ''); // Ensure valid ID
+          }
+          const a = document.createElement("a");
+          a.href = `#${h.id}`;
+          a.innerHTML = svgIcon + h.textContent.trim();
+          if (h.tagName.toLowerCase() === "h4") {
+            a.style.paddingLeft = "1.5rem"; 
+          }
+
+          const headingRect = h.getBoundingClientRect();
+          if (!anItemWasHighlighted && headingRect.top >= 0 && headingRect.top < activationOffset) {
+            a.classList.add("active");
+            anItemWasHighlighted = true;
+          }
+
+          a.addEventListener("click", (e) => {
+            e.preventDefault();
+            const targetElement = document.getElementById(h.id);
+            if (targetElement && mainContentScroller) {
+              const scrollerRect = mainContentScroller.getBoundingClientRect();
+              const targetRect = targetElement.getBoundingClientRect();
+              // Calculate scroll position to bring target's top to desired offset from scroller's top
+              const scrollToPosition = targetRect.top - scrollerRect.top + mainContentScroller.scrollTop - (viewportHeight * 0.1);
+              
+              mainContentScroller.scrollTo({
+                top: Math.max(0, scrollToPosition), 
+                behavior: "smooth",
+              });
+            }
+            asideTocList.querySelectorAll("a").forEach((link) => link.classList.remove("active"));
+            a.classList.add("active");
+          });
+          const li = document.createElement("li");
+          li.appendChild(a);
+          asideTocList.appendChild(li);
+        });
+
+        if (!anItemWasHighlighted && window.location.hash) {
+            const activeLinkByHash = asideTocList.querySelector(`a[href="${window.location.hash}"]`);
+            if (activeLinkByHash) {
+                asideTocList.querySelectorAll("a").forEach(link => link.classList.remove("active"));
+                activeLinkByHash.classList.add("active");
+            }
+        }
+        asideElement.style.display = "flex";
+      }
+      window.updateAside = updateAside;
+
+      function handleSpectreNavScroll() {
+        if (!mainContentScroller) return;
+        const sectionsForNav = [];
+        spectreNavLinks.forEach(link => {
+            const sectionId = link.getAttribute("href");
+            if (sectionId && sectionId.startsWith("#")) {
+                const sec = document.getElementById(sectionId.substring(1));
+                if (sec) sectionsForNav.push(sec);
+            }
+        });
+
+        let currentNavId = "";
+        const navActivationOffset = window.innerHeight * 0.4; 
+
+        for (let i = sectionsForNav.length - 1; i >= 0; i--) {
+          const sec = sectionsForNav[i];
+          const rect = sec.getBoundingClientRect();
+          if (rect.top < navActivationOffset && rect.bottom > navActivationOffset * 0.2 ) { 
+            currentNavId = sec.id;
+            break;
+          }
+        }
+        if (!currentNavId && sectionsForNav.length > 0 && mainContentScroller.scrollTop < 50) {
+             currentNavId = sectionsForNav[0].id;
+        } else if (mainContentScroller.scrollTop + mainContentScroller.clientHeight >= mainContentScroller.scrollHeight - 50 && sectionsForNav.length) {
+            currentNavId = sectionsForNav[sectionsForNav.length - 1].id;
+        }
+
+        spectreNavLinks.forEach((link) => {
+          link.classList.toggle(
+            "nav-active",
+            link.getAttribute("href") === `#${currentNavId}`
+          );
+        });
+      }
+
+      function showFamily(familyIdSuffix, btnEl) {
+        document.querySelectorAll(".ship-family-content-wrapper").forEach(function (wrapper) {
+            wrapper.style.display = "none";
+            wrapper.classList.remove("active-family-content");
+        });
+        document.querySelectorAll(".ship-family-tabs button.family-tab").forEach(function (tab) {
+            tab.classList.remove("active-family");
+        });
+
+        const contentToShow = document.getElementById("content-family-" + familyIdSuffix);
+        if (contentToShow) {
+            contentToShow.style.display = "block";
+            contentToShow.classList.add("active-family-content");
+        }
+        if (btnEl) {
+            btnEl.classList.add("active-family");
+        }
+
+        if (contentToShow) {
+            const firstVariantButton = contentToShow.querySelector(".variant-tabs button");
+            if (firstVariantButton) {
+                const clickEvent = firstVariantButton.getAttribute('onclick');
+                if (clickEvent) {
+                    const matches = clickEvent.match(/'([^']+)'/g);
+                    if (matches && matches.length >= 2) {
+                        const variantId = matches[0].replace(/'/g, '');
+                        const familyIdFromClick = matches[1].replace(/'/g, '');
+                         showVariantContent(variantId, firstVariantButton, familyIdFromClick);
+                    }
+                }
+            } else { // If no variant tabs, still update aside
+                 updateAside();
+            }
+        } else {
+            updateAside(); 
+        }
+      }
+      window.showFamily = showFamily;
+
+      function showVariantContent(variantId, btnEl, familyId) { 
+          const familyContentWrapper = document.getElementById('content-family-' + familyId);
+          if (!familyContentWrapper) return;
+
+          familyContentWrapper.querySelectorAll(".variant-content").forEach(function (content) {
+              content.style.display = "none";
+              content.classList.remove("active");
+          });
+          familyContentWrapper.querySelectorAll(".variant-tabs button").forEach(function (tab) {
+              tab.classList.remove("active");
+          });
+
+          const contentToShow = document.getElementById(variantId);
+          if (contentToShow) {
+              contentToShow.style.display = "block";
+              contentToShow.classList.add("active");
+          }
+          if (btnEl) {
+              btnEl.classList.add("active");
+          }
+          updateAside(); 
+      }
+      window.showVariantContent = showVariantContent;
+
+      const modelViewer = document.getElementById('spectreViewer');
+      const modelBaseURL = "https://ArchKaine.github.io/ship-models/";
+      const models = {
+          shadow: { src: modelBaseURL + "Spectre_Shadow.glb", alt: "Anvil Spectre Shadow" },
+          revenant: { src: modelBaseURL + "Spectre_Revenant.glb", alt: "Anvil Spectre Revenant" },
+          eidolon_shadow: { src: modelBaseURL + "Eidolon_Shadow.glb", alt: "Anvil Eidolon Shadow" },
+      };
+
+      function switchModel(modelKey) {
+          if (modelViewer && models[modelKey]) {
+              modelViewer.src = models[modelKey].src;
+              modelViewer.alt = models[modelKey].alt;
+          }
+      }
+      function setView(orbitString) {
+          if (modelViewer) modelViewer.cameraOrbit = orbitString;
+      }
+      function recenter() {
+          if (modelViewer) {
+              modelViewer.cameraTarget = "auto auto auto";
+              modelViewer.cameraOrbit = "0deg 75deg 7m"; 
+          }
+      }
+      window.switchModel = switchModel;
+      window.setView = setView;
+      window.recenter = recenter;
+
+      function initPageListeners() {
+        if (mainContentScroller) {
+            mainContentScroller.addEventListener("scroll", handleSpectreNavScroll);
+            mainContentScroller.addEventListener("scroll", updateAside);
+        } else {
+            window.addEventListener("scroll", handleSpectreNavScroll);
+            window.addEventListener("scroll", updateAside);
+        }
+        window.addEventListener("hashchange", updateAside);
+        window.addEventListener("resize", updateAside); 
+
+        const firstFamilyButton = document.querySelector(".ship-family-tabs button.family-tab");
+        if (firstFamilyButton) {
+             const clickEvent = firstFamilyButton.getAttribute('onclick');
+             if (clickEvent) {
+                const familyIdSuffixMatch = clickEvent.match(/'([^']+)'/);
+                if (familyIdSuffixMatch && familyIdSuffixMatch[1]) {
+                    showFamily(familyIdSuffixMatch[1], firstFamilyButton);
+                }
+             }
+        } else { 
+            updateAside();
+            handleSpectreNavScroll();
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initPageListeners);
+      } else {
+        initPageListeners();
+      }
+
+      window.addEventListener("load", () => {
+          updateAside();
+          handleSpectreNavScroll(); 
       });
-      list.querySelectorAll("a").forEach(n => n.classList.remove("active"));
-      a.classList.add("active");
-      setTimeout(updateAside, 0);
-    });
-    const li = document.createElement("li");
-    li.appendChild(a);
-    list.appendChild(li);
-  });
-
-  // if nothing auto-highlighted, honour the hash
-  if (!highlighted && window.location.hash) {
-    const byHash = list.querySelector(`a[href="${window.location.hash}"]`);
-    if (byHash) {
-      list.querySelectorAll("a").forEach(n => n.classList.remove("active"));
-      byHash.classList.add("active");
-    }
-  }
-
-  aside.style.display = "flex";
-}
-window.updateAside = updateAside;
-
-
-// 2) Left-sidebar highlighter
-function handleSpectreNavScroll() {
-  const navLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
-  const sections = [];
-  navLinks.forEach(link => {
-    const sec = document.querySelector(link.getAttribute("href"));
-    if (sec) sections.push(sec);
-  });
-  const scrollY = window.scrollY;
-  const offset = window.innerHeight * 0.4;
-  let current = "";
-  for (let i = sections.length - 1; i >= 0; i--) {
-    const top = sections[i].getBoundingClientRect().top + window.pageYOffset;
-    if (scrollY >= top - offset) {
-      current = sections[i].id;
-      break;
-    }
-  }
-  if (
-    scrollY > 0 &&
-    window.innerHeight + scrollY >= document.body.offsetHeight - 50 &&
-    sections.length
-  ) {
-    current = sections[sections.length - 1].id;
-  }
-  navLinks.forEach(link => {
-    link.classList.toggle("nav-active", link.getAttribute("href") === `#${current}`);
-  });
-}
-
-
-// 3) Family-tabs
-function showFamily(familyIdSuffix, btn) {
-  /* your existing family-tab logic… */
-}
-window.showFamily = showFamily;
-
-
-// 4) Variant-tabs
-function showVariantContent(id, btn, fam) {
-  /* your existing variant-tab logic… */
-}
-window.showVariantContent = showVariantContent;
-
-
-// 5) Model-viewer helpers
-/* your existing switchModel / setView / recenter… */
-
-
-// 6) Wire up only the scroll/hash listeners on DOM ready…
-function initScrollListeners() {
-  window.addEventListener("scroll", handleSpectreNavScroll);
-  window.addEventListener("scroll", updateAside);
-  window.addEventListener("hashchange", updateAside);
-  window.addEventListener("resize", updateAside);
-
-  // kick off the first family-tab if you want immediately
-  const firstFamily = document.querySelector(".ship-family-tabs button.family-tab");
-  if (firstFamily) {
-    showFamily(
-      firstFamily.getAttribute("onclick").match(/'([^']+)'/)[1],
-      firstFamily
-    );
-  }
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initScrollListeners);
-} else {
-  initScrollListeners();
-}
-
-// …and *only* do the very first updateAside AFTER everything (images, galleries, etc.) has loaded:
-window.addEventListener("load", () => {
-  updateAside();
-  handleSpectreNavScroll();
-});
-</script>
-
-
-
+    </script>
   </body>
 </html>
