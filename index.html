@@ -3114,8 +3114,10 @@
 function updateAside() {
   const aside = document.getElementById("section-aside");
   if (!aside) return;
-  const list = aside.querySelector("ul");
+  // look first for your dedicated TOC list, then fall back to the first UL
+  const list = aside.querySelector("ul.aside-toc") || aside.querySelector("ul");
   if (!list) return;
+
 
   const svgIcon =
     '<svg viewBox="0 0 24 24" width="0.8em" height="0.8em" fill="currentColor" ' +
