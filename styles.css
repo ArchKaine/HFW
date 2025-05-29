@@ -752,3 +752,21 @@
   color: #fff;
 }
 
+/* make the aside a column flex container */
+.spectre-post-aside {
+  display: flex;
+  flex-direction: column;
+}
+
+/* the first UL (our global nav) stays its own size */
+.aside-global-nav {
+  flex: 0 0 auto;
+  order: 0;
+}
+
+/* all other ULs (the dynamic “On This Section” list, etc.) become the scrollable area */
+.spectre-post-aside > ul:not(.aside-global-nav) {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  order: 1;
+}
