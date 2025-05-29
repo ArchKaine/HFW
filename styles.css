@@ -25,39 +25,6 @@ body {
   font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
 }
 
-/* ─── Move “global” menu into the right-hand aside ───────────────── */
-
-.spectre-post-aside .aside-nav {
-  padding: 1rem;
-  border-bottom: 1px solid #333;
-  margin-bottom: 0.5rem;
-}
-.spectre-post-aside .aside-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.spectre-post-aside .aside-nav li {
-  margin: 0.3rem 0;
-}
-.spectre-post-aside .aside-nav a {
-  display: block;
-  color: #ffaaaa;
-  font-family: "Orbitron", sans-serif;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  text-decoration: none;
-  padding: 0.4rem 0.6rem;
-  border-radius: 4px;
-  transition: background-color 0.2s, color 0.2s;
-}
-.spectre-post-aside .aside-nav a:hover,
-.spectre-post-aside .aside-nav a.active {
-  background-color: #ff4c4c;
-  color: #fff;
-}
-
-
 /* ─── Main Content Container ──────────────────────────────────────────────────── */
 .spectre-post-container {
   background-color: #0b0e13;
@@ -209,6 +176,38 @@ body {
   background: #ff4c4c;
   border-radius: 3px;
   border: 1px solid #0b0e13;
+}
+
+/* ─── Move “global” menu into the right-hand aside ───────────────── */
+
+.spectre-post-aside .aside-nav {
+  padding: 1rem;
+  border-bottom: 1px solid #333;
+  margin-bottom: 0.5rem;
+}
+.spectre-post-aside .aside-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.spectre-post-aside .aside-nav li {
+  margin: 0.3rem 0;
+}
+.spectre-post-aside .aside-nav a {
+  display: block;
+  color: #ffaaaa;
+  font-family: "Orbitron", sans-serif;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  text-decoration: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+.spectre-post-aside .aside-nav a:hover,
+.spectre-post-aside .aside-nav a.active {
+  background-color: #ff4c4c;
+  color: #fff;
 }
 
 /* ─── Responsive (desktop) ─────────────────────────────────────────────────── */
