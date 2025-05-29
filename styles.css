@@ -752,21 +752,51 @@
   color: #fff;
 }
 
-/* make the aside a column flex container */
+/* 1) Make the aside a column flex container (you already have this) */
 .spectre-post-aside {
   display: flex;
   flex-direction: column;
 }
 
-/* the first UL (our global nav) stays its own size */
-.aside-global-nav {
+/* 2) Pin the nav at the top */
+.spectre-post-aside nav {
   flex: 0 0 auto;
-  order: 0;
+  margin-bottom: 1rem;
 }
 
-/* all other ULs (the dynamic “On This Section” list, etc.) become the scrollable area */
-.spectre-post-aside > ul:not(.aside-global-nav) {
+/* 3) Style your global-nav links */
+.aside-global-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  background: #111;
+}
+.aside-global-nav li + li {
+  margin-top: 0.5rem;
+}
+.aside-global-nav a {
+  display: block;
+  color: #ffaaaa;
+  text-decoration: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+.aside-global-nav a:hover,
+.aside-global-nav a.active {
+  background-color: #ff4c4c;
+  color: #fff;
+}
+
+/* 4) Let only the dynamic list beneath “On This Section” flex/scroll */
+.spectre-post-aside > ul {
   flex: 1 1 auto;
   overflow-y: auto;
-  order: 1;
+  padding: 0.5rem 1rem;
+  margin: 0;
+}
+
+/* 5) Pin the bio at the bottom */
+.aside-bio-section {
+  flex: 0 0 auto;
 }
