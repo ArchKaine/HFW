@@ -30,10 +30,7 @@ function updateAside() {
     }
   }
   // If at bottom of page, snap to last
-  if (
-    window.innerHeight + scrollY >= document.body.offsetHeight - 50 &&
-    sections.length
-  ) {
+  if (window.innerHeight + scrollY >= document.body.offsetHeight - 50 && sections.length) {
     activeSection = sections[sections.length - 1];
   }
 
@@ -136,6 +133,8 @@ function updateAside() {
 
   aside.style.display = "flex";
 }
+window.updateAside = updateAside;
+
 
 // ────────────────────────────────────────────────────────────────
 // 2) Left-nav section highlighter (unchanged)
@@ -165,8 +164,9 @@ function handleSpectreNavScroll() {
   });
 }
 
+
 // ────────────────────────────────────────────────────────────────
-// 3) Tab-switchers (just added updateAside calls)
+// 3) Tab-switchers (with updateAside calls)
 // ────────────────────────────────────────────────────────────────
 function showFamily(familyIdSuffix, clickedFamilyButton) {
   const pc = document.querySelector(".spectre-post-container");
@@ -210,14 +210,15 @@ function showVariantContent(variantContentId, clickedVariantButton, familyIdSuff
   setTimeout(updateAside, 50);
 }
 
+
 // ────────────────────────────────────────────────────────────────
 // 4) Model-viewer helpers (unchanged)
 // ────────────────────────────────────────────────────────────────
 const viewer = document.querySelector("#spectreViewer");
 const modelMap = {
-  shadow: "https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb",
-  revenant: "https://ArchKaine.github.io/ship-models/Spectre_Revenant.glb",
-  eidolon_shadow: "https://ArchKaine.github.io/ship-models/Eidolon Shadow.glb",
+  shadow:        "https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb",
+  revenant:      "https://ArchKaine.github.io/ship-models/Spectre_Revenant.glb",
+  eidolon_shadow:"https://ArchKaine.github.io/ship-models/Eidolon Shadow.glb",
 };
 let initialOrbit;
 if (viewer) {
@@ -242,25 +243,32 @@ function recenter() {
   viewer?.jumpCameraToGoal();
 }
 
-// ────────────────────────────────────────────────────────────────
-// 5) Wire up on DOMContentLoaded
-// ────────────────────────────────────────────────────────────────
-document.addEventListener("DOMContentLoaded", () => {
-  // Left nav highlight
-  window.addEventListener("scroll", handleSpectreNavScroll);
 
-  // Aside highlight & menu on scroll / hashchange / resize
+// ────────────────────────────────────────────────────────────────
+// 5) Bootstrapping: init() + conditional DOMContentLoaded
+// ────────────────────────────────────────────────────────────────
+function init() {
+  // left‐nav highlight
+  window.addEventListener("scroll", handleSpectreNavScroll);
+  // aside highlight & menu
   window.addEventListener("scroll", updateAside);
   window.addEventListener("hashchange", updateAside);
   window.addEventListener("resize", updateAside);
 
-  // Kick off for the very first family tab
+  // kick off first family tab
   const firstFamily = document.querySelector(".ship-family-tabs button.family-tab");
   if (firstFamily) firstFamily.click();
 
-  // Initial run after everything's loaded
+  // initial run
   setTimeout(() => {
     updateAside();
     handleSpectreNavScroll();
   }, 250);
-});
+}
+
+// if DOM still loading, wait; otherwise fire immediately
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
