@@ -3112,12 +3112,17 @@
 <script>
 // 1) Build & update the “On This Section” aside
 function updateAside() {
+  // ── DEBUG #1 ──
+  console.debug(
+    '–– updateAside start ––',
+    'sections:', Array.from(document.querySelectorAll('.section')).map(s => s.id),
+    'scrollY:', window.scrollY
+  );
+
   const aside = document.getElementById("section-aside");
   if (!aside) return;
-  // look first for your dedicated TOC list, then fall back to the first UL
   const list = aside.querySelector("ul.aside-toc") || aside.querySelector("ul");
   if (!list) return;
-
 
   const svgIcon =
     '<svg viewBox="0 0 24 24" width="0.8em" height="0.8em" fill="currentColor" ' +
@@ -3144,6 +3149,9 @@ function updateAside() {
     activeSection = sections[sections.length - 1];
   }
 
+  // ── DEBUG #2 ──
+  console.debug('activeSection →', activeSection ? activeSection.id : null);
+
   list.innerHTML = "";
   if (!activeSection) {
     const li = document.createElement("li");
@@ -3167,6 +3175,12 @@ function updateAside() {
   }
 
   const headings = Array.from(source.querySelectorAll("h3, h4"));
+
+  // ── DEBUG #3 ──
+  console.debug(
+    'headings in source:', headings.map(h => `${h.tagName}:${h.textContent.trim()}`)
+  );
+
   if (!headings.length) {
     const li = document.createElement("li");
     li.style.padding = "0.5rem 1rem";
@@ -3183,8 +3197,8 @@ function updateAside() {
     if (!h.id) {
       h.id = activeSection.id + "-" + h.tagName.toLowerCase() + "-" +
              h.textContent.trim().toLowerCase()
-              .replace(/\s+/g, "-")
-              .replace(/[^\w-]+/g, "");
+               .replace(/\s+/g, "-")
+               .replace(/[^\w-]+/g, "");
     }
     const a = document.createElement("a");
     a.href = "#" + h.id;
@@ -3211,6 +3225,7 @@ function updateAside() {
     li.appendChild(a);
     list.appendChild(li);
   });
+
   // respect hash if nothing auto-highlighted
   if (!highlighted && window.location.hash) {
     const byHash = list.querySelector(`a[href="${window.location.hash}"]`);
@@ -3281,7 +3296,7 @@ function showFamily(familyIdSuffix, clickedFamilyButton) {
 }
 window.showFamily = showFamily;
 
-// 4) Variant-tabs (fixed)
+// 4) Variant-tabs
 function showVariantContent(variantContentId, clickedVariantButton, familyIdSuffix) {
   const fam = document.querySelector(
     `#content-family-${familyIdSuffix}.active-family-content`
@@ -3299,11 +3314,11 @@ function showVariantContent(variantContentId, clickedVariantButton, familyIdSuff
 }
 window.showVariantContent = showVariantContent;
 
-// 5) model-viewer helpers (unchanged)
+// 5) model-viewer helpers
 const viewer = document.querySelector("#spectreViewer");
 const modelMap = {
-  shadow:   "https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb",
-  revenant: "https://ArchKaine.github.io/ship-models/Spectre_Revenant.glb",
+  shadow:         "https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb",
+  revenant:       "https://ArchKaine.github.io/ship-models/Spectre_Revenant.glb",
   eidolon_shadow: "https://ArchKaine.github.io/ship-models/Eidolon Shadow.glb",
 };
 let initialOrbit;
@@ -3325,14 +3340,12 @@ function switchModel(key) {
   viewer.jumpCameraToGoal();
 }
 window.switchModel = switchModel;
-
 function setView(orbit) {
   if (!viewer) return;
   viewer.setAttribute("camera-orbit", orbit);
   viewer.jumpCameraToGoal();
 }
 window.setView = setView;
-
 function recenter() {
   if (!viewer) return;
   viewer.setAttribute("camera-orbit", initialOrbit);
@@ -3347,7 +3360,6 @@ function init() {
   window.addEventListener("hashchange", updateAside);
   window.addEventListener("resize", updateAside);
 
-  // fire the first family into view
   const firstFamily = document.querySelector(".ship-family-tabs button.family-tab");
   if (firstFamily) {
     showFamily(
@@ -3361,13 +3373,13 @@ function init() {
     handleSpectreNavScroll();
   }, 250);
 }
-
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", init);
 } else {
   init();
 }
 </script>
+
 
   </body>
 </html>
