@@ -21,9 +21,14 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden; /* Prevent scrolling on the body/document itself */
-  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif; /* Base font */
-  background-color: #0b0e13; /* Base background */
-  color: #f0f0f0; /* Base text color */
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+  background-color: #0b0e13;
+  color: #f0f0f0;
+  box-sizing: border-box; /* Apply to all elements for consistency */
+}
+
+*, *::before, *::after {
+  box-sizing: inherit; /* Inherit box-sizing from html/body */
 }
 
 .spectre-post-container {
@@ -31,12 +36,11 @@ html, body {
   grid-template-areas:
     "header header header"
     "nav    content aside";
-  grid-template-rows: auto 1fr; /* Header auto, rest (nav, content, aside row) takes remaining space */
+  grid-template-rows: auto 1fr;
   grid-template-columns: 320px 1fr 320px;
   gap: 1rem;
-  /* MODIFIED: Changed to 100% as there's no external 3rem header */
-  height: 100%; /* This makes it fill the body, which is 100vh */
-  overflow: hidden; /* Crucial: Prevents this container from showing scrollbars */
+  height: 100vh; /* MODIFIED: Explicitly use 100vh for full viewport height */
+  overflow: hidden;
 }
 
 /* Grid area assignments */
@@ -50,12 +54,12 @@ html, body {
 .spectre-post-container > .spectre-post-aside {
   position: sticky;
   top: 0;
-  align-self: start;
+  align-self: start; /* Aligns the sticky item to the start of the grid cell */
+  max-height: 100%; /* Max height is 100% of the grid row's height (which is 1fr) */
   /*
-    max-height: 100%; ensures they don't grow taller than the grid row they are in.
-    The grid row's height is determined by '1fr' of the .spectre-post-container's content area height.
+    The direct children of the grid (nav, aside) will have a height determined by the '1fr' unit
+    after the 'auto' height header. 'max-height: 100%' here refers to that calculated height.
   */
-  max-height: 100%;
 }
 
 /* Inner scroll wrappers for nav and aside */
@@ -64,6 +68,7 @@ html, body {
   height: 100%; /* Fill the max-height of their parent (nav or aside) */
   overflow-y: auto; /* Allow internal scrolling */
   padding: 1rem;
+  box-sizing: border-box; /* MODIFIED: Ensure padding is included in the height */
 }
 /* Custom scrollbar styling (optional) */
 .nav-scroll-wrapper::-webkit-scrollbar,
@@ -92,6 +97,7 @@ html, body {
   overflow-y: auto;
   min-height: 0;    /* Essential for grid children that scroll */
   padding: 0 1rem;
+  box-sizing: border-box; /* Added for consistency with padding */
 }
 
 .spectre-post-container > .container > .section:first-child {
@@ -195,8 +201,7 @@ html, body {
 .spectre-post-aside ul.aside-toc a.active svg {
   opacity: 1;
   color: #ff4c4c;
-}
-    </style>
+}    </style>
     </head>
   <body>
     <div class="spectre-post-container" id="spectre-top">
