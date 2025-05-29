@@ -16,12 +16,12 @@
 /* --- Inline Grid Layout & Sticky Positioning --- */
 html, body {
   height: 100%;
-  width: 100%; /* Ensure full width */
+  width: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden; /* Prevent scrolling on the body/document itself */
   font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
-  background-color: #0b0e13;
+  background-color: #0b0e13; /* Base background for the page */
   color: #f0f0f0;
   box-sizing: border-box;
 }
@@ -30,22 +30,33 @@ html, body {
   box-sizing: inherit;
 }
 
+/* --- DIAGNOSTIC OUTLINES (temporary) --- */
+html { outline: 1px dotted cyan !important; }
+body { outline: 1px dotted blue !important; padding: 1px !important; /* Padding to make body outline visible inside html outline */ }
+.spectre-post-container { outline: 3px dashed red !important; }
+.spectre-post-container > header { outline: 2px dotted orange !important; }
+.spectre-post-container > nav { outline: 2px dotted yellow !important; }
+.spectre-post-container > .container { outline: 2px dotted lime !important; }
+.spectre-post-container > .spectre-post-aside { outline: 2px dotted magenta !important; }
+/* --- END DIAGNOSTIC OUTLINES --- */
+
+
 .spectre-post-container {
   display: grid !important;
   grid-template-areas:
     "header header header"
     "nav    content aside";
   grid-template-rows: auto 1fr;
-  /* MODIFIED: Using minmax(0, 1fr) for robust shrinking of content column */
-  grid-template-columns: 320px minmax(0, 1fr) 320px;
-  gap: 0; /* MODIFIED: No gap between columns */
+  grid-template-columns: 320px minmax(0, 1fr) 320px; /* Robust flexible middle column */
+  gap: 0; /* No space between columns */
   height: 100vh;
-  width: 100%; /* Ensures it fills the body */
-  /*overflow: hidden;*/
+  width: 100%; /* Fill the body */
+  overflow: hidden; /* Ensures internal column scrolling, clips if grid overflows */
+  /* background-color: #0b0e13; /* Same as body, or a distinct one if preferred */
 }
 
 /* Grid area assignments */
-.spectre-post-container > header { grid-area: header; }
+.spectre-post-container > header { grid-area: header; background-color: #1a1a1a; }
 .spectre-post-container > nav { grid-area: nav; }
 .spectre-post-container > .container { grid-area: content; }
 .spectre-post-container > .spectre-post-aside { grid-area: aside; }
@@ -57,7 +68,7 @@ html, body {
   top: 0;
   align-self: start;
   max-height: 100%;
-  background-color: #111; /* Background for the sidebars themselves */
+  background-color: #111; /* Background for the sidebars */
 }
 
 /* Inner scroll wrappers for nav and aside */
@@ -73,164 +84,49 @@ html, body {
 
 /* Custom scrollbar styling */
 .nav-scroll-wrapper::-webkit-scrollbar,
-.aside-scroll-wrapper::-webkit-scrollbar {
-  width: 8px;
-}
+.aside-scroll-wrapper::-webkit-scrollbar { width: 8px; }
 .nav-scroll-wrapper::-webkit-scrollbar-track,
-.aside-scroll-wrapper::-webkit-scrollbar-track {
-  background: #1a1a1a;
-}
+.aside-scroll-wrapper::-webkit-scrollbar-track { background: #1a1a1a; }
 .nav-scroll-wrapper::-webkit-scrollbar-thumb,
-.aside-scroll-wrapper::-webkit-scrollbar-thumb {
-  background-color: #ff4c4c;
-  border-radius: 4px;
-  border: 1px solid #0b0e13;
-}
+.aside-scroll-wrapper::-webkit-scrollbar-thumb { background-color: #ff4c4c; border-radius: 4px; border: 1px solid #0b0e13; }
 .nav-scroll-wrapper,
-.aside-scroll-wrapper {
-  scrollbar-width: thin;
-  scrollbar-color: #ff4c4c #1a1a1a;
-}
+.aside-scroll-wrapper { scrollbar-width: thin; scrollbar-color: #ff4c4c #1a1a1a; }
 
 /* Aside content flex setup for bio at bottom */
 .aside-scroll-wrapper > .aside-top-logo,
-.aside-scroll-wrapper > h2 {
-  flex-shrink: 0;
-}
-
-.spectre-post-aside ul.aside-toc {
-  list-style: none;
-  padding: 0;
-  margin: 0.5rem 0;
-  flex-grow: 1;
-  min-height: 50px;
-}
-
-.aside-bio-section {
-  padding: 1rem;
-  border-top: 1px solid #333;
-  margin-top: auto; /* Pushes bio to bottom */
-  flex-shrink: 0;
-}
-
+.aside-scroll-wrapper > h2 { flex-shrink: 0; }
+.spectre-post-aside ul.aside-toc { list-style: none; padding: 0; margin: 0.5rem 0; flex-grow: 1; min-height: 50px; }
+.aside-bio-section { padding: 1rem; border-top: 1px solid #333; margin-top: auto; flex-shrink: 0; }
 
 /* Main content area scrolling */
 .spectre-post-container > .container {
-  grid-area: content;
-  overflow-y: auto; /* Vertical scroll for content */
-  overflow-x: hidden; /* ADDED: Prevent horizontal scroll/overflow from content */
+  overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal scroll/breakout FROM THIS COLUMN's content */
   min-height: 0;
-  min-width: 0;     /* ADDED: Allow 1fr column to shrink fully if needed */
-  padding: 1.5rem 2rem; /* Internal padding for main content (adjust as needed) */
+  min-width: 0;     /* Allow 1fr column to shrink as much as possible */
+  padding: 1.5rem 2rem; /* Internal padding for main content since gap is 0 */
   box-sizing: border-box;
-  background-color: #0b0e13;
+  /* background-color: #0b0e13; /* Already on parent, but can be explicit */
 }
 
 .spectre-post-container > .container > .section:first-child {
-   margin-top: 0; /* If .container has top padding, first section might not need extra margin */
-   /* If .container has no top padding, you might want margin-top: 1.5rem; or similar */
+   margin-top: 0; /* With padding on .container, first section may not need margin */
 }
 
-/* --- Left Navigation Button Styling --- */
-.spectre-post-container > nav .nav-scroll-wrapper .nav-logo {
-  padding-bottom: 1rem;
-  flex-shrink: 0;
-}
+/* --- Left Navigation Button Styling (remains the same) --- */
+.spectre-post-container > nav .nav-scroll-wrapper .nav-logo { padding-bottom: 1rem; flex-shrink: 0; }
+.spectre-post-container > nav .nav-scroll-wrapper a { display: flex; align-items: center; justify-content: flex-start; width: 100%; box-sizing: border-box; padding: 0.9rem 1.5rem; margin-bottom: 0.5rem; border: 1px solid #4a4a4a; background-color: #1f1f1f; color: #ff8c8c; text-align: left; border-radius: 6px; font-family: "Orbitron", sans-serif; text-transform: uppercase; text-decoration: none; font-size: 1rem; font-weight: normal; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease; flex-shrink: 0; }
+.spectre-post-container > nav .nav-scroll-wrapper a:hover { background-color: #ff4c4c; color: #0b0e13; border-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3); }
+.spectre-post-container > nav .nav-scroll-wrapper a.nav-active { background: linear-gradient(to bottom, #ff4c4c, #d13b3b); color: #ffffff; border-color: #c02c2c; box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2); transform: translateY(0px); font-weight: bold; }
+.spectre-post-container > nav .nav-scroll-wrapper a.nav-active:hover { background: linear-gradient(to bottom, #ff6a6a, #ff4c4c); color: #ffffff; border-color: #d13b3b; }
+.spectre-post-container > nav .nav-scroll-wrapper a svg { fill: currentColor; width: 1em; height: 1em; margin-right: 0.8rem; vertical-align: middle; flex-shrink: 0; }
 
-.spectre-post-container > nav .nav-scroll-wrapper a {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0.9rem 1.5rem;
-  margin-bottom: 0.5rem;
-  border: 1px solid #4a4a4a;
-  background-color: #1f1f1f;
-  color: #ff8c8c;
-  text-align: left;
-  border-radius: 6px;
-  font-family: "Orbitron", sans-serif;
-  text-transform: uppercase;
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: normal;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease;
-  flex-shrink: 0;
-}
-
-.spectre-post-container > nav .nav-scroll-wrapper a:hover {
-  background-color: #ff4c4c;
-  color: #0b0e13;
-  border-color: #ff6a6a;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3);
-}
-
-.spectre-post-container > nav .nav-scroll-wrapper a.nav-active {
-  background: linear-gradient(to bottom, #ff4c4c, #d13b3b);
-  color: #ffffff;
-  border-color: #c02c2c;
-  box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4),
-    inset 0 1px 3px rgba(0, 0, 0, 0.2);
-  transform: translateY(0px);
-  font-weight: bold;
-}
-
-.spectre-post-container > nav .nav-scroll-wrapper a.nav-active:hover {
-  background: linear-gradient(to bottom, #ff6a6a, #ff4c4c);
-  color: #ffffff;
-  border-color: #d13b3b;
-}
-
-.spectre-post-container > nav .nav-scroll-wrapper a svg {
-  fill: currentColor;
-  width: 1em;
-  height: 1em;
-  margin-right: 0.8rem;
-  vertical-align: middle;
-  flex-shrink: 0;
-}
-
-/* --- Right Aside "On This Section" - Link Styling --- */
-.spectre-post-aside ul.aside-toc a {
-  color: #ffaaaa;
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
-  text-transform: none;
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: background-color 0.3s ease, color 0.3s ease,
-    border-left-color 0.3s ease;
-  border-left: 3px solid transparent;
-  margin-bottom: 0.1rem;
-}
-.spectre-post-aside ul.aside-toc a:hover {
-  background-color: #2a2a2a;
-  color: #fff;
-}
-.spectre-post-aside ul.aside-toc a.active {
-  background-color: #333;
-  color: #ffffff;
-  font-weight: bold;
-  border-left-color: #ff4c4c;
-}
-.spectre-post-aside ul.aside-toc a svg {
-  width: 0.8em;
-  height: 0.8em;
-  fill: currentColor;
-  margin-right: 0.6em;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
-  flex-shrink: 0;
-}
-.spectre-post-aside ul.aside-toc a.active svg {
-  opacity: 1;
-  color: #ff4c4c;
-}
+/* --- Right Aside "On This Section" - Link Styling (remains the same) --- */
+.spectre-post-aside ul.aside-toc a { color: #ffaaaa; text-decoration: none; font-size: 0.9rem; font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif; text-transform: none; display: flex; align-items: center; padding: 0.5rem 1rem; border-radius: 4px; transition: background-color 0.3s ease, color 0.3s ease, border-left-color 0.3s ease; border-left: 3px solid transparent; margin-bottom: 0.1rem; }
+.spectre-post-aside ul.aside-toc a:hover { background-color: #2a2a2a; color: #fff; }
+.spectre-post-aside ul.aside-toc a.active { background-color: #333; color: #ffffff; font-weight: bold; border-left-color: #ff4c4c; }
+.spectre-post-aside ul.aside-toc a svg { width: 0.8em; height: 0.8em; fill: currentColor; margin-right: 0.6em; opacity: 0.7; transition: opacity 0.3s ease; flex-shrink: 0; }
+.spectre-post-aside ul.aside-toc a.active svg { opacity: 1; color: #ff4c4c; }
 </style>
     </head>
   <body>
