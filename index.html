@@ -13,10 +13,10 @@
       href="https://cdn.jsdelivr.net/gh/ArchKaine/HFW@main/styles.css"
     />
 <style>
-/* --- Inline Grid Layout & Sticky Positioning (Reverted State) --- */
+/* --- Inline Grid Layout & Sticky Positioning --- */
 html, body {
   height: 100%;
-  width: 100%;
+  width: 100%; /* Ensure full width */
   margin: 0;
   padding: 0;
   overflow: hidden; /* Prevent scrolling on the body/document itself */
@@ -36,10 +36,11 @@ html, body {
     "header header header"
     "nav    content aside";
   grid-template-rows: auto 1fr;
-  grid-template-columns: 320px 1fr 320px;
-  gap: 1rem; /* MODIFIED: Reverted to 1rem */
+  /* MODIFIED: Using minmax(0, 1fr) for robust shrinking of content column */
+  grid-template-columns: 320px minmax(0, 1fr) 320px;
+  gap: 0; /* MODIFIED: No gap between columns */
   height: 100vh;
-  /* MODIFIED: Removed explicit width: 100%; will take width from body */
+  width: 100%; /* Ensures it fills the body */
   overflow: hidden;
 }
 
@@ -56,7 +57,7 @@ html, body {
   top: 0;
   align-self: start;
   max-height: 100%;
-  background-color: #111; /* Keep background for visual separation with gap */
+  background-color: #111; /* Background for the sidebars themselves */
 }
 
 /* Inner scroll wrappers for nav and aside */
@@ -64,9 +65,10 @@ html, body {
 .aside-scroll-wrapper {
   height: 100%;
   overflow-y: auto;
-  padding: 1rem;
+  padding: 1rem; /* Internal padding for sidebar content */
   box-sizing: border-box;
-  /* MODIFIED: Removed display:flex and flex-direction:column from .aside-scroll-wrapper */
+  display: flex;
+  flex-direction: column;
 }
 
 /* Custom scrollbar styling */
@@ -90,38 +92,46 @@ html, body {
   scrollbar-color: #ff4c4c #1a1a1a;
 }
 
-/* Bio placement revert: .aside-scroll-wrapper is no longer a flex container for this purpose */
+/* Aside content flex setup for bio at bottom */
+.aside-scroll-wrapper > .aside-top-logo,
+.aside-scroll-wrapper > h2 {
+  flex-shrink: 0;
+}
+
 .spectre-post-aside ul.aside-toc {
   list-style: none;
   padding: 0;
   margin: 0.5rem 0;
-  /* MODIFIED: Removed flex-grow: 1; */
+  flex-grow: 1;
+  min-height: 50px;
 }
 
 .aside-bio-section {
   padding: 1rem;
   border-top: 1px solid #333;
-  margin-top: 1rem; /* MODIFIED: Reverted from margin-top:auto to a standard margin */
-  flex-shrink: 0; /* Still useful if parent was flex, but less critical now */
+  margin-top: auto; /* Pushes bio to bottom */
+  flex-shrink: 0;
 }
 
 
 /* Main content area scrolling */
 .spectre-post-container > .container {
   grid-area: content;
-  overflow-y: auto;
+  overflow-y: auto; /* Vertical scroll for content */
+  overflow-x: hidden; /* ADDED: Prevent horizontal scroll/overflow from content */
   min-height: 0;
-  /* MODIFIED: Removed min-width: 0; */
-  padding: 0 1rem; /* Reverted from 2rem, consistent with 1rem gap */
+  min-width: 0;     /* ADDED: Allow 1fr column to shrink fully if needed */
+  padding: 1.5rem 2rem; /* Internal padding for main content (adjust as needed) */
   box-sizing: border-box;
   background-color: #0b0e13;
 }
 
 .spectre-post-container > .container > .section:first-child {
-   margin-top: 1.5rem;
+   margin-top: 0; /* If .container has top padding, first section might not need extra margin */
+   /* If .container has no top padding, you might want margin-top: 1.5rem; or similar */
 }
 
-/* --- Left Navigation Button Styling (Kept from previous working state) --- */
+/* --- Left Navigation Button Styling --- */
 .spectre-post-container > nav .nav-scroll-wrapper .nav-logo {
   padding-bottom: 1rem;
   flex-shrink: 0;
@@ -182,7 +192,7 @@ html, body {
   flex-shrink: 0;
 }
 
-/* --- Right Aside "On This Section" - Link Styling (Kept from previous working state) --- */
+/* --- Right Aside "On This Section" - Link Styling --- */
 .spectre-post-aside ul.aside-toc a {
   color: #ffaaaa;
   text-decoration: none;
@@ -220,69 +230,6 @@ html, body {
 .spectre-post-aside ul.aside-toc a.active svg {
   opacity: 1;
   color: #ff4c4c;
-}
-
-/* Add this @media rule at the end of your existing inline <style> block */
-
-@media (max-width: 991.98px) { /* Target devices narrower than 992px */
-  
-  /* Allow body to scroll on mobile if content is long */
-  html, body {
-    overflow-y: auto; /* Allow vertical scroll for the whole page */
-    height: auto;     /* Let height be determined by content */
-  }
-
-  .spectre-post-container {
-    grid-template-areas: /* Stack elements vertically */
-      "header"
-      "nav"
-      "content"
-      "aside";
-    grid-template-columns: 1fr; /* Single column takes full width */
-    grid-template-rows: auto auto auto 1fr; /* Define rows for stacked items. Content takes 1fr. */
-                                         /* Or use 'auto' for all rows if you want them to size to content:
-                                            grid-template-rows: auto auto auto auto; */
-    height: auto; /* Let the container height be determined by its content */
-    overflow-y: visible; /* Allow .spectre-post-container to not clip its overflowing content */
-    gap: 0; /* Remove grid gap for single column, use margins for spacing */
-  }
-
-  /* Adjust nav and aside for single-column layout */
-  .spectre-post-container > nav,
-  .spectre-post-container > .spectre-post-aside {
-    position: static; /* Remove sticky positioning */
-    max-height: none; /* Allow them to take their natural content height */
-    width: 100%;      /* Take full width in the single column */
-    border-left: none;  /* Remove desktop-specific borders */
-    border-right: none;
-    margin-bottom: 1.5rem; /* Add some space below nav and aside when stacked */
-    background-color: #111; /* Ensure they have a background */
-  }
-  
-  /* Ensure header has some bottom margin when stacked */
-  .spectre-post-container > header {
-    margin-bottom: 1.5rem;
-  }
-
-  /* Scroll wrappers will behave slightly differently in flow */
-  .nav-scroll-wrapper,
-  .aside-scroll-wrapper {
-    height: auto; /* Let them size to their content, or set a specific max-height */
-    /* max-height: 60vh; /* Example: if you want to limit their height and make them scroll internally */
-    overflow-y: auto; /* They still scroll their own content if it overflows their calculated height */
-    padding: 1rem; /* Keep internal padding */
-  }
-
-  .spectre-post-container > .container {
-    /* Content area will take space defined by grid-template-rows, or grow if rows are auto */
-    padding: 1rem; /* Adjust padding for mobile if needed */
-    min-height: auto; /* Reset min-height if it causes issues in auto rows */
-  }
-
-  /* If you had specific padding on .container for desktop, adjust for mobile */
-  .spectre-post-container > .container {
-    padding: 1rem; /* Example padding for mobile */
-  }
 }
 </style>
     </head>
