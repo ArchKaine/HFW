@@ -70,13 +70,12 @@ html, body {
 .spectre-post-container > .spectre-post-aside {
   position: sticky;
   top: 0;
-  align-self: stretch; /* Makes the grid item fill the row's height */
-  height: 100%;     /* Ensures they take the full height of the 1fr grid row */
+  align-self: stretch; 
+  height: 100%;     
   background-color: #111;
 }
-/* Sidebar borders (desktop focused) */
 .spectre-post-container > .spectre-post-aside {
-    border-left: 2px solid #ff4c4c;
+    border-left: 2px solid #ff4c4c; 
 }
 
 /* Inner scroll wrappers for nav and aside */
@@ -114,7 +113,13 @@ html, body {
 .aside-scroll-wrapper > h2 { font-size: 1.1rem; color: #ff4c4c; text-transform: uppercase; margin: 0 0 0.5rem 0; padding: 1rem 0 0.5rem 0; border-bottom: 1px solid #333; flex-shrink: 0; font-family: "Orbitron", sans-serif; }
 
 /* UNIFIED STYLING for Right Aside Table of Contents Links */
-.spectre-post-aside ul.aside-toc { list-style: none; padding: 0; margin: 0.5rem 0; flex-grow: 1; min-height: 50px; }
+.spectre-post-aside ul.aside-toc { 
+  list-style: none; 
+  padding: 0; 
+  margin: 0.5rem 0; 
+  flex-grow: 1; /* Key for pushing bio down */
+  /* min-height: 50px; /* MODIFIED: Removed this line */
+}
 .spectre-post-aside ul.aside-toc li { margin: 0; }
 .spectre-post-aside ul.aside-toc a { display: flex; align-items: center; justify-content: flex-start; width: 100%; box-sizing: border-box; padding: 0.9rem 1.5rem; margin-bottom: 0.5rem; border: 1px solid #4a4a4a; background-color: #1f1f1f; color: #ff8c8c; text-align: left; border-radius: 6px; font-family: "Orbitron", sans-serif; text-transform: uppercase; text-decoration: none; font-size: 0.9rem; font-weight: normal; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease; flex-shrink: 0; }
 .spectre-post-aside ul.aside-toc a:hover { background-color: #ff4c4c; color: #0b0e13; border-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3); }
@@ -125,7 +130,7 @@ html, body {
 .spectre-post-aside ul.aside-toc a.active svg { opacity: 1; color: #ffffff; }
 
 /* Bio Section */
-.aside-bio-section { padding: 1rem; border-top: 1px solid #333; margin-top: auto; flex-shrink: 0; color: #f0f0f0; font-size: 0.85rem; line-height: 1.5; background-color: rgba(255, 76, 76, 0.05); border-radius: 0 0 5px 5px; }
+.aside-bio-section { padding: 1rem; border-top: 1px solid #333; margin-top: auto; /* Key for pushing to bottom */ flex-shrink: 0; color: #f0f0f0; font-size: 0.85rem; line-height: 1.5; background-color: rgba(255, 76, 76, 0.05); border-radius: 0 0 5px 5px; }
 .aside-bio-section .aside-bio-heading { font-size: 1rem !important; color: #ff8c8c !important; text-transform: uppercase; margin: 0 0 0.5rem 0 !important; padding: 0 0 0.3rem 0 !important; border-bottom: 1px dashed #444 !important; font-family: "Orbitron", sans-serif; }
 .aside-bio-content { max-height: 30vh; overflow-y: auto; padding-right: 0.5rem; scrollbar-width: thin; scrollbar-color: #ff4c4c #111; }
 .aside-bio-content::-webkit-scrollbar { width: 6px; }
@@ -135,7 +140,7 @@ html, body {
 /* Main content area */
 .spectre-post-container > .container {
   overflow-y: auto; 
-  overflow-x: auto; /* Allow horizontal scroll if content within 1280px is wider */
+  overflow-x: auto; 
   min-height: 0;    
   padding: 1.5rem 2rem; 
   box-sizing: border-box;
@@ -145,35 +150,24 @@ html, body {
 }
 
 /* --- Content Responsiveness & Overflow Management --- */
-.spectre-post-container > .container img {
-  max-width: 100%; 
-  height: auto;   
-  display: block; 
-}
+.spectre-post-container > .container img { max-width: 100%; height: auto; display: block; }
 .spectre-post-container > .container table,
-.spectre-post-container > .container pre {
-    max-width: 100%; /* They will be max 100% of the 1280px column */
-    overflow-x: auto; /* If their content is wider than that, they get a scrollbar */
-    word-wrap: break-word; 
-}
+.spectre-post-container > .container pre { max-width: 100%; overflow-x: auto; word-wrap: break-word; }
 .spectre-post-container > .container .section p,
 .spectre-post-container > .container .section li,
 .spectre-post-container > .container .section div:not(.gallery):not(.gallery-item):not([class*='tabs']):not([class*='content-wrapper']),
 .spectre-post-container > .container .section td,
-.spectre-post-container > .container .section th {
-    word-wrap: break-word; 
-}
+.spectre-post-container > .container .section th { word-wrap: break-word; }
 /* --- END Content Responsiveness & Overflow Management --- */
 
 /* General Content Styles (Headings, Paragraphs, etc.) */
+/* ... (The rest of your general content styles from the previous full CSS block should be here) ... */
 .spectre-post-container .container h2 { font-size: 1.8rem; color: #ff4c4c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px solid #444; padding-bottom: 0.5rem; margin-top: 2rem; margin-bottom: 1.5rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); }
 .spectre-post-container .container h3 { font-size: 1.4rem; color: #ff8c8c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px solid #333; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 1rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); }
 .spectre-post-container .container h4 { font-size: 1.2rem; color: #ffaaaa; font-family: "Orbitron", sans-serif; margin-top: 1.2rem; margin-bottom: 0.8rem; }
 .spectre-post-container .container .section > h2:first-child,
 .spectre-post-container .container .section > h3:first-child { margin-top: 0; }
 .spectre-post-container .container p { margin-bottom: 1.2rem; }
-/* ... (rest of your general content styles: scenario-narrative, back-to-top, styled-button, tabs, model-viewer, variants, section, table, gallery, caption, details, blockquote etc. should follow here, ensure selectors are scoped with .spectre-post-container .container if they apply to main content area) ... */
-/* Ensure all original content styles are included below, similar to the previous full merge */
 .spectre-post-container .container .scenario-narrative { background-color: rgba(20, 20, 25, 0.5); padding: 1.5rem; border-left: 3px solid #ff4c4c; margin-bottom: 1.5rem; border-radius: 0 5px 5px 0; }
 .spectre-post-container .container .scenario-narrative p { margin-bottom: 0.8rem; text-indent: 1.5em; }
 .spectre-post-container .container .scenario-narrative p:first-of-type { text-indent: 0; }
@@ -208,7 +202,7 @@ html, body {
 .spectre-post-container .container th { background-color: #1f1f1f; color: #ffaaaa; font-family: "Orbitron", sans-serif; width: 25%; font-size: 0.95rem; }
 .spectre-post-container .container td { width: 75%; }
 .spectre-post-container .container a img:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(255, 76, 76, 0.3); }
-.spectre-post-container .container .gallery { display: flex; flex-wrap: nowrap; gap: 1rem; overflow-x: auto; padding: 1rem; background-color: rgba(0, 0, 0, 0.3); border-radius: 6px; border: 1px solid #2a2a2a; justify-content: flex-start; max-width: 100%; /* min-width: 0; /* Kept this from previous attempts, generally good */ }
+.spectre-post-container .container .gallery { display: flex; flex-wrap: nowrap; gap: 1rem; overflow-x: auto; padding: 1rem; background-color: rgba(0, 0, 0, 0.3); border-radius: 6px; border: 1px solid #2a2a2a; justify-content: flex-start; max-width: 100%; /* min-width: 0; /* Kept this from diagnostic attempts, generally harmless */ }
 .spectre-post-container .container .gallery img { width: auto; height: 426px; max-height: 426px; max-width: 640px; flex-shrink: 0; border-radius: 6px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid #444; object-fit: cover; }
 .spectre-post-container .container .caption { text-align: center; font-size: 16px; color: #ffaaaa; margin-top: 0.5rem; }
 .spectre-post-container .container details { background-color: #1a1a1a; border: 1px solid #333; border-radius: 5px; padding: 0.8rem 1.2rem; margin-top: 1rem; transition: background-color 0.3s ease; }
@@ -3264,42 +3258,42 @@ html, body {
             <h2 class="aside-bio-heading">Dr. Aris D. Thorne: Visionary</h2>
             <div class="aside-bio-content">
               <p>
-                **Dr. Aris David Thorne** (born 2910, Portland, Earth) is
+                <strong>Dr. Aris David Thorne</strong> (born 2910, Portland, Earth) is
                 considered Anvil Aerospace's single most valuable person and
-                asset, recognized as **likely the smartest person alive**—the
+                asset, recognized as <strong>likely the smartest person alive</strong>—the
                 Stephen Hawking or Albert Einstein of his era. His academic path
-                defied convention, earning **sixteen doctorates** across diverse
+                defied convention, earning <strong>sixteen doctorates</strong> across diverse
                 fields from aerospace engineering to cognitive psychology and
-                medicine. He excelled by seeing the **interconnectedness of all
-                knowledge**, a polymathic approach that revolutionized his studies
+                medicine. He excelled by seeing the <strong>interconnectedness of all
+                knowledge</strong>, a polymathic approach that revolutionized his studies
                 at institutions like Terra's University of Rhetor and Archimedes
                 Institute.
               </p>
               <p>
-                Thorne's profound understanding of **all forms of technology**
+                Thorne's profound understanding of <strong>all forms of technology</strong>
                 catapulted Anvil's ships to a tier unmatched by any other Human
                 manufacturer. His leadership led to the creation of
-                **Hephaestus Forge Works (HFW)**, his equivalent of nuclear
+                <strong>Hephaestus Forge Works (HFW)</strong>, his equivalent of nuclear
                 technology development: a secret division dedicated to forging
                 paradigm-shifting military solutions.
               </p>
               <p>
-                Despite his monumental intellect, Dr. Thorne is a **humble and
-                dedicated leader, well-loved by his staff**. He insists on **full
-                disclosure** for all HFW personnel, ensuring they have **all the
-                information needed** to assess mission viability. This respect
+                Despite his monumental intellect, Dr. Thorne is a <strong>humble and
+                dedicated leader, well-loved by his staff</strong>. He insists on <strong>full
+                disclosure</strong> for all HFW personnel, ensuring they have <strong>all the
+                information needed</strong> to assess mission viability. This respect
                 fosters an unparalleled familial loyalty. His rescue from
                 danger, for instance, wasn't a strategic necessity to protect
                 classified information, but a visceral "he's family, get him back
                 NOW!" imperative from his devoted teams.
               </p>
               <p>
-                His influence extends even to **Aegis Dynamics**. Despite Aegis's
+                His influence extends even to <strong>Aegis Dynamics</strong>. Despite Aegis's
                 checkered history and their usual guardedness, their respect for
                 Thorne's unparalleled vision and expertise is immense. Debating
                 Thorne is akin to "a three-year-old playing chess against a
-                Grandmaster"; his mind **runs circles around the smartest in the
-                UEE, and potentially even the Xi'an, Tevarin, and Banu**. This
+                Grandmaster"; his mind <strong>runs circles around the smartest in the
+                UEE, and potentially even the Xi'an, Tevarin, and Banu</strong>. This
                 intellectual gravity, paired with his humility, convinced Aegis to
                 share their advanced EW and sensor technology, a testament to his
                 singular standing.
