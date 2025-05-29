@@ -740,3 +740,12 @@
 .spectre-post-container > .container    { grid-area: content; overflow-y: auto; }
 .spectre-post-container > .section      { /* if you wrap your main in .section instead of .container */ }
 .spectre-post-aside                     { grid-area: aside;  overflow-y: auto; }
+
+/* allow these grid cells to shrink to the row’s height and then scroll */
+.spectre-post-container > nav,
+.spectre-post-container > .container,
+.spectre-post-aside {
+  min-height: 0;        /* ⇐ override the default auto min‐height */
+  overflow-y: auto;     /* ⇐ show a scrollbar when content overflows */
+}
+
