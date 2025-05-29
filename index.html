@@ -39,8 +39,45 @@
             ); /* Another noise layer for complexity */
         background-attachment: fixed; /* Ensures background stays in place on scroll */
       }
+/* ─── Global Top Menu ─────────────────────────────────────────────────── */
+#global-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #111;
+  border-bottom: 2px solid #ff4c4c;
+  z-index: 1002;
+}
+#global-nav ul {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+#global-nav a {
+  color: #ffaaaa;
+  font-family: "Orbitron", sans-serif;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+#global-nav a:hover,
+#global-nav a.active {
+  background-color: #ff4c4c;
+  color: #fff;
+}
 
-      body {
+/* push the page content down so it sits below the fixed nav */
+body {
+  margin-top: 3rem; /* match roughly #global-nav’s total height */
+}
+/* ───────────────────────────────────────────────────────────────────── */
         margin: 0;
         padding: 0;
         /* NEW: Add right margin to accommodate always-visible aside */
@@ -762,8 +799,20 @@
       }
     </style>
   </head>
-  <body>
-    <div class="spectre-post-container" id="spectre-top">
+<body>
+  <nav id="global-nav">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/hfw/">HFW</a></li>
+      <li><a href="/spectre/">Spectre</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about/">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="spectre-post-container" id="spectre-top">
+    …
+
       <header>
         <h1>HFW Shadow Fleet - Comprehensive Design Document</h1>
         <p style="color: #aaaaaa; font-size: 0.9em; margin-top: 0.2em">
@@ -4100,6 +4149,16 @@
     }, 250);
   });
 </script>
-
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // strip trailing slash
+    const path = window.location.pathname.replace(/\/$/, "");
+    document.querySelectorAll("#global-nav a").forEach(link => {
+      if (link.getAttribute("href").replace(/\/$/, "") === path) {
+        link.classList.add("active");
+      }
+    });
+  });
+</script>
   </body>
 </html>
