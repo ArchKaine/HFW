@@ -32,12 +32,13 @@ html, body {
 
 /* --- DIAGNOSTIC OUTLINES (temporary) --- */
 html { outline: 1px dotted cyan !important; }
-body { outline: 1px dotted blue !important; padding: 1px !important; /* Padding to make body outline visible inside html outline */ }
+body { outline: 1px dotted blue !important; padding: 1px !important; }
 .spectre-post-container { outline: 3px dashed red !important; }
-.spectre-post-container > header { outline: 2px dotted orange !important; }
-.spectre-post-container > nav { outline: 2px dotted yellow !important; }
-.spectre-post-container > .container { outline: 2px dotted lime !important; }
-.spectre-post-container > .spectre-post-aside { outline: 2px dotted magenta !important; }
+.spectre-post-container > header { outline: 2px dotted orange !important; background-color: rgba(255,165,0,0.1) !important; }
+.spectre-post-container > nav { outline: 2px dotted yellow !important; background-color: rgba(255,255,0,0.1) !important; }
+.spectre-post-container > .container { outline: 2px dotted lime !important; background-color: rgba(0,255,0,0.05) !important; }
+.spectre-post-container > .spectre-post-aside { outline: 2px dotted magenta !important; background-color: rgba(255,0,255,0.1) !important; }
+.spectre-post-container > .container > .section { outline: 1px solid greenyellow !important; margin-top: 3px !important; margin-bottom: 3px !important; background-color: rgba(173,255,47,0.05) !important;}
 /* --- END DIAGNOSTIC OUTLINES --- */
 
 
@@ -52,11 +53,10 @@ body { outline: 1px dotted blue !important; padding: 1px !important; /* Padding 
   height: 100vh;
   width: 100%; /* Fill the body */
   overflow: hidden; /* Ensures internal column scrolling, clips if grid overflows */
-  /* background-color: #0b0e13; /* Same as body, or a distinct one if preferred */
 }
 
 /* Grid area assignments */
-.spectre-post-container > header { grid-area: header; background-color: #1a1a1a; }
+.spectre-post-container > header { grid-area: header; background-color: #1a1a1a; } /* Original BG */
 .spectre-post-container > nav { grid-area: nav; }
 .spectre-post-container > .container { grid-area: content; }
 .spectre-post-container > .spectre-post-aside { grid-area: aside; }
@@ -68,7 +68,7 @@ body { outline: 1px dotted blue !important; padding: 1px !important; /* Padding 
   top: 0;
   align-self: start;
   max-height: 100%;
-  background-color: #111; /* Background for the sidebars */
+  background-color: #111; /* Original BG for sidebars */
 }
 
 /* Inner scroll wrappers for nav and aside */
@@ -76,7 +76,7 @@ body { outline: 1px dotted blue !important; padding: 1px !important; /* Padding 
 .aside-scroll-wrapper {
   height: 100%;
   overflow-y: auto;
-  padding: 1rem; /* Internal padding for sidebar content */
+  padding: 1rem; 
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -101,17 +101,56 @@ body { outline: 1px dotted blue !important; padding: 1px !important; /* Padding 
 /* Main content area scrolling */
 .spectre-post-container > .container {
   overflow-y: auto;
-  overflow-x: hidden; /* Prevent horizontal scroll/breakout FROM THIS COLUMN's content */
+  overflow-x: hidden; 
   min-height: 0;
-  min-width: 0;     /* Allow 1fr column to shrink as much as possible */
-  padding: 1.5rem 2rem; /* Internal padding for main content since gap is 0 */
+  min-width: 0;     
+  padding: 1.5rem 2rem; 
   box-sizing: border-box;
-  /* background-color: #0b0e13; /* Already on parent, but can be explicit */
+  /* background-color: #0b0e13; /* Already on parent, or set if different */
 }
 
 .spectre-post-container > .container > .section:first-child {
-   margin-top: 0; /* With padding on .container, first section may not need margin */
+   margin-top: 0; 
 }
+
+/* --- AGGRESSIVE CONTENT WRANGLING (Temporary Diagnostic / Fix Attempt) --- */
+/* These rules try to force content within the middle column to behave. */
+/* Use with caution, and remove/refine once the problematic content is identified. */
+
+.spectre-post-container > .container .section {
+    /* Ensure section itself doesn't try to be wider than the column. */
+    /* max-width: 100% !important; /* Usually not needed if .container has overflow-x:hidden and min-width:0 */
+    /* overflow-x: hidden !important; /* Clip content within the section if it's too wide. This might hide the problem rather than fix it. */
+}
+
+/* Target common block elements that might cause overflow if they contain long non-breaking content. */
+.spectre-post-container > .container .section p,
+.spectre-post-container > .container .section li,
+.spectre-post-container > .container .section div, /* Be careful with generic div if it's used for layout */
+.spectre-post-container > .container .section td,
+.spectre-post-container > .container .section th {
+    word-wrap: break-word !important; /* Allow long words/strings to break */
+    /* word-break: break-all !important; /* More aggressive, use if word-wrap isn't enough */
+    max-width: 100% !important; /* Ensure they don't exceed parent's width */
+}
+
+/* Specifically target tables and preformatted text, which are common culprits for overflow. */
+.spectre-post-container > .container table,
+.spectre-post-container > .container pre {
+    max-width: 100% !important; /* Force them to fit */
+    overflow-x: auto !important; /* Allow THEM to have a scrollbar if their content is too wide */
+    word-wrap: break-word !important; /* For content within table cells/pre */
+    word-break: break-all !important; /* Can be useful for pre tags */
+}
+
+/* Ensure images are responsive (re-confirming importance with !important for diagnostics) */
+.spectre-post-container > .container img {
+  max-width: 100% !important; 
+  height: auto !important;
+  display: block !important;
+}
+/* --- END AGGRESSIVE CONTENT WRANGLING --- */
+
 
 /* --- Left Navigation Button Styling (remains the same) --- */
 .spectre-post-container > nav .nav-scroll-wrapper .nav-logo { padding-bottom: 1rem; flex-shrink: 0; }
