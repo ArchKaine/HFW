@@ -20,9 +20,6 @@
         padding: 1.5rem;
         font-size: 18px;
         line-height: 1.6;
-        margin-left: 0;
-        /* NEW: Add right margin to accommodate always-visible aside */
-        margin-right: 240px;
         transition: margin-left 0.3s ease, margin-right 0.3s ease;
       }
       .spectre-post-container header {
@@ -726,78 +723,20 @@
           padding: 0;
         }
       }
-/* global nav in the aside */
-.aside-global-nav {
-  list-style: none;
-  margin: 1rem 0;
-  padding: 0;
-}
-.aside-global-nav li {
-  margin-bottom: 0.4rem;
-}
-.aside-global-nav a {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1rem;
-  color: #ffaaaa;
-  text-decoration: none;
-  background: #111;
-  border-radius: 4px;
-  transition: background-color 0.2s, color 0.2s;
-}
-.aside-global-nav a:hover,
-.aside-global-nav a.active {
-  background-color: #ff4c4c;
-  color: #fff;
+/* ─── Three-column layout under the header ─── */
+.spectre-post-container {
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "nav    content aside";
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 300px 1fr 240px;
+  height: calc(100vh - 3rem); /* subtract your global‐nav height if it’s 3rem */
 }
 
-/* 1) Make the aside a column flex container (you already have this) */
-.spectre-post-aside {
-  display: flex;
-  flex-direction: column;
-}
-
-/* 2) Pin the nav at the top */
-.spectre-post-aside nav {
-  flex: 0 0 auto;
-  margin-bottom: 1rem;
-}
-
-/* 3) Style your global-nav links */
-.aside-global-nav {
-  list-style: none;
-  margin: 0;
-  padding: 0.5rem 1rem;
-  background: #111;
-}
-.aside-global-nav li + li {
-  margin-top: 0.5rem;
-}
-.aside-global-nav a {
-  display: block;
-  color: #ffaaaa;
-  text-decoration: none;
-  padding: 0.4rem 0.6rem;
-  border-radius: 4px;
-  transition: background-color 0.2s, color 0.2s;
-}
-.aside-global-nav a:hover,
-.aside-global-nav a.active {
-  background-color: #ff4c4c;
-  color: #fff;
-}
-
-/* 4) Let only the dynamic list beneath “On This Section” flex/scroll */
-.spectre-post-aside > ul {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  padding: 0.5rem 1rem;
-  margin: 0;
-}
-
-/* 5) Pin the bio at the bottom */
-.aside-bio-section {
-  flex: 0 0 auto;
-}
-
+/* hook each direct child into its area */
+.spectre-post-container > header        { grid-area: header; }
+.spectre-post-container > nav           { grid-area: nav;    overflow-y: auto; }
+.spectre-post-container > .container    { grid-area: content; overflow-y: auto; }
+.spectre-post-container > .section      { /* if you wrap your main in .section instead of .container */ }
+.spectre-post-aside                     { grid-area: aside;  overflow-y: auto; }
