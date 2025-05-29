@@ -9,13 +9,18 @@
       rel="stylesheet"
     />
     <style>
+      /* NEW: Define a CSS variable for the top navigation height */
+      :root {
+        --top-nav-height: 55px; /* Adjust this value if the top nav height changes */
+      }
+
       /* --- Base Styles (Mobile First) --- */
       * {
         box-sizing: border-box;
       }
       html {
         scroll-behavior: smooth;
-        /* NEW: Make HTML and BODY fill the viewport for consistent background */
+        /* Make HTML and BODY fill the viewport for consistent background */
         height: 100%;
         width: 100%;
         /* NEW: Apply a deep black background with subtle red glows and noise texture */
@@ -45,7 +50,7 @@
         padding: 0;
         height: 100%; /* Ensure body also fills height */
         /* NEW: Add padding to account for the fixed top navigation bar */
-        padding-top: 50px; /* Adjust this value based on the exact height of your #top-nav-bar */
+        padding-top: var(--top-nav-height);
         /* NEW: Add right margin to accommodate always-visible aside */
         margin-right: 240px;
       }
@@ -348,6 +353,10 @@
           margin: 0;
           padding: 0;
         }
+        /* NEW: Adjust top positioning of left nav to sit below the new top nav bar */
+        .spectre-post-container nav {
+          top: var(--top-nav-height); /* Uses the global CSS variable */
+        }
       }
 
       /* --- General Content Styles --- */
@@ -510,6 +519,10 @@
           max-width: none;
           margin: 0;
           padding: 0;
+        }
+        /* NEW: Adjust top positioning of left nav to sit below the new top nav bar */
+        .spectre-post-container nav {
+          top: var(--top-nav-height); /* Uses the global CSS variable */
         }
       }
     </style>
@@ -1041,10 +1054,7 @@
             who survived such an attack and was later recruited by HFW,
             underscored the profound impact of these new stealth platforms.
             Covert Spectre deployments fueled rumors of 'friendly ghosts,'
-            eventually leading military analysts to suspect HFW's involvement.
-            This led to the development of the specialized Spectre variants
-            (Shadow, Strike, Lockdown, Pulse) and the parallel project for The
-            Forge's ultimate sentinel: the Spectre Revenant.
+            especially those designed for covert operations.
           </p>
         </section>
 
