@@ -14,9 +14,16 @@
     />
 
     <style>
-      /* --- Inline Grid Layout & Sticky Positioning --- */
-body {
-  /* Recommendation: body { margin: 0; } in external styles.css */
+/* --- Inline Grid Layout & Sticky Positioning --- */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scrolling on the body/document itself */
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif; /* Base font */
+  background-color: #0b0e13; /* Base background */
+  color: #f0f0f0; /* Base text color */
 }
 
 .spectre-post-container {
@@ -24,11 +31,12 @@ body {
   grid-template-areas:
     "header header header"
     "nav    content aside";
-  grid-template-rows: auto 1fr;
-  grid-template-columns: 320px 1fr 320px; /* MODIFIED: Nav and Aside width set to 320px */
+  grid-template-rows: auto 1fr; /* Header auto, rest (nav, content, aside row) takes remaining space */
+  grid-template-columns: 320px 1fr 320px;
   gap: 1rem;
-  height: calc(100vh - 3rem); /* Assuming 3rem global header OUTSIDE this element */
-  overflow: hidden;
+  /* MODIFIED: Changed to 100% as there's no external 3rem header */
+  height: 100%; /* This makes it fill the body, which is 100vh */
+  overflow: hidden; /* Crucial: Prevents this container from showing scrollbars */
 }
 
 /* Grid area assignments */
@@ -43,15 +51,19 @@ body {
   position: sticky;
   top: 0;
   align-self: start;
-  max-height: calc(100vh - 3rem); /* Allows internal scrolling if content is taller */
+  /*
+    max-height: 100%; ensures they don't grow taller than the grid row they are in.
+    The grid row's height is determined by '1fr' of the .spectre-post-container's content area height.
+  */
+  max-height: 100%;
 }
 
 /* Inner scroll wrappers for nav and aside */
 .nav-scroll-wrapper,
 .aside-scroll-wrapper {
-  height: 100%;
-  overflow-y: auto;
-  padding: 1rem; /* Default padding for scrollable content */
+  height: 100%; /* Fill the max-height of their parent (nav or aside) */
+  overflow-y: auto; /* Allow internal scrolling */
+  padding: 1rem;
 }
 /* Custom scrollbar styling (optional) */
 .nav-scroll-wrapper::-webkit-scrollbar,
@@ -76,91 +88,90 @@ body {
 
 /* Main content area scrolling */
 .spectre-post-container > .container {
+  grid-area: content;
   overflow-y: auto;
-  min-height: 0;
-  padding: 0 1rem; /* Horizontal padding for content area */
+  min-height: 0;    /* Essential for grid children that scroll */
+  padding: 0 1rem;
 }
 
 .spectre-post-container > .container > .section:first-child {
-   margin-top: 1.5rem;
+   margin-top: 1.5rem; /* Spacing for the first section in the content area */
 }
 
-/* --- NEW/UPDATED Left Navigation Button Styling --- */
+/* --- Left Navigation Button Styling --- */
 .spectre-post-container > nav .nav-scroll-wrapper .nav-logo {
-  /* Ensure logo padding is appropriate if nav wrapper has its own */
-  padding-bottom: 1rem; /* Add some space below the logo */
+  padding-bottom: 1rem;
 }
 
 .spectre-post-container > nav .nav-scroll-wrapper a {
-  display: flex; /* Use flex for icon and text alignment */
+  display: flex;
   align-items: center;
-  justify-content: flex-start; /* Align icon and text to the left */
-  width: 100%; 
+  justify-content: flex-start;
+  width: 100%;
   box-sizing: border-box;
-  padding: 0.9rem 1.5rem; 
-  margin-bottom: 0.5rem; /* Space between buttons */
-  border: 1px solid #4a4a4a; 
-  background-color: #1f1f1f; 
-  color: #ff8c8c; 
+  padding: 0.9rem 1.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #4a4a4a;
+  background-color: #1f1f1f;
+  color: #ff8c8c;
   text-align: left;
-  border-radius: 6px; 
-  font-family: "Orbitron", sans-serif; 
-  text-transform: uppercase; 
-  text-decoration: none; /* Ensure no underline */
-  font-size: 1rem; /* Original font size */
-  font-weight: normal; /* Original font weight */
+  border-radius: 6px;
+  font-family: "Orbitron", sans-serif;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: normal;
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease;
 }
 
 .spectre-post-container > nav .nav-scroll-wrapper a:hover {
-  background-color: #ff4c4c; 
-  color: #0b0e13; 
-  border-color: #ff6a6a; 
-  transform: translateY(-2px); 
-  box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3); 
+  background-color: #ff4c4c;
+  color: #0b0e13;
+  border-color: #ff6a6a;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3);
 }
 
 .spectre-post-container > nav .nav-scroll-wrapper a.nav-active {
-  background: linear-gradient(to bottom, #ff4c4c, #d13b3b); 
-  color: #ffffff; 
-  border-color: #c02c2c; 
+  background: linear-gradient(to bottom, #ff4c4c, #d13b3b);
+  color: #ffffff;
+  border-color: #c02c2c;
   box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4),
-    inset 0 1px 3px rgba(0, 0, 0, 0.2); 
+    inset 0 1px 3px rgba(0, 0, 0, 0.2);
   transform: translateY(0px);
-  font-weight: bold; 
+  font-weight: bold;
 }
 
 .spectre-post-container > nav .nav-scroll-wrapper a.nav-active:hover {
-  background: linear-gradient(to bottom, #ff6a6a, #ff4c4c); 
+  background: linear-gradient(to bottom, #ff6a6a, #ff4c4c);
   color: #ffffff;
   border-color: #d13b3b;
 }
 
 .spectre-post-container > nav .nav-scroll-wrapper a svg {
-  fill: currentColor; 
-  width: 1em; /* Original size */
-  height: 1em; /* Original size */
-  margin-right: 0.8rem; 
-  vertical-align: middle; /* Original alignment */
-  flex-shrink: 0; /* Original shrink */
+  fill: currentColor;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.8rem;
+  vertical-align: middle;
+  flex-shrink: 0;
 }
 
-/* --- Right Aside "On This Section" - Link Styling (ensure it remains distinct) --- */
+/* --- Right Aside "On This Section" - Link Styling --- */
 .spectre-post-aside ul.aside-toc a {
-  /* These styles were in your external CSS, ensure they are still desired and distinct */
   color: #ffaaaa;
   text-decoration: none;
   font-size: 0.9rem;
-  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif; /* Different font from nav buttons */
-  text-transform: none; /* Different case from nav buttons */
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+  text-transform: none;
   display: flex;
   align-items: center;
-  padding: 0.5rem 1rem; 
+  padding: 0.5rem 1rem;
   border-radius: 4px;
   transition: background-color 0.3s ease, color 0.3s ease,
     border-left-color 0.3s ease;
-  border-left: 3px solid transparent; /* Distinct active indicator */
-  margin-bottom: 0.1rem; /* Keep tight spacing */
+  border-left: 3px solid transparent;
+  margin-bottom: 0.1rem;
 }
 .spectre-post-aside ul.aside-toc a:hover {
   background-color: #2a2a2a;
