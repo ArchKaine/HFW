@@ -1,35 +1,46 @@
-/* --- Base Styles (Mobile First) --- */
-* {
-  box-sizing: border-box;
-}
-html {
-  scroll-behavior: smooth;
-  /* Make HTML and BODY fill the viewport for consistent background */
+/* ─── RESET & BOX-SIZING ──────────────────────────────────────── */
+html, body {
+  margin: 0;
+  padding: 0;
   height: 100%;
   width: 100%;
-  /* NEW: Apply a deep black background with subtle red glows and noise texture */
-  background-color: #000000; /* Absolute black base */
-  background-image:
-      radial-gradient(at top left, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
-      radial-gradient(at bottom right, rgba(150, 0, 0, 0.08) 0%, transparent 50%),
-      repeating-linear-gradient(
-          45deg,
-          rgba(255, 255, 255, 0.01) 0px,
-          rgba(255, 255, 255, 0.01) 2px,
-          transparent 2px,
-          transparent 4px
-      ),
-      repeating-linear-gradient(
-          -45deg,
-          rgba(255, 255, 255, 0.01) 0px,
-          rgba(255, 255, 255, 0.01) 2px,
-          transparent 2px,
-          transparent 4px
-      );
-  background-attachment: fixed;
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
-/* ─── Global Top Menu ─────────────────────────────────────────────────── */
+/* ─── BASE STYLES & BACKGROUND ───────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  background-color: #000000; /* Absolute black */
+  background-image:
+    radial-gradient(at top left, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(at bottom right, rgba(150, 0, 0, 0.08) 0%, transparent 50%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.01) 0px,
+      rgba(255, 255, 255, 0.01) 2px,
+      transparent 2px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.01) 0px,
+      rgba(255, 255, 255, 0.01) 2px,
+      transparent 2px,
+      transparent 4px
+    );
+  background-attachment: fixed;
+}
+body {
+  /* push content below fixed nav & make room for aside */
+  margin: 3rem 240px 0 0;
+  padding: 0;
+  background: inherit;
+}
+
+/* ─── Global Top Menu ─────────────────────────────────────────── */
 #global-nav {
   position: fixed;
   top: 0;
@@ -63,16 +74,7 @@ html {
   color: #fff;
 }
 
-/* push the page content down so it sits below the fixed nav */
-body {
-  margin-top: 3rem;
-  margin: 0;
-  padding: 0;
-  /* NEW: Add right margin to accommodate always-visible aside */
-  margin-right: 240px;
-}
-
-/* --- Content Container --- */
+/* ─── Content Container ──────────────────────────────────────── */
 .spectre-post-container {
   font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
   background-color: #0b0e13;
@@ -98,7 +100,7 @@ body {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 }
 
-/* --- Main Navigation (Sidebar on Desktop) Styles --- */
+/* ─── Main Navigation (Sidebar on Desktop) Styles ───────────── */
 .spectre-post-container nav {
   position: static;
   width: auto;
@@ -123,8 +125,8 @@ body {
   font-size: 1rem;
   font-family: "Orbitron", sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease,
-    transform 0.2s ease-out, box-shadow 0.2s ease-out,
-    font-weight 0.2s ease;
+              transform 0.2s ease-out, box-shadow 0.2s ease-out,
+              font-weight 0.2s ease;
   border: 1px solid transparent;
   font-weight: normal;
 }
@@ -150,7 +152,7 @@ body {
   background-color: #444;
 }
 
-/* --- Right-hand “On This Section” Aside --- */
+/* ─── Right-hand “On This Section” Aside ─────────────────────── */
 .spectre-post-aside {
   position: fixed;
   right: 0;
@@ -211,7 +213,7 @@ body {
   border-left-color: #ff4c4c;
 }
 
-/* Bio section */
+/* ─── Bio section ───────────────────────────────────────────── */
 .aside-bio-section {
   padding: 1rem;
   border-top: 1px solid #333;
@@ -247,7 +249,7 @@ body {
   border: 1px solid #0b0e13;
 }
 
-/* Responsive tweaks */
+/* ─── Responsive Tweaks ─────────────────────────────────────── */
 @media (min-width: 992px) {
   .spectre-post-container nav {
     position: fixed;
