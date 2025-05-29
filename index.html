@@ -221,6 +221,69 @@ html, body {
   opacity: 1;
   color: #ff4c4c;
 }
+
+/* Add this @media rule at the end of your existing inline <style> block */
+
+@media (max-width: 991.98px) { /* Target devices narrower than 992px */
+  
+  /* Allow body to scroll on mobile if content is long */
+  html, body {
+    overflow-y: auto; /* Allow vertical scroll for the whole page */
+    height: auto;     /* Let height be determined by content */
+  }
+
+  .spectre-post-container {
+    grid-template-areas: /* Stack elements vertically */
+      "header"
+      "nav"
+      "content"
+      "aside";
+    grid-template-columns: 1fr; /* Single column takes full width */
+    grid-template-rows: auto auto auto 1fr; /* Define rows for stacked items. Content takes 1fr. */
+                                         /* Or use 'auto' for all rows if you want them to size to content:
+                                            grid-template-rows: auto auto auto auto; */
+    height: auto; /* Let the container height be determined by its content */
+    overflow-y: visible; /* Allow .spectre-post-container to not clip its overflowing content */
+    gap: 0; /* Remove grid gap for single column, use margins for spacing */
+  }
+
+  /* Adjust nav and aside for single-column layout */
+  .spectre-post-container > nav,
+  .spectre-post-container > .spectre-post-aside {
+    position: static; /* Remove sticky positioning */
+    max-height: none; /* Allow them to take their natural content height */
+    width: 100%;      /* Take full width in the single column */
+    border-left: none;  /* Remove desktop-specific borders */
+    border-right: none;
+    margin-bottom: 1.5rem; /* Add some space below nav and aside when stacked */
+    background-color: #111; /* Ensure they have a background */
+  }
+  
+  /* Ensure header has some bottom margin when stacked */
+  .spectre-post-container > header {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Scroll wrappers will behave slightly differently in flow */
+  .nav-scroll-wrapper,
+  .aside-scroll-wrapper {
+    height: auto; /* Let them size to their content, or set a specific max-height */
+    /* max-height: 60vh; /* Example: if you want to limit their height and make them scroll internally */
+    overflow-y: auto; /* They still scroll their own content if it overflows their calculated height */
+    padding: 1rem; /* Keep internal padding */
+  }
+
+  .spectre-post-container > .container {
+    /* Content area will take space defined by grid-template-rows, or grow if rows are auto */
+    padding: 1rem; /* Adjust padding for mobile if needed */
+    min-height: auto; /* Reset min-height if it causes issues in auto rows */
+  }
+
+  /* If you had specific padding on .container for desktop, adjust for mobile */
+  .spectre-post-container > .container {
+    padding: 1rem; /* Example padding for mobile */
+  }
+}
 </style>
     </head>
   <body>
