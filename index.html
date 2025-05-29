@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HFW Shadow Fleet - Comprehensive Design Document</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <link
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/gh/ArchKaine/HFW@main/styles.css"
@@ -13,6 +16,37 @@
       href="styles.css"
       rel="stylesheet"
     />
+
+    *** before.html
+@@ <head>
+     <script defer src="https://archkaine.github.io/HFW/scripts.js"></script>
++    <!-- ────────────────────────────────────────────────────────────────── -->
++    <!-- Grid layout for header / nav / content / aside  (no content moved) -->
++    <style>
++      .spectre-post-container {
++        display: grid !important;
++        grid-template-areas:
++          "header  header  header"
++          "nav     content aside";
++        grid-template-columns: 300px 1fr 240px;
++        gap: 1rem;
++      }
++      /* assign each direct child into its grid slot */
++      .spectre-post-container > header        { grid-area: header; }
++      .spectre-post-container > nav           { grid-area: nav; }
++      .spectre-post-container > .container    { grid-area: content; }
++      .spectre-post-container > .spectre-post-aside { grid-area: aside; }
++      /* keep nav & aside pinned */
++      .spectre-post-container > nav,
++      .spectre-post-aside {
++        position: sticky;
++        top: 1rem;
++        align-self: start;
++      }
++    </style>
+*** after.html
+
+    
     <script defer src="https://archkaine.github.io/HFW/scripts.js"></script>
   </head>
 <body>
