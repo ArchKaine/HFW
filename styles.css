@@ -726,3 +726,29 @@
           padding: 0;
         }
       }
+/* global nav in the aside */
+.aside-global-nav {
+  list-style: none;
+  margin: 1rem 0;
+  padding: 0;
+}
+.aside-global-nav li {
+  margin-bottom: 0.4rem;
+}
+.aside-global-nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  color: #ffaaaa;
+  text-decoration: none;
+  background: #111;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+.aside-global-nav a:hover,
+.aside-global-nav a.active {
+  background-color: #ff4c4c;
+  color: #fff;
+}
+
