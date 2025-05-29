@@ -12,40 +12,17 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/ArchKaine/HFW@main/styles.css"
     />
-<style>
-/* --- COMPONENT VISIBILITY TESTS (Temporary) --- */
-/* Uncomment to test hiding specific components if overflow persists */
-/*
-.spectre-post-container > .container .gallery {
-  display: none !important; 
-}
-#spectreViewer { 
-  display: none !important;
-}
-*/
-/* --- END COMPONENT VISIBILITY TESTS --- */
-
-/* --- DIAGNOSTIC OUTLINES (Temporary - Remove when layout is stable) --- */
-html { outline: 1px dotted cyan !important; }
-body { outline: 1px dotted blue !important; padding: 1px !important; /* Padding to make body outline visible inside html outline */ }
-.spectre-post-container { outline: 3px dashed red !important; }
-.spectre-post-container > header { outline: 2px dotted orange !important; background-color: rgba(255,165,0,0.05) !important; }
-.spectre-post-container > nav { outline: 2px dotted yellow !important; background-color: rgba(255,255,0,0.05) !important; }
-.spectre-post-container > .container { outline: 2px dotted lime !important; background-color: rgba(0,255,0,0.03) !important; }
-.spectre-post-container > .spectre-post-aside { outline: 2px dotted magenta !important; background-color: rgba(255,0,255,0.05) !important; }
-.spectre-post-container > .container > .section { outline: 1px solid greenyellow !important; margin-top: 3px !important; margin-bottom: 3px !important; background-color: rgba(173,255,47,0.03) !important;}
-/* --- END DIAGNOSTIC OUTLINES --- */
-
-/* --- Base Styles (Mobile First) --- */
+/* --- Base Styles & Full Viewport Setup --- */
 html, body {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Prevent scrolling on the body/document itself */
-  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif; /* Base font for page */
-  background-color: #0b0e13; /* Base background for the page (visible in potential "gutters" if main container had max-width) */
-  color: #f0f0f0; /* Base text color for page */
+  overflow-y: hidden; /* Prevent vertical scroll on body, columns handle it */
+  overflow-x: auto;   /* Allow horizontal scroll if site (1920px) is wider than viewport */
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+  background-color: #07090D; /* Background for viewport "gutters" if site is centered */
+  color: #f0f0f0;
   box-sizing: border-box;
 }
 
@@ -54,34 +31,29 @@ html, body {
 }
 
 .spectre-post-container {
-  display: grid !important;
+  display: grid !important; /* important might be needed if external tries to override */
   grid-template-areas:
     "header header header"
     "nav    content aside";
   grid-template-rows: auto 1fr;
-  grid-template-columns: 320px minmax(0, 1fr) 320px; /* Robust flexible middle column */
+  grid-template-columns: 320px 1280px 320px; /* Fixed width center column */
   gap: 0; /* No space between columns */
   height: 100vh;
-  width: 100%; /* Fill the body */
-  overflow: hidden; /* Ensures internal column scrolling, clips if grid overflows */
-  font-size: 18px; /* from original .spectre-post-container */
-  line-height: 1.6; /* from original .spectre-post-container */
-  /* background-color: #0b0e13; /* If different from body, already same */
+  width: 1920px; /* Total fixed width of the site */
+  margin: 0 auto; /* Centers the 1920px container if viewport is wider */
+  overflow: hidden; /* Ensures internal column scrolling, clips if something tries to break out */
+  font-size: 18px;
+  line-height: 1.6;
+  background-color: #0b0e13; /* Main background for the actual site area */
 }
 
 /* Grid area assignments */
-.spectre-post-container > header { grid-area: header; }
+.spectre-post-container > header { grid-area: header; background-color: #1a1a1a; }
 .spectre-post-container > nav { grid-area: nav; }
 .spectre-post-container > .container { grid-area: content; }
 .spectre-post-container > .spectre-post-aside { grid-area: aside; }
 
-/* Header Styling (from original external) */
-.spectre-post-container header {
-  background-color: #1a1a1a;
-  padding: 1rem 2rem;
-  text-align: center;
-  border-bottom: 1px solid #2a2a2a;
-}
+/* Header Styling */
 .spectre-post-container header h1 {
   color: #ff4c4c;
   font-family: "Orbitron", sans-serif;
@@ -89,24 +61,24 @@ html, body {
   font-size: 2.5rem;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 }
+/* (Original header padding and border-bottom are on .spectre-post-container > header rule above) */
+
 
 /* Sticky sidebars: nav and aside */
 .spectre-post-container > nav,
 .spectre-post-container > .spectre-post-aside {
   position: sticky;
   top: 0;
-  align-self: start; /* Aligns to the start of the grid cell height */
-  max-height: 100%; /* Max height is 100% of the grid row's calculated height */
-  background-color: #111; /* Background for the sidebars themselves */
-  /* Original mobile nav specific styles (border-bottom for nav) */
+  align-self: start;
+  max-height: 100%;
+  background-color: #111;
 }
-.spectre-post-container > nav { /* Mobile specific bottom border if needed before media query */
-    border-bottom: 2px solid #ff4c4c; /* from original mobile nav */
+.spectre-post-container > nav {
+    border-bottom: 2px solid #ff4c4c; /* Mobile nav border */
 }
 .spectre-post-container > .spectre-post-aside {
-    border-left: 2px solid #ff4c4c; /* from original aside */
+    border-left: 2px solid #ff4c4c; /* Aside border */
 }
-
 
 /* Inner scroll wrappers for nav and aside */
 .nav-scroll-wrapper,
@@ -129,84 +101,47 @@ html, body {
 .nav-scroll-wrapper,
 .aside-scroll-wrapper { scrollbar-width: thin; scrollbar-color: #ff4c4c #1a1a1a; }
 
-/* Nav Logo (from original external, now inside scroll wrapper context) */
-.spectre-post-container > nav .nav-scroll-wrapper .nav-logo { /* Adjusted selector */
-  padding: 0.5rem 1rem; /* Original padding */
+/* Nav Logo */
+.spectre-post-container > nav .nav-scroll-wrapper .nav-logo {
+  padding: 0.5rem 1rem; /* Original padding from external, adjusted for wrapper */
   text-align: center;
-  flex-basis: 100%; /* For mobile view if nav itself becomes display:flex; currently wrapper is flex */
-  order: 0; /* For mobile view */
-  flex-shrink: 0; /* Prevent logo from shrinking in flex context */
+  flex-shrink: 0;
 }
-.spectre-post-container > nav .nav-scroll-wrapper .nav-logo-top { /* Adjusted selector */
-  order: -1; /* For mobile view */
-  padding-bottom: 1rem; /* Combined with previous padding-bottom:0.5rem and margin-bottom:0.5rem */
+.spectre-post-container > nav .nav-scroll-wrapper .nav-logo-top {
+  padding-bottom: 1rem; 
   border-bottom: 1px solid #333;
-  margin-bottom: 0; /* Removed original margin-bottom as padding-bottom serves space */
+  /* order: -1; /* This was for mobile flex nav, may not be needed if structure is fixed */
 }
-.spectre-post-container > nav .nav-scroll-wrapper .nav-logo img { /* Adjusted selector */
-  max-width: 100%; /* Make logo responsive within its container */
-  max-height: 150px; /* Example max height, adjust from original 200px if needed */
+.spectre-post-container > nav .nav-scroll-wrapper .nav-logo img {
+  max-width: 100%; 
+  max-height: 150px; 
   height: auto;
   display: inline-block;
   vertical-align: middle;
 }
 
-/* Left Navigation Button Styling (Current Inline Version) */
-.spectre-post-container > nav .nav-scroll-wrapper a {
-  display: flex; align-items: center; justify-content: flex-start; width: 100%; box-sizing: border-box;
-  padding: 0.9rem 1.5rem; margin-bottom: 0.5rem; border: 1px solid #4a4a4a; background-color: #1f1f1f;
-  color: #ff8c8c; text-align: left; border-radius: 6px; font-family: "Orbitron", sans-serif;
-  text-transform: uppercase; text-decoration: none; font-size: 1rem; font-weight: normal;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease;
-  flex-shrink: 0;
-}
+/* Left Navigation Button Styling */
+.spectre-post-container > nav .nav-scroll-wrapper a { display: flex; align-items: center; justify-content: flex-start; width: 100%; box-sizing: border-box; padding: 0.9rem 1.5rem; margin-bottom: 0.5rem; border: 1px solid #4a4a4a; background-color: #1f1f1f; color: #ff8c8c; text-align: left; border-radius: 6px; font-family: "Orbitron", sans-serif; text-transform: uppercase; text-decoration: none; font-size: 1rem; font-weight: normal; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease; flex-shrink: 0; }
 .spectre-post-container > nav .nav-scroll-wrapper a:hover { background-color: #ff4c4c; color: #0b0e13; border-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3); }
 .spectre-post-container > nav .nav-scroll-wrapper a.nav-active { background: linear-gradient(to bottom, #ff4c4c, #d13b3b); color: #ffffff; border-color: #c02c2c; box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2); transform: translateY(0px); font-weight: bold; }
 .spectre-post-container > nav .nav-scroll-wrapper a.nav-active:hover { background: linear-gradient(to bottom, #ff6a6a, #ff4c4c); color: #ffffff; border-color: #d13b3b; }
 .spectre-post-container > nav .nav-scroll-wrapper a svg { fill: currentColor; width: 1em; height: 1em; margin-right: 0.8rem; vertical-align: middle; flex-shrink: 0; }
 
-
 /* Aside content flex setup & specific child styling */
-.aside-scroll-wrapper > .aside-top-logo {
-  padding: 1rem; text-align: center; border-bottom: 1px solid #333; margin-bottom: 0; flex-shrink: 0;
-}
-.aside-scroll-wrapper > .aside-top-logo img {
-  max-width: 180px; max-height: 100px; height: auto; display: inline-block;
-}
-.aside-scroll-wrapper > h2 { /* "On This Section" Title & Bio Title (if not overridden) */
-  font-size: 1.1rem; color: #ff4c4c; text-transform: uppercase; margin: 0;
-  padding: 1rem 0 0.5rem 0; /* Wrapper has 1rem L/R padding already */
-  border-bottom: 1px solid #333; flex-shrink: 0; font-family: "Orbitron", sans-serif; /* Added Orbitron */
-}
-.spectre-post-aside ul.aside-toc { /* TOC List */
-  list-style: none; padding: 0; margin: 0.5rem 0; flex-grow: 1; min-height: 50px;
-}
-.spectre-post-aside ul.aside-toc li { /* TOC List Item */
-  margin: 0.1rem 0; /* From original */
-}
-/* Right Aside "On This Section" - Link Styling */
-.spectre-post-aside ul.aside-toc a { color: #ffaaaa; text-decoration: none; font-size: 0.9rem; font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif; text-transform: none; display: flex; align-items: center; padding: 0.5rem 1rem; /* Padding within the link itself */ border-radius: 4px; transition: background-color 0.3s ease, color 0.3s ease, border-left-color 0.3s ease; border-left: 3px solid transparent; margin-bottom: 0.1rem; }
+.aside-scroll-wrapper > .aside-top-logo { padding: 1rem; text-align: center; border-bottom: 1px solid #333; margin-bottom: 0; flex-shrink: 0; }
+.aside-scroll-wrapper > .aside-top-logo img { max-width: 180px; max-height: 100px; height: auto; display: inline-block; }
+.aside-scroll-wrapper > h2 { font-size: 1.1rem; color: #ff4c4c; text-transform: uppercase; margin: 0; padding: 1rem 0 0.5rem 0; border-bottom: 1px solid #333; flex-shrink: 0; font-family: "Orbitron", sans-serif; }
+.spectre-post-aside ul.aside-toc { list-style: none; padding: 0; margin: 0.5rem 0; flex-grow: 1; min-height: 50px; }
+.spectre-post-aside ul.aside-toc li { margin: 0.1rem 0; }
+.spectre-post-aside ul.aside-toc a { color: #ffaaaa; text-decoration: none; font-size: 0.9rem; font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif; text-transform: none; display: flex; align-items: center; padding: 0.5rem 1rem; border-radius: 4px; transition: background-color 0.3s ease, color 0.3s ease, border-left-color 0.3s ease; border-left: 3px solid transparent; margin-bottom: 0.1rem; }
 .spectre-post-aside ul.aside-toc a:hover { background-color: #2a2a2a; color: #fff; }
 .spectre-post-aside ul.aside-toc a.active { background-color: #333; color: #ffffff; font-weight: bold; border-left-color: #ff4c4c; }
 .spectre-post-aside ul.aside-toc a svg { width: 0.8em; height: 0.8em; fill: currentColor; margin-right: 0.6em; opacity: 0.7; transition: opacity 0.3s ease; flex-shrink: 0; }
 .spectre-post-aside ul.aside-toc a.active svg { opacity: 1; color: #ff4c4c; }
 
-/* Bio Section */
-.aside-bio-section {
-  padding: 1rem; border-top: 1px solid #333; margin-top: auto; flex-shrink: 0;
-  color: #f0f0f0; font-size: 0.85rem; line-height: 1.5;
-  background-color: rgba(255, 76, 76, 0.05);
-  border-radius: 0 0 5px 5px; /* May be affected by wrapper padding */
-}
-.aside-bio-section .aside-bio-heading { /* Targeting the h2 specifically inside .aside-bio-section */
-  font-size: 1rem !important; color: #ff8c8c !important; text-transform: uppercase;
-  margin: 0 0 0.5rem 0 !important; padding: 0 0 0.3rem 0 !important;
-  border-bottom: 1px dashed #444 !important; font-family: "Orbitron", sans-serif;
-}
-.aside-bio-content {
-  max-height: 30vh; overflow-y: auto; padding-right: 0.5rem;
-  scrollbar-width: thin; scrollbar-color: #ff4c4c #111;
-}
+.aside-bio-section { padding: 1rem; border-top: 1px solid #333; margin-top: auto; flex-shrink: 0; color: #f0f0f0; font-size: 0.85rem; line-height: 1.5; background-color: rgba(255, 76, 76, 0.05); border-radius: 0 0 5px 5px; }
+.aside-bio-section .aside-bio-heading { font-size: 1rem !important; color: #ff8c8c !important; text-transform: uppercase; margin: 0 0 0.5rem 0 !important; padding: 0 0 0.3rem 0 !important; border-bottom: 1px dashed #444 !important; font-family: "Orbitron", sans-serif; }
+.aside-bio-content { max-height: 30vh; overflow-y: auto; padding-right: 0.5rem; scrollbar-width: thin; scrollbar-color: #ff4c4c #111; }
 .aside-bio-content::-webkit-scrollbar { width: 6px; }
 .aside-bio-content::-webkit-scrollbar-track { background: #1a1a1a; }
 .aside-bio-content::-webkit-scrollbar-thumb { background-color: #ff4c4c; border-radius: 3px; border: 1px solid #0b0e13; }
@@ -214,83 +149,72 @@ html, body {
 /* Main content area */
 .spectre-post-container > .container {
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto; /* Changed from hidden to auto for fixed width column */
   min-height: 0;
-  min-width: 0;
-  padding: 0rem 2rem; /* Main content area padding (original: 1.5rem 2rem) */
+  /* min-width: 0; /* Not needed for fixed width column */
+  padding: 1.5rem 2rem;
   box-sizing: border-box;
-  /* background-color: #0b0e13; /* From parent */
 }
 .spectre-post-container > .container > .section:first-child {
-   margin-top: 1.5rem; /* Give first section some space from header if .container has no top padding */
+   margin-top: 0;
 }
 
-/* General Content Styles (from original external) */
-.spectre-post-container .container h2 { /* More specific to content area H2s if needed */
-  font-size: 1.8rem; color: #ff4c4c; text-transform: uppercase; font-family: "Orbitron", sans-serif;
-  border-bottom: 1px solid #444; padding-bottom: 0.5rem; margin-top: 2rem; margin-bottom: 1.5rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+/* --- Content Responsiveness & Overflow Management --- */
+/* Ensure images within the main content column are responsive */
+.spectre-post-container > .container img {
+  max-width: 100%; 
+  height: auto;   
+  display: block; 
 }
-.spectre-post-container .container h3 {
-  font-size: 1.4rem; color: #ff8c8c; text-transform: uppercase; font-family: "Orbitron", sans-serif;
-  border-bottom: 1px solid #333; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 1rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+/* Make tables and preformatted text scrollable if they are too wide */
+.spectre-post-container > .container table,
+.spectre-post-container > .container pre {
+    max-width: 100%;
+    overflow-x: auto; 
+    word-wrap: break-word; /* Helps with long content in cells/pre */
 }
-.spectre-post-container .container h4 {
-  font-size: 1.2rem; color: #ffaaaa; font-family: "Orbitron", sans-serif;
-  margin-top: 1.2rem; margin-bottom: 0.8rem;
+/* General text wrapping for common elements inside sections if needed */
+.spectre-post-container > .container .section p,
+.spectre-post-container > .container .section li,
+.spectre-post-container > .container .section div:not(.gallery):not(.gallery-item):not([class*='tabs']):not([class*='content-wrapper']), /* Avoid generic div if it's used for layout */
+.spectre-post-container > .container .section td,
+.spectre-post-container > .container .section th {
+    word-wrap: break-word; 
 }
-/* First child H2/H3 margin removal - apply to direct children of .section */
+/* --- END Content Responsiveness & Overflow Management --- */
+
+/* General Content Styles (Headings, Paragraphs, etc.) */
+.spectre-post-container .container h2 { font-size: 1.8rem; color: #ff4c4c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px solid #444; padding-bottom: 0.5rem; margin-top: 2rem; margin-bottom: 1.5rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); }
+.spectre-post-container .container h3 { font-size: 1.4rem; color: #ff8c8c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px solid #333; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 1rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); }
+.spectre-post-container .container h4 { font-size: 1.2rem; color: #ffaaaa; font-family: "Orbitron", sans-serif; margin-top: 1.2rem; margin-bottom: 0.8rem; }
 .spectre-post-container .container .section > h2:first-child,
-.spectre-post-container .container .section > h3:first-child {
-  margin-top: 0;
-}
-.spectre-post-container .container p {
-  margin-bottom: 1.2rem;
-}
-.spectre-post-container .container .scenario-narrative {
-  background-color: rgba(20, 20, 25, 0.5); padding: 1.5rem; border-left: 3px solid #ff4c4c;
-  margin-bottom: 1.5rem; border-radius: 0 5px 5px 0;
-}
+.spectre-post-container .container .section > h3:first-child { margin-top: 0; }
+.spectre-post-container .container p { margin-bottom: 1.2rem; }
+.spectre-post-container .container .scenario-narrative { background-color: rgba(20, 20, 25, 0.5); padding: 1.5rem; border-left: 3px solid #ff4c4c; margin-bottom: 1.5rem; border-radius: 0 5px 5px 0; }
 .spectre-post-container .container .scenario-narrative p { margin-bottom: 0.8rem; text-indent: 1.5em; }
 .spectre-post-container .container .scenario-narrative p:first-of-type { text-indent: 0; }
 .spectre-post-container .container .scenario-narrative h3 + p { text-indent: 0; }
-.spectre-post-container .container .scenario-narrative h4 {
-  font-size: 1.1rem; color: #ff6a6a; text-transform: none; border-bottom: 1px dashed #555;
-  padding-bottom: 0.2rem; margin-top: 1rem; margin-bottom: 0.5rem;
-}
+.spectre-post-container .container .scenario-narrative h4 { font-size: 1.1rem; color: #ff6a6a; text-transform: none; border-bottom: 1px dashed #555; padding-bottom: 0.2rem; margin-top: 1rem; margin-bottom: 0.5rem; }
 .spectre-post-container .container .scenario-narrative strong { color: #ffaaaa; font-family: "Orbitron", sans-serif; }
-.spectre-post-container .container .back-to-top {
-  font-size: 14px; color: #ffaaaa; text-decoration: underline; margin-left: 1em;
-  text-transform: none; font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
-  vertical-align: middle; transition: color 0.3s ease;
-}
+.spectre-post-container .container .back-to-top { font-size: 14px; color: #ffaaaa; text-decoration: underline; margin-left: 1em; text-transform: none; font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif; vertical-align: middle; transition: color 0.3s ease; }
 .spectre-post-container .container .back-to-top:hover { color: #fff; }
 
-/* UNIFIED BUTTON STYLES (from original external) */
-.styled-button {
-  cursor: pointer; font-family: "Orbitron", sans-serif; text-transform: uppercase;
-  transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.2s ease-out, box-shadow 0.3s ease;
-  border-radius: 6px; font-weight: bold; letter-spacing: 0.5px; display: inline-block;
-}
+/* UNIFIED BUTTON STYLES */
+.styled-button { cursor: pointer; font-family: "Orbitron", sans-serif; text-transform: uppercase; transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.2s ease-out, box-shadow 0.3s ease; border-radius: 6px; font-weight: bold; letter-spacing: 0.5px; display: inline-block; }
 
-/* Tabs, Model Viewer, Variants, etc. (from original external, ensure selectors target within .container) */
+/* Tabs, Model Viewer, Variants, etc. (Scoped to .container) */
 .spectre-post-container .container .ship-family-tabs { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 3px solid #ff4c4c; }
 .spectre-post-container .container .ship-family-tabs button.family-tab { background-color: #1f1f1f; border: 1px solid #4a4a4a; color: #ff8c8c; padding: 0.9rem 1.8rem; margin: 0.5rem; font-size: 1.1rem; }
 .spectre-post-container .container .ship-family-tabs button.family-tab:hover { border-color: #ff6a6a; color: #0b0e13; background-color: #ff4c4c; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3); }
 .spectre-post-container .container .ship-family-tabs button.family-tab.active-family { background: linear-gradient(to bottom, #ff4c4c, #d13b3b); color: #ffffff; border-color: #c02c2c; box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2); transform: translateY(0px); }
-
 .spectre-post-container .container .ship-family-content-wrapper { display: none; padding-top: 1rem; }
 .spectre-post-container .container .ship-family-content-wrapper.active-family-content { display: block; }
-
 .spectre-post-container .container .variant-tabs { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 1rem; }
 .spectre-post-container .container .variant-tabs button { background-color: #1a1a1a; border: 1px solid #444; color: #ffaaaa; padding: 0.7rem 1.4rem; margin: 0.3rem; font-size: 1rem; }
 .spectre-post-container .container .variant-tabs button:hover { border-color: #ff4c4c; color: #0b0e13; background-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(255, 106, 106, 0.25); }
 .spectre-post-container .container .variant-tabs button.active { background: linear-gradient(to bottom, #ff6a6a, #ff4c4c); color: #0b0e13; border-color: #ff4c4c; box-shadow: 0 2px 5px rgba(255, 76, 76, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.1); transform: translateY(0px); }
-
 .spectre-post-container .container .model-control-btn { background-color: #1f1f1f; border: 1px solid #383838; color: #ffaaaa; padding: 0.5rem 1rem; margin: 0.2rem; font-size: 0.85rem; font-weight: normal; letter-spacing: 0.2px; }
 .spectre-post-container .container .model-control-btn:hover { border-color: #ff4c4c; color: #fff; background-color: #2a2a2a; transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
-
 .spectre-post-container .container .variant-content { display: none; background-color: rgba(30, 30, 30, 0.6); padding: 1.5rem; border-radius: 5px; margin-top: 1rem; border: 1px solid #333; }
 .spectre-post-container .container .variant-content h3 { border-bottom: none !important; margin-top: 0 !important; margin-bottom: 1rem !important; color: #ff4c4c; font-size: 1.6rem; }
 .spectre-post-container .container .variant-content h4 { font-size: 1.3rem; color: #ff8c8c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px dotted #444; padding-bottom: 0.2rem; margin-top: 1.2rem; margin-bottom: 0.8rem; }
@@ -298,34 +222,20 @@ html, body {
 .spectre-post-container .container .variant-content li { margin-bottom: 0.7rem; padding-left: 5px; }
 .spectre-post-container .container .variant-content.active { display: block; }
 
-.spectre-post-container .container .section {
-  background-color: rgba(255, 76, 76, 0.03); padding: 2rem; border-radius: 8px;
-  margin-top: 2.5rem; border: 1px solid #2a2a2a;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-/* .spectre-post-container .container .section:first-child is handled above for margin-top */
+.spectre-post-container .container .section { background-color: rgba(255, 76, 76, 0.03); padding: 2rem; border-radius: 8px; margin-top: 2.5rem; border: 1px solid #2a2a2a; transition: background-color 0.3s ease, border-color 0.3s ease; }
+.spectre-post-container .container .section:first-child { margin-top: 0; /* Adjusted for container padding */ }
 
 .spectre-post-container .container table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; margin-bottom: 1rem; table-layout: fixed; }
 .spectre-post-container .container th,
-.spectre-post-container .container td { padding: 0.5rem 1rem; border-bottom: 1px solid #333; color: #f0f0f0; text-align: left; vertical-align: top; word-wrap: break-word; overflow-wrap: break-word; }
+.spectre-post-container .container td { padding: 0.5rem 1rem; border-bottom: 1px solid #333; color: #f0f0f0; text-align: left; vertical-align: top; /* word-wrap and overflow-wrap are here already */ }
 .spectre-post-container .container th { background-color: #1f1f1f; color: #ffaaaa; font-family: "Orbitron", sans-serif; width: 25%; font-size: 0.95rem; }
 .spectre-post-container .container td { width: 75%; }
 
-/* General image hover - ensure specificity if conflict with specific image rules */
-.spectre-post-container .container img:hover { transform: scale(1.02); transition: transform 0.3s ease; box-shadow: 0 0 15px rgba(255, 76, 76, 0.3); }
-/* Images in links (general) */
-.spectre-post-container .container a img { transition: transform 0.3s ease, box-shadow 0.3s ease; display: block; max-width: 100%; height: auto; }
+.spectre-post-container .container a img:hover { /* More specific than general img hover */ transform: scale(1.02); box-shadow: 0 0 15px rgba(255, 76, 76, 0.3); }
+/* General img:hover from original was .spectre-post-container img:hover, now scoped to .container */
 
-.spectre-post-container .container .gallery {
-  display: flex; flex-wrap: nowrap; gap: 1rem; overflow-x: auto; padding: 1rem;
-  background-color: rgba(0, 0, 0, 0.3); border-radius: 6px; border: 1px solid #2a2a2a;
-  justify-content: flex-start; max-width: 100%; min-width: 0; /* Added min-width:0 for gallery */
-}
-.spectre-post-container .container .gallery img { /* Gallery images */
-  width: auto; height: 426px; max-height: 426px; max-width: 640px; /* Original fixed sizes */
-  flex-shrink: 0; border-radius: 6px; cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid #444; object-fit: cover;
-}
+.spectre-post-container .container .gallery { display: flex; flex-wrap: nowrap; gap: 1rem; overflow-x: auto; padding: 1rem; background-color: rgba(0, 0, 0, 0.3); border-radius: 6px; border: 1px solid #2a2a2a; justify-content: flex-start; max-width: 100%; min-width: 0; }
+.spectre-post-container .container .gallery img { width: auto; height: 426px; max-height: 426px; max-width: 640px; flex-shrink: 0; border-radius: 6px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid #444; object-fit: cover; }
 .spectre-post-container .container .caption { text-align: center; font-size: 16px; color: #ffaaaa; margin-top: 0.5rem; }
 .spectre-post-container .container details { background-color: #1a1a1a; border: 1px solid #333; border-radius: 5px; padding: 0.8rem 1.2rem; margin-top: 1rem; transition: background-color 0.3s ease; }
 .spectre-post-container .container details:hover { background-color: #222; }
@@ -342,77 +252,26 @@ html, body {
 .spectre-post-container .container img[src=""] { display: none; }
 
 
-/* --- AGGRESSIVE CONTENT WRANGLING (from current inline, for debugging) --- */
-.spectre-post-container > .container .section {
-    /* max-width: 100% !important; */ /* Already block, should be fine */
-    /* overflow-x: hidden !important; /* Container has this, section might not need */
-}
-.spectre-post-container > .container .section p,
-.spectre-post-container > .container .section li,
-.spectre-post-container > .container .section div:not(.gallery):not(.gallery-item), /* Avoid affecting gallery structure */
-.spectre-post-container > .container .section td,
-.spectre-post-container > .container .section th {
-    word-wrap: break-word !important;
-    max-width: 100% !important;
-}
-.spectre-post-container > .container table,
-.spectre-post-container > .container pre {
-    max-width: 100% !important;
-    overflow-x: auto !important;
-    word-wrap: break-word !important; /* For content within cells/pre */
-    word-break: break-all !important; /* For content within cells/pre */
-}
-/* General image responsiveness within content - this is good */
-.spectre-post-container > .container img {
-  max-width: 100% !important;
-  height: auto !important;
-  display: block !important;
-}
-/* --- END AGGRESSIVE CONTENT WRANGLING --- */
-
-
-/* Desktop Media Query (from original external, selectively merged/updated) */
+/* Desktop Media Query Specifics */
 @media (min-width: 992px) {
-  /* .spectre-post-container { */
-    /* MODIFIED: Original had margin-left, margin-right, padding. Margins are removed.
-       Padding is handled by grid gap (now 0) and internal padding of columns. */
-  /* } */
-
   .spectre-post-container > nav {
-    /* MODIFIED: Original position:fixed, left, top, bottom, overflow-y:auto are GONE.
-       Grid + sticky + scroll wrapper handles this.
-       Width is by grid column. Padding is on scroll wrapper. */
-    border-bottom: none; /* Keep this from original desktop nav */
-    border-right: 2px solid #ff4c4c; /* Keep this from original desktop nav */
-    /* Original margin-bottom: 0 was here, also fine. */
+    border-bottom: none; 
+    border-right: 2px solid #ff4c4c; 
   }
   
-  /* .nav-scroll-wrapper { */
-    /* If desktop nav needs different padding inside wrapper: */
-    /* padding: 1.5rem 1rem; /* Example, original nav had padding: 1.5rem 0 */
-  /* } */
+  /* Adjust padding on nav wrapper for desktop if needed, otherwise 1rem global applies */
+  /* .nav-scroll-wrapper { padding: 1.5rem 1rem; } */
 
-  /* Original desktop .spectre-post-container nav a styles are now mostly handled by
-     the more specific button styles: .spectre-post-container > nav .nav-scroll-wrapper a
-     Ensure those specific button styles provide the desired desktop look. */
-  
+  /* Desktop nav logo adjustments - if different from mobile defaults in wrapper */
   .spectre-post-container > nav .nav-scroll-wrapper .nav-logo {
-    flex-basis: auto; /* Original desktop */
-    /* padding: 1rem; /* Original desktop - wrapper has 1rem, this could be adjusted if logo needs more */
+    /* flex-basis: auto; /* Not needed as it's not a direct flex item of a row */
+    /* padding: 1rem; /* Already has this from general wrapper and its own rule */
   }
   .spectre-post-container > nav .nav-scroll-wrapper .nav-logo-top {
-    margin-bottom: 1rem; /* Original desktop */
-    border-bottom: none; /* Original desktop */
-  }
-
-  .spectre-post-container > .container {
-    /* Original: max-width: none; margin: 0; padding: 0;
-       Current setup for .container has its own padding (1.5rem 2rem), min-width:0 etc.
-       These are compatible. */
+    margin-bottom: 1rem; 
+    border-bottom: none; 
   }
 }
-
-/* Old grid definition block from external CSS is intentionally omitted as it's superseded by current inline grid */
 
 </style>
     </head>
