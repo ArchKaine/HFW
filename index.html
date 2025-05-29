@@ -12,23 +12,22 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/ArchKaine/HFW@main/styles.css"
     />
-
-    <style>
+<style>
 /* --- Inline Grid Layout & Sticky Positioning --- */
 html, body {
   height: 100%;
-  width: 100%;
+  width: 100%; /* Ensure full width */
   margin: 0;
   padding: 0;
   overflow: hidden; /* Prevent scrolling on the body/document itself */
   font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
   background-color: #0b0e13;
   color: #f0f0f0;
-  box-sizing: border-box; /* Apply to all elements for consistency */
+  box-sizing: border-box;
 }
 
 *, *::before, *::after {
-  box-sizing: inherit; /* Inherit box-sizing from html/body */
+  box-sizing: inherit;
 }
 
 .spectre-post-container {
@@ -38,8 +37,9 @@ html, body {
     "nav    content aside";
   grid-template-rows: auto 1fr;
   grid-template-columns: 320px 1fr 320px;
-  gap: 1rem;
-  height: 100vh; /* MODIFIED: Explicitly use 100vh for full viewport height */
+  gap: 0; /* MODIFIED: Removed gap, columns will be flush. Padding inside columns will provide spacing. */
+  height: 100vh;
+  width: 100%; /* Ensures it fills the body */
   overflow: hidden;
 }
 
@@ -54,30 +54,31 @@ html, body {
 .spectre-post-container > .spectre-post-aside {
   position: sticky;
   top: 0;
-  align-self: start; /* Aligns the sticky item to the start of the grid cell */
-  max-height: 100%; /* Max height is 100% of the grid row's height (which is 1fr) */
-  /*
-    The direct children of the grid (nav, aside) will have a height determined by the '1fr' unit
-    after the 'auto' height header. 'max-height: 100%' here refers to that calculated height.
-  */
+  align-self: start;
+  max-height: 100%; /* Max height is 100% of the grid row's height */
+  background-color: #111; /* Add background color to the sticky containers themselves */
+                          /* This prevents content from main area from showing through if gap was 0 and no bg on wrapper */
 }
 
 /* Inner scroll wrappers for nav and aside */
 .nav-scroll-wrapper,
 .aside-scroll-wrapper {
-  height: 100%; /* Fill the max-height of their parent (nav or aside) */
-  overflow-y: auto; /* Allow internal scrolling */
-  padding: 1rem;
-  box-sizing: border-box; /* MODIFIED: Ensure padding is included in the height */
+  height: 100%;
+  overflow-y: auto;
+  padding: 1rem; /* This padding creates the internal "gutter" or spacing for content within sidebars */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
-/* Custom scrollbar styling (optional) */
+
+/* Custom scrollbar styling */
 .nav-scroll-wrapper::-webkit-scrollbar,
 .aside-scroll-wrapper::-webkit-scrollbar {
   width: 8px;
 }
 .nav-scroll-wrapper::-webkit-scrollbar-track,
 .aside-scroll-wrapper::-webkit-scrollbar-track {
-  background: #1a1a1a;
+  background: #1a1a1a; /* Slightly different from #111 for visibility */
 }
 .nav-scroll-wrapper::-webkit-scrollbar-thumb,
 .aside-scroll-wrapper::-webkit-scrollbar-thumb {
@@ -91,22 +92,53 @@ html, body {
   scrollbar-color: #ff4c4c #1a1a1a;
 }
 
+/* Ensure elements within aside-scroll-wrapper are laid out correctly for bio at bottom */
+.aside-scroll-wrapper > .aside-top-logo,
+.aside-scroll-wrapper > h2 { /* e.g., "On This Section" title */
+  flex-shrink: 0; /* Prevent these from shrinking */
+}
+
+.spectre-post-aside ul.aside-toc {
+  /* ... existing styles for links ... */
+  list-style: none;
+  /* padding: 0.5rem 0 1rem 0; /* Padding is now on the wrapper, can remove or adjust for UL itself */
+  padding: 0; /* Let links inside handle their padding */
+  margin: 0.5rem 0; /* Add some margin around the TOC list */
+  flex-grow: 1; /* Makes TOC list take up available space */
+  min-height: 50px; /* Give it some base height to ensure flex-grow works */
+}
+
+.aside-bio-section {
+  /* ... existing styles for bio content ... */
+  /* Original padding: 1rem; border-top: 1px solid #333; margin-top: 1rem; */
+  /* These are now inside .aside-scroll-wrapper which has its own padding */
+  padding: 1rem; /* Keep padding for the bio box itself */
+  border-top: 1px solid #333; /* Keep border */
+  margin-top: auto; /* Pushes the bio section to the bottom of the flex container (.aside-scroll-wrapper) */
+  flex-shrink: 0; /* Prevents the bio from shrinking */
+}
+
+
 /* Main content area scrolling */
 .spectre-post-container > .container {
   grid-area: content;
   overflow-y: auto;
-  min-height: 0;    /* Essential for grid children that scroll */
-  padding: 0 1rem;
-  box-sizing: border-box; /* Added for consistency with padding */
+  min-height: 0;
+  /* Padding creates the internal "gutter" for the main content.
+     If gap is 0, this padding is essential for readability. */
+  padding: 0 2rem; /* Example: 2rem horizontal padding. Adjust as desired. */
+  box-sizing: border-box;
+  background-color: #0b0e13; /* Ensure content area has the main background */
 }
 
 .spectre-post-container > .container > .section:first-child {
-   margin-top: 1.5rem; /* Spacing for the first section in the content area */
+   margin-top: 1.5rem;
 }
 
 /* --- Left Navigation Button Styling --- */
 .spectre-post-container > nav .nav-scroll-wrapper .nav-logo {
   padding-bottom: 1rem;
+  flex-shrink: 0;
 }
 
 .spectre-post-container > nav .nav-scroll-wrapper a {
@@ -128,6 +160,7 @@ html, body {
   font-size: 1rem;
   font-weight: normal;
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease;
+  flex-shrink: 0;
 }
 
 .spectre-post-container > nav .nav-scroll-wrapper a:hover {
@@ -172,7 +205,7 @@ html, body {
   text-transform: none;
   display: flex;
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1rem; /* Links within TOC have their own padding */
   border-radius: 4px;
   transition: background-color 0.3s ease, color 0.3s ease,
     border-left-color 0.3s ease;
@@ -201,7 +234,8 @@ html, body {
 .spectre-post-aside ul.aside-toc a.active svg {
   opacity: 1;
   color: #ff4c4c;
-}    </style>
+}    
+  </style>
     </head>
   <body>
     <div class="spectre-post-container" id="spectre-top">
