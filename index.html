@@ -3121,8 +3121,6 @@
       </aside>
     </div>
 <script>
-  // scripts.js
-
 // 1) Build & update the “On This Section” aside
 function updateAside() {
   const aside = document.getElementById("section-aside");
@@ -3281,9 +3279,11 @@ function showFamily(familyIdSuffix, clickedFamilyButton) {
   const btns = activeWrapper.querySelectorAll(".variant-tabs button");
   btns.forEach(b => b.classList.remove("active"));
   if (btns[0]) {
-    // fire our own function, not rely on .click()
-    showVariantContent(btns[0].getAttribute("onclick")
-      .match(/'([^']+)'/)[1], btns[0], familyIdSuffix);
+    showVariantContent(
+      btns[0].getAttribute("onclick").match(/'([^']+)'/)[1],
+      btns[0],
+      familyIdSuffix
+    );
   }
 
   setTimeout(updateAside, 50);
@@ -3297,12 +3297,10 @@ function showVariantContent(variantContentId, clickedVariantButton, familyIdSuff
   );
   if (!fam) return;
 
-  fam.querySelectorAll(".variant-tabs button")
-    .forEach(b => b.classList.remove("active"));
+  fam.querySelectorAll(".variant-tabs button").forEach(b => b.classList.remove("active"));
   if (clickedVariantButton) clickedVariantButton.classList.add("active");
 
-  fam.querySelectorAll(".variant-content")
-    .forEach(c => c.classList.remove("active"));
+  fam.querySelectorAll(".variant-content").forEach(c => c.classList.remove("active"));
   const panel = document.getElementById(variantContentId);
   if (panel) panel.classList.add("active");
 
@@ -3313,7 +3311,7 @@ window.showVariantContent = showVariantContent;
 // 5) model-viewer helpers (unchanged)
 const viewer = document.querySelector("#spectreViewer");
 const modelMap = {
-  shadow: "https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb",
+  shadow:   "https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb",
   revenant: "https://ArchKaine.github.io/ship-models/Spectre_Revenant.glb",
   eidolon_shadow: "https://ArchKaine.github.io/ship-models/Eidolon Shadow.glb",
 };
@@ -3328,8 +3326,8 @@ function switchModel(key) {
   viewer.src = modelMap[key];
   viewer.alt = "Anvil " + key.replace(/_/g, " ");
   const orbits = {
-    shadow: "0deg 75deg 7m",
-    revenant: "0deg 75deg 10m",
+    shadow:         "0deg 75deg 7m",
+    revenant:       "0deg 75deg 10m",
     eidolon_shadow: "0deg 75deg 5m"
   };
   viewer.setAttribute("camera-orbit", orbits[key] || initialOrbit);
@@ -3379,5 +3377,6 @@ if (document.readyState === "loading") {
   init();
 }
 </script>
+
   </body>
 </html>
