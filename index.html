@@ -1002,11 +1002,8 @@
             src="https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb"
             alt="Anvil Spectre Shadow"
             camera-controls
-            interaction-prompt="none"
-            style="width: 100%; height: 600px; background-color: #15181d;"
-            loading="lazy" 
-            reveal="interaction"
-          ></model-viewer>
+            interaction-prompt="none" style="width: 100%; height: 600px; background-color: #15181d;"
+            ></model-viewer>
           <div style="margin: 1rem 0; text-align: center; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
             <button class="model-control-btn styled-button" onclick="switchModel('shadow')">Spectre Shadow</button>
             <button class="model-control-btn styled-button" onclick="switchModel('revenant')">Spectre Revenant</button>
@@ -1666,12 +1663,9 @@
   window.addEventListener("load", () => {
       updateAside();
       handleSpectreNavScroll(); 
-      if(modelViewer && !modelViewer.getAttribute('interaction-prompt')){
-          modelViewer.setAttribute('interaction-prompt', 'auto');
-      }
-      if(modelViewer && !modelViewer.getAttribute('reveal')){
-          modelViewer.setAttribute('reveal', 'auto');
-      }
+      // The model-viewer tag itself now defines interaction-prompt="none".
+      // We will let its 'reveal' attribute use its default ("auto") if not specified on the tag.
+      // So, no need to set these via JS here unless specifically overriding.
   } , { passive: true });
 </script>
 
