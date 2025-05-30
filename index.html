@@ -113,24 +113,36 @@ html, body {
 .aside-scroll-wrapper > h2 { font-size: 1.1rem; color: #ff4c4c; text-transform: uppercase; margin: 0 0 0.5rem 0; padding: 1rem 0 0.5rem 0; border-bottom: 1px solid #333; flex-shrink: 0; font-family: "Orbitron", sans-serif; }
 
 /* UNIFIED STYLING for Right Aside Table of Contents Links */
-.spectre-post-aside ul.aside-toc { 
-  list-style: none; 
-  padding: 0; 
-  margin: 0.5rem 0; 
-  flex-grow: 1; /* Key for pushing bio down */
-  /* min-height: 50px; /* MODIFIED: Removed this line */
-}
+.spectre-post-aside ul.aside-toc { list-style: none; padding: 0; margin: 0.5rem 0; flex-grow: 1; min-height: 50px; }
 .spectre-post-aside ul.aside-toc li { margin: 0; }
-.spectre-post-aside ul.aside-toc a { display: flex; align-items: center; justify-content: flex-start; width: 100%; box-sizing: border-box; padding: 0.9rem 1.5rem; margin-bottom: 0.5rem; border: 1px solid #4a4a4a; background-color: #1f1f1f; color: #ff8c8c; text-align: left; border-radius: 6px; font-family: "Orbitron", sans-serif; text-transform: uppercase; text-decoration: none; font-size: 0.9rem; font-weight: normal; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease; flex-shrink: 0; }
+.spectre-post-aside ul.aside-toc a { 
+  display: flex; align-items: center; justify-content: flex-start; width: 100%; box-sizing: border-box; 
+  padding: 0.9rem 1.5rem; margin-bottom: 0.5rem; border: 1px solid #4a4a4a; background-color: #1f1f1f; 
+  color: #ff8c8c; text-align: left; border-radius: 6px; font-family: "Orbitron", sans-serif; 
+  text-transform: uppercase; text-decoration: none; 
+  font-size: 1rem; /* MODIFIED: Matched to left nav */
+  font-weight: normal; 
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease; 
+  flex-shrink: 0; 
+}
 .spectre-post-aside ul.aside-toc a:hover { background-color: #ff4c4c; color: #0b0e13; border-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3); }
 .spectre-post-aside ul.aside-toc a.active { background: linear-gradient(to bottom, #ff4c4c, #d13b3b); color: #ffffff; border-color: #c02c2c; box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2); transform: translateY(0px); font-weight: bold; }
 .spectre-post-aside ul.aside-toc a.active:hover { background: linear-gradient(to bottom, #ff6a6a, #ff4c4c); color: #ffffff; border-color: #d13b3b; }
-.spectre-post-aside ul.aside-toc a svg { fill: currentColor; width: 0.9em; height: 0.9em; margin-right: 0.8rem; vertical-align: middle; flex-shrink: 0; opacity: 0.7; transition: opacity 0.3s ease; }
+.spectre-post-aside ul.aside-toc a svg { 
+  fill: currentColor; 
+  width: 1em; /* MODIFIED: Matched to left nav (relative to 1rem font-size) */ 
+  height: 1em; /* MODIFIED: Matched to left nav */
+  margin-right: 0.8rem; 
+  vertical-align: middle; 
+  flex-shrink: 0; 
+  opacity: 0.7; 
+  transition: opacity 0.3s ease; 
+}
 .spectre-post-aside ul.aside-toc a:hover svg { opacity: 1; }
 .spectre-post-aside ul.aside-toc a.active svg { opacity: 1; color: #ffffff; }
 
 /* Bio Section */
-.aside-bio-section { padding: 1rem; border-top: 1px solid #333; margin-top: auto; /* Key for pushing to bottom */ flex-shrink: 0; color: #f0f0f0; font-size: 0.85rem; line-height: 1.5; background-color: rgba(255, 76, 76, 0.05); border-radius: 0 0 5px 5px; }
+.aside-bio-section { padding: 1rem; border-top: 1px solid #333; margin-top: auto; flex-shrink: 0; color: #f0f0f0; font-size: 0.85rem; line-height: 1.5; background-color: rgba(255, 76, 76, 0.05); border-radius: 0 0 5px 5px; }
 .aside-bio-section .aside-bio-heading { font-size: 1rem !important; color: #ff8c8c !important; text-transform: uppercase; margin: 0 0 0.5rem 0 !important; padding: 0 0 0.3rem 0 !important; border-bottom: 1px dashed #444 !important; font-family: "Orbitron", sans-serif; }
 .aside-bio-content { max-height: 30vh; overflow-y: auto; padding-right: 0.5rem; scrollbar-width: thin; scrollbar-color: #ff4c4c #111; }
 .aside-bio-content::-webkit-scrollbar { width: 6px; }
@@ -161,7 +173,6 @@ html, body {
 /* --- END Content Responsiveness & Overflow Management --- */
 
 /* General Content Styles (Headings, Paragraphs, etc.) */
-/* ... (The rest of your general content styles from the previous full CSS block should be here) ... */
 .spectre-post-container .container h2 { font-size: 1.8rem; color: #ff4c4c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px solid #444; padding-bottom: 0.5rem; margin-top: 2rem; margin-bottom: 1.5rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); }
 .spectre-post-container .container h3 { font-size: 1.4rem; color: #ff8c8c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px solid #333; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 1rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); }
 .spectre-post-container .container h4 { font-size: 1.2rem; color: #ffaaaa; font-family: "Orbitron", sans-serif; margin-top: 1.2rem; margin-bottom: 0.8rem; }
@@ -202,7 +213,7 @@ html, body {
 .spectre-post-container .container th { background-color: #1f1f1f; color: #ffaaaa; font-family: "Orbitron", sans-serif; width: 25%; font-size: 0.95rem; }
 .spectre-post-container .container td { width: 75%; }
 .spectre-post-container .container a img:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(255, 76, 76, 0.3); }
-.spectre-post-container .container .gallery { display: flex; flex-wrap: nowrap; gap: 1rem; overflow-x: auto; padding: 1rem; background-color: rgba(0, 0, 0, 0.3); border-radius: 6px; border: 1px solid #2a2a2a; justify-content: flex-start; max-width: 100%; /* min-width: 0; /* Kept this from diagnostic attempts, generally harmless */ }
+.spectre-post-container .container .gallery { display: flex; flex-wrap: nowrap; gap: 1rem; overflow-x: auto; padding: 1rem; background-color: rgba(0, 0, 0, 0.3); border-radius: 6px; border: 1px solid #2a2a2a; justify-content: flex-start; max-width: 100%; /* min-width: 0; /* Can be removed if not actively debugging gallery width issues */ }
 .spectre-post-container .container .gallery img { width: auto; height: 426px; max-height: 426px; max-width: 640px; flex-shrink: 0; border-radius: 6px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid #444; object-fit: cover; }
 .spectre-post-container .container .caption { text-align: center; font-size: 16px; color: #ffaaaa; margin-top: 0.5rem; }
 .spectre-post-container .container details { background-color: #1a1a1a; border: 1px solid #333; border-radius: 5px; padding: 0.8rem 1.2rem; margin-top: 1rem; transition: background-color 0.3s ease; }
