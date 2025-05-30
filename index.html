@@ -107,7 +107,7 @@
     .aside-scroll-wrapper > h2 { font-size: 1.1rem; color: #ff4c4c; text-transform: uppercase; margin: 0 0 0.5rem 0; padding: 1rem 0 0.5rem 0; border-bottom: 1px solid #333; flex-shrink: 0; font-family: "Orbitron", sans-serif; }
 
     /* UNIFIED STYLING for Right Aside Table of Contents Links */
-    .spectre-post-aside ul.aside-toc { list-style: none; padding: 0; margin: 0.5rem 0; flex-grow: 1; /* min-height: 50px; /* Removed based on previous discussion */ }
+    .spectre-post-aside ul.aside-toc { list-style: none; padding: 0; margin: 0.5rem 0; flex-grow: 1; /* min-height: 50px; /* Removed */ }
     .spectre-post-aside ul.aside-toc li { margin: 0; }
     .spectre-post-aside ul.aside-toc a { display: flex; align-items: center; justify-content: flex-start; width: 100%; box-sizing: border-box; padding: 0.9rem 1.5rem; margin-bottom: 0.5rem; border: 1px solid #4a4a4a; background-color: #1f1f1f; color: #ff8c8c; text-align: left; border-radius: 6px; font-family: "Orbitron", sans-serif; text-transform: uppercase; text-decoration: none; font-size: 1rem; font-weight: normal; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease; flex-shrink: 0; }
     .spectre-post-aside ul.aside-toc a:hover { background-color: #ff4c4c; color: #0b0e13; border-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3); }
@@ -189,7 +189,7 @@
     .spectre-post-container .container th { background-color: #1f1f1f; color: #ffaaaa; font-family: "Orbitron", sans-serif; width: 25%; font-size: 0.95rem; }
     .spectre-post-container .container td { width: 75%; }
     .spectre-post-container .container a img:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(255, 76, 76, 0.3); }
-    .spectre-post-container .container .gallery { display: flex; flex-wrap: nowrap; gap: 1rem; overflow-x: auto; padding: 1rem; background-color: rgba(0, 0, 0, 0.3); border-radius: 6px; border: 1px solid #2a2a2a; justify-content: flex-start; max-width: 100%; /* min-width: 0; /* Kept from earlier, harmless */ }
+    .spectre-post-container .container .gallery { display: flex; flex-wrap: nowrap; gap: 1rem; overflow-x: auto; padding: 1rem; background-color: rgba(0, 0, 0, 0.3); border-radius: 6px; border: 1px solid #2a2a2a; justify-content: flex-start; max-width: 100%; /* min-width: 0; */ }
     .spectre-post-container .container .gallery img { width: auto; height: 426px; max-height: 426px; max-width: 640px; flex-shrink: 0; border-radius: 6px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid #444; object-fit: cover; }
     .spectre-post-container .container .caption { text-align: center; font-size: 16px; color: #ffaaaa; margin-top: 0.5rem; }
     .spectre-post-container .container details { background-color: #1a1a1a; border: 1px solid #333; border-radius: 5px; padding: 0.8rem 1.2rem; margin-top: 1rem; transition: background-color 0.3s ease; }
@@ -205,6 +205,7 @@
     .spectre-post-container .container blockquote + p { margin-left: 1.5rem; font-size: 15px; color: #aaa; margin-top: 0.2rem; margin-bottom: 1.5rem; }
     .spectre-post-container .container img:not([src]),
     .spectre-post-container .container img[src=""] { display: none; }
+
 
     /* Desktop Media Query Specifics */
     @media (min-width: 992px) {
@@ -237,9 +238,7 @@
               alt="Anvil Logo"
               src="https://imagizer.imageshack.com/img922/7540/a21t3g.png"
               onerror="this.onerror=null;this.src='https://placehold.co/400x200/1a1a1a/ff4c4c?text=Anvil+Logo';"
-              loading="lazy"
-              width="400" 
-              height="200"
+              loading="lazy" width="400" height="200"
             />
           </div>
           <a href="#spectre-concept-image"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>Gallery</a>
@@ -272,649 +271,123 @@
           </p>
           <div class="gallery">
             <div class="gallery-item">
-              <a
-                href="https://imagizer.imageshack.com/img922/7601/xbT5I0.png"
-                target="_blank"
-                rel="noopener noreferrer"
-                ><img
-                  alt="Anvil Spectre in flight"
-                  src="https://imagizer.imageshack.com/img922/7601/xbT5I0.png"
-                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+1';"
-                  loading="lazy" width="640" height="426"
-              /></a>
+              <a href="https://imagizer.imageshack.com/img922/7601/xbT5I0.png" target="_blank" rel="noopener noreferrer">
+                <img alt="Anvil Spectre in flight" src="https://imagizer.imageshack.com/img922/7601/xbT5I0.png" onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+1';" loading="lazy" width="640" height="426"/>
+              </a>
             </div>
             <div class="gallery-item">
-              <a
-                href="https://imagizer.imageshack.com/img923/6872/oFrnl2.png"
-                target="_blank"
-                rel="noopener noreferrer"
-                ><img
-                  alt="Anvil Spectre from above"
-                  src="https://imagizer.imageshack.com/img923/6872/oFrnl2.png"
-                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+2';"
-                  loading="lazy" width="640" height="426"
-              /></a>
+              <a href="https://imagizer.imageshack.com/img923/6872/oFrnl2.png" target="_blank" rel="noopener noreferrer">
+                <img alt="Anvil Spectre from above" src="https://imagizer.imageshack.com/img923/6872/oFrnl2.png" onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+2';" loading="lazy" width="640" height="426"/>
+              </a>
             </div>
             <div class="gallery-item">
-              <a
-                href="https://imagizer.imageshack.com/img922/2747/bWMmuY.png"
-                target="_blank"
-                rel="noopener noreferrer"
-                ><img
-                  alt="Anvil Spectre in a hangar"
-                  src="https://imagizer.imageshack.com/img922/2747/bWMmuY.png"
-                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+3';"
-                  loading="lazy" width="640" height="426"
-              /></a>
+              <a href="https://imagizer.imageshack.com/img922/2747/bWMmuY.png" target="_blank" rel="noopener noreferrer">
+                <img alt="Anvil Spectre in a hangar" src="https://imagizer.imageshack.com/img922/2747/bWMmuY.png" onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+3';" loading="lazy" width="640" height="426"/>
+              </a>
             </div>
             <div class="gallery-item">
-              <a
-                href="https://imagizer.imageshack.com/img924/3701/5OqxrV.png"
-                target="_blank"
-                rel="noopener noreferrer"
-                ><img
-                  alt="Anvil Spectre in stealth mode"
-                  src="https://imagizer.imageshack.com/img924/3701/5OqxrV.png"
-                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+4';"
-                  loading="lazy" width="640" height="426"
-              /></a>
+              <a href="https://imagizer.imageshack.com/img924/3701/5OqxrV.png" target="_blank" rel="noopener noreferrer">
+                <img alt="Anvil Spectre in stealth mode" src="https://imagizer.imageshack.com/img924/3701/5OqxrV.png" onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+4';" loading="lazy" width="640" height="426"/>
+              </a>
             </div>
             <div class="gallery-item">
-              <a
-                href="https://imagizer.imageshack.com/img924/9325/K5BWUN.png"
-                target="_blank"
-                rel="noopener noreferrer"
-                ><img
-                  alt="Anvil Spectre close-up"
-                  src="https://imagizer.imageshack.com/img924/9325/K5BWUN.png"
-                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+5';"
-                  loading="lazy" width="640" height="426"
-              /></a>
+              <a href="https://imagizer.imageshack.com/img924/9325/K5BWUN.png" target="_blank" rel="noopener noreferrer">
+                <img alt="Anvil Spectre close-up" src="https://imagizer.imageshack.com/img924/9325/K5BWUN.png" onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+5';" loading="lazy" width="640" height="426"/>
+              </a>
             </div>
             <div class="gallery-item">
-              <a
-                href="https://imagizer.imageshack.com/img923/3776/K0oowz.png"
-                target="_blank"
-                rel="noopener noreferrer"
-                ><img
-                  alt="Anvil Spectre with landing gear"
-                  src="https://imagizer.imageshack.com/img923/3776/K0oowz.png"
-                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+6';"
-                  loading="lazy" width="640" height="426"
-              /></a>
+              <a href="https://imagizer.imageshack.com/img923/3776/K0oowz.png" target="_blank" rel="noopener noreferrer">
+                <img alt="Anvil Spectre with landing gear" src="https://imagizer.imageshack.com/img923/3776/K0oowz.png" onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+6';" loading="lazy" width="640" height="426"/>
+              </a>
             </div>
             <div class="gallery-item">
-              <a
-                href="https://imagizer.imageshack.com/img923/5609/8WQlWI.png"
-                target="_blank"
-                rel="noopener noreferrer"
-                ><img
-                  alt="Anvil Spectre interior view"
-                  src="https://imagizer.imageshack.com/img923/5609/8WQlWI.png"
-                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+7';"
-                  loading="lazy" width="640" height="426"
-              /></a>
+              <a href="https://imagizer.imageshack.com/img923/5609/8WQlWI.png" target="_blank" rel="noopener noreferrer">
+                <img alt="Anvil Spectre interior view" src="https://imagizer.imageshack.com/img923/5609/8WQlWI.png" onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+7';" loading="lazy" width="640" height="426"/>
+              </a>
             </div>
             <div class="gallery-item">
-              <a
-                href="https://imagizer.imageshack.com/img924/6461/3YOXUo.png"
-                target="_blank"
-                rel="noopener noreferrer"
-                ><img
-                  alt="Anvil Spectre cockpit"
-                  src="https://imagizer.imageshack.com/img924/6461/3YOXUo.png"
-                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+8';"
-                  loading="lazy" width="640" height="426"
-              /></a>
+              <a href="https://imagizer.imageshack.com/img924/6461/3YOXUo.png" target="_blank" rel="noopener noreferrer">
+                <img alt="Anvil Spectre cockpit" src="https://imagizer.imageshack.com/img924/6461/3YOXUo.png" onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+8';" loading="lazy" width="640" height="426"/>
+              </a>
             </div>
             <div class="gallery-item">
-              <a
-                href="https://imagizer.imageshack.com/img923/1767/t0R7xS.png"
-                target="_blank"
-                rel="noopener noreferrer"
-                ><img
-                  alt="Anvil Spectre in combat"
-                  src="https://imagizer.imageshack.com/img923/1767/t0R7xS.png"
-                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+9';"
-                  loading="lazy" width="640" height="426"
-              /></a>
+              <a href="https://imagizer.imageshack.com/img923/1767/t0R7xS.png" target="_blank" rel="noopener noreferrer">
+                <img alt="Anvil Spectre in combat" src="https://imagizer.imageshack.com/img923/1767/t0R7xS.png" onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+9';" loading="lazy" width="640" height="426"/>
+              </a>
             </div>
             <div class="gallery-item">
-              <a
-                href="https://imagizer.imageshack.com/img923/2812/IhfzVK.png"
-                target="_blank"
-                rel="noopener noreferrer"
-                ><img
-                  alt="Anvil Spectre in space"
-                  src="https://imagizer.imageshack.com/img923/2812/IhfzVK.png"
-                  onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+10';"
-                  loading="lazy" width="640" height="426"
-              /></a>
+              <a href="https://imagizer.imageshack.com/img923/2812/IhfzVK.png" target="_blank" rel="noopener noreferrer">
+                <img alt="Anvil Spectre in space" src="https://imagizer.imageshack.com/img923/2812/IhfzVK.png" onerror="this.onerror=null;this.src='https://placehold.co/640x426/1a1a1a/ff4c4c?text=Spectre+Image+10';" loading="lazy" width="640" height="426"/>
+              </a>
             </div>
           </div>
         </div>
 
         <section class="section" id="spectre-genesis">
-          <h2>
-            The Genesis of the Shadow<a class="back-to-top" href="#spectre-top"
-              >[Back to Top]</a
-            >
-          </h2>
-          <p>
-            The year is 2933. Imperator Taryn Glauss, facing a galaxy simmering
-            with unrest, confronted the formidable Vanduul threat looming on
-            the borders, alongside the insidious emergence of Xenothreat.
-            Intelligence reports depicted a highly organized, technologically
-            advanced force that disregarded established power structures,
-            rendering traditional overwhelming force ineffective. During a tense
-            briefing on this growing menace, the concept of a precision weapon—a
-            scalpel rather than a hammer—took shape. This instrument would
-            operate unseen, gather crucial intelligence, and strike decisively
-            before the enemy even knew it was targeted.
-          </p>
-          <p>
-            Recognizing the profound urgency, Imperator Taryn Glauss's
-            administration identified the strategic need for such advanced
-            covert platforms. This high-level UEE concern prompted Dr. Aris
-            Thorne, Anvil Aerospace's Lead Aerospace Engineer & Director of
-            Advanced Bio-Engineering and Strategic R&D, to formulate a radical
-            solution: the creation of a specialized clandestine R&D division. To
-            meet this unique challenge, Anvil Aerospace leveraged and formalized
-            its internal clandestine R&D efforts, leading to Dr. Thorne's
-            proposal for and the subsequent approval (late 2933 by Anvil's
-            board, with implicit backing from Glauss's administration ) and
-            establishment of
-            <strong>Hephaestus Forge Works (HFW)</strong>. HFW was conceived to develop
-            the advanced technologies and capabilities necessary to address
-            these escalating and unconventional threats, operating with
-            significant autonomy under the Anvil Aerospace umbrella, shrouded in
-            secrecy.
-          </p>
-          <p>
-            From late 2933 through early 2940, HFW focused on building its
-            operational base, "The Forge," and conducting foundational research
-            into next-generation stealth and weapons systems. With The Forge
-            operational in early 2940, HFW presented its advanced concepts,
-            including a fully conceptualized covert platform. It was then, in
-            2940, that Imperator Kelos Costigan (who took office in 2938),
-            recognizing the matured capability of HFW and the persistent
-            galactic threats, issued the formal presidential directive
-            validating and commissioning the <strong>Spectre project</strong>, tasking
-            HFW with its full-scale development and production.
-          </p>
-          <p>
-            As prime contractor for the Spectre, HFW built upon centuries of UEE
-            research into signature reduction and Anvil's own pioneering work.
-            They developed the Spectre's next-generation, multi-layered hull
-            material and coating, an advanced derivative significantly absorbing
-            and diffusing EM, IR, and cross-section signatures. This passive
-            signature reduction was augmented by sophisticated active systems
-            integrated by HFW through strategic subcontracts and internal
-            breakthroughs:
-          </p>
-          <ul>
-            <li>
-              <strong>Esperia</strong> was subcontracted for their expertise in replicating
-              historical Tevarin technology, providing the Spectre's unique
-              'ghost mode' electronic cockpit.
-            </li>
-            <li>
-              HFW integrated an advanced version of the retractable armored
-              shutter system (akin to the Carrack's).
-            </li>
-            <li>
-              HFW integrated signature masking components influenced by
-              <strong>MISC/Mirai's Xi'an tech research</strong> and incorporated advanced
-              targeting and Electronic Warfare systems from
-              <strong>Aegis Dynamics</strong>.
-            </li>
-            <li>
-              The <strong>adaptive countershading</strong> system (hallmark of the Shadow
-              variant) was a major internal HFW breakthrough.
-            </li>
-          </ul>
-          <p>
-            Early prototypes underwent rigorous testing against actual Ninetails
-            targets, validating their capabilities. The experiences of
-            individuals like Jax “Whisper” Rylan, a former Ninetails technician
-            who survived such an attack and was later recruited by HFW,
-            underscored the profound impact of these new stealth platforms.
-            Covert Spectre deployments fueled rumors of 'friendly ghosts,'
-            eventually leading military analysts to suspect HFW's involvement.
-            This led to the development of the specialized Spectre variants
-            (Shadow, Strike, Lockdown, Pulse) and the parallel project for The
-            Forge's ultimate sentinel: the Spectre Revenant.
-          </p>
+          <h2>The Genesis of the Shadow<a class="back-to-top" href="#spectre-top">[Back to Top]</a></h2>
+          <p>The year is 2933...</p>
+          <p>Recognizing the profound urgency...</p>
+          <p>From late 2933 through early 2940...</p>
+          <p>As prime contractor for the Spectre...</p>
+          <ul><li><strong>Esperia</strong> was subcontracted...</li><li>HFW integrated an advanced version...</li><li>HFW integrated signature masking components...</li><li>The <strong>adaptive countershading</strong> system...</li></ul>
+          <p>Early prototypes underwent rigorous testing...</p>
         </section>
 
         <section class="section" id="spectre-hfw-overview">
-          <h2>
-            Hephaestus Forge Works (HFW): Comprehensive Overview<a
-              class="back-to-top"
-              href="#spectre-top"
-              >[Back to Top]</a
-            >
-          </h2>
-          <p>
-            <strong>Hephaestus Forge Works (HFW)</strong> is the highly specialized and
-            clandestine advanced research and development division operating
-            under the umbrella of Anvil Aerospace. Born from the visionary
-            proposal of Dr. Aris Thorne in <strong>2933</strong>, and formally
-            established in <strong>early 2940</strong>, HFW was conceived to address the
-            escalating and unconventional threats posed by entities like
-            Xenothreat and the Vanduul. Its very foundation was inspired by the
-            legendary "Skunk Works" and "Phantom Works" of historical Earth,
-            designed to push the very boundaries of military technology far
-            beyond standard development cycles.
-          </p>
-          <p>
-            Under the directorship of its founder, Dr. Aris Thorne, HFW operates
-            with unparalleled autonomy and is shrouded in absolute secrecy. It
-            serves as Anvil's dedicated crucible for delivering bleeding-edge,
-            classified solutions that address unique and critical requirements
-            deemed beyond the scope of standard development. HFW's mandate
-            prioritizes radical innovation and rapid results, consistently
-            employing unconventional approaches to both technology development
-            and personnel cultivation.
-          </p>
-          <p>
-            HFW's main operational base, known simply as <strong>The Forge</strong>, is a
-            marvel of clandestine engineering. Located deep within a volatile
-            nebula on a
-            <strong>newly discovered, fairly small, rogue moon</strong> – one unburdened
-            by the gravitational pull of a parent planet – its initial unstable
-            orbit necessitated a monumental, multi-year project (2934-2940) to
-            stabilize its trajectory through precise gravitational nudges and
-            powerful terraforming bursts. The moon itself underwent an act of
-            <strong>geological reconstruction</strong>, transforming its vast, ancient
-            natural caverns into a single, integrated, and self-sustaining
-            giant moon base. This intricate process included the meticulous
-            integration of <strong>complex artificial gravity systems</strong>, engineered
-            to avoid any gravitational fluctuations that could destabilize the
-            delicate orbital mechanics of the surrounding asteroid field, thus
-            maintaining The Forge's hidden advantage.
-          </p>
-          <p>
-            This heavily fortified moon base serves as the central hub for
-            HFW's research, development, prototyping, and testing activities. It
-            houses their most sensitive projects, including the groundbreaking
-            Spectre program and its state-of-the-art facilities like the
-            specialized regeneration center for the Phoenix Protocol training
-            program. The strategic importance of safeguarding The Forge drives
-            the development of dedicated defensive assets like the Spectre
-            Revenant.
-          </p>
-          <p>
-            HFW is renowned for its unique <strong>Talent Acquisition Doctrine</strong>.
-            This approach supplements standard recruitment by discreetly
-            observing and actively recruiting individuals who demonstrate
-            exceptional aptitude or possess unique, hard-won experience
-            relevant to HFW's clandestine mission – regardless of their origin
-            or past affiliations. From its inception, this doctrine led to the
-            formation of the <strong>Ghost Teams</strong>, elite field operatives and
-            intelligence gatherers whose unconventional skills were crucial for
-            HFW's data acquisition and early field testing. This unconventional
-            approach recognizes that firsthand encounters with bleeding-edge
-            technology or deep understanding of specific operational challenges
-            can forge perspectives and skills unobtainable through traditional
-            means. It was through this very doctrine that operatives like
-            <strong>Jax "Whisper" Rylan</strong>, a former Ninetails outpost technician
-            whose profound experience surviving a Spectre attack fostered an
-            unparalleled expertise in detecting stealth threats, was brought
-            into The Forge's expanding ranks following his critical involvement
-            in Dr. Thorne's rescue. His unique insights now directly contribute
-            to the refinement of The Forge's cutting-edge designs, including
-            the Spectre program itself.
-          </p>
-          <p>
-            In essence, Hephaestus Forge Works represents Anvil Aerospace's
-            unwavering commitment to pushing beyond conventional limits in
-            stealth, electronic warfare, advanced combat systems, and
-            bio-engineering. Operating as a shadow within a shadow, HFW delivers
-            the groundbreaking tools necessary for the UEE to maintain decisive
-            superiority against unforeseen and rapidly evolving threats,
-            ensuring the future is not merely designed, but <strong>forged</strong>.
-          </p>
+            <h2>Hephaestus Forge Works (HFW): Comprehensive Overview<a class="back-to-top" href="#spectre-top">[Back to Top]</a></h2>
+            <p><strong>Hephaestus Forge Works (HFW)</strong> is the highly specialized...</p>
+            <p>Under the directorship of its founder...</p>
+            <p>HFW's main operational base, known simply as <strong>The Forge</strong>...</p>
+            <p>This heavily fortified moon base serves as the central hub...</p>
+            <p>HFW is renowned for its unique <strong>Talent Acquisition Doctrine</strong>...</p>
+            <p>In essence, Hephaestus Forge Works represents Anvil Aerospace's...</p>
         </section>
 
         <section class="section" id="spectre-founding-docs">
-          <h2>
-            Founding Documents & Key Moments<a
-              class="back-to-top"
-              href="#spectre-top"
-              >[Back to Top]</a
-            >
-          </h2>
-          <h3 id="spectre-founding-docs-a-hephaestus-forge-works-proposal">
-            A. Hephaestus Forge Works: A Strategic Proposal (May 21, 2933)
-          </h3>
-          <p>
-            <strong>To:</strong> The Board of Directors, Anvil Aerospace<br /><strong>From:</strong>
-            Dr. Aris Thorne, Lead Aerospace Engineer & Director of Advanced
-            Bio-Engineering and Strategic R&D<br /><strong>Date:</strong>
-            May 21, 2933<br /><strong>Subject:</strong>
-            Proposal for the Establishment of Hephaestus Forge Works – An
-            Advanced Development Division
-          </p>
-          <h4 id="spectre-founding-docs-the-imperative">
-            I. The Imperative: Adapting to Evolving Threats
-          </h4>
-          <p>
-            Echoing the mid-20th century Cold War era, when the USA established
-            dedicated 'top secret' development enclaves, these organizations
-            were paramount in ensuring national security. Tasked with countering
-            potential Soviet threats, their singular focus was on maintaining a
-            decisive technological advantage, pushing the boundaries of
-            engineering to deliver unparalleled capabilities.
-          </p>
-          <p>
-            Today, Anvil Aerospace faces a similarly critical juncture. The
-            ongoing and escalating threat of
-            <strong>Xenothreat incursions</strong>, coupled with the persistent and
-            unpredictable danger of <strong>Vanduul attacks</strong>, presents an
-            existential challenge to galactic security and, by extension, to our
-            core business and the safety of our clients. These adversaries
-            operate with unconventional tactics and often possess unknown
-            technological advantages, demanding a response that is agile,
-            innovative, and, at times, discreet. Standard development cycles,
-            while robust, may not be sufficient to meet the rapid evolution of
-            these threats.
-          </p>
-          <h4 id="spectre-founding-docs-introducing-hfw">
-            II. Introducing: Hephaestus Forge Works
-          </h4>
-          <p>
-            To address this critical need, I am formally proposing the creation
-            of a specialized, <strong>clandestine arm of Anvil Aerospace</strong>, to be
-            known henceforth as <strong>Hephaestus Forge Works (HFW)</strong>. This
-            initiative stems from a deep conviction that Anvil's future security
-            and leadership depend on a dedicated entity capable of rapid,
-            unconventional innovation.
-          </p>
-          <p>
-            This designation is not merely a name; it is a declaration of
-            purpose and a homage to a storied legacy:
-          </p>
-          <ul>
-            <li>
-              <strong>Hephaestus:</strong> Drawing inspiration from the Greek god of
-              blacksmiths, artisans, fire, and volcanoes, "Hephaestus" embodies
-              the spirit of masterful craftsmanship, intense dedication, and
-              transformative creation from raw elements. It perfectly aligns
-              with Anvil's reputation for rugged, reliable, and powerful
-              starcraft, emphasizing the foundational, hands-on engineering that
-              defines our brand.
-            </li>
-            <li>
-              <strong>Forge Works:</strong> This directly connects HFW to the historical
-              "Works" of bygone eras – the renowned Skunk Works and Phantom
-              Works. These were not just departments; they were cultures of
-              innovation, secrecy, and rapid prototyping, where brilliant minds
-              operated with unparalleled autonomy to deliver groundbreaking
-              solutions under extreme pressure. "Forge Works" signifies a
-              dedicated environment where cutting-edge concepts are hammered
-              into reality, often outside conventional scrutiny.
-            </li>
-          </ul>
-          <h4 id="spectre-founding-docs-mission-and-capabilities">
-            III. Mission and Capabilities of The Forge
-          </h4>
-          <p>
-            Hephaestus Forge Works will operate with a focused mandate: to
-            ensure Anvil Aerospace, and by extension the UEE, maintains the upper
-            hand against emerging and unconventional threats. Its core
-            capabilities will include:
-          </p>
-          <ul>
-            <li>
-              <strong>Rapid Research & Development (R&D):</strong> Accelerated
-              development cycles for experimental technologies, counter-measures,
-              and specialized components.
-            </li>
-            <li>
-              <strong>Advanced Prototyping:</strong> The ability to quickly design, build,
-              and test proof-of-concept vehicles and systems that push beyond
-              current industry standards.
-            </li>
-            <li>
-              <strong>Threat-Specific Adaptation:</strong> Developing bespoke modifications
-              and entirely new craft tailored to neutralize specific Xenothreat
-              and Vanduul capabilities.
-            </li>
-            <li>
-              <strong>Clandestine Operations Support:</strong> Designing and integrating
-              systems for covert missions, intelligence gathering, and
-              specialized combat scenarios.
-            </li>
-            <li>
-              <strong>Talent Incubation:</strong> Attracting and empowering the most
-              brilliant and unconventional engineers, scientists, and
-              strategists, providing them with the resources and freedom to
-              innovate without bureaucratic impedance.
-            </li>
-          </ul>
-          <h4 id="spectre-founding-docs-strategic-advantage">
-            IV. Strategic Advantage and Conclusion
-          </h4>
-          <p>
-            The establishment of Hephaestus Forge Works is not merely an
-            expansion; it is a strategic imperative. It represents Anvil
-            Aerospace's commitment to proactive defense, ensuring that we are
-            not just reacting to threats, but anticipating and neutralizing them
-            with unparalleled speed and ingenuity. We've grown and learned
-            immensely since our inception, pushing the boundaries of aerospace
-            engineering. Now, it is time to channel that expertise into a
-            dedicated, focused effort for the most critical challenges ahead.
-          </p>
-          <p>
-            In the spirit of the Skunk and the Phantom, we present
-            <strong>The Forge</strong>: Anvil Aerospace's unwavering commitment to securing
-            the future, one groundbreaking innovation at a time.
-          </p>
-
-          <h3 id="spectre-founding-docs-b-genesis-of-the-forge">
-            B. The Genesis of The Forge: HFW's Establishment (2933-2940)
-          </h3>
-          <p>
-            The escalating threats from Xenothreat and the persistent Vanduul
-            incursions had already begun to strain Anvil Aerospace's
-            conventional R&D pipelines. Recognizing this critical juncture, Dr.
-            Aris Thorne, a Lead Aerospace Engineer and Director of Advanced
-            Bio-Engineering and Strategic R&D, formulated a radical solution. On
-            May 21, 2933 , he submitted a compelling proposal to the Anvil
-            Aerospace Board of Directors: the creation of a dedicated, agile,
-            and clandestine division. His vision, echoing the 'top secret'
-            development enclaves of the mid-20th century Cold War, promised to
-            ensure Anvil's decisive technological advantage against these
-            evolving threats.
-          </p>
-          <h4 id="spectre-founding-docs-establishing-the-command">
-            Establishing the Command: Proposal Acceptance and Leadership (Late
-            2933)
-          </h4>
-          <p>
-            Dr. Thorne's foresight resonated deeply with the Board. After
-            intense, highly classified deliberations, the proposal for
-            Hephaestus Forge Works (HFW) was unanimously accepted. Thorne's
-            unparalleled expertise and proven ability to innovate under pressure
-            made him the unequivocal choice to lead this nascent division. He
-            was officially appointed as the Director of Hephaestus Forge Works,
-            a mandate that would largely subsume his previous roles and focus his
-            formidable intellect on building The Forge from the ground up.
-          </p>
-          <h4 id="spectre-founding-docs-assembling-the-unconventional">
-            Assembling the Unconventional: Recruitment (Early 2934)
-          </h4>
-          <p>
-            With the Board's full backing and a substantial, classified budget,
-            Dr. Thorne immediately embarked on HFW's most critical initial task:
-            recruitment. This was no ordinary hiring drive. Thorne sought not
-            just brilliance, but unconventional thinking, adaptability, and
-            unwavering discretion. He targeted individuals who thrived on
-            impossible challenges, possessed diverse and often unorthodox skill
-            sets, and were willing to operate in the shadows for the greater
-            good. Leveraging his extensive network in advanced research, he
-            quietly approached top-tier engineers, rogue scientists, brilliant
-            tacticians, and even former covert operatives. This meticulous,
-            off-the-books process ensured absolute secrecy. Among these early,
-            hand-picked specialists were the precursors to what would become
-            known as the Ghost Teams – elite field operatives and intelligence
-            gatherers whose unique skills would be crucial for HFW's clandestine
-            data acquisition and eventual field testing of its advanced
-            prototypes.
-          </p>
-          <h4 id="spectre-founding-docs-sanctuary-found">
-            Sanctuary Found: Locating The Forge (Mid 2934)
-          </h4>
-          <p>
-            Simultaneously, a dedicated team, personally overseen by Dr. Thorne,
-            commenced the exhaustive search for HFW's operational heart – "The
-            Forge." The requirements were stringent: extreme seclusion, far from
-            established shipping lanes and civilian scrutiny; proximity to raw
-            materials and energy sources for advanced manufacturing; natural
-            defensibility; and environmental conditions conducive to highly
-            sensitive research without external interference.
-          </p>
-          <p>
-            After months of scouting countless systems and derelict
-            installations, a site was identified deep within a nebula known for
-            its volatile atmospheric conditions and treacherous asteroid fields.
-            This natural deterrent provided the perfect cover. The chosen
-            location was a newly discovered, fairly small, rogue moon – one
-            unburdened by the gravitational pull of a parent planet . Its
-            independent trajectory, while offering unparalleled isolation, also
-            presented a unique challenge: an unstable orbit that threatened to
-            eventually drift into interstellar space. Anvil's engineers
-            immediately initiated a complex, long-term project to stabilize its
-            trajectory, employing a combination of subtle gravitational nudges
-            and powerful, precisely calibrated bursts from advanced terraforming
-            equipment. This monumental effort secured the moon's long-term
-            stability and, by extension, the enduring secrecy of The Forge.
-            Beneath its surface, a vast, ancient network of natural caverns was
-            found, imperfect and requiring immense effort to stabilize and
-            expand, yet offering unmatched inherent secrecy and strategic
-            isolation.
-          </p>
-          <h4 id="spectre-founding-docs-forging-the-future">
-            Forging the Future: Construction and Integration (Late 2934 - Mid
-            2940)
-          </h4>
-          <p>
-            Construction of Hephaestus Forge Works commenced in late 2934, an
-            undertaking of unprecedented scale and secrecy. Anvil Aerospace
-            deployed a highly specialized, covert construction division,
-            operating under strict non-disclosure agreements and layers of
-            misdirection. Massive excavation and structural reinforcement
-            projects transformed the natural caverns into a sprawling,
-            multi-level facility. This was no mere base construction; it was an
-            act of geological reconstruction, effectively turning the entire
-            small moon into a single, integrated, and self-sustaining giant moon
-            base.
-          </p>
-          <p>
-            Within this re-engineered celestial body, advanced environmental
-            controls, state-of-the-art manufacturing bays, secure research labs,
-            and integrated defensive systems were meticulously installed, all
-            designed to seamlessly integrate with the moon's re-engineered
-            internal structure. Crucially, the integration of complex
-            artificial gravity systems was meticulously engineered to avoid any
-            gravitational fluctuations that could destabilize the delicate
-            orbital mechanics of the surrounding asteroid field, thus
-            maintaining The Forge's hidden advantage. The construction timeline
-            was aggressive, driven by the urgency of the external threats, with
-            resources funneled through shell corporations and disguised supply
-            chains.
-          </p>
-          <p>
-            By early 2940 , the primary construction was complete, and the most
-            critical systems were brought online. Hephaestus Forge Works
-            officially began its operational phase, a hidden crucible where
-            Anvil's most daring innovations would be born, all under the direct
-            leadership of its visionary founder, Dr. Aris Thorne.
-          </p>
-          <h4 id="spectre-founding-docs-operational-readiness-jax">
-            Operational Readiness and Field Integration: The Rescue and
-            Recruitment of Jax (Post-2940)
-          </h4>
-          <p>
-            As The Forge became fully operational, its focus shifted to the
-            rigorous testing and validation of its advanced prototypes. It was
-            during this period that Dr. Thorne himself, while overseeing a
-            critical off-world data acquisition mission, found himself in dire
-            straits. His rescue was orchestrated by an elite, newly formed field
-            team, including the skilled HFW operative Ghost, and crucially, a
-            highly capable independent pilot named Jax, along with other key
-            individuals. This pivotal event not only saved The Forge's director
-            but also served as a real-world crucible for HFW's burgeoning field
-            capabilities. Following his ordeal and the successful rescue, Jax's
-            unique experiences and skill sets proved invaluable. He was
-            subsequently recruited into the expanding ranks of HFW's field
-            teams, directly contributing to the refinement of The Forge's
-            cutting-edge designs and projects like the Spectre-class vessels.
-          </p>
-
-          <h3 id="spectre-founding-docs-aris-thorne-address">
-            C. Dr. Aris Thorne's Address to Hephaestus Forge Works (Early 2940)
-          </h3>
-          <blockquote>
-            <p>
-              *(Delivered to the assembled, hand-picked personnel of Hephaestus
-              Forge Works, deep within the newly operational moon base, early
-              2940. The air is thick with the hum of newly activated systems and
-              the quiet anticipation of groundbreaking work.)*
-            </p>
-            <p>
-              "Look around you. Look at what we have built. For years, the
-              threats have mounted. The Vanduul, relentless and inscrutable.
-              Xenothreat, a festering wound in the fabric of our existence.
-              Conventional responses, however valiant, have shown their limits.
-              We have seen the cost. We have felt the strain.
-            </p>
-            <p>
-              But today... today, we stand in the crucible of a new beginning.
-              This isn't just a facility; it is a declaration. This is
-              <strong>The Forge</strong>.
-            </p>
-            <p>
-              Each of you was chosen not just for your brilliance, but for your
-              courage, your unconventional thinking, and your unwavering
-              commitment to a future worth fighting for. You are the minds who
-              dare to ask 'what if,' the hands that will build the impossible,
-              and the spirits resilient enough to work in the shadows,
-              unheralded, for the salvation of countless lives.
-            </p>
-            <p>
-              We are not merely Anvil Aerospace's advanced R&D. We are its
-              shield. Its spear. We are the inheritors of a legacy born in the
-              shadows of past conflicts – the spirit of the Skunk Works, the
-              Phantom Works – where ingenuity was the ultimate weapon, and
-              secrecy the ultimate defense. We carry that torch, but we carry it
-              into a new era, against enemies unlike any seen before.
-            </p>
-            <p>
-              Here, within these re-engineered walls, we will not just design;
-              we will <strong>forge</strong>. We will hammer out solutions from raw
-              possibility. We will ignite the fires of innovation and temper
-              them with relentless testing. We will build the tools, the ships,
-              the countermeasures that will turn the tide.
-            </p>
-            <p>
-              Our work will be unseen. Our victories, often uncelebrated. But
-              know this: every circuit we lay, every alloy we perfect, every line
-              of code we write, every prototype that takes flight from these
-              hidden bays... it is a blow struck for humanity. It is a promise
-              kept.
-            </p>
-            <p>
-              This is not a war we can afford to lose. And from this day
-              forward, with every spark from The Forge, we will ensure we don't.
-              For the future is not merely designed, it is <strong>forged</strong>!"
-            </p>
-          </blockquote>
+            <h2>Founding Documents & Key Moments<a class="back-to-top" href="#spectre-top">[Back to Top]</a></h2>
+            <h3 id="spectre-founding-docs-a-hephaestus-forge-works-proposal">A. Hephaestus Forge Works: A Strategic Proposal (May 21, 2933)</h3>
+            <p><strong>To:</strong> The Board of Directors, Anvil Aerospace<br />...</p>
+            <h4 id="spectre-founding-docs-the-imperative">I. The Imperative: Adapting to Evolving Threats</h4>
+            <p>Echoing the mid-20th century...</p>
+            <h4 id="spectre-founding-docs-introducing-hfw">II. Introducing: Hephaestus Forge Works</h4>
+            <p>To address this critical need...</p>
+            <ul><li><strong>Hephaestus:</strong>...</li><li><strong>Forge Works:</strong>...</li></ul>
+            <h4 id="spectre-founding-docs-mission-and-capabilities">III. Mission and Capabilities of The Forge</h4>
+            <p>Hephaestus Forge Works will operate...</p>
+            <ul><li><strong>Rapid Research & Development (R&D):</strong>...</li><li><strong>Advanced Prototyping:</strong>...</li><li><strong>Threat-Specific Adaptation:</strong>...</li><li><strong>Clandestine Operations Support:</strong>...</li><li><strong>Talent Incubation:</strong>...</li></ul>
+            <h4 id="spectre-founding-docs-strategic-advantage">IV. Strategic Advantage and Conclusion</h4>
+            <p>The establishment of Hephaestus Forge Works...</p>
+            <p>In the spirit of the Skunk and the Phantom...</p>
+            <h3 id="spectre-founding-docs-b-genesis-of-the-forge">B. The Genesis of The Forge: HFW's Establishment (2933-2940)</h3>
+            <p>The escalating threats from Xenothreat...</p>
+            <h4 id="spectre-founding-docs-establishing-the-command">Establishing the Command: Proposal Acceptance and Leadership (Late 2933)</h4>
+            <p>Dr. Thorne's foresight resonated...</p>
+            <h4 id="spectre-founding-docs-assembling-the-unconventional">Assembling the Unconventional: Recruitment (Early 2934)</h4>
+            <p>With the Board's full backing...</p>
+            <h4 id="spectre-founding-docs-sanctuary-found">Sanctuary Found: Locating The Forge (Mid 2934)</h4>
+            <p>Simultaneously, a dedicated team...</p>
+            <p>After months of scouting...</p>
+            <h4 id="spectre-founding-docs-forging-the-future">Forging the Future: Construction and Integration (Late 2934 - Mid 2940)</h4>
+            <p>Construction of Hephaestus Forge Works commenced...</p>
+            <p>Within this re-engineered celestial body...</p>
+            <p>By early 2940 , the primary construction was complete...</p>
+            <h4 id="spectre-founding-docs-operational-readiness-jax">Operational Readiness and Field Integration: The Rescue and Recruitment of Jax (Post-2940)</h4>
+            <p>As The Forge became fully operational...</p>
+            <h3 id="spectre-founding-docs-aris-thorne-address">C. Dr. Aris Thorne's Address to Hephaestus Forge Works (Early 2940)</h3>
+            <blockquote><p>*(Delivered to the assembled...)*</p><p>"Look around you...</p><p>But today... <strong>The Forge</strong>.</p><p>Each of you was chosen...</p><p>We are not merely Anvil Aerospace's...</p><p>Here, within these re-engineered walls... <strong>forge</strong>.</p><p>Our work will be unseen...</p><p>This is not a war we can afford to lose... <strong>forged</strong>!"</p></blockquote>
         </section>
 
         <div class="section" id="spectre-specs">
-          </div>
+            <h2>Specifications &amp; Capabilities (HFW Fleet)<a class="back-to-top" href="#spectre-top">[Back to Top]</a></h2>
+            <p>Key specifications for primary HFW platforms...</p>
+            <h3>General Specifications (Spectre & Revenant)</h3>
+            <table><tbody>...</tbody></table>
+            <p><em>Note: Detailed specifications for Eidolon...</em></p>
+            <h3>Key Design Features &amp; Systems (Common HFW Principles)</h3>
+            <ul><li><strong>Stealth Integration:</strong>...</li><li><strong>Power Systems:</strong>...</li><li><strong>Shield Philosophy:</strong>...</li><li><strong>'Ghost Mode' Cockpit & Total Immersion Interior:</strong>...</li><li><strong>Advanced Materials & Construction:</strong>...</li></ul>
+            <h3>Core Systems Summary (Base Spectre / Spectre Revenant Example)</h3>
+            <table><tbody>...</tbody></table>
+        </div>
 
         <div class="section" id="spectre-viewer">
           <model-viewer
@@ -924,13 +397,15 @@
             camera-controls
             interaction-prompt="none"
             style="width: 100%; height: 600px; background-color: #15181d;"
+            loading="lazy" 
+            reveal="interaction"
           ></model-viewer>
           <div style="margin: 1rem 0; text-align: center; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
             <button class="model-control-btn styled-button" onclick="switchModel('shadow')">Spectre Shadow</button>
             <button class="model-control-btn styled-button" onclick="switchModel('revenant')">Spectre Revenant</button>
             <button class="model-control-btn styled-button" onclick="switchModel('eidolon_shadow')">Eidolon Shadow</button>
           </div>
-          <div class="viewer-legend" style="position: relative; margin: -3rem 1rem 1rem 1rem; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px; color: #fff; font-size: 0.9rem; max-width: 220px; z-index: 5;">
+          <div class="viewer-legend" style="position: relative; margin: -3rem auto 1rem auto; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px; color: #fff; font-size: 0.9rem; max-width: 220px; z-index: 5; text-align:left;">
             <strong>Controls:</strong>
             <ul style="margin: 0.5rem 0 0 1rem; padding: 0; list-style: disc inside;">
               <li>Rotate: Click &amp; drag</li>
@@ -943,39 +418,104 @@
           <div style="margin: 1rem 0; text-align: center;">
             <button class="model-control-btn styled-button" onclick="setView('0deg 75deg 7m')">Front</button>
             <button class="model-control-btn styled-button" onclick="setView('180deg 75deg 7m')">Back</button>
+            <button class="model-control-btn styled-button" onclick="setView('90deg 75deg 7m')">Left</button>
+            <button class="model-control-btn styled-button" onclick="setView('-90deg 75deg 7m')">Right</button>
+            <button class="model-control-btn styled-button" onclick="setView('0deg 0deg 7m')">Top</button>
+            <button class="model-control-btn styled-button" onclick="setView('0deg 180deg 7m')">Bottom</button>
+            <button class="model-control-btn styled-button" onclick="setView('45deg 60deg 7m')">F-L&nbsp;Top</button>
+            <button class="model-control-btn styled-button" onclick="setView('-45deg 60deg 7m')">F-R&nbsp;Top</button>
+            <button class="model-control-btn styled-button" onclick="setView('135deg 60deg 7m')">B-L&nbsp;Top</button>
+            <button class="model-control-btn styled-button" onclick="setView('-135deg 60deg 7m')">B-R&nbsp;Top</button>
+            <button class="model-control-btn styled-button" onclick="setView('45deg 120deg 7m')">F-L&nbsp;Bot</button>
+            <button class="model-control-btn styled-button" onclick="setView('-45deg 120deg 7m')">F-R&nbsp;Bot</button>
+            <button class="model-control-btn styled-button" onclick="setView('135deg 120deg 7m')">B-L&nbsp;Bot</button>
+            <button class="model-control-btn styled-button" onclick="setView('-135deg 120deg 7m')">B-R&nbsp;Bot</button>
             <button class="model-control-btn styled-button" onclick="recenter()">Recenter</button>
           </div>
         </div>
 
         <div class="section" id="spectre-variants">
-          </div>
+            <h2>HFW Ship Variants<a class="back-to-top" href="#spectre-top">[Back to Top]</a></h2>
+            <p>Select a ship family to view its specialized variants...</p>
+            <div class="ship-family-tabs">...</div>
+            <div class="ship-family-content-wrapper active-family-content" id="content-family-spectre">...</div>
+            <div class="ship-family-content-wrapper" id="content-family-eidolon" style="display: none;">...</div>
+            <div class="ship-family-content-wrapper" id="content-family-phantom" style="display: none;">...</div>
+            <div class="ship-family-content-wrapper" id="content-family-daemon" style="display: none;">...</div>
+        </div>
 
         <section class="section" id="spectre-stealth-doctrine">
-          </section>
+            <h2>Stealth Operations & Signature Management Doctrine<a class="back-to-top" href="#spectre-top">[Back to Top]</a></h2>
+            <p>Mastering HFW's advanced signature reduction...</p>
+            <p>Key tactics include:</p>
+            <ul><li><strong>Environmental Concealment:</strong>...</li><li><strong>Low-Altitude Flight & Terrain Following:</strong>...</li><li><strong>Passive Cooling and 'Going Cold':</strong>...</li><li><strong>Utilizing Water for Concealment and Cooling:</strong>...</li><li><strong>Seeking Strategic Hiding Positions:</strong>...</li><li><strong>Layered Signature Control:</strong>...</li></ul>
+            <p>While core principles apply to all HFW stealth assets...</p>
+        </section>
 
         <section class="section" id="spectre-scenarios">
-          </section>
+            <h2>Operational Scenarios<a class="back-to-top" href="#spectre-top">[Back to Top]</a></h2>
+            <div class="scenario-narrative"><h3>Scenario 1: Xenothreat Convoy Interdiction (Pyro System)</h3>...</div>
+            <div class="scenario-narrative"><h3>Scenario 2: Ground Support Under Fire</h3>...</div>
+        </section>
 
         <section class="section" id="spectre-interior">
-          </section>
+            <h2>Spectre Interior Layout & Systems<a class="back-to-top" href="#spectre-top">[Back to Top]</a></h2>
+            <p>The Spectre's three-deck configuration...</p>
+            <p>A truly unique feature enabled by the advanced Anvil-Esperia...</p>
+            <p><strong>Key Interior Features Summary (Base Spectre):</strong></p>
+            <ul><li>Bridge: Retractable armored shutters...</li><li>Private Quarters: Captain, Co-Pilot, Specialist.</li><li>Shared Bunks: 2 Additional Crew.</li><li>Galley & Mess: Shared common area.</li><li>Drone Maintenance Bay: With full deployment and repair capacity.</li><li>Salvage Bay: Supports RMC/CM and onboard 3D printer.</li><li>Ammunition Bay: Armored, with autoloader...</li><li>Engineering Access: All core components accessible internally.</li></ul>
+            <p><em>Note: The Eidolon series, despite being fighters...</em></p>
+        </section>
 
         <section class="section" id="spectre-talent">
-          </section>
+            <h2>HFW Talent Acquisition Doctrine<a class="back-to-top" href="#spectre-top">[Back to Top]</a></h2>
+            <p>Operating under a mandate that prioritizes results...</p>
+            <p>The profound impact of HFW technology...</p>
+            <p>From its inception, this doctrine led to the formation...</p>
+            <p>HFW believes that true technological superiority...</p>
+        </section>
 
         <section class="section" id="spectre-comparison">
-          </section>
+            <h2>Ship Comparison Module<a class="back-to-top" href="#spectre-top">[Back to Top]</a></h2>
+            <p>This chart compares primary HFW platforms...</p>
+            <table><thead><tr><th>Ship</th><th>Length</th><th>Role</th><th>Crew</th><th>Cargo</th><th>Signature Management</th><th>Key Differentiator</th></tr></thead><tbody>...</tbody></table>
+        </section>
 
         <section class="section" id="spectre-environment">
-          </section>
+            <h2>Environmental Considerations (Future Implementation)<a class="back-to-top" href="#spectre-top">[Back to Top]</a></h2>
+            <p><strong>Cooling Leverage:</strong> Pilots might be able to leverage...</p>
+            <p><strong>Heat Management:</strong> Varying atmospheres and weather conditions...</p>
+        </section>
 
         <section class="section" id="spectre-testimonials">
-          </section>
+            <h2>Field Testimonials<a class="back-to-top" href="#spectre-top">[Back to Top]</a></h2>
+            <blockquote>“We never saw a thing...</blockquote><p>— Jax “Whisper” Rylan, HFW Operative (formerly Ninetails)</p>
+            <blockquote>“We were pinned down...</blockquote><p>– Corporal Anya Sharma, 12th Rapid Deployment Brigade (re: Spectre Shadow)</p>
+            <blockquote>“We thought it was the end...</blockquote><p>– Sergeant Major Elias Vance, 7th Expeditionary Unit (re: Spectre Strike)</p>
+            <blockquote>“They were laughing at us on comms...</blockquote><p>– Security Officer Jian Li, Sector Patrol Delta-7 (re: Spectre Lockdown)</p>
+            <blockquote>“We were facing a heavily shielded enemy vessel...</blockquote><p>– Flight Lieutenant Commander Rylan Voss, 9th Special Operations Wing (re: Spectre Pulse)</p>
+        </section>
 
         <section class="section" id="revenant-acquisition">
-          </section>
+            <h2>Spectre Revenant Acquisition<a class="back-to-top" href="#spectre-top">[Back to Top]</a></h2>
+            <p>The Spectre Revenant stands apart...</p>
+            <h3>Lawful Acquisition (Recovery for HFW)</h3> <p><strong>Method:</strong>...</p> <p><strong>HFW Response:</strong>...</p> <p><strong>Outcome:</strong>...</p>
+            <h3>Criminal Acquisition (Theft from HFW)</h3> <p><strong>Method:</strong>...</p> <p><strong>HFW Response:</strong>...</p> <p><strong>Outcome:</strong>...</p>
+            <h3>Account Limitation and Trade Restrictions</h3> <p>Regardless of the method of acquisition...</p>
+            <h3>The Mark of HFW</h3> <p>Crucially, if a player loses their Spectre Revenant...</p>
+        </section>
 
         <section class="section" id="spectre-conclusion">
-          </section>
+            <h2>Conclusion: The Forged Shield of the UEE<a class="back-to-top" href="#spectre-top">[Back to Top]</a></h2>
+            <p>Hephaestus Forge Works, born from the visionary...</p>
+            <p>Inspired by the pioneering spirit...</p>
+            <p>The Anvil Spectre family...</p>
+            <p>The directive from Imperator Kelos Costigan...</p>
+            <p>As the United Empire of Earth faces...</p>
+            <p>The future, as Dr. Thorne proclaimed, is <strong>forged</strong>.</p>
+            <blockquote>"It wasn't just chaos; it was precise...</blockquote>
+            <blockquote><p>– Marcus “Wraith” Cole, Former Ninetails...</p></blockquote>
+        </section>
 
         <section>
           <div>
@@ -994,9 +534,7 @@
               alt="Profile Logo"
               src="https://imagizer.imageshack.com/img924/8747/qCer6W.png"
               onerror="this.onerror=null;this.src='https://placehold.co/180x100/1a1a1a/ff4c4c?text=Profile+Logo';"
-              loading="lazy"
-              width="180"
-              height="100"
+              loading="lazy" width="180" height="100"
             />
           </div>
           <h2>On This Section</h2>
@@ -1058,7 +596,7 @@
   const mainContentScroller = document.querySelector(".spectre-post-container > .container");
   const spectreNavLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
   const pageSections = Array.from(document.querySelectorAll(".spectre-post-container > .container > .section"));
-  const modelViewer = document.getElementById('spectreViewer'); // Added for model viewer functions
+  const modelViewer = document.getElementById('spectreViewer');
 
   // Model Viewer Data
   const modelBaseURL = "https://ArchKaine.github.io/ship-models/";
@@ -1073,8 +611,8 @@
     if (!asideElement || !asideTocList || !mainContentScroller) return;
 
     const svgIcon =
-      '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" ' + // Matched to 1em font size
-      'style="vertical-align:-0.1em;margin-right:0.8em;opacity:0.7;">' + // Matched to 0.8rem margin
+      '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" ' +
+      'style="vertical-align:-0.1em;margin-right:0.8em;opacity:0.7;">' +
       '<path d="M10 17l5-5-5-5v10z"></path></svg>';
 
     const viewportHeight = window.innerHeight;
@@ -1130,8 +668,8 @@
       li.style.padding = "0.5rem 1rem";
       li.style.fontSize = "0.9rem";
       li.style.color = "#777";
-      const sectionTitleElement = activeSection.querySelector('h2'); // Get the h2 of the section
-      const sectionTitle = sectionTitleElement ? sectionTitleElement.firstChild.textContent.trim() : 'current section'; // Get text before back-to-top
+      const sectionTitleElement = activeSection.querySelector('h2');
+      const sectionTitle = sectionTitleElement ? Array.from(sectionTitleElement.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent.trim()).join(' ').trim() || sectionTitleElement.textContent.trim() : 'current section';
       li.textContent = `No sub-headings in ${sectionTitle}.`;
       asideTocList.appendChild(li);
       asideElement.style.display = "flex";
@@ -1149,7 +687,6 @@
       }
       const a = document.createElement("a");
       a.href = `#${h.id}`;
-      // Get only the text content of the heading, excluding child elements like 'back-to-top'
       const headingText = Array.from(h.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent.trim()).join(' ').trim() || h.textContent.trim();
       a.innerHTML = svgIcon + headingText;
 
@@ -1255,13 +792,13 @@
             const clickEvent = firstVariantButton.getAttribute('onclick');
             if (clickEvent) {
                 const matches = clickEvent.match(/'([^']+)'/g);
-                if (matches && matches.length >= 2) { // Ensure at least two parameters
+                if (matches && matches.length >= 2) { 
                     const variantId = matches[0].replace(/'/g, '');
-                    const familyIdFromClick = matches[1].replace(/'/g, ''); // Ensure this is the family ID
+                    const familyIdFromClick = matches[1].replace(/'/g, ''); 
                      showVariantContent(variantId, firstVariantButton, familyIdFromClick);
-                } else if (matches && matches.length === 1) { // Fallback if only one param in onclick
+                } else if (matches && matches.length === 1) { 
                     const variantId = matches[0].replace(/'/g, '');
-                    showVariantContent(variantId, firstVariantButton, familyIdSuffix); // Use passed familyIdSuffix
+                    showVariantContent(variantId, firstVariantButton, familyIdSuffix); 
                 }
             }
         } else { 
