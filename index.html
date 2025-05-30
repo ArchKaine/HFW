@@ -996,47 +996,12 @@
           </table>
         </div>
 
-        <div class="section" id="spectre-viewer">
-          <model-viewer
-            id="spectreViewer"
-            src="https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb"
-            alt="Anvil Spectre Shadow"
-            camera-controls
-            interaction-prompt="none" style="width: 100%; height: 600px; background-color: #15181d;"
-            ></model-viewer>
-          <div style="margin: 1rem 0; text-align: center; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-            <button class="model-control-btn styled-button" onclick="switchModel('shadow')">Spectre Shadow</button>
-            <button class="model-control-btn styled-button" onclick="switchModel('revenant')">Spectre Revenant</button>
-            <button class="model-control-btn styled-button" onclick="switchModel('eidolon_shadow')">Eidolon Shadow</button>
-          </div>
-          <div class="viewer-legend" style="position: relative; margin: -3rem auto 1rem auto; background: rgba(0,0,0,0.7); padding: 1rem; border-radius: 4px; color: #fff; font-size: 0.9rem; max-width: 220px; z-index: 5; text-align:left;">
-            <strong>Controls:</strong>
-            <ul style="margin: 0.5rem 0 0 1rem; padding: 0; list-style: disc inside;">
-              <li>Rotate: Click &amp; drag</li>
-              <li>Zoom: Mouse wheel / pinch or slider</li>
-              <li>Pan: Right-click &amp; drag</li>
-              <li>Preset Views: Buttons below</li>
-              <li>Switch Models: Above</li>
-            </ul>
-          </div>
-          <div style="margin: 1rem 0; text-align: center;">
-            <button class="model-control-btn styled-button" onclick="setView('0deg 75deg 7m')">Front</button>
-            <button class="model-control-btn styled-button" onclick="setView('180deg 75deg 7m')">Back</button>
-            <button class="model-control-btn styled-button" onclick="setView('90deg 75deg 7m')">Left</button>
-            <button class="model-control-btn styled-button" onclick="setView('-90deg 75deg 7m')">Right</button>
-            <button class="model-control-btn styled-button" onclick="setView('0deg 0deg 7m')">Top</button>
-            <button class="model-control-btn styled-button" onclick="setView('0deg 180deg 7m')">Bottom</button>
-            <button class="model-control-btn styled-button" onclick="setView('45deg 60deg 7m')">F-L&nbsp;Top</button>
-            <button class="model-control-btn styled-button" onclick="setView('-45deg 60deg 7m')">F-R&nbsp;Top</button>
-            <button class="model-control-btn styled-button" onclick="setView('135deg 60deg 7m')">B-L&nbsp;Top</button>
-            <button class="model-control-btn styled-button" onclick="setView('-135deg 60deg 7m')">B-R&nbsp;Top</button>
-            <button class="model-control-btn styled-button" onclick="setView('45deg 120deg 7m')">F-L&nbsp;Bot</button>
-            <button class="model-control-btn styled-button" onclick="setView('-45deg 120deg 7m')">F-R&nbsp;Bot</button>
-            <button class="model-control-btn styled-button" onclick="setView('135deg 120deg 7m')">B-L&nbsp;Bot</button>
-            <button class="model-control-btn styled-button" onclick="setView('-135deg 120deg 7m')">B-R&nbsp;Bot</button>
-            <button class="model-control-btn styled-button" onclick="recenter()">Recenter</button>
-          </div>
-        </div>
+      <div class="section" id="spectre-viewer-wrapper"> <iframe 
+            src="model-viewer-widget.html" 
+            style="width: 100%; height: 800px; border: none;" 
+            title="Interactive 3D Model Viewer">
+        </iframe>
+      </div>
 
         <div class="section" id="spectre-variants">
           <h2>
