@@ -71,6 +71,7 @@
             <button class="model-control-btn styled-button" onclick="switchModel('shadow')">Spectre Shadow</button>
             <button class="model-control-btn styled-button" onclick="switchModel('revenant')">Spectre Revenant</button>
             <button class="model-control-btn styled-button" onclick="switchModel('eidolon_shadow')">Eidolon Shadow</button>
+            <button class="model-control-btn styled-button" onclick="switchModel('daemon')">Daemon</button>
         </div>
         
         <model-viewer
@@ -119,7 +120,8 @@
       const models = {
           shadow: { src: modelBaseURL + "Spectre_Shadow.glb", alt: "Anvil Spectre Shadow" },
           revenant: { src: modelBaseURL + "Spectre_Revenant.glb", alt: "Anvil Spectre Revenant" },
-          eidolon_shadow: { src: modelBaseURL + "Eidolon_Shadow.glb", alt: "Anvil Eidolon Shadow" }, // URL Encoded
+          eidolon_shadow: { src: modelBaseURL + "Eidolon_Shadow.glb", alt: "Anvil Eidolon Shadow" },
+          daemon: { src: modelBaseURL + "HFW_Daemon_Racing_Ship.glb", alt: "Anvil Daemon" },
       };
 
       function switchModel(modelKey) {
