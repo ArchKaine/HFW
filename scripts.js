@@ -1,257 +1,306 @@
-// scripts.js
+  // Cache frequently accessed DOM elements
+  const asideElement = document.getElementById("section-aside");
+  const asideTocList = asideElement ? asideElement.querySelector("ul.aside-toc") : null;
+  const mainContentScroller = document.querySelector(".spectre-post-container > .container");
+  const spectreNavLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
+  const pageSections = Array.from(document.querySelectorAll(".spectre-post-container > .container > .section"));
+  const modelViewer = document.getElementById('spectreViewer');
 
-// 1) Build & update the “On This Section” aside
-function updateAside() {
-  const aside = document.getElementById("section-aside");
-  if (!aside) return;
-  const list = aside.querySelector("ul");
-  if (!list) return;
-
-  const svgIcon =
-    '<svg viewBox="0 0 24 24" width="0.8em" height="0.8em" fill="currentColor" ' +
-    'style="vertical-align:-0.1em;margin-right:0.6em;opacity:0.7;">' +
-    '<path d="M10 17l5-5-5-5v10z"></path></svg>';
-
-  const sections = Array.from(document.querySelectorAll(".section"));
-  const scrollY = window.scrollY;
-  const vh = window.innerHeight;
-  const offset = vh * 0.35;
-
-  // find the current main section
-  let activeSection = null;
-  for (let i = sections.length - 1; i >= 0; i--) {
-    const sec = sections[i];
-    const top = sec.getBoundingClientRect().top + window.pageYOffset;
-    if (scrollY >= top - offset) {
-      activeSection = sec;
-      break;
-    }
-  }
-  // if at bottom, force last
-  if (window.innerHeight + scrollY >= document.body.offsetHeight - 50 && sections.length) {
-    activeSection = sections[sections.length - 1];
-  }
-
-  list.innerHTML = "";
-  if (!activeSection) {
-    const li = document.createElement("li");
-    li.style.padding = "0.5rem 1rem";
-    li.style.fontSize = "0.9rem";
-    li.style.color = "#777";
-    li.textContent = "No active section sub-headings.";
-    list.appendChild(li);
-    aside.style.display = "flex";
-    return;
-  }
-
-  // drill into variants if we’re in the variants section
-  let source = activeSection;
-  if (activeSection.id === "spectre-variants") {
-    const fam = activeSection.querySelector(".ship-family-content-wrapper.active-family-content");
-    if (fam) {
-      const varc = fam.querySelector(".variant-content.active");
-      source = varc || fam;
-    }
-  }
-
-  const headings = Array.from(source.querySelectorAll("h3, h4"));
-  if (!headings.length) {
-    const li = document.createElement("li");
-    li.style.padding = "0.5rem 1rem";
-    li.style.fontSize = "0.9rem";
-    li.style.color = "#777";
-    li.textContent = "No sub-sections.";
-    list.appendChild(li);
-    aside.style.display = "flex";
-    return;
-  }
-
-  let highlighted = false;
-  headings.forEach(h => {
-    if (!h.id) {
-      h.id = activeSection.id + "-" + h.tagName.toLowerCase() + "-" +
-             h.textContent.trim().toLowerCase()
-              .replace(/\s+/g, "-")
-              .replace(/[^\w-]+/g, "");
-    }
-    const a = document.createElement("a");
-    a.href = "#" + h.id;
-    a.innerHTML = svgIcon + h.textContent.trim();
-    if (h.tagName.toLowerCase() === "h4") {
-      a.style.paddingLeft = "1.5rem";
-    }
-    const rect = h.getBoundingClientRect();
-    if (!highlighted && rect.top >= 0 && rect.top < offset) {
-      a.classList.add("active");
-      highlighted = true;
-    }
-    a.addEventListener("click", e => {
-      e.preventDefault();
-      window.scrollTo({
-        top: document.getElementById(h.id).offsetTop - vh * 0.1,
-        behavior: "smooth",
-      });
-      list.querySelectorAll("a").forEach(n => n.classList.remove("active"));
-      a.classList.add("active");
-      setTimeout(updateAside, 0);
-    });
-    const li = document.createElement("li");
-    li.appendChild(a);
-    list.appendChild(li);
-  });
-  // respect hash if nothing auto-highlighted
-  if (!highlighted && window.location.hash) {
-    const byHash = list.querySelector(`a[href="${window.location.hash}"]`);
-    if (byHash) {
-      list.querySelectorAll("a").forEach(n => n.classList.remove("active"));
-      byHash.classList.add("active");
-    }
-  }
-  aside.style.display = "flex";
-}
-window.updateAside = updateAside;
-
-// 2) Left-sidebar highlighter
-function handleSpectreNavScroll() {
-  const navLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
-  const sections = [];
-  navLinks.forEach(link => {
-    const sec = document.querySelector(link.getAttribute("href"));
-    if (sec) sections.push(sec);
-  });
-  const scrollY = window.scrollY;
-  const offset = window.innerHeight * 0.4;
-  let current = "";
-  for (let i = sections.length - 1; i >= 0; i--) {
-    const top = sections[i].getBoundingClientRect().top + window.pageYOffset;
-    if (scrollY >= top - offset) {
-      current = sections[i].id;
-      break;
-    }
-  }
-  if (window.innerHeight + scrollY >= document.body.offsetHeight - 50 && sections.length) {
-    current = sections[sections.length - 1].id;
-  }
-  navLinks.forEach(link => {
-    link.classList.toggle("nav-active", link.getAttribute("href") === `#${current}`);
-  });
-}
-
-// 3) Family-tabs
-function showFamily(familyIdSuffix, clickedFamilyButton) {
-  const pc = document.querySelector(".spectre-post-container");
-  if (!pc) return;
-  pc.querySelectorAll(".ship-family-tabs button.family-tab")
-    .forEach(t => t.classList.remove("active-family"));
-  if (clickedFamilyButton) clickedFamilyButton.classList.add("active-family");
-
-  pc.querySelectorAll(".ship-family-content-wrapper").forEach(w => {
-    w.style.display = "none";
-    w.classList.remove("active-family-content");
-  });
-  const activeWrapper = pc.querySelector(`#content-family-${familyIdSuffix}`);
-  if (!activeWrapper) return;
-  activeWrapper.style.display = "block";
-  activeWrapper.classList.add("active-family-content");
-
-  // activate first variant
-  const btns = activeWrapper.querySelectorAll(".variant-tabs button");
-  btns.forEach(b => b.classList.remove("active"));
-  if (btns[0]) {
-    // fire our own function, not rely on .click()
-    showVariantContent(btns[0].getAttribute("onclick")
-      .match(/'([^']+)'/)[1], btns[0], familyIdSuffix);
-  }
-
-  setTimeout(updateAside, 50);
-}
-window.showFamily = showFamily;
-
-// 4) Variant-tabs (fixed)
-function showVariantContent(variantContentId, clickedVariantButton, familyIdSuffix) {
-  const fam = document.querySelector(
-    `#content-family-${familyIdSuffix}.active-family-content`
-  );
-  if (!fam) return;
-
-  fam.querySelectorAll(".variant-tabs button")
-    .forEach(b => b.classList.remove("active"));
-  if (clickedVariantButton) clickedVariantButton.classList.add("active");
-
-  fam.querySelectorAll(".variant-content")
-    .forEach(c => c.classList.remove("active"));
-  const panel = document.getElementById(variantContentId);
-  if (panel) panel.classList.add("active");
-
-  setTimeout(updateAside, 50);
-}
-window.showVariantContent = showVariantContent;
-
-// 5) model-viewer helpers (unchanged)
-const viewer = document.querySelector("#spectreViewer");
-const modelMap = {
-  shadow: "https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb",
-  revenant: "https://ArchKaine.github.io/ship-models/Spectre_Revenant.glb",
-  eidolon_shadow: "https://ArchKaine.github.io/ship-models/Eidolon Shadow.glb",
-};
-let initialOrbit;
-if (viewer) {
-  viewer.addEventListener("load", () => {
-    initialOrbit = viewer.getAttribute("camera-orbit") || "0deg 75deg 7m";
-  });
-}
-function switchModel(key) {
-  if (!viewer || !modelMap[key]) return;
-  viewer.src = modelMap[key];
-  viewer.alt = "Anvil " + key.replace(/_/g, " ");
-  const orbits = {
-    shadow: "0deg 75deg 7m",
-    revenant: "0deg 75deg 10m",
-    eidolon_shadow: "0deg 75deg 5m"
+  // Model Viewer Data
+  const modelBaseURL = "https://ArchKaine.github.io/ship-models/";
+  const models = {
+      shadow: { src: modelBaseURL + "Spectre_Shadow.glb", alt: "Anvil Spectre Shadow" },
+      revenant: { src: modelBaseURL + "Spectre_Revenant.glb", alt: "Anvil Spectre Revenant" },
+      eidolon_shadow: { src: modelBaseURL + "Eidolon_Shadow.glb", alt: "Anvil Eidolon Shadow" },
   };
-  viewer.setAttribute("camera-orbit", orbits[key] || initialOrbit);
-  viewer.jumpCameraToGoal();
-}
-window.switchModel = switchModel;
 
-function setView(orbit) {
-  if (!viewer) return;
-  viewer.setAttribute("camera-orbit", orbit);
-  viewer.jumpCameraToGoal();
-}
-window.setView = setView;
+  // 1) Build & update the “On This Section” aside
+  function updateAside() {
+    if (!asideElement || !asideTocList || !mainContentScroller) return;
 
-function recenter() {
-  if (!viewer) return;
-  viewer.setAttribute("camera-orbit", initialOrbit);
-  viewer.jumpCameraToGoal();
-}
-window.recenter = recenter;
+    const svgIcon =
+      '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" ' +
+      'style="vertical-align:-0.1em;margin-right:0.8em;opacity:0.7;">' +
+      '<path d="M10 17l5-5-5-5v10z"></path></svg>';
 
-// 6) init on DOM ready
-function init() {
-  window.addEventListener("scroll", handleSpectreNavScroll);
-  window.addEventListener("scroll", updateAside);
-  window.addEventListener("hashchange", updateAside);
-  window.addEventListener("resize", updateAside);
+    const viewportHeight = window.innerHeight;
+    const activationOffset = viewportHeight * 0.35; 
 
-  // fire the first family into view
-  const firstFamily = document.querySelector(".ship-family-tabs button.family-tab");
-  if (firstFamily) {
-    showFamily(
-      firstFamily.getAttribute("onclick").match(/'([^']+)'/)[1],
-      firstFamily
+    let activeSection = null;
+    for (let i = pageSections.length - 1; i >= 0; i--) {
+      const sec = pageSections[i];
+      const rect = sec.getBoundingClientRect(); 
+      if (rect.top < activationOffset && rect.bottom > activationOffset * 0.2) { 
+        activeSection = sec;
+        break;
+      }
+    }
+    
+    if (!activeSection && pageSections.length > 0 && mainContentScroller.scrollTop < 50) {
+        activeSection = pageSections[0];
+    } else if (mainContentScroller.scrollTop + mainContentScroller.clientHeight >= mainContentScroller.scrollHeight - 50 && pageSections.length) {
+        activeSection = pageSections[pageSections.length - 1];
+    }
+
+    asideTocList.innerHTML = ""; 
+
+    if (!activeSection) {
+      const li = document.createElement("li");
+      li.style.padding = "0.5rem 1rem";
+      li.style.fontSize = "0.9rem";
+      li.style.color = "#777";
+      li.textContent = "Scroll to a section.";
+      asideTocList.appendChild(li);
+      asideElement.style.display = "flex"; 
+      return;
+    }
+
+    let sourceForHeadings = activeSection;
+    if (activeSection.id === "spectre-variants") {
+      const activeFamilyContent = activeSection.querySelector(
+        ".ship-family-content-wrapper.active-family-content"
+      );
+      if (activeFamilyContent) {
+        sourceForHeadings =
+          activeFamilyContent.querySelector(".variant-content.active") ||
+          activeFamilyContent;
+      }
+    }
+
+    const headings = Array.from(
+      sourceForHeadings.querySelectorAll("h2, h3, h4")
     );
+
+    if (!headings.length) {
+      const li = document.createElement("li");
+      li.style.padding = "0.5rem 1rem";
+      li.style.fontSize = "0.9rem";
+      li.style.color = "#777";
+      const sectionTitleElement = activeSection.querySelector('h2');
+      const sectionTitle = sectionTitleElement ? Array.from(sectionTitleElement.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent.trim()).join(' ').trim() || sectionTitleElement.textContent.trim() : 'current section';
+      li.textContent = `No sub-headings in ${sectionTitle}.`;
+      asideTocList.appendChild(li);
+      asideElement.style.display = "flex";
+      return;
+    }
+
+    let anItemWasHighlighted = false;
+    headings.forEach((h) => {
+      if (!h.id) { 
+        h.id = `${activeSection.id}-${h.tagName.toLowerCase()}-${h.textContent
+          .trim()
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^\w-]+/g, "")}`.replace(/[^a-zA-Z0-9-_]/g, '');
+      }
+      const a = document.createElement("a");
+      a.href = `#${h.id}`;
+      const headingText = Array.from(h.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent.trim()).join(' ').trim() || h.textContent.trim();
+      a.innerHTML = svgIcon + headingText;
+
+      if (h.tagName.toLowerCase() === "h4") {
+        a.style.paddingLeft = "1.5rem"; 
+      }
+
+      const headingRect = h.getBoundingClientRect();
+      if (!anItemWasHighlighted && headingRect.top >= 0 && headingRect.top < activationOffset) {
+        a.classList.add("active");
+        anItemWasHighlighted = true;
+      }
+
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetElement = document.getElementById(h.id);
+        if (targetElement && mainContentScroller) {
+            const scrollerRect = mainContentScroller.getBoundingClientRect();
+            const targetRect = targetElement.getBoundingClientRect();
+            const scrollToPosition = targetRect.top - scrollerRect.top + mainContentScroller.scrollTop - (window.innerHeight * 0.1);
+            
+            mainContentScroller.scrollTo({
+                top: Math.max(0, scrollToPosition), 
+                behavior: "smooth",
+            });
+        }
+        asideTocList.querySelectorAll("a").forEach((link) => link.classList.remove("active"));
+        a.classList.add("active");
+      });
+      const li = document.createElement("li");
+      li.appendChild(a);
+      asideTocList.appendChild(li);
+    });
+
+    if (!anItemWasHighlighted && window.location.hash) {
+        const activeLinkByHash = asideTocList.querySelector(`a[href="${window.location.hash}"]`);
+        if (activeLinkByHash) {
+            asideTocList.querySelectorAll("a").forEach(link => link.classList.remove("active"));
+            activeLinkByHash.classList.add("active");
+        }
+    }
+    asideElement.style.display = "flex";
+  }
+  window.updateAside = updateAside;
+
+  function handleSpectreNavScroll() {
+    if (!mainContentScroller) return;
+    const sectionsForNav = [];
+    spectreNavLinks.forEach(link => {
+        const sectionId = link.getAttribute("href");
+        if (sectionId && sectionId.startsWith("#")) {
+            const sec = document.getElementById(sectionId.substring(1));
+            if (sec) sectionsForNav.push(sec);
+        }
+    });
+
+    let currentNavId = "";
+    const navActivationOffset = window.innerHeight * 0.4; 
+
+    for (let i = sectionsForNav.length - 1; i >= 0; i--) {
+      const sec = sectionsForNav[i];
+      const rect = sec.getBoundingClientRect();
+      if (rect.top < navActivationOffset && rect.bottom > navActivationOffset * 0.2 ) { 
+        currentNavId = sec.id;
+        break;
+      }
+    }
+    if (!currentNavId && sectionsForNav.length > 0 && mainContentScroller.scrollTop < 50) {
+         currentNavId = sectionsForNav[0].id;
+    } else if (mainContentScroller.scrollTop + mainContentScroller.clientHeight >= mainContentScroller.scrollHeight - 50 && sectionsForNav.length) {
+        currentNavId = sectionsForNav[sectionsForNav.length - 1].id;
+    }
+
+    spectreNavLinks.forEach((link) => {
+      link.classList.toggle(
+        "nav-active",
+        link.getAttribute("href") === `#${currentNavId}`
+      );
+    });
   }
 
-  setTimeout(() => {
-    updateAside();
-    handleSpectreNavScroll();
-  }, 250);
-}
+  function showFamily(familyIdSuffix, btnEl) {
+    document.querySelectorAll(".ship-family-content-wrapper").forEach(function (wrapper) {
+        wrapper.style.display = "none";
+        wrapper.classList.remove("active-family-content");
+    });
+    document.querySelectorAll(".ship-family-tabs button.family-tab").forEach(function (tab) {
+        tab.classList.remove("active-family");
+    });
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", init);
-} else {
-  init();
-}
+    const contentToShow = document.getElementById("content-family-" + familyIdSuffix);
+    if (contentToShow) {
+        contentToShow.style.display = "block";
+        contentToShow.classList.add("active-family-content");
+    }
+    if (btnEl) {
+        btnEl.classList.add("active-family");
+    }
+
+    if (contentToShow) {
+        const firstVariantButton = contentToShow.querySelector(".variant-tabs button");
+        if (firstVariantButton) {
+            const clickEvent = firstVariantButton.getAttribute('onclick');
+            if (clickEvent) {
+                const matches = clickEvent.match(/'([^']+)'/g);
+                if (matches && matches.length >= 2) { 
+                    const variantId = matches[0].replace(/'/g, '');
+                    const familyIdFromClick = matches[1].replace(/'/g, ''); 
+                     showVariantContent(variantId, firstVariantButton, familyIdFromClick);
+                } else if (matches && matches.length === 1) { 
+                    const variantId = matches[0].replace(/'/g, '');
+                    showVariantContent(variantId, firstVariantButton, familyIdSuffix); 
+                }
+            }
+        } else { 
+             updateAside();
+        }
+    } else {
+        updateAside(); 
+    }
+  }
+  window.showFamily = showFamily;
+
+  function showVariantContent(variantId, btnEl, familyId) { 
+      const familyContentWrapper = document.getElementById('content-family-' + familyId);
+      if (!familyContentWrapper) return;
+
+      familyContentWrapper.querySelectorAll(".variant-content").forEach(function (content) {
+          content.style.display = "none";
+          content.classList.remove("active");
+      });
+      familyContentWrapper.querySelectorAll(".variant-tabs button").forEach(function (tab) {
+          tab.classList.remove("active");
+      });
+
+      const contentToShow = document.getElementById(variantId);
+      if (contentToShow) {
+          contentToShow.style.display = "block";
+          contentToShow.classList.add("active");
+      }
+      if (btnEl) {
+          btnEl.classList.add("active");
+      }
+      updateAside(); 
+  }
+  window.showVariantContent = showVariantContent;
+
+  function switchModel(modelKey) {
+      if (modelViewer && models[modelKey]) {
+          modelViewer.src = models[modelKey].src;
+          modelViewer.alt = models[modelKey].alt;
+          if (modelViewer.getAttribute('reveal') !== 'interaction') {
+              modelViewer.setAttribute('reveal', 'interaction');
+          }
+      }
+  }
+  function setView(orbitString) {
+      if (modelViewer) modelViewer.cameraOrbit = orbitString;
+  }
+  function recenter() {
+      if (modelViewer) {
+          modelViewer.cameraTarget = "auto auto auto";
+          modelViewer.cameraOrbit = "0deg 75deg 7m"; 
+      }
+  }
+  window.switchModel = switchModel;
+  window.setView = setView;
+  window.recenter = recenter;
+
+  function initPageListeners() {
+    const scrollOptions = { passive: true }; 
+    if (mainContentScroller) {
+        mainContentScroller.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
+        mainContentScroller.addEventListener("scroll", updateAside, scrollOptions);
+    } else {
+        window.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
+        window.addEventListener("scroll", updateAside, scrollOptions);
+    }
+    window.addEventListener("hashchange", updateAside); 
+    window.addEventListener("resize", updateAside, scrollOptions); 
+
+    const firstFamilyButton = document.querySelector(".ship-family-tabs button.family-tab");
+    if (firstFamilyButton) {
+         const clickEvent = firstFamilyButton.getAttribute('onclick');
+         if (clickEvent) {
+            const familyIdSuffixMatch = clickEvent.match(/'([^']+)'/);
+            if (familyIdSuffixMatch && familyIdSuffixMatch[1]) {
+                showFamily(familyIdSuffixMatch[1], firstFamilyButton);
+            }
+         }
+    } else { 
+        updateAside();
+        handleSpectreNavScroll();
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPageListeners);
+  } else {
+    initPageListeners();
+  }
+
+  window.addEventListener("load", () => {
+      updateAside();
+      handleSpectreNavScroll(); 
+      // The model-viewer tag itself now defines interaction-prompt="none".
+      // We will let its 'reveal' attribute use its default ("auto") if not specified on the tag.
+      // So, no need to set these via JS here unless specifically overriding.
+  } , { passive: true });
