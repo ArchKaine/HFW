@@ -1,209 +1,289 @@
-    /* --- Base Styles & Full Viewport Setup --- */
-    html, body {
-      height: 100%;
-      width: 100%; 
-      margin: 0;
-      padding: 0;
-      overflow-y: hidden; 
-      overflow-x: auto;   
-      font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
-      background-color: #07090D; 
-      color: #f0f0f0;
-      box-sizing: border-box;
-    }
+/* === styles.css === */
 
-    *, *::before, *::after {
-      box-sizing: inherit;
-    }
+/* --- Base Styles & Full Viewport Setup --- */
+html, body {
+  height: 100%;
+  width: 100%; 
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden; 
+  overflow-x: auto;   
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+  background-color: #07090D; /* Background for viewport "gutters" if site is centered & viewport > 1920px */
+  color: #f0f0f0;
+  box-sizing: border-box;
+}
 
-    .spectre-post-container {
-      display: grid !important;
-      grid-template-areas:
-        "header header header"
-        "nav    content aside";
-      grid-template-rows: auto 1fr;
-      grid-template-columns: 320px 1280px 320px; 
-      gap: 0; 
-      height: 100vh; 
-      
-      width: 1920px; 
-      margin: 0 auto;    
-      
-      overflow: hidden; 
-      font-size: 18px; 
-      line-height: 1.6; 
-      background-color: #0b0e13; 
-    }
+*, *::before, *::after {
+  box-sizing: inherit;
+}
 
-    /* Grid area assignments */
-    .spectre-post-container > header { grid-area: header; background-color: #1a1a1a; padding: 1rem 2rem; text-align: center; border-bottom: 1px solid #2a2a2a;}
-    .spectre-post-container > nav { grid-area: nav; }
-    .spectre-post-container > .container { grid-area: content; }
-    .spectre-post-container > .spectre-post-aside { grid-area: aside; }
+.spectre-post-container {
+  display: grid !important; /* Using important if there's any lingering external conflict potential */
+  grid-template-areas:
+    "header header header"
+    "nav    content aside";
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 320px 1280px 320px; 
+  gap: 0; 
+  height: 100vh; 
+  
+  width: 1920px; 
+  margin: 0 auto;    
+  
+  overflow: hidden; 
+  font-size: 18px; 
+  line-height: 1.6; 
+  background-color: #0b0e13; 
+}
 
-    /* Header Styling */
-    .spectre-post-container header h1 {
-      color: #ff4c4c;
-      font-family: "Orbitron", sans-serif;
-      margin: 0;
-      font-size: 2.5rem;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-    }
+/* Grid area assignments */
+.spectre-post-container > header { 
+  grid-area: header; 
+  background-color: #1a1a1a; 
+  padding: 1rem 2rem; 
+  text-align: center; 
+  border-bottom: 1px solid #2a2a2a;
+}
+.spectre-post-container > nav { grid-area: nav; }
+.spectre-post-container > .container { grid-area: content; }
+.spectre-post-container > .spectre-post-aside { grid-area: aside; }
 
-    /* Sticky sidebars: nav and aside - Full Height Appearance */
-    .spectre-post-container > nav,
-    .spectre-post-container > .spectre-post-aside {
-      position: sticky;
-      top: 0;
-      align-self: stretch; 
-      height: 100%;     
-      background-color: #111;
-    }
-    .spectre-post-container > .spectre-post-aside {
-        border-left: 2px solid #ff4c4c; 
-    }
+/* Header Styling */
+.spectre-post-container header h1 {
+  color: #ff4c4c;
+  font-family: "Orbitron", sans-serif;
+  margin: 0;
+  font-size: 2.5rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
 
-    /* Inner scroll wrappers for nav and aside */
-    .nav-scroll-wrapper,
-    .aside-scroll-wrapper > .aside-top-logo img {
-    display: block;
-    max-width: 180px;
-    height: auto;
-    margin: 0 auto 1rem;
-    object-fit: contain;
-    }
+/* Sticky sidebars: nav and aside - Full Height Appearance */
+.spectre-post-container > nav,
+.spectre-post-container > .spectre-post-aside {
+  position: sticky;
+  top: 0;
+  align-self: stretch; 
+  height: 100%;     
+  background-color: #111; /* Background for the column itself */
+}
+.spectre-post-container > .spectre-post-aside {
+    border-left: 2px solid #ff4c4c; 
+}
 
-    /* Custom scrollbar styling */
-    .nav-scroll-wrapper::-webkit-scrollbar, .aside-scroll-wrapper::-webkit-scrollbar { width: 8px; }
-    .nav-scroll-wrapper::-webkit-scrollbar-track, .aside-scroll-wrapper::-webkit-scrollbar-track { background: #1a1a1a; }
-    .nav-scroll-wrapper::-webkit-scrollbar-thumb, .aside-scroll-wrapper::-webkit-scrollbar-thumb { background-color: #ff4c4c; border-radius: 4px; border: 1px solid #0b0e13; }
-    .nav-scroll-wrapper, .aside-scroll-wrapper { scrollbar-width: thin; scrollbar-color: #ff4c4c #1a1a1a; }
+/* Inner scroll wrappers for nav and aside */
+.nav-scroll-wrapper,
+.aside-scroll-wrapper {
+  height: 100%;
+  overflow-y: auto;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
 
-    /* Nav Logo */
-    .spectre-post-container > nav .nav-scroll-wrapper .nav-logo { padding: 0.5rem 1rem; text-align: center; flex-shrink: 0; }
-    .spectre-post-container > nav .nav-scroll-wrapper .nav-logo-top { padding-bottom: 1rem; border-bottom: 1px solid #333; }
-    .spectre-post-container > nav .nav-scroll-wrapper .nav-logo img { max-width: 150px; max-height: 150px; height: auto; display: inline-block; vertical-align: middle; }
+/* Custom scrollbar styling */
+.nav-scroll-wrapper::-webkit-scrollbar, 
+.aside-scroll-wrapper::-webkit-scrollbar { 
+  width: 8px; 
+}
+.nav-scroll-wrapper::-webkit-scrollbar-track, 
+.aside-scroll-wrapper::-webkit-scrollbar-track { 
+  background: #1a1a1a; 
+}
+.nav-scroll-wrapper::-webkit-scrollbar-thumb, 
+.aside-scroll-wrapper::-webkit-scrollbar-thumb { 
+  background-color: #ff4c4c; 
+  border-radius: 4px; 
+  border: 1px solid #0b0e13; 
+}
+.nav-scroll-wrapper, 
+.aside-scroll-wrapper { 
+  scrollbar-width: thin; 
+  scrollbar-color: #ff4c4c #1a1a1a; 
+}
 
-    /* Left Navigation Button Styling */
-    .spectre-post-container > nav .nav-scroll-wrapper a { display: flex; align-items: center; justify-content: flex-start; width: 100%; box-sizing: border-box; padding: 0.9rem 1.5rem; margin-bottom: 0.5rem; border: 1px solid #4a4a4a; background-color: #1f1f1f; color: #ff8c8c; text-align: left; border-radius: 6px; font-family: "Orbitron", sans-serif; text-transform: uppercase; text-decoration: none; font-size: 1rem; font-weight: normal; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease; flex-shrink: 0; }
-    .spectre-post-container > nav .nav-scroll-wrapper a:hover { background-color: #ff4c4c; color: #0b0e13; border-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3); }
-    .spectre-post-container > nav .nav-scroll-wrapper a.nav-active { background: linear-gradient(to bottom, #ff4c4c, #d13b3b); color: #ffffff; border-color: #c02c2c; box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2); transform: translateY(0px); font-weight: bold; }
-    .spectre-post-container > nav .nav-scroll-wrapper a.nav-active:hover { background: linear-gradient(to bottom, #ff6a6a, #ff4c4c); color: #ffffff; border-color: #d13b3b; }
-    .spectre-post-container > nav .nav-scroll-wrapper a svg { fill: currentColor; width: 1em; height: 1em; margin-right: 0.8rem; vertical-align: middle; flex-shrink: 0; }
+/* Nav Logo */
+.spectre-post-container > nav .nav-scroll-wrapper .nav-logo { 
+  padding: 0.5rem 1rem; 
+  text-align: center; 
+  flex-shrink: 0; 
+}
+.spectre-post-container > nav .nav-scroll-wrapper .nav-logo-top { 
+  padding-bottom: 1rem; 
+  border-bottom: 1px solid #333; 
+}
+.spectre-post-container > nav .nav-scroll-wrapper .nav-logo img { 
+  max-width: 100%; 
+  max-height: 150px; 
+  height: auto; 
+  display: inline-block; 
+  vertical-align: middle; 
+}
 
-    /* Aside content: Top Logo and Headings */
-    .aside-scroll-wrapper > .aside-top-logo { padding: 1rem; text-align: center; border-bottom: 1px solid #333; margin-bottom: 0; flex-shrink: 0; }
-    .aside-scroll-wrapper > .aside-top-logo img { max-width: 180px; max-height: 100px; height: auto; display: inline-block; }
-    .aside-scroll-wrapper > h2 { font-size: 1.1rem; color: #ff4c4c; text-transform: uppercase; margin: 0 0 0.5rem 0; padding: 1rem 0 0.5rem 0; border-bottom: 1px solid #333; flex-shrink: 0; font-family: "Orbitron", sans-serif; }
+/* Left Navigation Button Styling */
+.spectre-post-container > nav .nav-scroll-wrapper a { display: flex; align-items: center; justify-content: flex-start; width: 100%; box-sizing: border-box; padding: 0.9rem 1.5rem; margin-bottom: 0.5rem; border: 1px solid #4a4a4a; background-color: #1f1f1f; color: #ff8c8c; text-align: left; border-radius: 6px; font-family: "Orbitron", sans-serif; text-transform: uppercase; text-decoration: none; font-size: 1rem; font-weight: normal; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease; flex-shrink: 0; }
+.spectre-post-container > nav .nav-scroll-wrapper a:hover { background-color: #ff4c4c; color: #0b0e13; border-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3); }
+.spectre-post-container > nav .nav-scroll-wrapper a.nav-active { background: linear-gradient(to bottom, #ff4c4c, #d13b3b); color: #ffffff; border-color: #c02c2c; box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2); transform: translateY(0px); font-weight: bold; }
+.spectre-post-container > nav .nav-scroll-wrapper a.nav-active:hover { background: linear-gradient(to bottom, #ff6a6a, #ff4c4c); color: #ffffff; border-color: #d13b3b; }
+.spectre-post-container > nav .nav-scroll-wrapper a svg { fill: currentColor; width: 1em; height: 1em; margin-right: 0.8rem; vertical-align: middle; flex-shrink: 0; }
 
-    /* UNIFIED STYLING for Right Aside Table of Contents Links */
-    .spectre-post-aside ul.aside-toc { list-style: none; padding: 0; margin: 0.5rem 0; flex-grow: 1; /* min-height: 50px; /* Removed */ }
-    .spectre-post-aside ul.aside-toc li { margin: 0; }
-    .spectre-post-aside ul.aside-toc a { display: flex; align-items: center; justify-content: flex-start; width: 100%; box-sizing: border-box; padding: 0.9rem 1.5rem; margin-bottom: 0.5rem; border: 1px solid #4a4a4a; background-color: #1f1f1f; color: #ff8c8c; text-align: left; border-radius: 6px; font-family: "Orbitron", sans-serif; text-transform: uppercase; text-decoration: none; font-size: 1rem; font-weight: normal; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease; flex-shrink: 0; }
-    .spectre-post-aside ul.aside-toc a:hover { background-color: #ff4c4c; color: #0b0e13; border-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3); }
-    .spectre-post-aside ul.aside-toc a.active { background: linear-gradient(to bottom, #ff4c4c, #d13b3b); color: #ffffff; border-color: #c02c2c; box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2); transform: translateY(0px); font-weight: bold; }
-    .spectre-post-aside ul.aside-toc a.active:hover { background: linear-gradient(to bottom, #ff6a6a, #ff4c4c); color: #ffffff; border-color: #d13b3b; }
-    .spectre-post-aside ul.aside-toc a svg { fill: currentColor; width: 1em; height: 1em; margin-right: 0.8rem; vertical-align: middle; flex-shrink: 0; opacity: 0.7; transition: opacity 0.3s ease; }
-    .spectre-post-aside ul.aside-toc a:hover svg { opacity: 1; }
-    .spectre-post-aside ul.aside-toc a.active svg { opacity: 1; color: #ffffff; }
+/* Aside content: Top Logo and Headings */
+.aside-scroll-wrapper > .aside-top-logo { 
+  padding: 1rem 0; /* Wrapper has L/R padding */ 
+  text-align: center; 
+  border-bottom: 1px solid #333; 
+  margin-bottom: 0; 
+  flex-shrink: 0; 
+}
+.aside-scroll-wrapper > .aside-top-logo img { 
+  display: block;
+  max-width: 180px; /* Primary width constraint for logo */
+  height: auto;      /* Height will adjust to maintain aspect ratio */
+  margin: 0 auto 1rem; /* Center horizontally, add some margin below */
+  object-fit: contain; /* Ensures entire image fits, preserving aspect ratio */
+}
+.aside-scroll-wrapper > h2 { /* "On This Section" Title */
+  font-size: 1.1rem; 
+  color: #ff4c4c; 
+  text-transform: uppercase; 
+  margin: 0 0 0.5rem 0; 
+  padding: 1rem 0 0.5rem 0; /* Wrapper provides L/R padding */
+  border-bottom: 1px solid #333; 
+  flex-shrink: 0; 
+  font-family: "Orbitron", sans-serif; 
+}
 
-    /* Bio Section */
-    .aside-bio-section { padding: 1rem; border-top: 1px solid #333; margin-top: auto; flex-shrink: 0; color: #f0f0f0; font-size: 0.85rem; line-height: 1.5; background-color: rgba(255, 76, 76, 0.05); border-radius: 0 0 5px 5px; }
-    .aside-bio-section .aside-bio-heading { font-size: 1rem !important; color: #ff8c8c !important; text-transform: uppercase; margin: 0 0 0.5rem 0 !important; padding: 0 0 0.3rem 0 !important; border-bottom: 1px dashed #444 !important; font-family: "Orbitron", sans-serif; }
-    .aside-bio-content { max-height: 30vh; overflow-y: auto; padding-right: 0.5rem; scrollbar-width: thin; scrollbar-color: #ff4c4c #111; }
-    .aside-bio-content::-webkit-scrollbar { width: 6px; }
-    .aside-bio-content::-webkit-scrollbar-track { background: #1a1a1a; }
-    .aside-bio-content::-webkit-scrollbar-thumb { background-color: #ff4c4c; border-radius: 3px; border: 1px solid #0b0e13; }
+/* UNIFIED STYLING for Right Aside Table of Contents Links (Scrollable) */
+.spectre-post-aside ul.aside-toc { 
+  list-style: none; 
+  padding: 0; 
+  margin: 0.5rem 0; 
+  flex-grow: 1;     
+  flex-shrink: 1;   
+  flex-basis: 0;    
+  overflow-y: auto; /* Makes the TOC list itself scrollable */
+  min-height: 80px; /* Optional: Prevents TOC from collapsing if empty */
+}
+.spectre-post-aside ul.aside-toc li { 
+  margin: 0; 
+}
+.spectre-post-aside ul.aside-toc a { display: flex; align-items: center; justify-content: flex-start; width: 100%; box-sizing: border-box; padding: 0.9rem 1.5rem; margin-bottom: 0.5rem; border: 1px solid #4a4a4a; background-color: #1f1f1f; color: #ff8c8c; text-align: left; border-radius: 6px; font-family: "Orbitron", sans-serif; text-transform: uppercase; text-decoration: none; font-size: 1rem; font-weight: normal; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease; flex-shrink: 0; }
+.spectre-post-aside ul.aside-toc a:hover { background-color: #ff4c4c; color: #0b0e13; border-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3); }
+.spectre-post-aside ul.aside-toc a.active { background: linear-gradient(to bottom, #ff4c4c, #d13b3b); color: #ffffff; border-color: #c02c2c; box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2); transform: translateY(0px); font-weight: bold; }
+.spectre-post-aside ul.aside-toc a.active:hover { background: linear-gradient(to bottom, #ff6a6a, #ff4c4c); color: #ffffff; border-color: #d13b3b; }
+.spectre-post-aside ul.aside-toc a svg { fill: currentColor; width: 1em; height: 1em; margin-right: 0.8rem; vertical-align: middle; flex-shrink: 0; opacity: 0.7; transition: opacity 0.3s ease; }
+.spectre-post-aside ul.aside-toc a:hover svg { opacity: 1; }
+.spectre-post-aside ul.aside-toc a.active svg { opacity: 1; color: #ffffff; }
 
-    /* Main content area */
-    .spectre-post-container > .container {
-      overflow-y: auto; 
-      overflow-x: auto; 
-      min-height: 0;    
-      padding: 1.5rem 2rem; 
-      box-sizing: border-box;
-    }
-    .spectre-post-container > .container > .section:first-child {
-       margin-top: 0; 
-    }
+/* Bio Section */
+.aside-bio-section { 
+  padding: 1rem; 
+  border-top: 1px solid #333; 
+  margin-top: 1rem;  /* Changed from margin-top: auto */
+  flex-shrink: 0; 
+  color: #f0f0f0; 
+  font-size: 0.85rem; 
+  line-height: 1.5; 
+  background-color: rgba(255, 76, 76, 0.05); 
+  border-radius: 0 0 5px 5px; 
+}
+.aside-bio-section .aside-bio-heading { font-size: 1rem !important; color: #ff8c8c !important; text-transform: uppercase; margin: 0 0 0.5rem 0 !important; padding: 0 0 0.3rem 0 !important; border-bottom: 1px dashed #444 !important; font-family: "Orbitron", sans-serif; }
+.aside-bio-content { max-height: 30vh; overflow-y: auto; padding-right: 0.5rem; scrollbar-width: thin; scrollbar-color: #ff4c4c #111; }
+.aside-bio-content::-webkit-scrollbar { width: 6px; }
+.aside-bio-content::-webkit-scrollbar-track { background: #1a1a1a; }
+.aside-bio-content::-webkit-scrollbar-thumb { background-color: #ff4c4c; border-radius: 3px; border: 1px solid #0b0e13; }
 
-    /* --- Content Responsiveness & Overflow Management --- */
-    .spectre-post-container > .container img { max-width: 100%; height: auto; display: block; }
-    .spectre-post-container > .container table,
-    .spectre-post-container > .container pre { max-width: 100%; overflow-x: auto; word-wrap: break-word; }
-    .spectre-post-container > .container .section p,
-    .spectre-post-container > .container .section li,
-    .spectre-post-container > .container .section div:not(.gallery):not(.gallery-item):not([class*='tabs']):not([class*='content-wrapper']),
-    .spectre-post-container > .container .section td,
-    .spectre-post-container > .container .section th { word-wrap: break-word; }
-    /* --- END Content Responsiveness & Overflow Management --- */
+/* Main content area */
+.spectre-post-container > .container {
+  overflow-y: auto; 
+  overflow-x: auto; /* For fixed width column, if internal content exceeds 1280px */
+  min-height: 0;    
+  padding: 1.5rem 2rem; 
+  box-sizing: border-box;
+}
+.spectre-post-container > .container > .section:first-child {
+   margin-top: 0; 
+}
 
-    /* General Content Styles (Headings, Paragraphs, etc.) */
-    .spectre-post-container .container h2 { font-size: 1.8rem; color: #ff4c4c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px solid #444; padding-bottom: 0.5rem; margin-top: 2rem; margin-bottom: 1.5rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); }
-    .spectre-post-container .container h3 { font-size: 1.4rem; color: #ff8c8c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px solid #333; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 1rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); }
-    .spectre-post-container .container h4 { font-size: 1.2rem; color: #ffaaaa; font-family: "Orbitron", sans-serif; margin-top: 1.2rem; margin-bottom: 0.8rem; }
-    .spectre-post-container .container .section > h2:first-child,
-    .spectre-post-container .container .section > h3:first-child { margin-top: 0; }
-    .spectre-post-container .container p { margin-bottom: 1.2rem; }
-    .spectre-post-container .container .scenario-narrative { background-color: rgba(20, 20, 25, 0.5); padding: 1.5rem; border-left: 3px solid #ff4c4c; margin-bottom: 1.5rem; border-radius: 0 5px 5px 0; }
-    .spectre-post-container .container .scenario-narrative p { margin-bottom: 0.8rem; text-indent: 1.5em; }
-    .spectre-post-container .container .scenario-narrative p:first-of-type { text-indent: 0; }
-    .spectre-post-container .container .scenario-narrative h3 + p { text-indent: 0; }
-    .spectre-post-container .container .scenario-narrative h4 { font-size: 1.1rem; color: #ff6a6a; text-transform: none; border-bottom: 1px dashed #555; padding-bottom: 0.2rem; margin-top: 1rem; margin-bottom: 0.5rem; }
-    .spectre-post-container .container .scenario-narrative strong { color: #ffaaaa; font-family: "Orbitron", sans-serif; }
-    .spectre-post-container .container .back-to-top { font-size: 14px; color: #ffaaaa; text-decoration: underline; margin-left: 1em; text-transform: none; font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif; vertical-align: middle; transition: color 0.3s ease; }
-    .spectre-post-container .container .back-to-top:hover { color: #fff; }
-    .styled-button { cursor: pointer; font-family: "Orbitron", sans-serif; text-transform: uppercase; transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.2s ease-out, box-shadow 0.3s ease; border-radius: 6px; font-weight: bold; letter-spacing: 0.5px; display: inline-block; }
-    .spectre-post-container .container .ship-family-tabs { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 3px solid #ff4c4c; }
-    .spectre-post-container .container .ship-family-tabs button.family-tab { background-color: #1f1f1f; border: 1px solid #4a4a4a; color: #ff8c8c; padding: 0.9rem 1.8rem; margin: 0.5rem; font-size: 1.1rem; }
-    .spectre-post-container .container .ship-family-tabs button.family-tab:hover { border-color: #ff6a6a; color: #0b0e13; background-color: #ff4c4c; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3); }
-    .spectre-post-container .container .ship-family-tabs button.family-tab.active-family { background: linear-gradient(to bottom, #ff4c4c, #d13b3b); color: #ffffff; border-color: #c02c2c; box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2); transform: translateY(0px); }
-    .spectre-post-container .container .ship-family-content-wrapper { display: none; padding-top: 1rem; }
-    .spectre-post-container .container .ship-family-content-wrapper.active-family-content { display: block; }
-    .spectre-post-container .container .variant-tabs { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 1rem; }
-    .spectre-post-container .container .variant-tabs button { background-color: #1a1a1a; border: 1px solid #444; color: #ffaaaa; padding: 0.7rem 1.4rem; margin: 0.3rem; font-size: 1rem; }
-    .spectre-post-container .container .variant-tabs button:hover { border-color: #ff4c4c; color: #0b0e13; background-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(255, 106, 106, 0.25); }
-    .spectre-post-container .container .variant-tabs button.active { background: linear-gradient(to bottom, #ff6a6a, #ff4c4c); color: #0b0e13; border-color: #ff4c4c; box-shadow: 0 2px 5px rgba(255, 76, 76, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.1); transform: translateY(0px); }
-    .spectre-post-container .container .model-control-btn { background-color: #1f1f1f; border: 1px solid #383838; color: #ffaaaa; padding: 0.5rem 1rem; margin: 0.2rem; font-size: 0.85rem; font-weight: normal; letter-spacing: 0.2px; }
-    .spectre-post-container .container .model-control-btn:hover { border-color: #ff4c4c; color: #fff; background-color: #2a2a2a; transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
-    .spectre-post-container .container .variant-content { display: none; background-color: rgba(30, 30, 30, 0.6); padding: 1.5rem; border-radius: 5px; margin-top: 1rem; border: 1px solid #333; }
-    .spectre-post-container .container .variant-content h3 { border-bottom: none !important; margin-top: 0 !important; margin-bottom: 1rem !important; color: #ff4c4c; font-size: 1.6rem; }
-    .spectre-post-container .container .variant-content h4 { font-size: 1.3rem; color: #ff8c8c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px dotted #444; padding-bottom: 0.2rem; margin-top: 1.2rem; margin-bottom: 0.8rem; }
-    .spectre-post-container .container .variant-content ul { list-style: disc; padding-left: 25px; margin: 1rem 0 0 0; }
-    .spectre-post-container .container .variant-content li { margin-bottom: 0.7rem; padding-left: 5px; }
-    .spectre-post-container .container .variant-content.active { display: block; }
-    .spectre-post-container .container .section { background-color: rgba(255, 76, 76, 0.03); padding: 2rem; border-radius: 8px; margin-top: 2.5rem; border: 1px solid #2a2a2a; transition: background-color 0.3s ease, border-color 0.3s ease; }
-    .spectre-post-container .container .section:first-child { margin-top: 0; }
-    .spectre-post-container .container table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; margin-bottom: 1rem; table-layout: fixed; }
-    .spectre-post-container .container th, .spectre-post-container .container td { padding: 0.5rem 1rem; border-bottom: 1px solid #333; color: #f0f0f0; text-align: left; vertical-align: top; }
-    .spectre-post-container .container th { background-color: #1f1f1f; color: #ffaaaa; font-family: "Orbitron", sans-serif; width: 25%; font-size: 0.95rem; }
-    .spectre-post-container .container td { width: 75%; }
-    .spectre-post-container .container a img:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(255, 76, 76, 0.3); }
-    .spectre-post-container .container .gallery { display: flex; flex-wrap: nowrap; gap: 1rem; overflow-x: auto; padding: 1rem; background-color: rgba(0, 0, 0, 0.3); border-radius: 6px; border: 1px solid #2a2a2a; justify-content: flex-start; max-width: 100%; /* min-width: 0; */ }
-    .spectre-post-container .container .gallery img { width: auto; height: 426px; max-height: 426px; max-width: 640px; flex-shrink: 0; border-radius: 6px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid #444; object-fit: cover; }
-    .spectre-post-container .container .caption { text-align: center; font-size: 16px; color: #ffaaaa; margin-top: 0.5rem; }
-    .spectre-post-container .container details { background-color: #1a1a1a; border: 1px solid #333; border-radius: 5px; padding: 0.8rem 1.2rem; margin-top: 1rem; transition: background-color 0.3s ease; }
-    .spectre-post-container .container details:hover { background-color: #222; }
-    .spectre-post-container .container details summary { cursor: pointer; font-family: "Orbitron", sans-serif; color: #ffaaaa; outline: none; list-style: none; display: block; padding: 0.3rem 0; }
-    .spectre-post-container .container details summary::-webkit-details-marker { display: none; }
-    .spectre-post-container .container details summary h3 { margin: 0; display: inline; color: #ffaaaa; border-bottom: none; font-size: 1.2rem; }
-    .spectre-post-container .container details summary::before { content: "▶"; display: inline-block; color: #ffaaaa; font-size: 1rem; margin-right: 0.8rem; transition: transform 0.2s ease; vertical-align: middle; }
-    .spectre-post-container .container details[open] summary::before { transform: rotate(90deg); }
-    .spectre-post-container .container details div { padding-top: 1rem; margin-top: 0.5rem; border-top: 1px solid #333; }
-    .spectre-post-container .container blockquote { border-left: 4px solid #ff4c4c; margin: 1rem 0 0.5rem 0; padding: 0.5rem 1.5rem; font-style: italic; color: #ddd; background-color: rgba(255, 76, 76, 0.02); }
-    .spectre-post-container .container blockquote br { display: none; }
-    .spectre-post-container .container blockquote + p { margin-left: 1.5rem; font-size: 15px; color: #aaa; margin-top: 0.2rem; margin-bottom: 1.5rem; }
-    .spectre-post-container .container img:not([src]),
-    .spectre-post-container .container img[src=""] { display: none; }
+/* --- Content Responsiveness & Overflow Management --- */
+.spectre-post-container > .container img { max-width: 100%; height: auto; display: block; }
+.spectre-post-container > .container table,
+.spectre-post-container > .container pre { max-width: 100%; overflow-x: auto; word-wrap: break-word; }
+.spectre-post-container > .container .section p,
+.spectre-post-container > .container .section li,
+.spectre-post-container > .container .section div:not(.gallery):not(.gallery-item):not([class*='tabs']):not([class*='content-wrapper']),
+.spectre-post-container > .container .section td,
+.spectre-post-container > .container .section th { word-wrap: break-word; }
+/* --- END Content Responsiveness & Overflow Management --- */
 
-    /* Desktop Media Query Specifics */
-    @media (min-width: 992px) {
-      .spectre-post-container > nav {
-        border-bottom: none; 
-        border-right: 2px solid #ff4c4c; 
-      }
-      .spectre-post-container > nav .nav-scroll-wrapper .nav-logo-top {
-        margin-bottom: 1rem; 
-        border-bottom: none; 
-      }
-    }
+/* General Content Styles (Headings, Paragraphs, etc.) */
+.spectre-post-container .container h2 { font-size: 1.8rem; color: #ff4c4c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px solid #444; padding-bottom: 0.5rem; margin-top: 2rem; margin-bottom: 1.5rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); }
+.spectre-post-container .container h3 { font-size: 1.4rem; color: #ff8c8c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px solid #333; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 1rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); }
+.spectre-post-container .container h4 { font-size: 1.2rem; color: #ffaaaa; font-family: "Orbitron", sans-serif; margin-top: 1.2rem; margin-bottom: 0.8rem; }
+.spectre-post-container .container .section > h2:first-child,
+.spectre-post-container .container .section > h3:first-child { margin-top: 0; }
+.spectre-post-container .container p { margin-bottom: 1.2rem; }
+.spectre-post-container .container .scenario-narrative { background-color: rgba(20, 20, 25, 0.5); padding: 1.5rem; border-left: 3px solid #ff4c4c; margin-bottom: 1.5rem; border-radius: 0 5px 5px 0; }
+.spectre-post-container .container .scenario-narrative p { margin-bottom: 0.8rem; text-indent: 1.5em; }
+.spectre-post-container .container .scenario-narrative p:first-of-type { text-indent: 0; }
+.spectre-post-container .container .scenario-narrative h3 + p { text-indent: 0; }
+.spectre-post-container .container .scenario-narrative h4 { font-size: 1.1rem; color: #ff6a6a; text-transform: none; border-bottom: 1px dashed #555; padding-bottom: 0.2rem; margin-top: 1rem; margin-bottom: 0.5rem; }
+.spectre-post-container .container .scenario-narrative strong { color: #ffaaaa; font-family: "Orbitron", sans-serif; }
+.spectre-post-container .container .back-to-top { font-size: 14px; color: #ffaaaa; text-decoration: underline; margin-left: 1em; text-transform: none; font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif; vertical-align: middle; transition: color 0.3s ease; }
+.spectre-post-container .container .back-to-top:hover { color: #fff; }
+.styled-button { cursor: pointer; font-family: "Orbitron", sans-serif; text-transform: uppercase; transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.2s ease-out, box-shadow 0.3s ease; border-radius: 6px; font-weight: bold; letter-spacing: 0.5px; display: inline-block; }
+.spectre-post-container .container .ship-family-tabs { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 3px solid #ff4c4c; }
+.spectre-post-container .container .ship-family-tabs button.family-tab { background-color: #1f1f1f; border: 1px solid #4a4a4a; color: #ff8c8c; padding: 0.9rem 1.8rem; margin: 0.5rem; font-size: 1.1rem; }
+.spectre-post-container .container .ship-family-tabs button.family-tab:hover { border-color: #ff6a6a; color: #0b0e13; background-color: #ff4c4c; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3); }
+.spectre-post-container .container .ship-family-tabs button.family-tab.active-family { background: linear-gradient(to bottom, #ff4c4c, #d13b3b); color: #ffffff; border-color: #c02c2c; box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2); transform: translateY(0px); }
+.spectre-post-container .container .ship-family-content-wrapper { display: none; padding-top: 1rem; }
+.spectre-post-container .container .ship-family-content-wrapper.active-family-content { display: block; }
+.spectre-post-container .container .variant-tabs { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 1rem; }
+.spectre-post-container .container .variant-tabs button { background-color: #1a1a1a; border: 1px solid #444; color: #ffaaaa; padding: 0.7rem 1.4rem; margin: 0.3rem; font-size: 1rem; }
+.spectre-post-container .container .variant-tabs button:hover { border-color: #ff4c4c; color: #0b0e13; background-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(255, 106, 106, 0.25); }
+.spectre-post-container .container .variant-tabs button.active { background: linear-gradient(to bottom, #ff6a6a, #ff4c4c); color: #0b0e13; border-color: #ff4c4c; box-shadow: 0 2px 5px rgba(255, 76, 76, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.1); transform: translateY(0px); }
+.spectre-post-container .container .model-control-btn { background-color: #1f1f1f; border: 1px solid #383838; color: #ffaaaa; padding: 0.5rem 1rem; margin: 0.2rem; font-size: 0.85rem; font-weight: normal; letter-spacing: 0.2px; }
+.spectre-post-container .container .model-control-btn:hover { border-color: #ff4c4c; color: #fff; background-color: #2a2a2a; transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
+.spectre-post-container .container .variant-content { display: none; background-color: rgba(30, 30, 30, 0.6); padding: 1.5rem; border-radius: 5px; margin-top: 1rem; border: 1px solid #333; }
+.spectre-post-container .container .variant-content h3 { border-bottom: none !important; margin-top: 0 !important; margin-bottom: 1rem !important; color: #ff4c4c; font-size: 1.6rem; }
+.spectre-post-container .container .variant-content h4 { font-size: 1.3rem; color: #ff8c8c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px dotted #444; padding-bottom: 0.2rem; margin-top: 1.2rem; margin-bottom: 0.8rem; }
+.spectre-post-container .container .variant-content ul { list-style: disc; padding-left: 25px; margin: 1rem 0 0 0; }
+.spectre-post-container .container .variant-content li { margin-bottom: 0.7rem; padding-left: 5px; }
+.spectre-post-container .container .variant-content.active { display: block; }
+.spectre-post-container .container .section { background-color: rgba(255, 76, 76, 0.03); padding: 2rem; border-radius: 8px; margin-top: 2.5rem; border: 1px solid #2a2a2a; transition: background-color 0.3s ease, border-color 0.3s ease; }
+.spectre-post-container .container .section:first-child { margin-top: 0; }
+.spectre-post-container .container table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; margin-bottom: 1rem; table-layout: fixed; }
+.spectre-post-container .container th, .spectre-post-container .container td { padding: 0.5rem 1rem; border-bottom: 1px solid #333; color: #f0f0f0; text-align: left; vertical-align: top; }
+.spectre-post-container .container th { background-color: #1f1f1f; color: #ffaaaa; font-family: "Orbitron", sans-serif; width: 25%; font-size: 0.95rem; }
+.spectre-post-container .container td { width: 75%; }
+.spectre-post-container .container a img:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(255, 76, 76, 0.3); }
+.spectre-post-container .container .gallery { display: flex; flex-wrap: nowrap; gap: 1rem; overflow-x: auto; padding: 1rem; background-color: rgba(0, 0, 0, 0.3); border-radius: 6px; border: 1px solid #2a2a2a; justify-content: flex-start; max-width: 100%; }
+.spectre-post-container .container .gallery img { width: auto; height: 426px; max-height: 426px; max-width: 640px; flex-shrink: 0; border-radius: 6px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid #444; object-fit: cover; }
+.spectre-post-container .container .caption { text-align: center; font-size: 16px; color: #ffaaaa; margin-top: 0.5rem; }
+.spectre-post-container .container details { background-color: #1a1a1a; border: 1px solid #333; border-radius: 5px; padding: 0.8rem 1.2rem; margin-top: 1rem; transition: background-color 0.3s ease; }
+.spectre-post-container .container details:hover { background-color: #222; }
+.spectre-post-container .container details summary { cursor: pointer; font-family: "Orbitron", sans-serif; color: #ffaaaa; outline: none; list-style: none; display: block; padding: 0.3rem 0; }
+.spectre-post-container .container details summary::-webkit-details-marker { display: none; }
+.spectre-post-container .container details summary h3 { margin: 0; display: inline; color: #ffaaaa; border-bottom: none; font-size: 1.2rem; }
+.spectre-post-container .container details summary::before { content: "▶"; display: inline-block; color: #ffaaaa; font-size: 1rem; margin-right: 0.8rem; transition: transform 0.2s ease; vertical-align: middle; }
+.spectre-post-container .container details[open] summary::before { transform: rotate(90deg); }
+.spectre-post-container .container details div { padding-top: 1rem; margin-top: 0.5rem; border-top: 1px solid #333; }
+.spectre-post-container .container blockquote { border-left: 4px solid #ff4c4c; margin: 1rem 0 0.5rem 0; padding: 0.5rem 1.5rem; font-style: italic; color: #ddd; background-color: rgba(255, 76, 76, 0.02); }
+.spectre-post-container .container blockquote br { display: none; }
+.spectre-post-container .container blockquote + p { margin-left: 1.5rem; font-size: 15px; color: #aaa; margin-top: 0.2rem; margin-bottom: 1.5rem; }
+.spectre-post-container .container img:not([src]),
+.spectre-post-container .container img[src=""] { display: none; }
+
+
+/* Desktop Media Query Specifics */
+@media (min-width: 992px) {
+  .spectre-post-container > nav {
+    border-bottom: none; 
+    border-right: 2px solid #ff4c4c; 
+  }
+  .spectre-post-container > nav .nav-scroll-wrapper .nav-logo-top {
+    margin-bottom: 1rem; 
+    border-bottom: none; 
+  }
+}
