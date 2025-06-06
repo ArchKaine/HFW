@@ -1,13 +1,12 @@
 /**
- * HFW Shadow Fleet - scripts.js (v7 - For Single Page, Post-Refactor)
- * Manages all interactive elements on the fully-loaded HFW design document.
+ * HFW Shadow Fleet - scripts.js (v8 - Corrected Model Viewer ID)
+ * Dynamically loads section content and manages all page interactivity.
  */
 
-// --- Top-level variables for globally accessed DOM elements ---
-// Declared here, but assigned in initPageListeners to ensure the DOM is ready.
+// Top-level variables for globally accessed DOM elements
 let asideElement, mainContentScroller, spectreNavLinks, modelViewer;
 
-// --- Model Viewer Data ---
+// Model Viewer Data
 const modelBaseURL = "https://ArchKaine.github.io/ship-models/";
 const models = {
     shadow: { src: modelBaseURL + "Spectre_Shadow.glb", alt: "Anvil Spectre Shadow" },
@@ -139,11 +138,15 @@ function switchModel(modelKey) {
   if (modelViewer && models[modelKey]) {
     modelViewer.src = models[modelKey].src;
     modelViewer.alt = models[modelKey].alt;
+  } else {
+      console.error("Could not switch model. ModelViewer element found:", modelViewer, "Model key valid:", models.hasOwnProperty(modelKey));
   }
 }
 
 function setView(orbitString) {
-  if (modelViewer) modelViewer.cameraOrbit = orbitString;
+  if (modelViewer) {
+    modelViewer.cameraOrbit = orbitString;
+  }
 }
 
 function recenter() {
@@ -157,12 +160,19 @@ function recenter() {
  * Main initialization function to set up all page listeners.
  */
 function initPageListeners() {
-  // Assign elements to top-level variables now that the DOM is ready.
+  // Assign elements to top-level variables.
   asideElement = document.getElementById("section-aside");
   mainContentScroller = document.querySelector(".spectre-post-container > .container");
   spectreNavLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
-  modelViewer = document.getElementById('spectreViewer');
+  
+  // --- THIS IS THE FIX ---
+  // Look for either the old ID or the new ID to make the script more robust.
+  modelViewer = document.getElementById('spectreViewerInComponent') || document.getElementById('spectreViewer');
 
+  if (!modelViewer) {
+      console.error("CRITICAL: model-viewer element not found with ID 'spectreViewerInComponent' or 'spectreViewer'. Model controls will not work.");
+  }
+  
   if (!mainContentScroller) {
     console.error("Main content container not found!");
     return;
@@ -205,10 +215,8 @@ function initPageListeners() {
 }
 
 // --- SCRIPT INITIALIZATION ---
-// This ensures the initPageListeners function runs once the document is fully parsed.
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initPageListeners);
 } else {
-  // DOM is already ready.
   initPageListeners();
 }
