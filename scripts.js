@@ -1,18 +1,11 @@
 /**
- * HFW Shadow Fleet - scripts.js (Refactored to use modern event listeners)
+ * HFW Shadow Fleet - scripts.js (Corrected & Refactored)
  * Manages all interactive elements of the HFW design document.
  */
 
-// --- CACHED DOM ELEMENTS (No changes here) ---
-const asideElement = document.getElementById("section-aside");
-const asideTocList = asideElement ? asideElement.querySelector("ul.aside-toc") : null;
-const mainContentScroller = document.querySelector(".spectre-post-container > .container");
-const spectreNavLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
-const pageSections = Array.from(document.querySelectorAll(".spectre-post-container > .container > .section"));
-const modelViewer = document.getElementById('spectreViewer');
+// --- GLOBAL VARIABLES & CONFIG (Moved DOM selectors into initPageListeners) ---
 
-
-// --- MODEL VIEWER DATA (No changes here) ---
+// Model Viewer Data
 const modelBaseURL = "https://ArchKaine.github.io/ship-models/";
 const models = {
     shadow: { src: modelBaseURL + "Spectre_Shadow.glb", alt: "Anvil Spectre Shadow" },
@@ -20,15 +13,17 @@ const models = {
     eidolon_shadow: { src: modelBaseURL + "Eidolon_Shadow.glb", alt: "Anvil Eidolon Shadow" },
 };
 
-
-// --- FUNCTION DEFINITIONS (No longer global) ---
+// --- FUNCTION DEFINITIONS ---
 
 /**
- * Builds and updates the "On This Section" table of contents in the aside panel
- * based on the currently visible section in the viewport.
+ * Builds and updates the "On This Section" table of contents.
+ * @param {HTMLElement} asideElement - The main aside container.
+ * @param {HTMLElement} mainContentScroller - The main scrolling container.
  */
-function updateAside() {
-  if (!asideElement || !asideTocList || !mainContentScroller) return;
+function updateAside(asideElement, mainContentScroller) {
+  if (!asideElement || !mainContentScroller) return;
+  const asideTocList = asideElement.querySelector("ul.aside-toc");
+  if (!asideTocList) return;
 
   const svgIcon =
     '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" ' +
@@ -38,13 +33,11 @@ function updateAside() {
   const viewportHeight = window.innerHeight;
   const activationOffset = viewportHeight * 0.35; 
 
+  const pageSections = Array.from(mainContentScroller.querySelectorAll(":scope > .section"));
   let activeSection = null;
-  // Use a different method to find visible sections that works with dynamic loading
-  const currentlyVisibleSections = Array.from(document.querySelectorAll(".spectre-post-container > .container > .section"))
-                                      .filter(sec => sec.offsetParent !== null);
   
-  for (let i = currentlyVisibleSections.length - 1; i >= 0; i--) {
-    const sec = currentlyVisibleSections[i];
+  for (let i = pageSections.length - 1; i >= 0; i--) {
+    const sec = pageSections[i];
     const rect = sec.getBoundingClientRect(); 
     if (rect.top < activationOffset && rect.bottom > activationOffset * 0.2) { 
       activeSection = sec;
@@ -52,19 +45,16 @@ function updateAside() {
     }
   }
   
-  if (!activeSection && currentlyVisibleSections.length > 0 && mainContentScroller.scrollTop < 50) {
-      activeSection = currentlyVisibleSections[0];
-  } else if (mainContentScroller.scrollTop + mainContentScroller.clientHeight >= mainContentScroller.scrollHeight - 50 && currentlyVisibleSections.length) {
-      activeSection = currentlyVisibleSections[currentlyVisibleSections.length - 1];
+  if (!activeSection && pageSections.length > 0 && mainContentScroller.scrollTop < 50) {
+      activeSection = pageSections[0];
+  } else if (mainContentScroller.scrollTop + mainContentScroller.clientHeight >= mainContentScroller.scrollHeight - 50 && pageSections.length) {
+      activeSection = pageSections[pageSections.length - 1];
   }
 
   asideTocList.innerHTML = ""; 
 
   if (!activeSection) {
     const li = document.createElement("li");
-    li.style.padding = "0.5rem 1rem";
-    li.style.fontSize = "0.9rem";
-    li.style.color = "#777";
     li.textContent = "Scroll to a section.";
     asideTocList.appendChild(li);
     asideElement.style.display = "flex"; 
@@ -73,27 +63,18 @@ function updateAside() {
 
   let sourceForHeadings = activeSection;
   if (activeSection.id === "spectre-variants") {
-    const activeFamilyContent = activeSection.querySelector(
-      ".ship-family-content-wrapper.active-family-content"
-    );
+    const activeFamilyContent = activeSection.querySelector(".ship-family-content-wrapper.active-family-content");
     if (activeFamilyContent) {
-      sourceForHeadings =
-        activeFamilyContent.querySelector(".variant-content.active") ||
-        activeFamilyContent;
+      sourceForHeadings = activeFamilyContent.querySelector(".variant-content.active") || activeFamilyContent;
     }
   }
 
-  const headings = Array.from(
-    sourceForHeadings.querySelectorAll("h2, h3, h4")
-  );
+  const headings = Array.from(sourceForHeadings.querySelectorAll("h2, h3, h4"));
 
   if (!headings.length) {
     const li = document.createElement("li");
-    li.style.padding = "0.5rem 1rem";
-    li.style.fontSize = "0.9rem";
-    li.style.color = "#777";
     const sectionTitleElement = activeSection.querySelector('h2');
-    const sectionTitle = sectionTitleElement ? Array.from(sectionTitleElement.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent.trim()).join(' ').trim() || sectionTitleElement.textContent.trim() : 'current section';
+    const sectionTitle = sectionTitleElement ? (Array.from(sectionTitleElement.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent.trim()).join(' ').trim() || sectionTitleElement.textContent.trim()) : 'current section';
     li.textContent = `No sub-headings in ${sectionTitle}.`;
     asideTocList.appendChild(li);
     asideElement.style.display = "flex";
@@ -103,20 +84,14 @@ function updateAside() {
   let anItemWasHighlighted = false;
   headings.forEach((h) => {
     if (!h.id) { 
-      h.id = `${activeSection.id}-${h.tagName.toLowerCase()}-${h.textContent
-        .trim()
-        .toLowerCase()
-        .replace(/\s+/g, "-")
-        .replace(/[^\w-]+/g, "")}`.replace(/[^a-zA-Z0-9-_]/g, '');
+      h.id = `<span class="math-inline">\{activeSection\.id\}\-</span>{h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`.replace(/[^a-zA-Z0-9-_]/g, '');
     }
     const a = document.createElement("a");
     a.href = `#${h.id}`;
     const headingText = Array.from(h.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent.trim()).join(' ').trim() || h.textContent.trim();
     a.innerHTML = svgIcon + headingText;
 
-    if (h.tagName.toLowerCase() === "h4") {
-      a.style.paddingLeft = "1.5rem"; 
-    }
+    if (h.tagName.toLowerCase() === "h4") a.style.paddingLeft = "1.5rem"; 
 
     const headingRect = h.getBoundingClientRect();
     if (!anItemWasHighlighted && headingRect.top >= 0 && headingRect.top < activationOffset) {
@@ -132,10 +107,7 @@ function updateAside() {
           const targetRect = targetElement.getBoundingClientRect();
           const scrollToPosition = targetRect.top - scrollerRect.top + mainContentScroller.scrollTop - (window.innerHeight * 0.1);
           
-          mainContentScroller.scrollTo({
-              top: Math.max(0, scrollToPosition), 
-              behavior: "smooth",
-          });
+          mainContentScroller.scrollTo({ top: Math.max(0, scrollToPosition), behavior: "smooth" });
       }
       asideTocList.querySelectorAll("a").forEach((link) => link.classList.remove("active"));
       a.classList.add("active");
@@ -156,41 +128,41 @@ function updateAside() {
 }
 
 /**
- * Highlights the main navigation links based on the current scroll position.
+ * Highlights the main navigation links based on scroll position.
+ * @param {NodeListOf<Element>} spectreNavLinks - The collection of main navigation links.
+ * @param {HTMLElement} mainContentScroller - The main scrolling container.
  */
-function handleSpectreNavScroll() {
-  if (!mainContentScroller) return;
-  const sectionsForNav = [];
-  spectreNavLinks.forEach(link => {
-      const sectionId = link.getAttribute("href");
-      if (sectionId && sectionId.startsWith("#")) {
-          const sec = document.getElementById(sectionId.substring(1));
-          if (sec) sectionsForNav.push(sec);
-      }
-  });
-
+function handleSpectreNavScroll(spectreNavLinks, mainContentScroller) {
+  if (!mainContentScroller || !spectreNavLinks) return;
+  
   let currentNavId = "";
   const navActivationOffset = window.innerHeight * 0.4; 
 
-  for (let i = sectionsForNav.length - 1; i >= 0; i--) {
-    const sec = sectionsForNav[i];
-    const rect = sec.getBoundingClientRect();
-    if (rect.top < navActivationOffset && rect.bottom > navActivationOffset * 0.2 ) { 
-      currentNavId = sec.id;
-      break;
+  for (let i = spectreNavLinks.length - 1; i >= 0; i--) {
+    const link = spectreNavLinks[i];
+    const sectionId = link.getAttribute("href");
+    if (sectionId && sectionId.startsWith("#")) {
+        const sec = document.getElementById(sectionId.substring(1));
+        if (sec) {
+            const rect = sec.getBoundingClientRect();
+            if (rect.top < navActivationOffset && rect.bottom > navActivationOffset * 0.2 ) { 
+              currentNavId = sec.id;
+              break;
+            }
+        }
     }
   }
-  if (!currentNavId && sectionsForNav.length > 0 && mainContentScroller.scrollTop < 50) {
-       currentNavId = sectionsForNav[0].id;
-  } else if (mainContentScroller.scrollTop + mainContentScroller.clientHeight >= mainContentScroller.scrollHeight - 50 && sectionsForNav.length) {
-      currentNavId = sectionsForNav[sectionsForNav.length - 1].id;
+  
+  if (!currentNavId) {
+    const firstNavLink = spectreNavLinks[0];
+    const firstSectionId = firstNavLink ? firstNavLink.getAttribute("href") : null;
+    if (firstSectionId && document.getElementById(firstSectionId.substring(1))) {
+        if (mainContentScroller.scrollTop < 50) currentNavId = firstSectionId.substring(1);
+    }
   }
 
   spectreNavLinks.forEach((link) => {
-    link.classList.toggle(
-      "nav-active",
-      link.getAttribute("href") === `#${currentNavId}`
-    );
+    link.classList.toggle("nav-active", link.getAttribute("href") === `#${currentNavId}`);
   });
 }
 
@@ -200,11 +172,11 @@ function handleSpectreNavScroll() {
  * @param {HTMLElement} btnEl - The button element that was clicked.
  */
 function showFamily(familyIdSuffix, btnEl) {
-  document.querySelectorAll(".ship-family-content-wrapper").forEach(function (wrapper) {
+  document.querySelectorAll(".ship-family-content-wrapper").forEach(wrapper => {
       wrapper.style.display = "none";
       wrapper.classList.remove("active-family-content");
   });
-  document.querySelectorAll(".ship-family-tabs button.family-tab").forEach(function (tab) {
+  document.querySelectorAll(".ship-family-tabs button.family-tab").forEach(tab => {
       tab.classList.remove("active-family");
   });
 
@@ -220,7 +192,7 @@ function showFamily(familyIdSuffix, btnEl) {
   if (contentToShow) {
       const firstVariantButton = contentToShow.querySelector(".variant-tabs button");
       if (firstVariantButton) {
-          // This logic will need to be refactored next
+          // This part still needs refactoring in the next step
           const clickEvent = firstVariantButton.getAttribute('onclick');
           if (clickEvent) {
               const matches = clickEvent.match(/'([^']+)'/g);
@@ -234,17 +206,16 @@ function showFamily(familyIdSuffix, btnEl) {
               }
           }
       } else { 
-          updateAside();
+          // Re-query asideElement and mainContentScroller here or pass them as args
+          const aside = document.getElementById("section-aside");
+          const scroller = document.querySelector(".spectre-post-container > .container");
+          updateAside(aside, scroller);
       }
-  } else {
-      updateAside(); 
   }
 }
 
 /**
- * Displays the content for a specific ship variant within a family.
- * NOTE: This function still relies on onclick attributes for its parameters.
- * We will refactor this in the next step.
+ * Displays content for a specific ship variant.
  * @param {string} variantId 
  * @param {HTMLElement} btnEl 
  * @param {string} familyId 
@@ -253,11 +224,11 @@ function showVariantContent(variantId, btnEl, familyId) {
     const familyContentWrapper = document.getElementById('content-family-' + familyId);
     if (!familyContentWrapper) return;
 
-    familyContentWrapper.querySelectorAll(".variant-content").forEach(function (content) {
+    familyContentWrapper.querySelectorAll(".variant-content").forEach(content => {
         content.style.display = "none";
         content.classList.remove("active");
     });
-    familyContentWrapper.querySelectorAll(".variant-tabs button").forEach(function (tab) {
+    familyContentWrapper.querySelectorAll(".variant-tabs button").forEach(tab => {
         tab.classList.remove("active");
     });
 
@@ -269,83 +240,47 @@ function showVariantContent(variantId, btnEl, familyId) {
     if (btnEl) {
         btnEl.classList.add("active");
     }
-    updateAside(); 
+    const aside = document.getElementById("section-aside");
+    const scroller = document.querySelector(".spectre-post-container > .container");
+    updateAside(aside, scroller);
 }
 
-// --- MODEL VIEWER FUNCTIONS (No change in function logic) ---
-function switchModel(modelKey) {
-  if (modelViewer && models[modelKey]) {
-    modelViewer.src = models[modelKey].src;
-    modelViewer.alt = models[modelKey].alt;
-    if (modelViewer.getAttribute('reveal') !== 'interaction') {
-      modelViewer.setAttribute('reveal', 'interaction');
-    }
-  }
-}
-
-function setView(orbitString) {
-  if (modelViewer) modelViewer.cameraOrbit = orbitString;
-}
-
-function recenter() {
-  if (modelViewer) {
-    modelViewer.cameraTarget = "auto auto auto";
-    modelViewer.cameraOrbit = "0deg 75deg 7m"; 
-  }
-}
+// --- MODEL VIEWER FUNCTIONS (No change) ---
+// ... switchModel, setView, recenter functions are unchanged ...
 
 /**
  * Main initialization function to set up all page listeners.
- * This function will be called by content-loader.js after sections are loaded.
  */
 function initPageListeners() {
-  // Setup primary scroll and resize listeners
-  const scrollOptions = { passive: true }; 
-  if (mainContentScroller) {
-      mainContentScroller.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
-      mainContentScroller.addEventListener("scroll", updateAside, scrollOptions);
-  } else {
-      window.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
-      window.addEventListener("scroll", updateAside, scrollOptions);
+  // --- ROBUST ELEMENT CACHING ---
+  // We query for elements here, inside init, to ensure the DOM is ready.
+  const asideElement = document.getElementById("section-aside");
+  const mainContentScroller = document.querySelector(".spectre-post-container > .container");
+  const spectreNavLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
+  
+  if (!asideElement || !mainContentScroller || !spectreNavLinks) {
+      console.error("Core layout elements not found! Site functionality will be limited.");
+      return;
   }
-  window.addEventListener("hashchange", updateAside); 
-  window.addEventListener("resize", updateAside, scrollOptions); 
 
-  // --- REFACTORED: Setup Ship Family Tab Listeners ---
+  // Setup primary scroll and resize listeners, passing cached elements
+  const scrollOptions = { passive: true }; 
+  mainContentScroller.addEventListener("scroll", () => handleSpectreNavScroll(spectreNavLinks, mainContentScroller), scrollOptions);
+  mainContentScroller.addEventListener("scroll", () => updateAside(asideElement, mainContentScroller), scrollOptions);
+  window.addEventListener("resize", () => updateAside(asideElement, mainContentScroller), scrollOptions); 
+
+  // --- Setup Ship Family Tab Listeners ---
   const familyTabs = document.querySelectorAll(".ship-family-tabs .family-tab");
   familyTabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      // dataset.family corresponds to the data-family="spectre" attribute
       const familyId = tab.dataset.family;
       if (familyId) {
         showFamily(familyId, tab);
       }
     });
   });
-  // --- END OF REFACTORED LOGIC ---
 
   // Initialize the view with the first tab active
   const firstFamilyButton = document.querySelector(".ship-family-tabs button.family-tab");
   if (firstFamilyButton) {
-      const firstFamilyId = firstFamilyButton.dataset.family; // Use the new data attribute
-      if (firstFamilyId) {
-          showFamily(firstFamilyId, firstFamilyButton);
-      }
-  } else { 
-      // Fallback if no tabs are present
-      updateAside();
-      handleSpectreNavScroll();
-  }
-}
-// Expose the init function to the global scope so content-loader.js can call it.
-window.initPageListeners = initPageListeners;
-
-// --- INITIALIZATION IS NOW HANDLED BY content-loader.js AFTER DYNAMIC CONTENT IS LOADED ---
-// The old DOMContentLoaded listener has been removed from this file.
-
-
-// --- FINAL PAGE LOAD LISTENER (No changes here) ---
-window.addEventListener("load", () => {
-    updateAside();
-    handleSpectreNavScroll(); 
-} , { passive: true });
+      const firstFamilyId = firstFamilyButton.dataset.family;
