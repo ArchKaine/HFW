@@ -1,50 +1,13 @@
 /**
- * HFW Shadow Fleet - scripts.js (v6 - Final Refactor with Model Viewer Control)
- * Dynamically loads section content and manages all page interactivity.
+ * HFW Shadow Fleet - scripts.js (v7 - For Single Page, Post-Refactor)
+ * Manages all interactive elements on the fully-loaded HFW design document.
  */
 
-// --- DYNAMIC CONTENT LOADER ---
-document.addEventListener('DOMContentLoaded', () => {
-    loadAllSections()
-        .then(() => {
-            console.log("All HFW document sections loaded successfully.");
-            initPageListeners();
-        })
-        .catch(error => {
-            const mainContainer = document.querySelector(".container");
-            if (mainContainer) {
-                mainContainer.innerHTML = `<p style="text-align: center; padding: 5rem 1rem; color: #ff4c4c; font-weight: bold;">Failed to load document sections. Error: ${error.message}</p>`;
-            }
-            console.error("Failed to load one or more sections:", error);
-        });
-});
-
-async function loadAllSections() {
-    const mainContainer = document.querySelector(".container");
-    if (!mainContainer) throw new Error("Main content container (.container) not found.");
-
-    const sectionFiles = [
-        'gallery.html', 'genesis.html', 'hfw-overview.html', 'founding-docs.html', 'specs.html', 'model-viewer.html',
-        'variants.html', 'stealth-doctrine.html', 'scenarios.html', 'interior.html', 'talent.html', 'comparison.html',
-        'environment.html', 'testimonials.html', 'revenant-acquisition.html', 'conclusion.html', 'reflection.html'
-    ];
-
-    const fetchPromises = sectionFiles.map(file =>
-        fetch(`sections/${file}`).then(response => {
-            if (!response.ok) throw new Error(`Failed to load ${file}: ${response.statusText}`);
-            return response.text();
-        })
-    );
-
-    const sectionsHtml = await Promise.all(fetchPromises);
-    mainContainer.innerHTML = sectionsHtml.join('');
-}
-
-
-// --- MAIN INTERACTIVE SCRIPT ---
-
+// --- Top-level variables for globally accessed DOM elements ---
+// Declared here, but assigned in initPageListeners to ensure the DOM is ready.
 let asideElement, mainContentScroller, spectreNavLinks, modelViewer;
 
+// --- Model Viewer Data ---
 const modelBaseURL = "https://ArchKaine.github.io/ship-models/";
 const models = {
     shadow: { src: modelBaseURL + "Spectre_Shadow.glb", alt: "Anvil Spectre Shadow" },
@@ -52,6 +15,7 @@ const models = {
     eidolon_shadow: { src: modelBaseURL + "Eidolon_Shadow.glb", alt: "Anvil Eidolon Shadow" },
     daemon: { src: modelBaseURL + "HFW_Daemon_Racing_Ship.glb", alt: "Anvil Daemon" },
 };
+
 
 // --- FUNCTION DEFINITIONS ---
 
@@ -193,7 +157,7 @@ function recenter() {
  * Main initialization function to set up all page listeners.
  */
 function initPageListeners() {
-  // Assign elements to top-level variables.
+  // Assign elements to top-level variables now that the DOM is ready.
   asideElement = document.getElementById("section-aside");
   mainContentScroller = document.querySelector(".spectre-post-container > .container");
   spectreNavLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
@@ -238,4 +202,13 @@ function initPageListeners() {
   // Final initial UI update
   updateAside();
   handleSpectreNavScroll();
+}
+
+// --- SCRIPT INITIALIZATION ---
+// This ensures the initPageListeners function runs once the document is fully parsed.
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initPageListeners);
+} else {
+  // DOM is already ready.
+  initPageListeners();
 }
