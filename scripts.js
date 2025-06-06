@@ -1,64 +1,88 @@
 /**
- * HFW Shadow Fleet - scripts.js (Refactored - v3)
- * Manages all interactive elements of the HFW design document using modern event listeners.
+ * HFW Shadow Fleet - scripts.js (v6 - Final Refactor with Model Viewer Control)
+ * Dynamically loads section content and manages all page interactivity.
  */
 
-// --- Top-level variables for globally accessed DOM elements ---
+// --- DYNAMIC CONTENT LOADER ---
+document.addEventListener('DOMContentLoaded', () => {
+    loadAllSections()
+        .then(() => {
+            console.log("All HFW document sections loaded successfully.");
+            initPageListeners();
+        })
+        .catch(error => {
+            const mainContainer = document.querySelector(".container");
+            if (mainContainer) {
+                mainContainer.innerHTML = `<p style="text-align: center; padding: 5rem 1rem; color: #ff4c4c; font-weight: bold;">Failed to load document sections. Error: ${error.message}</p>`;
+            }
+            console.error("Failed to load one or more sections:", error);
+        });
+});
+
+async function loadAllSections() {
+    const mainContainer = document.querySelector(".container");
+    if (!mainContainer) throw new Error("Main content container (.container) not found.");
+
+    const sectionFiles = [
+        'gallery.html', 'genesis.html', 'hfw-overview.html', 'founding-docs.html', 'specs.html', 'model-viewer.html',
+        'variants.html', 'stealth-doctrine.html', 'scenarios.html', 'interior.html', 'talent.html', 'comparison.html',
+        'environment.html', 'testimonials.html', 'revenant-acquisition.html', 'conclusion.html', 'reflection.html'
+    ];
+
+    const fetchPromises = sectionFiles.map(file =>
+        fetch(`sections/${file}`).then(response => {
+            if (!response.ok) throw new Error(`Failed to load ${file}: ${response.statusText}`);
+            return response.text();
+        })
+    );
+
+    const sectionsHtml = await Promise.all(fetchPromises);
+    mainContainer.innerHTML = sectionsHtml.join('');
+}
+
+
+// --- MAIN INTERACTIVE SCRIPT ---
+
 let asideElement, mainContentScroller, spectreNavLinks, modelViewer;
 
-// --- Model Viewer Data ---
 const modelBaseURL = "https://ArchKaine.github.io/ship-models/";
 const models = {
     shadow: { src: modelBaseURL + "Spectre_Shadow.glb", alt: "Anvil Spectre Shadow" },
     revenant: { src: modelBaseURL + "Spectre_Revenant.glb", alt: "Anvil Spectre Revenant" },
     eidolon_shadow: { src: modelBaseURL + "Eidolon_Shadow.glb", alt: "Anvil Eidolon Shadow" },
+    daemon: { src: modelBaseURL + "HFW_Daemon_Racing_Ship.glb", alt: "Anvil Daemon" },
 };
-
 
 // --- FUNCTION DEFINITIONS ---
 
-/**
- * Builds and updates the "On This Section" table of contents in the aside panel.
- */
 function updateAside() {
   if (!asideElement || !mainContentScroller) return;
   const asideTocList = asideElement.querySelector("ul.aside-toc");
   if (!asideTocList) return;
-
-  const svgIcon =
-    '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" style="vertical-align:-0.1em;margin-right:0.8em;opacity:0.7;"><path d="M10 17l5-5-5-5v10z"></path></svg>';
-
-  const viewportHeight = window.innerHeight;
-  const activationOffset = viewportHeight * 0.35;
-
+  const svgIcon = '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" style="vertical-align:-0.1em;margin-right:0.8em;opacity:0.7;"><path d="M10 17l5-5-5-5v10z"></path></svg>';
+  const activationOffset = window.innerHeight * 0.35;
   const pageSections = Array.from(mainContentScroller.querySelectorAll(":scope > .section"));
   let activeSection = null;
-
   for (let i = pageSections.length - 1; i >= 0; i--) {
     const sec = pageSections[i];
-    if (sec.offsetParent === null) continue; // Skip hidden sections
+    if (sec.offsetParent === null) continue;
     const rect = sec.getBoundingClientRect();
     if (rect.top < activationOffset && rect.bottom > activationOffset * 0.2) {
       activeSection = sec;
       break;
     }
   }
-
-  if (!activeSection && pageSections.length > 0 && pageSections[0].offsetParent !== null) {
-    if (mainContentScroller.scrollTop < 50) activeSection = pageSections[0];
+  if (!activeSection && pageSections.length > 0 && pageSections[0].offsetParent !== null && mainContentScroller.scrollTop < 50) {
+    activeSection = pageSections[0];
   }
-
   asideTocList.innerHTML = "";
-
   if (!activeSection) {
     const li = document.createElement("li");
     li.textContent = "Scroll to a section.";
     li.style.cssText = "padding: 0.5rem 1rem; font-size: 0.9rem; color: #777;";
     asideTocList.appendChild(li);
-    asideElement.style.display = "flex";
     return;
   }
-
   let sourceForHeadings = activeSection;
   if (activeSection.id === "spectre-variants") {
     const activeFamilyContent = activeSection.querySelector(".ship-family-content-wrapper.active-family-content");
@@ -66,9 +90,7 @@ function updateAside() {
       sourceForHeadings = activeFamilyContent.querySelector(".variant-content.active") || activeFamilyContent;
     }
   }
-
   const headings = Array.from(sourceForHeadings.querySelectorAll("h2, h3, h4"));
-
   if (!headings.length) {
     const li = document.createElement("li");
     const titleEl = activeSection.querySelector('h2');
@@ -76,28 +98,16 @@ function updateAside() {
     li.textContent = `No sub-headings in ${titleText}.`;
     li.style.cssText = "padding: 0.5rem 1rem; font-size: 0.9rem; color: #777;";
     asideTocList.appendChild(li);
-    asideElement.style.display = "flex";
     return;
   }
-
-  let anItemWasHighlighted = false;
-  headings.forEach((h) => {
-    if (!h.id) {
-      h.id = `${activeSection.id}-${h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`;
-    }
+  headings.forEach(h => {
+    if (!h.id) h.id = `${activeSection.id}-${h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`;
     const a = document.createElement("a");
     a.href = `#${h.id}`;
-    const headingText = Array.from(h.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent.trim()).join(' ').trim() || h.textContent.trim();
+    const headingText = Array.from(h.childNodes).filter(n => n.nodeType === Node.TEXT_NODE).map(n => n.textContent.trim()).join(' ').trim() || h.textContent.trim();
     a.innerHTML = svgIcon + headingText;
     if (h.tagName.toLowerCase() === "h4") a.style.paddingLeft = "1.5rem";
-
-    const headingRect = h.getBoundingClientRect();
-    if (!anItemWasHighlighted && headingRect.top >= 0 && headingRect.top < activationOffset) {
-      a.classList.add("active");
-      anItemWasHighlighted = true;
-    }
-
-    a.addEventListener("click", (e) => {
+    a.addEventListener("click", e => {
       e.preventDefault();
       const targetElement = document.getElementById(h.id);
       if (targetElement && mainContentScroller) {
@@ -106,173 +116,126 @@ function updateAside() {
         const scrollToPosition = targetRect.top - scrollerRect.top + mainContentScroller.scrollTop - (window.innerHeight * 0.1);
         mainContentScroller.scrollTo({ top: Math.max(0, scrollToPosition), behavior: "smooth" });
       }
-      asideTocList.querySelectorAll("a").forEach(link => link.classList.remove("active"));
-      a.classList.add("active");
     });
     const li = document.createElement("li");
     li.appendChild(a);
     asideTocList.appendChild(li);
   });
-  asideElement.style.display = "flex";
 }
 
-/**
- * Highlights the main navigation links based on scroll position.
- */
 function handleSpectreNavScroll() {
   if (!mainContentScroller || !spectreNavLinks) return;
   let currentNavId = "";
   const navActivationOffset = window.innerHeight * 0.4;
-
   spectreNavLinks.forEach(link => {
-      const sectionId = link.getAttribute("href");
-      const sec = sectionId.startsWith("#") ? document.getElementById(sectionId.substring(1)) : null;
-      if (sec && sec.offsetParent !== null) {
-          const rect = sec.getBoundingClientRect();
-          if (rect.top < navActivationOffset) {
-              currentNavId = sec.id;
-          }
-      }
+    const sectionId = link.getAttribute("href");
+    const sec = sectionId.startsWith("#") ? document.getElementById(sectionId.substring(1)) : null;
+    if (sec && sec.offsetParent !== null) {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top < navActivationOffset) currentNavId = sec.id;
+    }
   });
-
-  spectreNavLinks.forEach(link => {
-    link.classList.toggle("nav-active", link.getAttribute("href") === `#${currentNavId}`);
-  });
+  spectreNavLinks.forEach(link => link.classList.toggle("nav-active", link.getAttribute("href") === `#${currentNavId}`));
 }
 
-/**
- * Displays the content for a specific ship family.
- */
 function showFamily(familyIdSuffix, btnEl) {
-  document.querySelectorAll(".ship-family-content-wrapper").forEach(wrapper => {
-    wrapper.style.display = "none";
-    wrapper.classList.remove("active-family-content");
+  document.querySelectorAll(".ship-family-content-wrapper").forEach(w => {
+    w.style.display = "none";
+    w.classList.remove("active-family-content");
   });
-  document.querySelectorAll(".ship-family-tabs button.family-tab").forEach(tab => {
-    tab.classList.remove("active-family");
-  });
-
+  document.querySelectorAll(".ship-family-tabs button.family-tab").forEach(t => t.classList.remove("active-family"));
   const contentToShow = document.getElementById("content-family-" + familyIdSuffix);
   if (contentToShow) {
     contentToShow.style.display = "block";
     contentToShow.classList.add("active-family-content");
   }
-  if (btnEl) {
-    btnEl.classList.add("active-family");
-  }
-
-  // Activate the first variant tab using the new data attributes
-  if (contentToShow) {
-    const firstVariantButton = contentToShow.querySelector(".variant-tabs button");
-    if (firstVariantButton) {
-      const variantId = firstVariantButton.dataset.variantId;
-      const familyId = firstVariantButton.dataset.familyId;
-      if (variantId && familyId) {
-        showVariantContent(variantId, firstVariantButton, familyId);
-      }
-    } else {
-      updateAside();
-    }
+  if (btnEl) btnEl.classList.add("active-family");
+  const firstVariantButton = contentToShow ? contentToShow.querySelector(".variant-tabs button") : null;
+  if (firstVariantButton) {
+    const variantId = firstVariantButton.dataset.variantId;
+    const familyId = firstVariantButton.dataset.familyId;
+    if (variantId && familyId) showVariantContent(variantId, firstVariantButton, familyId);
+  } else {
+    updateAside();
   }
 }
 
-/**
- * Displays content for a specific ship variant.
- */
 function showVariantContent(variantId, btnEl, familyId) {
   const familyContentWrapper = document.getElementById('content-family-' + familyId);
   if (!familyContentWrapper) return;
-
-  // Deactivate all variant content and tabs within this family
-  familyContentWrapper.querySelectorAll(".variant-content").forEach(content => {
-    // We remove the 'active' class. CSS should handle hiding it.
-    // To be safe, we could also do content.style.display = 'none', but class-based is cleaner.
-    content.classList.remove("active");
-  });
-  familyContentWrapper.querySelectorAll(".variant-tabs button").forEach(tab => {
-    tab.classList.remove("active");
-  });
-
-  // Activate the target variant content and tab
+  familyContentWrapper.querySelectorAll(".variant-content").forEach(c => c.classList.remove("active"));
+  familyContentWrapper.querySelectorAll(".variant-tabs button").forEach(t => t.classList.remove("active"));
   const contentToShow = document.getElementById(variantId);
-  if (contentToShow) {
-    // We add the 'active' class. CSS should handle making it visible.
-    contentToShow.classList.add("active");
-  }
-  if (btnEl) {
-    btnEl.classList.add("active");
-  }
-  
-  // Update the aside panel to show headings from the new active variant
+  if (contentToShow) contentToShow.classList.add("active");
+  if (btnEl) btnEl.classList.add("active");
   updateAside();
+}
+
+function switchModel(modelKey) {
+  if (modelViewer && models[modelKey]) {
+    modelViewer.src = models[modelKey].src;
+    modelViewer.alt = models[modelKey].alt;
+  }
+}
+
+function setView(orbitString) {
+  if (modelViewer) modelViewer.cameraOrbit = orbitString;
+}
+
+function recenter() {
+  if (modelViewer) {
+    modelViewer.cameraTarget = "auto auto auto";
+    modelViewer.cameraOrbit = "0deg 75deg 7m";
+  }
 }
 
 /**
  * Main initialization function to set up all page listeners.
  */
 function initPageListeners() {
-  // Assign elements to the top-level variables now that the DOM is ready.
+  // Assign elements to top-level variables.
   asideElement = document.getElementById("section-aside");
   mainContentScroller = document.querySelector(".spectre-post-container > .container");
   spectreNavLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
   modelViewer = document.getElementById('spectreViewer');
 
   if (!mainContentScroller) {
-    console.error("Main content container not found! Site functionality will be limited.");
+    console.error("Main content container not found!");
     return;
   }
 
   // Setup primary scroll and resize listeners.
-  const scrollOptions = { passive: true };
-  mainContentScroller.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
-  mainContentScroller.addEventListener("scroll", updateAside, scrollOptions);
-  window.addEventListener("resize", updateAside, scrollOptions);
+  mainContentScroller.addEventListener("scroll", handleSpectreNavScroll, { passive: true });
+  mainContentScroller.addEventListener("scroll", updateAside, { passive: true });
+  window.addEventListener("resize", updateAside, { passive: true });
 
-  // Setup Ship Family Tab Listeners
-  const familyTabs = document.querySelectorAll(".ship-family-tabs .family-tab");
-  familyTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const familyId = tab.dataset.family;
-      if (familyId) {
-        showFamily(familyId, tab);
-      }
-    });
+  // Setup All Tab Listeners
+  document.querySelectorAll(".ship-family-tabs .family-tab").forEach(tab => {
+    tab.addEventListener('click', () => { if (tab.dataset.family) showFamily(tab.dataset.family, tab); });
   });
-  
-  // --- NEW: Setup Ship Variant Tab Listeners ---
-  const variantTabs = document.querySelectorAll(".variant-tabs button");
-  variantTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        const variantId = tab.dataset.variantId;
-        const familyId = tab.dataset.familyId;
-        if (variantId && familyId) {
-            showVariantContent(variantId, tab, familyId);
-        }
-    });
+  document.querySelectorAll(".variant-tabs button").forEach(tab => {
+    tab.addEventListener('click', () => { if (tab.dataset.variantId && tab.dataset.familyId) showVariantContent(tab.dataset.variantId, tab, tab.dataset.familyId); });
   });
 
-  // Initialize the view with the first family and its first variant active
-  const firstFamilyButton = document.querySelector(".ship-family-tabs button.family-tab");
-  if (firstFamilyButton) {
-    const firstFamilyId = firstFamilyButton.dataset.family;
-    if (firstFamilyId) {
-      showFamily(firstFamilyId, firstFamilyButton);
-    }
+  // Setup Model Viewer Control Listeners
+  document.querySelectorAll('.model-switch-btn').forEach(button => {
+    button.addEventListener('click', () => { if (button.dataset.modelKey) switchModel(button.dataset.modelKey); });
+  });
+  document.querySelectorAll('.view-set-btn').forEach(button => {
+    button.addEventListener('click', () => { if (button.dataset.cameraOrbit) setView(button.dataset.cameraOrbit); });
+  });
+  const recenterBtn = document.getElementById('recenter-btn');
+  if (recenterBtn) {
+    recenterBtn.addEventListener('click', recenter);
   }
 
-  // Initial UI update
+  // Initialize the view
+  const firstFamilyButton = document.querySelector(".ship-family-tabs button.family-tab");
+  if (firstFamilyButton && firstFamilyButton.dataset.family) {
+    showFamily(firstFamilyButton.dataset.family, firstFamilyButton);
+  }
+
+  // Final initial UI update
   updateAside();
   handleSpectreNavScroll();
 }
-
-// --- SCRIPT INITIALIZATION ---
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initPageListeners);
-} else {
-  // DOM is already ready.
-  initPageListeners();
-}
-
-// NOTE: Model Viewer and other functions like setView, recenter, etc., are not included here
-// as they were not part of the original script provided for refactoring and may require
-// their own event listener setups if they use `onclick`.
