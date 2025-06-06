@@ -1,5 +1,5 @@
 /**
- * HFW Shadow Fleet - scripts.js (v12 - Smooth Page Scrolling)
+ * HFW Shadow Fleet - scripts.js (v13 - Robust Smooth Scrolling)
  * Manages all interactive elements on the HFW design document.
  */
 
@@ -64,7 +64,7 @@ function updateAside() {
   const tocLinks = [];
   headings.forEach(h => {
     if (!h.id) {
-      h.id = `<span class="math-inline">\{activeSection\.id\}\-</span>{h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`;
+      h.id = `${activeSection.id}-${h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`;
     }
     const a = document.createElement("a");
     a.href = `#${h.id}`;
@@ -76,19 +76,12 @@ function updateAside() {
     a.addEventListener("click", e => {
       e.preventDefault();
       const targetElement = document.getElementById(h.id);
-      if (targetElement && mainContentScroller) {
-        const scroller = (document.documentElement.scrollHeight > document.documentElement.clientHeight) ? document.documentElement : mainContentScroller;
-        const targetRect = targetElement.getBoundingClientRect();
-        const scrollerTop = (scroller === window) ? 0 : scroller.getBoundingClientRect().top;
-        const scrollTop = (scroller === window) ? window.scrollY : scroller.scrollTop;
-        const scrollToPosition = targetRect.top - scrollerTop + scrollTop - (window.innerHeight * 0.1);
-
-        scroller.scrollTo({ top: Math.max(0, scrollToPosition), behavior: "smooth" });
-        mainContentScroller.scrollTo({ top: Math.max(0, scrollToPosition), behavior: "smooth" });
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
     const li = document.createElement("li");
-li.appendChild(a);
+    li.appendChild(a);
     asideTocList.appendChild(li);
     tocLinks.push(a);
   });
@@ -180,7 +173,7 @@ function initPageListeners() {
   mainContentScroller.addEventListener("scroll", updateAside, scrollOptions);
   window.addEventListener("resize", updateAside, scrollOptions);
 
-  // --- NEW: Add Smooth Scrolling to Main Navigation ---
+  // --- REWRITTEN: Smooth Scrolling for Main Navigation ---
   if (spectreNavLinks) {
     spectreNavLinks.forEach(link => {
       link.addEventListener('click', function(event) {
@@ -189,13 +182,10 @@ function initPageListeners() {
         const targetSection = document.querySelector(targetId);
 
         if (targetSection) {
-          const scrollerRect = mainContentScroller.getBoundingClientRect();
-          const targetRect = targetSection.getBoundingClientRect();
-          const scrollToPosition = targetRect.top - scrollerRect.top + mainContentScroller.scrollTop;
-
-          mainContentScroller.scrollTo({
-            top: scrollToPosition,
-            behavior: 'smooth'
+          // This is the modern, robust way to smoothly scroll to an element.
+          targetSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start' // Aligns the top of the section with the top of the viewport
           });
         }
       });
@@ -220,4 +210,17 @@ function initPageListeners() {
 
   // Initialize the view
   const firstFamilyButton = document.querySelector(".ship-family-tabs button.family-tab");
-  if (firstFamilyButton && firstFamilyButton
+  if (firstFamilyButton && firstFamilyButton.dataset.family) {
+    showFamily(firstFamilyButton.dataset.family, firstFamilyButton);
+  }
+
+  updateAside();
+  handleSpectreNavScroll();
+}
+
+// --- SCRIPT INITIALIZATION ---
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initPageListeners);
+} else {
+  initPageListeners();
+}
