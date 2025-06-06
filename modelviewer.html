@@ -1,158 +1,133 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Model Viewer Component</title>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
-            background-color: #0b0e13; /* Match main page's section background if needed */
-            color: #f0f0f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Center content horizontally */
-        }
+<style>
+    /*
+        NOTE: These styles will only apply when this file is viewed directly.
+        When loaded into index.html, the main styles.css file will take precedence.
+        It's good practice to keep styling consistent between them.
+    */
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+        background-color: #0b0e13;
+        color: #f0f0f0;
+    }
 
-        /* Styles for model viewer controls, scoped to this component */
-        .model-button-bar {
-          margin: 1rem 0;
-          text-align: center; 
-          display: flex;
-          justify-content: center;
-          align-items: center; 
-          gap: 10px; 
-          flex-wrap: wrap; 
-        }
+    #spectre-viewer-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        .viewer-legend {
-          position: relative; 
-          margin: 1rem auto; 
-          background: rgba(0,0,0,0.7);
-          padding: 1rem;
-          border-radius: 4px;
-          color: #fff;
-          font-size: 0.9rem;
-          max-width: 220px; 
-          z-index: 5; 
-          text-align:left;
-        }
+    /* Consolidated and corrected styles for viewer controls */
+    .model-viewer-controls {
+        margin: 1rem 0;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 1rem;
+        background-color: rgba(40, 42, 45, 0.5);
+        border-radius: 8px;
+        width: 100%;
+        box-sizing: border-box; /* Ensures padding is included in the width */
+    }
 
-        /* Button styles (copied from your main CSS for consistency) */
-        .styled-button { 
-            cursor: pointer; font-family: "Orbitron", sans-serif; text-transform: uppercase; 
-            transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.2s ease-out, box-shadow 0.3s ease;
-            border-radius: 6px; font-weight: bold; letter-spacing: 0.5px; display: inline-block;
-        }
-        .model-control-btn { /* Specific model control button styles */
-            background-color: #1f1f1f; border: 1px solid #383838; color: #ffaaaa; 
-            padding: 0.5rem 1rem; margin: 0.2rem; font-size: 0.85rem; 
-            font-weight: normal; letter-spacing: 0.2px;
-        }
-        .model-control-btn:hover { 
-            border-color: #ff4c4c; color: #fff; background-color: #2a2a2a; 
-            transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,0.3); 
-        }
+    .control-group {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 
-        /* Style for the container of just the model viewer and its direct controls */
-        #spectre-viewer-component-container {
-             background-color: #0b0e13; /* Or your desired section background */
-             /* padding: 2rem; /* If you want padding around this whole component */
-        }
-    </style>
-</head>
-<body>
+    .control-group span {
+        font-weight: bold;
+        font-size: 0.9em;
+        color: #ccc;
+        margin-right: 0.5rem;
+    }
 
-    <div id="spectre-viewer-component-container">
-        <div class="model-button-bar">
-            <button class="model-control-btn styled-button" onclick="switchModel('shadow')">Spectre Shadow</button>
-            <button class="model-control-btn styled-button" onclick="switchModel('revenant')">Spectre Revenant</button>
-            <button class="model-control-btn styled-button" onclick="switchModel('eidolon_shadow')">Eidolon Shadow</button>
-            <button class="model-control-btn styled-button" onclick="switchModel('daemon')">Daemon</button>
-        </div>
-        
-        <model-viewer
-            id="spectreViewerInComponent" src="https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb"
-            alt="Anvil Spectre Shadow"
-            camera-controls
-            interaction-prompt="none" 
-            style="width: 100%; height: 600px; background-color: #15181d; max-width: 1200px; margin: 0 auto;" 
-            ></model-viewer>
-        
-        <div class="viewer-legend">
-            <strong>Controls:</strong>
-            <ul style="margin: 0.5rem 0 0 1rem; padding: 0; list-style: disc inside;">
-              <li>Rotate: Click &amp; drag</li>
-              <li>Zoom: Mouse wheel / pinch or slider</li>
-              <li>Pan: Right-click &amp; drag</li>
-              <li>Preset Views: Buttons below</li>
-              <li>Switch Models: Above</li>
-            </ul>
-        </div>
-        
-        <div class="model-button-bar">
-            <button class="model-control-btn styled-button" onclick="setView('0deg 75deg 7m')">Front</button>
-            <button class="model-control-btn styled-button" onclick="setView('180deg 75deg 7m')">Back</button>
-            <button class="model-control-btn styled-button" onclick="setView('90deg 75deg 7m')">Left</button>
-            <button class="model-control-btn styled-button" onclick="setView('-90deg 75deg 7m')">Right</button>
-            <button class="model-control-btn styled-button" onclick="setView('0deg 0deg 7m')">Top</button>
-            <button class="model-control-btn styled-button" onclick="setView('0deg 180deg 7m')">Bottom</button>
-            <button class="model-control-btn styled-button" onclick="setView('45deg 60deg 7m')">F-L&nbsp;Top</button>
-            <button class="model-control-btn styled-button" onclick="setView('-45deg 60deg 7m')">F-R&nbsp;Top</button>
-            <button class="model-control-btn styled-button" onclick="setView('135deg 60deg 7m')">B-L&nbsp;Top</button>
-            <button class="model-control-btn styled-button" onclick="setView('-135deg 60deg 7m')">B-R&nbsp;Top</button>
-            <button class="model-control-btn styled-button" onclick="setView('45deg 120deg 7m')">F-L&nbsp;Bot</button>
-            <button class="model-control-btn styled-button" onclick="setView('-45deg 120deg 7m')">F-R&nbsp;Bot</button>
-            <button class="model-control-btn styled-button" onclick="setView('135deg 120deg 7m')">B-L&nbsp;Bot</button>
-            <button class="model-control-btn styled-button" onclick="setView('-135deg 120deg 7m')">B-R&nbsp;Bot</button>
-            <button class="model-control-btn styled-button" onclick="recenter()">Recenter</button>
-        </div>
+    .viewer-legend {
+        position: relative;
+        margin: 1rem auto;
+        background: rgba(0,0,0,0.7);
+        padding: 1rem;
+        border-radius: 4px;
+        color: #fff;
+        font-size: 0.9rem;
+        max-width: 220px;
+        z-index: 5;
+        text-align: left;
+    }
+
+    /* Combined button styles for consistency */
+    .model-viewer-controls button {
+        cursor: pointer;
+        font-family: "Orbitron", sans-serif;
+        text-transform: uppercase;
+        transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.2s ease-out, box-shadow 0.3s ease;
+        border-radius: 6px;
+        display: inline-block;
+        background-color: #1f1f1f;
+        border: 1px solid #383838;
+        color: #ffaaaa;
+        padding: 0.5rem 1rem;
+        margin: 0.2rem;
+        font-size: 0.85rem;
+    }
+
+    .model-viewer-controls button:hover {
+        border-color: #ff4c4c;
+        color: #fff;
+        background-color: #2a2a2a;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+</style>
+
+<div class="section" id="spectre-viewer-wrapper">
+  <h2 style="text-align: center; margin-bottom: 1rem;">3D Holo-Viewer</h2>
+
+  <div class="model-viewer-controls">
+    <div class="control-group">
+      <span>Select Model:</span>
+      <button class="model-switch-btn" data-model-key="shadow">Spectre Shadow</button>
+      <button class="model-switch-btn" data-model-key="revenant">Spectre Revenant</button>
+      <button class="model-switch-btn" data-model-key="eidolon_shadow">Eidolon Shadow</button>
+      <button class="model-switch-btn" data-model-key="daemon">Daemon</button>
     </div>
+  </div>
 
-    <script>
-      const modelViewerElement = document.getElementById('spectreViewerInComponent');
-      console.log("Model Viewer Element in component HTML:", modelViewerElement);
+  <model-viewer
+      id="spectreViewer"
+      src="https://ArchKaine.github.io/ship-models/Spectre_Shadow.glb"
+      alt="Anvil Spectre Shadow"
+      camera-controls
+      interaction-prompt="none"
+      style="width: 100%; height: 800px; margin: 0 auto; border-radius: 8px; background-color: #15181d;"
+  ></model-viewer>
 
-      const modelBaseURL = "https://ArchKaine.github.io/ship-models/";
-      const models = {
-          shadow: { src: modelBaseURL + "Spectre_Shadow.glb", alt: "Anvil Spectre Shadow" },
-          revenant: { src: modelBaseURL + "Spectre_Revenant.glb", alt: "Anvil Spectre Revenant" },
-          eidolon_shadow: { src: modelBaseURL + "Eidolon_Shadow.glb", alt: "Anvil Eidolon Shadow" },
-          daemon: { src: modelBaseURL + "HFW_Daemon_Racing_Ship.glb", alt: "Anvil Daemon" },
-      };
+  <div class="viewer-legend">
+      <strong>Controls:</strong>
+      <ul style="margin: 0.5rem 0 0 1rem; padding: 0; list-style: disc inside;">
+        <li>Rotate: Click &amp; drag</li>
+        <li>Zoom: Mouse wheel / pinch</li>
+        <li>Pan: Right-click &amp; drag</li>
+      </ul>
+  </div>
 
-      function switchModel(modelKey) {
-        console.log("switchModel (in component) called. Key:", modelKey);
-        if (modelViewerElement && models[modelKey]) {
-            modelViewerElement.src = models[modelKey].src;
-            modelViewerElement.alt = models[modelKey].alt;
-        } else {
-            console.error("Error in switchModel (in component): modelViewer element or modelKey invalid.");
-        }
-      }
-
-      function setView(orbitString) {
-        console.log("setView (in component) called. Orbit:", orbitString);
-        if (modelViewerElement) {
-            modelViewerElement.cameraOrbit = orbitString;
-        } else {
-            console.error("Error in setView (in component): modelViewer element not found.");
-        }
-      }
-
-      function recenter() {
-        console.log("recenter (in component) called.");
-        if (modelViewerElement) {
-            modelViewerElement.cameraTarget = "auto auto auto";
-            modelViewerElement.cameraOrbit = "0deg 75deg 7m";
-        } else {
-            console.error("Error in recenter (in component): modelViewer element not found.");
-        }
-      }
-      // No need to assign to window if onclick is in the same document.
-    </script>
-</body>
-</html>
+  <div class="model-viewer-controls">
+    <div class="control-group">
+        <span>Preset Views:</span>
+        <button class="view-set-btn" data-camera-orbit="0deg 75deg 7m">Front</button>
+        <button class="view-set-btn" data-camera-orbit="180deg 75deg 7m">Back</button>
+        <button class="view-set-btn" data-camera-orbit="90deg 75deg 7m">Left</button>
+        <button class="view-set-btn" data-camera-orbit="-90deg 75deg 7m">Right</button>
+        <button class="view-set-btn" data-camera-orbit="0deg 0deg 7m">Top</button>
+        <button class="view-set-btn" data-camera-orbit="0deg 180deg 7m">Bottom</button>
+        <button id="recenter-btn">Recenter</button>
+    </div>
+  </div>
+</div>
