@@ -868,37 +868,22 @@
               tackle complex threats through combined arms tactics.
             </p>
             <div class="variant-tabs spectre-variant-tabs">
-              <button
-                class="styled-button active"
-                onclick="showVariantContent('variant-spectre-shadow', this, 'spectre')"
-              >
-                Spectre Shadow
-              </button>
-              <button
-                class="styled-button"
-                onclick="showVariantContent('variant-spectre-strike', this, 'spectre')"
-              >
-                Spectre Strike
-              </button>
-              <button
-                class="styled-button"
-                onclick="showVariantContent('variant-spectre-lockdown', this, 'spectre')"
-              >
-                Spectre Lockdown
-              </button>
-              <button
-                class="styled-button"
-                onclick="showVariantContent('variant-spectre-pulse', this, 'spectre')"
-              >
-                Spectre Pulse
-              </button>
-              <button
-                class="styled-button"
-                onclick="showVariantContent('variant-spectre-revenant', this, 'spectre')"
-              >
-                Spectre Revenant
-              </button>
-            </div>
+  <button class="styled-button" data-variant-id="variant-spectre-shadow" data-family-id="spectre">
+    Spectre Shadow
+  </button>
+  <button class="styled-button" data-variant-id="variant-spectre-strike" data-family-id="spectre">
+    Spectre Strike
+  </button>
+  <button class="styled-button" data-variant-id="variant-spectre-lockdown" data-family-id="spectre">
+    Spectre Lockdown
+  </button>
+  <button class="styled-button" data-variant-id="variant-spectre-pulse" data-family-id="spectre">
+    Spectre Pulse
+  </button>
+  <button class="styled-button" data-variant-id="variant-spectre-revenant" data-family-id="spectre">
+    Spectre Revenant
+  </button>
+</div>
 
             <div class="variant-content active" id="variant-spectre-shadow">
               <h3>Spectre Shadow (Stealth/Electronic Warfare)</h3>
@@ -950,12 +935,22 @@
             <h4>B. Core Systems Summary (Base Eidolon)</h4>
             <table><thead><tr><th>System</th><th>Quantity &amp; Size</th><th>Notes</th></tr></thead><tbody><tr><td>Quantum Drive</td><td>1x Size 1</td><td>Stealth Grade, optimized for speed &amp; range</td></tr><tr><td>Jump Module</td><td>1x Size 1</td><td>-</td></tr><tr><td>Radar</td><td>1x Size 1</td><td>Advanced/low-emission model</td></tr><tr><td>Computers</td><td>2x Size 1</td><td>Stealth Grade, Redundant</td></tr><tr><td>Fuel Tanks</td><td>2x Size 1</td><td>Stealth Grade</td></tr><tr><td>Countermeasures</td><td>1x</td><td>Standard Size/Type</td></tr><tr><td>Power Plant</td><td>1x Size 2</td><td>Stealth Grade</td></tr><tr><td>Coolers</td><td>2x Size 1</td><td>Stealth Grade</td></tr><tr><td>Shield Generators</td><td>2x Size 1</td><td>Stealth Grade (Typically offline)</td></tr></tbody></table>
             <div class="variant-tabs eidolon-variant-tabs">
-              <button class="styled-button active" onclick="showVariantContent('variant-eidolon-shadow', this, 'eidolon')">Eidolon Shadow</button>
-              <button class="styled-button" onclick="showVariantContent('variant-eidolon-strike', this, 'eidolon')">Eidolon Strike</button>
-              <button class="styled-button" onclick="showVariantContent('variant-eidolon-lockdown', this, 'eidolon')">Eidolon Lockdown</button>
-              <button class="styled-button" onclick="showVariantContent('variant-eidolon-pulse', this, 'eidolon')">Eidolon Pulse</button>
-              <button class="styled-button" onclick="showVariantContent('variant-eidolon-revenant', this, 'eidolon')">Eidolon Revenant</button>
-            </div>
+  <button class="styled-button" data-variant-id="variant-eidolon-shadow" data-family-id="eidolon">
+    Eidolon Shadow
+  </button>
+  <button class="styled-button" data-variant-id="variant-eidolon-strike" data-family-id="eidolon">
+    Eidolon Strike
+  </button>
+  <button class="styled-button" data-variant-id="variant-eidolon-lockdown" data-family-id="eidolon">
+    Eidolon Lockdown
+  </button>
+  <button class="styled-button" data-variant-id="variant-eidolon-pulse" data-family-id="eidolon">
+    Eidolon Pulse
+  </button>
+  <button class="styled-button" data-variant-id="variant-eidolon-revenant" data-family-id="eidolon">
+    Eidolon Revenant
+  </button>
+</div>
             <div class="variant-content active" id="variant-eidolon-shadow"><h3>Eidolon Shadow (Stealth Recon & EW Escort)</h3><p><strong>Role:</strong> Advanced stealth reconnaissance, electronic warfare, intelligence gathering, and dedicated escort.</p><p><strong>Description:</strong> The premier stealth variant of the Eidolon line, designed to operate at the forefront of covert engagements, providing scouting and electronic cover. Its unrivaled stealth allows it to precede larger Spectre forces or aid in their deep infiltration.</p><p><strong>Key Features:</strong> Unrivaled signature management for its class, incorporating enhanced adaptive countershading and advanced acoustic dampening for deep infiltration. Features a sophisticated, miniaturized electronic warfare suite (Size 2 component) for jamming, sensor scrambling, and deploying electronic deception, making it an ideal escort for the larger Spectre Shadow. Can carry deployable reconnaissance and data link drones. Integrates a Thermal Obscurant Launcher. Possesses Anti-Radiation Missile (ARM) capability.</p><p><strong>Armament:</strong> 4x fixed Size 3 railguns, housed in retractable stealth compartments. Capacity for 4x Size 5 torpedoes in internal bays.</p><p><strong>Specialist Role:</strong> Focus on EW and sensor operations.</p></div>
             <div class="variant-content" id="variant-eidolon-strike"><h3>Eidolon Strike (High-Speed Interdiction & Strike Escort)</h3><p><strong>Role:</strong> Delivering rapid, targeted strikes against high-value targets or engaging enemy fighters using speed and stealth for insertion.</p><p><strong>Description:</strong> A dedicated heavy strike fighter blending agility with focused firepower, designed to complement the Spectre Strike in surgical assaults. Its primary goal is to engage, then rapidly disengage or reposition.</p><p><strong>Key Features:</strong> Incorporates moderate signature reduction sufficient for rapid positioning before engaging. Features enhanced power distribution to weapon systems and specialized capacitors for "Railgun Overcharge" – a single, high-power shot at the cost of extreme heat and signature bloom. Can deploy targeting drones. Integrates a Thermal Obscurant Launcher. Possesses ARM capability.</p><p><strong>Armament:</strong> 2x fixed Size 4 railguns and 2x fixed Size 3 railguns, all utilizing retractable housings. Capacity for 4x Size 5 torpedoes in internal bays.</p></div>
             <div class="variant-content" id="variant-eidolon-lockdown"><h3>Eidolon Lockdown (Point-Defense & Interdiction Support)</h3><p><strong>Role:</strong> Providing localized quantum enforcement, interdiction support, and point defense for larger Spectre or Revenant assets.</p><p><strong>Description:</strong> Offers crucial strategic advantage by controlling localized quantum travel and protecting larger ships from incoming threats within a limited range.</p><p><strong>Key Features:</strong> Equipped with a miniaturized Quantum Enforcement Device (QED) (Size 2 component) with limited snare capability, allowing for discreet local interdiction. Good signature reduction for covert QED deployment, though QED activation creates a temporary signature. Prioritizes rapid target acquisition and weapon cycling for defense. Integrates a Thermal Obscurant Launcher. Possesses ARM capability.</p><p><strong>Armament:</strong> 4x fixed Size 3 railguns, and 2x Size 1 point defense cannons, designed with minimal external profile when stowed or integrated. Capacity for 4x Size 5 torpedoes in internal bays.</p></div>
@@ -969,11 +964,19 @@
             <h5>A. Rationale and Design Philosophy</h5>
             <p>The standard Valkyrie lacked the signature management for true covert operations. HFW adopted the proven Valkyrie frame, stripped non-essential/signature-heavy elements, and performed all subsequent R&D, modification, and production internally at The Forge. This self-sufficient approach integrated new, advanced, and often alien-derived technologies to achieve stealth without compromising core functions: 20 operators, vehicle bay, and structural toughness. The result is a Military / Special Operations Transport providing an unparalleled capability for delivering forces and vehicles into contested territory with minimal detection. Unlike pure stealth platforms, the Phantom retains significant toughness and onboard firepower.</p>
             <div class="variant-tabs phantom-variant-tabs">
-              <button class="styled-button active" onclick="showVariantContent('variant-phantom-base', this, 'phantom')">Valkyrie Phantom (Base)</button>
-              <button class="styled-button" onclick="showVariantContent('variant-phantom-pathfinder', this, 'phantom')">Phantom Pathfinder</button>
-              <button class="styled-button" onclick="showVariantContent('variant-phantom-breacher', this, 'phantom')">Phantom Breacher</button>
-              <button class="styled-button" onclick="showVariantContent('variant-phantom-medical', this, 'phantom')">Phantom Medical</button>
-            </div>
+  <button class="styled-button" data-variant-id="variant-phantom-base" data-family-id="phantom">
+    Valkyrie Phantom (Base)
+  </button>
+  <button class="styled-button" data-variant-id="variant-phantom-pathfinder" data-family-id="phantom">
+    Phantom Pathfinder
+  </button>
+  <button class="styled-button" data-variant-id="variant-phantom-breacher" data-family-id="phantom">
+    Phantom Breacher
+  </button>
+  <button class="styled-button" data-variant-id="variant-phantom-medical" data-family-id="phantom">
+    Phantom Medical
+  </button>
+</div>
             <div class="variant-content active" id="variant-phantom-base"><h3>Anvil Valkyrie Phantom (Base)</h3><h4>B. Specifications & Core Systems</h4><p><strong>General Specifications:</strong> Length: ~38.5m, Beam: ~30m, Height: ~9m. Max Crew: 5 (Pilot, Co-Pilot, 2x Gunners, 1x Crew/EWO/Support). Troop Capacity: 20 Operators. Vehicle Capacity: 1x Ursa Rover/Cyclone. Cargo Grid (Nominal): 90 SCU. VTOL: Full (enhanced acoustic dampening).</p><p><strong>Core Systems (Stealth Grade, HFW integrated):</strong> 2xS2 Power Plants, 2xS2 Coolers, 4xS2 Shield Generators, 1xS2 Quantum Drive, 1xS2 Advanced Stealth Radar (Passive/Active Modes). Fuel Tanks: 4xS1 (Std). Fuel Intake: 2xS1 (Std). Computers: Standard Suite + Blades for Stealth/EW Management.</p><h4>C. Stealth Systems Suite</h4><p>Relies on HFW-integrated systems: Spectre-derived Hull Materials, Geometric Shaping, Active Masking, Acoustic Dampening (VTOL optimized), and Retractable Hardpoints.</p><h4>D. Armament</h4><ul><li>Pilot Fixed Guns: 2x Size 2 (retractable).</li><li>Remote Wing Turrets: 2x Size 5 (retractable, S4 repeaters, pilot-slavable).</li><li>Retractable Remote Turrets (Top/Bottom): 2x Size 4 (each 2xS3 guns), 'ghost mode' displays.</li><li>Door Guns: 2x Size 1 Gimbal Mounts.</li><li>Missiles: All standard missile hardpoints removed.</li></ul><h4>E. Capacity & Internal Layout</h4><p>Maintains standard personnel/vehicle capacity. Internal layout adapted by HFW, utilizing freed space (e.g. from removed manned turrets) for new hardware. Features low-light tactical interior lighting.</p><p><strong>Operational Doctrine:</strong> Excels in Contested Zone Insertion and Special Operations. Designed for Synergistic Operations with the Spectre series.</p></div>
             <div class="variant-content" id="variant-phantom-pathfinder"><h3>Valkyrie Phantom Pathfinder</h3><p><strong>Role:</strong> Stealthy Reconnaissance and Forward Observation.</p><p><strong>Description:</strong> This variant is designed to precede the main force, gathering critical intelligence and establishing observation points in contested or denied territory.</p><p><strong>Key Features:</strong> Replaces some troop capacity or internal storage space with enhanced sensor arrays, long-range communication systems, and expanded capacity for deployable reconnaissance drones. It provides the clandestine "eyes" for a stealth operation.</p></div>
             <div class="variant-content" id="variant-phantom-breacher"><h3>Valkyrie Phantom Breacher</h3><p><strong>Role:</strong> Covert Entry and Assault Facilitation.</p><p><strong>Description:</strong> Tailored for bypassing hardened defenses and facilitating entry into fortified structures or areas.</p><p><strong>Key Features:</strong> Reconfigures internal space to carry specialized breaching equipment, heavy explosive charges, and potentially automated defense suppression systems. Works closely with Spectre Strike variants to create entry points for assault teams.</p></div>
@@ -1062,10 +1065,16 @@
             </table>
 
             <div class="variant-tabs pathfinder-variant-tabs">
-              <button class="styled-button active" onclick="showVariantContent('variant-pathfinder-scout', this, 'pathfinder')">Pathfinder MKII Scout</button>
-              <button class="styled-button" onclick="showVariantContent('variant-pathfinder-surveyor', this, 'pathfinder')">Pathfinder MKII Surveyor</button>
-              <button class="styled-button" onclick="showVariantContent('variant-pathfinder-sentinel', this, 'pathfinder')">Pathfinder MKII Sentinel</button>
-            </div>
+  <button class="styled-button" data-variant-id="variant-pathfinder-scout" data-family-id="pathfinder">
+    Pathfinder MKII Scout
+  </button>
+  <button class="styled-button" data-variant-id="variant-pathfinder-surveyor" data-family-id="pathfinder">
+    Pathfinder MKII Surveyor
+  </button>
+  <button class="styled-button" data-variant-id="variant-pathfinder-sentinel" data-family-id="pathfinder">
+    Pathfinder MKII Sentinel
+  </button>
+</div>
 
             <div class="variant-content active" id="variant-pathfinder-scout">
               <h3>Pathfinder MKII Scout (Deep Reconnaissance & Intelligence)</h3>
