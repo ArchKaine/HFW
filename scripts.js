@@ -1,5 +1,5 @@
 /**
- * HFW Shadow Fleet - scripts.js (v10 - Robust Aside Highlighting)
+ * HFW Shadow Fleet - scripts.js (v11 - Rewritten Aside Highlighting)
  * Manages all interactive elements on the HFW design document.
  */
 
@@ -18,7 +18,6 @@ function updateAside() {
   const pageSections = Array.from(mainContentScroller.querySelectorAll(":scope > .section"));
   let activeSection = null;
 
-  // Find the currently active main section
   for (let i = pageSections.length - 1; i >= 0; i--) {
     const sec = pageSections[i];
     if (sec.offsetParent === null) continue;
@@ -32,7 +31,7 @@ function updateAside() {
     activeSection = pageSections[0];
   }
 
-  asideTocList.innerHTML = ""; // Clear the list for rebuilding
+  asideTocList.innerHTML = "";
 
   if (!activeSection) {
     const li = document.createElement("li");
@@ -62,10 +61,11 @@ function updateAside() {
     return;
   }
 
-  // --- NEW, MORE ROBUST HIGHLIGHTING LOGIC ---
+  // --- COMPLETELY REWRITTEN HIGHLIGHTING LOGIC ---
 
-  // 1. Create all the links first and add them to the list.
-  const tocLinks = headings.map(h => {
+  // 1. Build the list of links and keep them in an array.
+  const tocLinks = [];
+  headings.forEach(h => {
     if (!h.id) {
       h.id = `${activeSection.id}-${h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`;
     }
@@ -80,35 +80,43 @@ function updateAside() {
       e.preventDefault();
       const targetElement = document.getElementById(h.id);
       if (targetElement && mainContentScroller) {
-        const scroller = (document.documentElement.scrollHeight > window.innerHeight) ? document.documentElement : mainContentScroller;
+        const scroller = (document.documentElement.scrollHeight > document.documentElement.clientHeight) ? document.documentElement : mainContentScroller;
         const targetRect = targetElement.getBoundingClientRect();
-        const scrollToPosition = targetRect.top + scroller.scrollTop - (window.innerHeight * 0.1);
-        window.scrollTo({ top: Math.max(0, scrollToPosition), behavior: "smooth" });
-        mainContentScroller.scrollTo({ top: Math.max(0, scrollToPosition), behavior: "smooth" });
+        // A more reliable scroll calculation
+        const scrollerTop = (scroller === window) ? 0 : scroller.getBoundingClientRect().top;
+        const scrollTop = (scroller === window) ? window.scrollY : scroller.scrollTop;
+        const scrollToPosition = targetRect.top - scrollerTop + scrollTop - (window.innerHeight * 0.1);
+
+        scroller.scrollTo({ top: Math.max(0, scrollToPosition), behavior: "smooth" });
       }
     });
     const li = document.createElement("li");
     li.appendChild(a);
     asideTocList.appendChild(li);
-    return a; // Return the created link
+    tocLinks.push(a); // Add the link to our array
   });
 
-  // 2. Now, determine which link to highlight.
-  let linkToHighlight = null;
-  for (let i = 0; i < headings.length; i++) {
-    const headingRect = headings[i].getBoundingClientRect();
-    // Check if the heading's top has scrolled past our activation line.
-    if (headingRect.top < activationOffset) {
-      // If it has, it's our current candidate for being active.
-      // We keep checking, so the *last* one that meets this criteria will be selected.
-      linkToHighlight = tocLinks[i];
+  // 2. Find the correct link to highlight.
+  let activeLink = null;
+  // Iterate backwards from the last heading.
+  for (let i = headings.length - 1; i >= 0; i--) {
+    const heading = headings[i];
+    // If the heading is above our activation line...
+    if (heading.getBoundingClientRect().top < activationOffset) {
+      // ...it's our active link. Since we're going backwards, the first one we find is the correct one.
+      activeLink = tocLinks[i];
+      break; // Found it, no need to check any others.
     }
   }
 
-  // 3. Finally, apply the 'active' class to the correct link.
-  if (linkToHighlight) {
-    linkToHighlight.classList.add("active");
-  }
+  // 3. Apply the active class to the correct link and remove it from all others.
+  tocLinks.forEach(link => {
+    if (link === activeLink) {
+      link.classList.add("active");
+    } else {
+      link.classList.remove("active");
+    }
+  });
 }
 
 
@@ -126,9 +134,7 @@ function handleSpectreNavScroll() {
       }
     }
   });
-  spectreNavLinks.forEach(link => {
-    link.classList.toggle("nav-active", link.getAttribute("href") === `#${currentNavId}`);
-  });
+  spectreNavLinks.forEach(link => link.classList.toggle("nav-active", link.getAttribute("href") === `#${currentNavId}`));
 }
 
 function showFamily(familyIdSuffix, btnEl) {
@@ -136,9 +142,7 @@ function showFamily(familyIdSuffix, btnEl) {
     w.style.display = "none";
     w.classList.remove("active-family-content");
   });
-  document.querySelectorAll(".ship-family-tabs button.family-tab").forEach(t => {
-    t.classList.remove("active-family");
-  });
+  document.querySelectorAll(".ship-family-tabs button.family-tab").forEach(t => t.classList.remove("active-family"));
   const contentToShow = document.getElementById("content-family-" + familyIdSuffix);
   if (contentToShow) {
     contentToShow.style.display = "block";
