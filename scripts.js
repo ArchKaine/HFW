@@ -1,20 +1,11 @@
 /**
- * HFW Shadow Fleet - scripts.js (v8 - Corrected Model Viewer ID)
- * Dynamically loads section content and manages all page interactivity.
+ * HFW Shadow Fleet - scripts.js (v7.1 - Reverted to exclude model viewer control)
+ * Manages tab navigation and page interactivity, assumes model viewer is in an iframe.
  */
 
-// Top-level variables for globally accessed DOM elements
-let asideElement, mainContentScroller, spectreNavLinks, modelViewer;
-
-// Model Viewer Data
-const modelBaseURL = "https://ArchKaine.github.io/ship-models/";
-const models = {
-    shadow: { src: modelBaseURL + "Spectre_Shadow.glb", alt: "Anvil Spectre Shadow" },
-    revenant: { src: modelBaseURL + "Spectre_Revenant.glb", alt: "Anvil Spectre Revenant" },
-    eidolon_shadow: { src: modelBaseURL + "Eidolon_Shadow.glb", alt: "Anvil Eidolon Shadow" },
-    daemon: { src: modelBaseURL + "HFW_Daemon_Racing_Ship.glb", alt: "Anvil Daemon" },
-};
-
+// --- Top-level variables for globally accessed DOM elements ---
+let asideElement, mainContentScroller, spectreNavLinks;
+// Note: 'modelViewer' variable is removed as it's no longer controlled by this script.
 
 // --- FUNCTION DEFINITIONS ---
 
@@ -64,7 +55,7 @@ function updateAside() {
     return;
   }
   headings.forEach(h => {
-    if (!h.id) h.id = `${activeSection.id}-${h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`;
+    if (!h.id) h.id = `<span class="math-inline">\{activeSection\.id\}\-</span>{h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`;
     const a = document.createElement("a");
     a.href = `#${h.id}`;
     const headingText = Array.from(h.childNodes).filter(n => n.nodeType === Node.TEXT_NODE).map(n => n.textContent.trim()).join(' ').trim() || h.textContent.trim();
@@ -117,106 +108,4 @@ function showFamily(familyIdSuffix, btnEl) {
   if (firstVariantButton) {
     const variantId = firstVariantButton.dataset.variantId;
     const familyId = firstVariantButton.dataset.familyId;
-    if (variantId && familyId) showVariantContent(variantId, firstVariantButton, familyId);
-  } else {
-    updateAside();
-  }
-}
-
-function showVariantContent(variantId, btnEl, familyId) {
-  const familyContentWrapper = document.getElementById('content-family-' + familyId);
-  if (!familyContentWrapper) return;
-  familyContentWrapper.querySelectorAll(".variant-content").forEach(c => c.classList.remove("active"));
-  familyContentWrapper.querySelectorAll(".variant-tabs button").forEach(t => t.classList.remove("active"));
-  const contentToShow = document.getElementById(variantId);
-  if (contentToShow) contentToShow.classList.add("active");
-  if (btnEl) btnEl.classList.add("active");
-  updateAside();
-}
-
-function switchModel(modelKey) {
-  if (modelViewer && models[modelKey]) {
-    modelViewer.src = models[modelKey].src;
-    modelViewer.alt = models[modelKey].alt;
-  } else {
-      console.error("Could not switch model. ModelViewer element found:", modelViewer, "Model key valid:", models.hasOwnProperty(modelKey));
-  }
-}
-
-function setView(orbitString) {
-  if (modelViewer) {
-    modelViewer.cameraOrbit = orbitString;
-  }
-}
-
-function recenter() {
-  if (modelViewer) {
-    modelViewer.cameraTarget = "auto auto auto";
-    modelViewer.cameraOrbit = "0deg 75deg 7m";
-  }
-}
-
-/**
- * Main initialization function to set up all page listeners.
- */
-function initPageListeners() {
-  // Assign elements to top-level variables.
-  asideElement = document.getElementById("section-aside");
-  mainContentScroller = document.querySelector(".spectre-post-container > .container");
-  spectreNavLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
-  
-  // --- THIS IS THE FIX ---
-  // Look for either the old ID or the new ID to make the script more robust.
-  modelViewer = document.getElementById('spectreViewerInComponent') || document.getElementById('spectreViewer');
-
-  if (!modelViewer) {
-      console.error("CRITICAL: model-viewer element not found with ID 'spectreViewerInComponent' or 'spectreViewer'. Model controls will not work.");
-  }
-  
-  if (!mainContentScroller) {
-    console.error("Main content container not found!");
-    return;
-  }
-
-  // Setup primary scroll and resize listeners.
-  mainContentScroller.addEventListener("scroll", handleSpectreNavScroll, { passive: true });
-  mainContentScroller.addEventListener("scroll", updateAside, { passive: true });
-  window.addEventListener("resize", updateAside, { passive: true });
-
-  // Setup All Tab Listeners
-  document.querySelectorAll(".ship-family-tabs .family-tab").forEach(tab => {
-    tab.addEventListener('click', () => { if (tab.dataset.family) showFamily(tab.dataset.family, tab); });
-  });
-  document.querySelectorAll(".variant-tabs button").forEach(tab => {
-    tab.addEventListener('click', () => { if (tab.dataset.variantId && tab.dataset.familyId) showVariantContent(tab.dataset.variantId, tab, tab.dataset.familyId); });
-  });
-
-  // Setup Model Viewer Control Listeners
-  document.querySelectorAll('.model-switch-btn').forEach(button => {
-    button.addEventListener('click', () => { if (button.dataset.modelKey) switchModel(button.dataset.modelKey); });
-  });
-  document.querySelectorAll('.view-set-btn').forEach(button => {
-    button.addEventListener('click', () => { if (button.dataset.cameraOrbit) setView(button.dataset.cameraOrbit); });
-  });
-  const recenterBtn = document.getElementById('recenter-btn');
-  if (recenterBtn) {
-    recenterBtn.addEventListener('click', recenter);
-  }
-
-  // Initialize the view
-  const firstFamilyButton = document.querySelector(".ship-family-tabs button.family-tab");
-  if (firstFamilyButton && firstFamilyButton.dataset.family) {
-    showFamily(firstFamilyButton.dataset.family, firstFamilyButton);
-  }
-
-  // Final initial UI update
-  updateAside();
-  handleSpectreNavScroll();
-}
-
-// --- SCRIPT INITIALIZATION ---
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initPageListeners);
-} else {
-  initPageListeners();
-}
+    if (variantId && family
