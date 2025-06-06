@@ -1,5 +1,5 @@
 /**
- * HFW Shadow Fleet - scripts.js (v9 - Robust Scroll Listeners)
+ * HFW Shadow Fleet - scripts.js (v10 - Robust Aside Highlighting)
  * Manages all interactive elements on the HFW design document.
  */
 
@@ -14,25 +14,25 @@ function updateAside() {
   if (!asideTocList) return;
 
   const svgIcon = '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" style="vertical-align:-0.1em;margin-right:0.8em;opacity:0.7;"><path d="M10 17l5-5-5-5v10z"></path></svg>';
-  const activationOffset = window.innerHeight * 0.35;
+  const activationOffset = window.innerHeight * 0.35; // The "line" on the screen to check against
   const pageSections = Array.from(mainContentScroller.querySelectorAll(":scope > .section"));
   let activeSection = null;
 
+  // Find the currently active main section
   for (let i = pageSections.length - 1; i >= 0; i--) {
     const sec = pageSections[i];
-    if (sec.offsetParent === null) continue; // Skip hidden sections
+    if (sec.offsetParent === null) continue;
     const rect = sec.getBoundingClientRect();
     if (rect.top < activationOffset && rect.bottom > activationOffset * 0.2) {
       activeSection = sec;
       break;
     }
   }
-
   if (!activeSection && pageSections.length > 0 && pageSections[0].offsetParent !== null && (mainContentScroller.scrollTop < 50 || window.scrollY < 50)) {
     activeSection = pageSections[0];
   }
 
-  asideTocList.innerHTML = "";
+  asideTocList.innerHTML = ""; // Clear the list for rebuilding
 
   if (!activeSection) {
     const li = document.createElement("li");
@@ -62,22 +62,27 @@ function updateAside() {
     return;
   }
 
-  headings.forEach(h => {
-    if (!h.id) h.id = `${activeSection.id}-${h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`;
+  // --- NEW, MORE ROBUST HIGHLIGHTING LOGIC ---
+
+  // 1. Create all the links first and add them to the list.
+  const tocLinks = headings.map(h => {
+    if (!h.id) {
+      h.id = `${activeSection.id}-${h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`;
+    }
     const a = document.createElement("a");
     a.href = `#${h.id}`;
-    const headingText = Array.from(h.childNodes).filter(n => n.nodeType === Node.TEXT_NODE).map(n => n.textContent.trim()).join(' ').trim() || h.textContent.trim();
+    const headingText = Array.from(h.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent.trim()).join(' ').trim() || h.textContent.trim();
     a.innerHTML = svgIcon + headingText;
-    if (h.tagName.toLowerCase() === "h4") a.style.paddingLeft = "1.5rem";
+    if (h.tagName.toLowerCase() === "h4") {
+      a.style.paddingLeft = "1.5rem";
+    }
     a.addEventListener("click", e => {
       e.preventDefault();
       const targetElement = document.getElementById(h.id);
       if (targetElement && mainContentScroller) {
-        // Use window for scrolling calculation if it's the primary scroller
         const scroller = (document.documentElement.scrollHeight > window.innerHeight) ? document.documentElement : mainContentScroller;
         const targetRect = targetElement.getBoundingClientRect();
         const scrollToPosition = targetRect.top + scroller.scrollTop - (window.innerHeight * 0.1);
-        
         window.scrollTo({ top: Math.max(0, scrollToPosition), behavior: "smooth" });
         mainContentScroller.scrollTo({ top: Math.max(0, scrollToPosition), behavior: "smooth" });
       }
@@ -85,8 +90,27 @@ function updateAside() {
     const li = document.createElement("li");
     li.appendChild(a);
     asideTocList.appendChild(li);
+    return a; // Return the created link
   });
+
+  // 2. Now, determine which link to highlight.
+  let linkToHighlight = null;
+  for (let i = 0; i < headings.length; i++) {
+    const headingRect = headings[i].getBoundingClientRect();
+    // Check if the heading's top has scrolled past our activation line.
+    if (headingRect.top < activationOffset) {
+      // If it has, it's our current candidate for being active.
+      // We keep checking, so the *last* one that meets this criteria will be selected.
+      linkToHighlight = tocLinks[i];
+    }
+  }
+
+  // 3. Finally, apply the 'active' class to the correct link.
+  if (linkToHighlight) {
+    linkToHighlight.classList.add("active");
+  }
 }
+
 
 function handleSpectreNavScroll() {
   if (!mainContentScroller || !spectreNavLinks) return;
@@ -102,7 +126,9 @@ function handleSpectreNavScroll() {
       }
     }
   });
-  spectreNavLinks.forEach(link => link.classList.toggle("nav-active", link.getAttribute("href") === `#${currentNavId}`));
+  spectreNavLinks.forEach(link => {
+    link.classList.toggle("nav-active", link.getAttribute("href") === `#${currentNavId}`);
+  });
 }
 
 function showFamily(familyIdSuffix, btnEl) {
@@ -110,7 +136,9 @@ function showFamily(familyIdSuffix, btnEl) {
     w.style.display = "none";
     w.classList.remove("active-family-content");
   });
-  document.querySelectorAll(".ship-family-tabs button.family-tab").forEach(t => t.classList.remove("active-family"));
+  document.querySelectorAll(".ship-family-tabs button.family-tab").forEach(t => {
+    t.classList.remove("active-family");
+  });
   const contentToShow = document.getElementById("content-family-" + familyIdSuffix);
   if (contentToShow) {
     contentToShow.style.display = "block";
@@ -144,7 +172,6 @@ function showVariantContent(variantId, btnEl, familyId) {
  * Main initialization function to set up all page listeners.
  */
 function initPageListeners() {
-  // Assign elements to top-level variables.
   asideElement = document.getElementById("section-aside");
   mainContentScroller = document.querySelector(".spectre-post-container > .container");
   spectreNavLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
@@ -154,19 +181,13 @@ function initPageListeners() {
     return;
   }
 
-  // --- THIS IS THE FIX ---
-  // Attach listeners to both window and the container div.
-  // This ensures they fire regardless of which element is scrolling.
   const scrollOptions = { passive: true };
   window.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
   mainContentScroller.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
-
   window.addEventListener("scroll", updateAside, scrollOptions);
   mainContentScroller.addEventListener("scroll", updateAside, scrollOptions);
-
   window.addEventListener("resize", updateAside, scrollOptions);
 
-  // Setup All Tab Listeners
   document.querySelectorAll(".ship-family-tabs .family-tab").forEach(tab => {
     tab.addEventListener('click', () => {
       if (tab.dataset.family) {
@@ -182,13 +203,11 @@ function initPageListeners() {
     });
   });
 
-  // Initialize the view
   const firstFamilyButton = document.querySelector(".ship-family-tabs button.family-tab");
   if (firstFamilyButton && firstFamilyButton.dataset.family) {
     showFamily(firstFamilyButton.dataset.family, firstFamilyButton);
   }
 
-  // Final initial UI update
   updateAside();
   handleSpectreNavScroll();
 }
