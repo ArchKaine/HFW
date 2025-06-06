@@ -1,11 +1,10 @@
 /**
- * HFW Shadow Fleet - scripts.js (v7.1 - Reverted to exclude model viewer control)
- * Manages tab navigation and page interactivity, assumes model viewer is in an iframe.
+ * HFW Shadow Fleet - scripts.js (v8 - Corrected Syntax)
+ * Manages tab navigation and page interactivity. Model viewer is handled by iframe.
  */
 
 // --- Top-level variables for globally accessed DOM elements ---
 let asideElement, mainContentScroller, spectreNavLinks;
-// Note: 'modelViewer' variable is removed as it's no longer controlled by this script.
 
 // --- FUNCTION DEFINITIONS ---
 
@@ -13,10 +12,12 @@ function updateAside() {
   if (!asideElement || !mainContentScroller) return;
   const asideTocList = asideElement.querySelector("ul.aside-toc");
   if (!asideTocList) return;
+
   const svgIcon = '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" style="vertical-align:-0.1em;margin-right:0.8em;opacity:0.7;"><path d="M10 17l5-5-5-5v10z"></path></svg>';
   const activationOffset = window.innerHeight * 0.35;
   const pageSections = Array.from(mainContentScroller.querySelectorAll(":scope > .section"));
   let activeSection = null;
+
   for (let i = pageSections.length - 1; i >= 0; i--) {
     const sec = pageSections[i];
     if (sec.offsetParent === null) continue;
@@ -26,10 +27,13 @@ function updateAside() {
       break;
     }
   }
+
   if (!activeSection && pageSections.length > 0 && pageSections[0].offsetParent !== null && mainContentScroller.scrollTop < 50) {
     activeSection = pageSections[0];
   }
+
   asideTocList.innerHTML = "";
+
   if (!activeSection) {
     const li = document.createElement("li");
     li.textContent = "Scroll to a section.";
@@ -37,6 +41,7 @@ function updateAside() {
     asideTocList.appendChild(li);
     return;
   }
+
   let sourceForHeadings = activeSection;
   if (activeSection.id === "spectre-variants") {
     const activeFamilyContent = activeSection.querySelector(".ship-family-content-wrapper.active-family-content");
@@ -44,7 +49,9 @@ function updateAside() {
       sourceForHeadings = activeFamilyContent.querySelector(".variant-content.active") || activeFamilyContent;
     }
   }
+
   const headings = Array.from(sourceForHeadings.querySelectorAll("h2, h3, h4"));
+
   if (!headings.length) {
     const li = document.createElement("li");
     const titleEl = activeSection.querySelector('h2');
@@ -54,13 +61,18 @@ function updateAside() {
     asideTocList.appendChild(li);
     return;
   }
+
   headings.forEach(h => {
-    if (!h.id) h.id = `<span class="math-inline">\{activeSection\.id\}\-</span>{h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`;
+    if (!h.id) {
+      h.id = `${activeSection.id}-${h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`;
+    }
     const a = document.createElement("a");
     a.href = `#${h.id}`;
     const headingText = Array.from(h.childNodes).filter(n => n.nodeType === Node.TEXT_NODE).map(n => n.textContent.trim()).join(' ').trim() || h.textContent.trim();
     a.innerHTML = svgIcon + headingText;
-    if (h.tagName.toLowerCase() === "h4") a.style.paddingLeft = "1.5rem";
+    if (h.tagName.toLowerCase() === "h4") {
+      a.style.paddingLeft = "1.5rem";
+    }
     a.addEventListener("click", e => {
       e.preventDefault();
       const targetElement = document.getElementById(h.id);
@@ -68,7 +80,10 @@ function updateAside() {
         const scrollerRect = mainContentScroller.getBoundingClientRect();
         const targetRect = targetElement.getBoundingClientRect();
         const scrollToPosition = targetRect.top - scrollerRect.top + mainContentScroller.scrollTop - (window.innerHeight * 0.1);
-        mainContentScroller.scrollTo({ top: Math.max(0, scrollToPosition), behavior: "smooth" });
+        mainContentScroller.scrollTo({
+          top: Math.max(0, scrollToPosition),
+          behavior: "smooth"
+        });
       }
     });
     const li = document.createElement("li");
@@ -86,10 +101,14 @@ function handleSpectreNavScroll() {
     const sec = sectionId.startsWith("#") ? document.getElementById(sectionId.substring(1)) : null;
     if (sec && sec.offsetParent !== null) {
       const rect = sec.getBoundingClientRect();
-      if (rect.top < navActivationOffset) currentNavId = sec.id;
+      if (rect.top < navActivationOffset) {
+        currentNavId = sec.id;
+      }
     }
   });
-  spectreNavLinks.forEach(link => link.classList.toggle("nav-active", link.getAttribute("href") === `#${currentNavId}`));
+  spectreNavLinks.forEach(link => {
+    link.classList.toggle("nav-active", link.getAttribute("href") === `#${currentNavId}`);
+  });
 }
 
 function showFamily(familyIdSuffix, btnEl) {
@@ -97,15 +116,93 @@ function showFamily(familyIdSuffix, btnEl) {
     w.style.display = "none";
     w.classList.remove("active-family-content");
   });
-  document.querySelectorAll(".ship-family-tabs button.family-tab").forEach(t => t.classList.remove("active-family"));
+  document.querySelectorAll(".ship-family-tabs button.family-tab").forEach(t => {
+    t.classList.remove("active-family");
+  });
   const contentToShow = document.getElementById("content-family-" + familyIdSuffix);
   if (contentToShow) {
     contentToShow.style.display = "block";
     contentToShow.classList.add("active-family-content");
   }
-  if (btnEl) btnEl.classList.add("active-family");
+  if (btnEl) {
+    btnEl.classList.add("active-family");
+  }
   const firstVariantButton = contentToShow ? contentToShow.querySelector(".variant-tabs button") : null;
   if (firstVariantButton) {
     const variantId = firstVariantButton.dataset.variantId;
     const familyId = firstVariantButton.dataset.familyId;
-    if (variantId && family
+    if (variantId && familyId) {
+      showVariantContent(variantId, firstVariantButton, familyId);
+    }
+  } else {
+    updateAside();
+  }
+}
+
+function showVariantContent(variantId, btnEl, familyId) {
+  const familyContentWrapper = document.getElementById('content-family-' + familyId);
+  if (!familyContentWrapper) return;
+  familyContentWrapper.querySelectorAll(".variant-content").forEach(c => c.classList.remove("active"));
+  familyContentWrapper.querySelectorAll(".variant-tabs button").forEach(t => t.classList.remove("active"));
+  const contentToShow = document.getElementById(variantId);
+  if (contentToShow) {
+    contentToShow.classList.add("active");
+  }
+  if (btnEl) {
+    btnEl.classList.add("active");
+  }
+  updateAside();
+}
+
+/**
+ * Main initialization function to set up all page listeners.
+ */
+function initPageListeners() {
+  // Assign elements to top-level variables.
+  asideElement = document.getElementById("section-aside");
+  mainContentScroller = document.querySelector(".spectre-post-container > .container");
+  spectreNavLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
+
+  if (!mainContentScroller) {
+    console.error("Main content container not found!");
+    return;
+  }
+
+  // Setup primary scroll and resize listeners.
+  mainContentScroller.addEventListener("scroll", handleSpectreNavScroll, { passive: true });
+  mainContentScroller.addEventListener("scroll", updateAside, { passive: true });
+  window.addEventListener("resize", updateAside, { passive: true });
+
+  // Setup All Tab Listeners with explicit braces for safety.
+  document.querySelectorAll(".ship-family-tabs .family-tab").forEach(tab => {
+    tab.addEventListener('click', () => {
+      if (tab.dataset.family) {
+        showFamily(tab.dataset.family, tab);
+      }
+    });
+  });
+  document.querySelectorAll(".variant-tabs button").forEach(tab => {
+    tab.addEventListener('click', () => {
+      if (tab.dataset.variantId && tab.dataset.familyId) {
+        showVariantContent(tab.dataset.variantId, tab, tab.dataset.familyId);
+      }
+    });
+  });
+
+  // Initialize the view
+  const firstFamilyButton = document.querySelector(".ship-family-tabs button.family-tab");
+  if (firstFamilyButton && firstFamilyButton.dataset.family) {
+    showFamily(firstFamilyButton.dataset.family, firstFamilyButton);
+  }
+
+  // Final initial UI update
+  updateAside();
+  handleSpectreNavScroll();
+}
+
+// --- SCRIPT INITIALIZATION ---
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initPageListeners);
+} else {
+  initPageListeners();
+}
