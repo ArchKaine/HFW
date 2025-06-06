@@ -1,10 +1,9 @@
 /**
- * HFW Shadow Fleet - scripts.js (Corrected & Refactored - v2)
- * Manages all interactive elements of the HFW design document.
+ * HFW Shadow Fleet - scripts.js (Refactored - v3)
+ * Manages all interactive elements of the HFW design document using modern event listeners.
  */
 
 // --- Top-level variables for globally accessed DOM elements ---
-// Declared here, but assigned in initPageListeners to ensure the DOM is ready.
 let asideElement, mainContentScroller, spectreNavLinks, modelViewer;
 
 // --- Model Viewer Data ---
@@ -162,21 +161,14 @@ function showFamily(familyIdSuffix, btnEl) {
     btnEl.classList.add("active-family");
   }
 
+  // Activate the first variant tab using the new data attributes
   if (contentToShow) {
     const firstVariantButton = contentToShow.querySelector(".variant-tabs button");
     if (firstVariantButton) {
-      // This part still needs refactoring in the next step
-      const clickEvent = firstVariantButton.getAttribute('onclick');
-      if (clickEvent) {
-        const matches = clickEvent.match(/'([^']+)'/g);
-        if (matches && matches.length >= 2) {
-          const variantId = matches[0].replace(/'/g, '');
-          const familyIdFromClick = matches[1].replace(/'/g, '');
-          showVariantContent(variantId, firstVariantButton, familyIdFromClick);
-        } else if (matches && matches.length === 1) {
-          const variantId = matches[0].replace(/'/g, '');
-          showVariantContent(variantId, firstVariantButton, familyIdSuffix);
-        }
+      const variantId = firstVariantButton.dataset.variantId;
+      const familyId = firstVariantButton.dataset.familyId;
+      if (variantId && familyId) {
+        showVariantContent(variantId, firstVariantButton, familyId);
       }
     } else {
       updateAside();
@@ -191,22 +183,27 @@ function showVariantContent(variantId, btnEl, familyId) {
   const familyContentWrapper = document.getElementById('content-family-' + familyId);
   if (!familyContentWrapper) return;
 
+  // Deactivate all variant content and tabs within this family
   familyContentWrapper.querySelectorAll(".variant-content").forEach(content => {
-    content.style.display = "none";
+    // We remove the 'active' class. CSS should handle hiding it.
+    // To be safe, we could also do content.style.display = 'none', but class-based is cleaner.
     content.classList.remove("active");
   });
   familyContentWrapper.querySelectorAll(".variant-tabs button").forEach(tab => {
     tab.classList.remove("active");
   });
 
+  // Activate the target variant content and tab
   const contentToShow = document.getElementById(variantId);
   if (contentToShow) {
-    contentToShow.style.display = "block";
+    // We add the 'active' class. CSS should handle making it visible.
     contentToShow.classList.add("active");
   }
   if (btnEl) {
     btnEl.classList.add("active");
   }
+  
+  // Update the aside panel to show headings from the new active variant
   updateAside();
 }
 
@@ -241,8 +238,20 @@ function initPageListeners() {
       }
     });
   });
+  
+  // --- NEW: Setup Ship Variant Tab Listeners ---
+  const variantTabs = document.querySelectorAll(".variant-tabs button");
+  variantTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        const variantId = tab.dataset.variantId;
+        const familyId = tab.dataset.familyId;
+        if (variantId && familyId) {
+            showVariantContent(variantId, tab, familyId);
+        }
+    });
+  });
 
-  // Initialize the view with the first tab active
+  // Initialize the view with the first family and its first variant active
   const firstFamilyButton = document.querySelector(".ship-family-tabs button.family-tab");
   if (firstFamilyButton) {
     const firstFamilyId = firstFamilyButton.dataset.family;
@@ -257,7 +266,6 @@ function initPageListeners() {
 }
 
 // --- SCRIPT INITIALIZATION ---
-// This ensures the initPageListeners function runs once the document is fully parsed.
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initPageListeners);
 } else {
@@ -265,6 +273,6 @@ if (document.readyState === "loading") {
   initPageListeners();
 }
 
-// NOTE: The Model Viewer and other functions like setView, recenter, etc., are not included here
-// as their logic wasn't the source of the error and was omitted for brevity in the original
-// user-provided script. If they use `onclick`, they will need refactoring as well.
+// NOTE: Model Viewer and other functions like setView, recenter, etc., are not included here
+// as they were not part of the original script provided for refactoring and may require
+// their own event listener setups if they use `onclick`.
