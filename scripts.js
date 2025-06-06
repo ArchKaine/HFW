@@ -1,6 +1,6 @@
 /**
- * HFW Shadow Fleet - scripts.js (v8 - Corrected Syntax)
- * Manages tab navigation and page interactivity. Model viewer is handled by iframe.
+ * HFW Shadow Fleet - scripts.js (v9 - Robust Scroll Listeners)
+ * Manages all interactive elements on the HFW design document.
  */
 
 // --- Top-level variables for globally accessed DOM elements ---
@@ -20,7 +20,7 @@ function updateAside() {
 
   for (let i = pageSections.length - 1; i >= 0; i--) {
     const sec = pageSections[i];
-    if (sec.offsetParent === null) continue;
+    if (sec.offsetParent === null) continue; // Skip hidden sections
     const rect = sec.getBoundingClientRect();
     if (rect.top < activationOffset && rect.bottom > activationOffset * 0.2) {
       activeSection = sec;
@@ -28,7 +28,7 @@ function updateAside() {
     }
   }
 
-  if (!activeSection && pageSections.length > 0 && pageSections[0].offsetParent !== null && mainContentScroller.scrollTop < 50) {
+  if (!activeSection && pageSections.length > 0 && pageSections[0].offsetParent !== null && (mainContentScroller.scrollTop < 50 || window.scrollY < 50)) {
     activeSection = pageSections[0];
   }
 
@@ -63,27 +63,23 @@ function updateAside() {
   }
 
   headings.forEach(h => {
-    if (!h.id) {
-      h.id = `${activeSection.id}-${h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`;
-    }
+    if (!h.id) h.id = `${activeSection.id}-${h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`;
     const a = document.createElement("a");
     a.href = `#${h.id}`;
     const headingText = Array.from(h.childNodes).filter(n => n.nodeType === Node.TEXT_NODE).map(n => n.textContent.trim()).join(' ').trim() || h.textContent.trim();
     a.innerHTML = svgIcon + headingText;
-    if (h.tagName.toLowerCase() === "h4") {
-      a.style.paddingLeft = "1.5rem";
-    }
+    if (h.tagName.toLowerCase() === "h4") a.style.paddingLeft = "1.5rem";
     a.addEventListener("click", e => {
       e.preventDefault();
       const targetElement = document.getElementById(h.id);
       if (targetElement && mainContentScroller) {
-        const scrollerRect = mainContentScroller.getBoundingClientRect();
+        // Use window for scrolling calculation if it's the primary scroller
+        const scroller = (document.documentElement.scrollHeight > window.innerHeight) ? document.documentElement : mainContentScroller;
         const targetRect = targetElement.getBoundingClientRect();
-        const scrollToPosition = targetRect.top - scrollerRect.top + mainContentScroller.scrollTop - (window.innerHeight * 0.1);
-        mainContentScroller.scrollTo({
-          top: Math.max(0, scrollToPosition),
-          behavior: "smooth"
-        });
+        const scrollToPosition = targetRect.top + scroller.scrollTop - (window.innerHeight * 0.1);
+        
+        window.scrollTo({ top: Math.max(0, scrollToPosition), behavior: "smooth" });
+        mainContentScroller.scrollTo({ top: Math.max(0, scrollToPosition), behavior: "smooth" });
       }
     });
     const li = document.createElement("li");
@@ -106,9 +102,7 @@ function handleSpectreNavScroll() {
       }
     }
   });
-  spectreNavLinks.forEach(link => {
-    link.classList.toggle("nav-active", link.getAttribute("href") === `#${currentNavId}`);
-  });
+  spectreNavLinks.forEach(link => link.classList.toggle("nav-active", link.getAttribute("href") === `#${currentNavId}`));
 }
 
 function showFamily(familyIdSuffix, btnEl) {
@@ -116,9 +110,7 @@ function showFamily(familyIdSuffix, btnEl) {
     w.style.display = "none";
     w.classList.remove("active-family-content");
   });
-  document.querySelectorAll(".ship-family-tabs button.family-tab").forEach(t => {
-    t.classList.remove("active-family");
-  });
+  document.querySelectorAll(".ship-family-tabs button.family-tab").forEach(t => t.classList.remove("active-family"));
   const contentToShow = document.getElementById("content-family-" + familyIdSuffix);
   if (contentToShow) {
     contentToShow.style.display = "block";
@@ -131,9 +123,7 @@ function showFamily(familyIdSuffix, btnEl) {
   if (firstVariantButton) {
     const variantId = firstVariantButton.dataset.variantId;
     const familyId = firstVariantButton.dataset.familyId;
-    if (variantId && familyId) {
-      showVariantContent(variantId, firstVariantButton, familyId);
-    }
+    if (variantId && familyId) showVariantContent(variantId, firstVariantButton, familyId);
   } else {
     updateAside();
   }
@@ -145,12 +135,8 @@ function showVariantContent(variantId, btnEl, familyId) {
   familyContentWrapper.querySelectorAll(".variant-content").forEach(c => c.classList.remove("active"));
   familyContentWrapper.querySelectorAll(".variant-tabs button").forEach(t => t.classList.remove("active"));
   const contentToShow = document.getElementById(variantId);
-  if (contentToShow) {
-    contentToShow.classList.add("active");
-  }
-  if (btnEl) {
-    btnEl.classList.add("active");
-  }
+  if (contentToShow) contentToShow.classList.add("active");
+  if (btnEl) btnEl.classList.add("active");
   updateAside();
 }
 
@@ -168,12 +154,19 @@ function initPageListeners() {
     return;
   }
 
-  // Setup primary scroll and resize listeners.
-  mainContentScroller.addEventListener("scroll", handleSpectreNavScroll, { passive: true });
-  mainContentScroller.addEventListener("scroll", updateAside, { passive: true });
-  window.addEventListener("resize", updateAside, { passive: true });
+  // --- THIS IS THE FIX ---
+  // Attach listeners to both window and the container div.
+  // This ensures they fire regardless of which element is scrolling.
+  const scrollOptions = { passive: true };
+  window.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
+  mainContentScroller.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
 
-  // Setup All Tab Listeners with explicit braces for safety.
+  window.addEventListener("scroll", updateAside, scrollOptions);
+  mainContentScroller.addEventListener("scroll", updateAside, scrollOptions);
+
+  window.addEventListener("resize", updateAside, scrollOptions);
+
+  // Setup All Tab Listeners
   document.querySelectorAll(".ship-family-tabs .family-tab").forEach(tab => {
     tab.addEventListener('click', () => {
       if (tab.dataset.family) {
