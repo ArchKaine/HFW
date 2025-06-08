@@ -1,0 +1,66 @@
+[
+    {
+        "type": "section",
+        "filename": "concept-image.html"
+    },
+    {
+        "type": "section",
+        "filename": "genesis.html"
+    },
+    {
+        "type": "section",
+        "filename": "hfw-overview.html"
+    },
+    {
+        "type": "section",
+        "filename": "founding-docs.html"
+    },
+    {
+        "type": "section",
+        "filename": "specs.html"
+    },
+    {
+        "type": "skipped",
+        "id": "spectre-viewer-wrapper"
+    },
+    {
+        "type": "section",
+        "filename": "variants.html"
+    },
+    {
+        "type": "section",
+        "filename": "stealth-doctrine.html"
+    },
+    {
+        "type": "section",
+        "filename": "scenarios.html"
+    },
+    {
+        "type": "section",
+        "filename": "interior.html"
+    },
+    {
+        "type": "section",
+        "filename": "talent.html"
+    },
+    {
+        "type": "section",
+        "filename": "comparison.html"
+    },
+    {
+        "type": "section",
+        "filename": "environment.html"
+    },
+    {
+        "type": "section",
+        "filename": "testimonials.html"
+    },
+    {
+        "type": "section",
+        "filename": "revenant-acquisition.html"
+    },
+    {
+        "type": "section",
+        "filename": "conclusion.html"
+    }
+]
