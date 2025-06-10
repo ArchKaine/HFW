@@ -3,40 +3,27 @@
         HFW Ship Variants<a class="back-to-top" href="#spectre-top">[Back to Top]</a>
     </h2>
     <p>
-        Select a ship family or a unique capital-class vessel to view its specialized variants developed by Hephaestus Forge Works. Each is tailored for specific roles within HFW's covert operations doctrine.
+        Select a ship family or unique asset to view its specialized variants developed by
+        Hephaestus Forge Works. Each is tailored for specific roles
+        within HFW's covert operations doctrine.
     </p>
 
     <div class="ship-family-tabs">
-        <button class="family-tab styled-button" data-family="spectre">Spectre Series</button>
+        <button class="family-tab styled-button active-family" data-family="spectre">Spectre Series</button>
         <button class="family-tab styled-button" data-family="eidolon">Eidolon Series</button>
         <button class="family-tab styled-button" data-family="phantom">Valkyrie Phantom</button>
         <button class="family-tab styled-button" data-family="pathfinder">Pathfinder MKII</button>
         <button class="family-tab styled-button" data-family="daemon">Daemon Project</button>
-        <button class="family-tab styled-button" data-family="atlas">Atlas-class</button>
         <button class="family-tab styled-button" data-family="erebus">Erebus-Prime</button>
     </div>
 
-    <div class="section" id="spectre-variants">
-    <h2>
-        HFW Ship Variants<a class="back-to-top" href="#spectre-top">[Back to Top]</a>
-    </h2>
-    <p>
-        Select a ship family or a unique capital-class vessel to view its specialized variants developed by Hephaestus Forge Works. Each is tailored for specific roles within HFW's covert operations doctrine.
-    </p>
-
-    <div class="ship-family-tabs">
-        <button class="family-tab styled-button" data-family="spectre">Spectre Series</button>
-        <button class="family-tab styled-button" data-family="eidolon">Eidolon Series</button>
-        <button class="family-tab styled-button" data-family="phantom">Valkyrie Phantom</button>
-        <button class="family-tab styled-button" data-family="pathfinder">Pathfinder MKII</button>
-        <button class="family-tab styled-button" data-family="daemon">Daemon Project</button>
-        <button class="family-tab styled-button" data-family="atlas">Atlas-class</button>
-        <button class="family-tab styled-button" data-family="erebus">Erebus-Prime</button>
-    </div>
-
-    <div class="ship-family-content-wrapper" id="content-family-spectre" style="display: none;">
-        <h3>The Spectre Project: Forging the Scalpel</h3>
-        <p>The Spectre was the first major project undertaken by the newly operational Hephaestus Forge Works. Formally commissioned in 2940 by a directive from Imperator Kelos Costigan, it was designed to be the UEE's "scalpel" against asymmetric threats. Its core innovation is a multi-role doctrine, deploying four specialized variants as a single, cohesive force.</p>
+    <div class="ship-family-content-wrapper active-family-content" id="content-family-spectre">
+        <p>
+            The Anvil Spectre project introduces a new echelon of covert
+            warfare vessels <cite></cite>. The operational doctrine emphasizes the
+            coordinated deployment of the Spectre family, allowing them to
+            tackle complex threats through combined arms tactics <cite></cite>.
+        </p>
         <div class="variant-tabs spectre-variant-tabs">
             <button class="styled-button" data-variant-id="variant-spectre-shadow" data-family-id="spectre">Spectre Shadow</button>
             <button class="styled-button" data-variant-id="variant-spectre-strike" data-family-id="spectre">Spectre Strike</button>
@@ -45,69 +32,100 @@
             <button class="styled-button" data-variant-id="variant-spectre-revenant" data-family-id="spectre">Spectre Revenant</button>
         </div>
 
-        <div class="variant-content" id="variant-spectre-shadow">
-            <h4>Spectre Shadow (Stealth/Electronic Warfare)</h4>
-            <p><strong>Role:</strong> The premier stealth platform and information warfare hub. Designed for deep infiltration, intelligence gathering, data hacking, and providing an electronic warfare umbrella for other HFW assets.</p>
-            <p><strong>Description:</strong> The Shadow is HFW's truest "ghost." It is designed for persistent, long-duration operations deep within hostile territory. It fights not with overwhelming firepower, but with data, deception, and darkness, turning an enemy's own sensor network against them.</p>
-            <h4>Key Features & Systems:</h4>
+        <div class="variant-content active" id="variant-spectre-shadow">
+            <h3>Spectre Shadow (Stealth/Electronic Warfare)</h3>
+            <p><strong>Role:</strong> Advanced stealth infiltration, electronic warfare, intelligence gathering, and signature masking <cite></cite>. The premier stealth platform of the line <cite></cite>.</p>
+            <h4>Key Features &amp; Systems:</h4>
             <ul>
-                <li><strong>Pinnacle Stealth Suite:</strong> Features the exclusive Adaptive Countershading system, a sophisticated EW package running on a dedicated Size 2 computer blade, and enhanced acoustic dampening.</li>
-                <li><strong>Data Warfare:</strong> Equipped with advanced data-interception tools and remote hacking transmitters.</li>
-                <li><strong>Thermal Obscurant Launchers:</strong> Modified turret emplacements deploy "hot smoke," creating a massive thermal bloom to decoy heat-seeking ordnance and break sensor locks.</li>
-                <li><strong>Armament:</strong> 2x forward-firing Size 5 Railguns for self-defense or opportunistic strikes.</li>
+                <li><strong>Unrivaled Stealth:</strong> Represents the pinnacle of HFW's signature management, integrating next-generation materials with active systems like adaptive countershading, acoustic dampening, and sensor scrambling <cite></cite>.</li>
+                <li><strong>Dominant EW:</strong> Features a powerful electronic warfare suite (dedicated Size 2 component) for jamming, masking friendly vessels, and deploying electronic deception <cite></cite>.</li>
+                <li><strong>Data Hacking:</strong> Capable of remotely hacking enemy systems <cite></cite>.</li>
+                <li><strong>Thermal Obscurant Launchers:</strong> Deploys "hot smoke" to break sensor locks, utilizing modified Incendiary Turret emplacements <cite></cite>.</li>
+                <li><strong>Drones:</strong> Deploys Reconnaissance, Electronic Warfare, and Data Link Drones <cite></cite>.</li>
+            </ul>
+            <h4>Armament:</h4>
+            <ul>
+                <li>2x forward-firing Size 5 Railguns for opportunistic strikes <cite></cite>.</li>
+                <li>Potential for Anti-Radiation Missiles (ARMs) supported by an integrated autoloader system <cite></cite>.</li>
             </ul>
         </div>
         <div class="variant-content" id="variant-spectre-strike">
-            <h4>Spectre Strike (Heavy Attack & Ground Support)</h4>
-            <p><strong>Role:</strong> A dedicated heavy strike platform that uses stealth to achieve the perfect attack vector before delivering a devastating, overwhelming blow.</p>
-            <p><strong>Description:</strong> The Strike embodies the principle of decisive violence from an unexpected direction. Its stealth systems, while less persistent than the Shadow's, are sufficient to get it into position. Once it opens fire, its objective is total annihilation of the target.</p>
-            <h4>Key Features & Systems:</h4>
+            <h3>Spectre Strike (Heavy Stealth Attack/Ground Support)</h3>
+            <p><strong>Role:</strong> Delivering powerful, targeted strikes against ships and ground installations using stealth for insertion <cite></cite>.</p>
+            <h4>Key Features &amp; Systems:</h4>
             <ul>
-                <li><strong>Overwhelming Firepower:</strong> A formidable forward-facing battery of 2x Size 5 and 2x Size 4 Railguns, capable of using specialized HFW Penetrator Munitions.</li>
-                <li><strong>Railgun Overcharge:</strong> Experimental capacitors allow for a single, terrifyingly powerful shot that generates immense heat and a massive signature bloom—a "finishing move."</li>
-                <li><strong>Ground Attack Specialist:</strong> Equipped with more numerous, fast-tracking Incendiary Turrets for saturating ground targets.</li>
+                <li><strong>Stealth:</strong> Incorporates moderate signature reduction sufficient for positional advantage before engaging. Activation of primary weapons generates a significant signature bloom <cite></cite>.</li>
+                <li><strong>Railgun Overcharge:</strong> Specialized capacitors allow a single, high-power shot at the cost of extreme heat and a massive signature bloom <cite></cite>.</li>
+                <li><strong>Ground Attack:</strong> Features a more prominent array of Incendiary Turrets for focused damage on ground assets <cite></cite>.</li>
+                <li><strong>Drones:</strong> Deploys Targeting and Defense Suppression Drones <cite></cite>.</li>
+            </ul>
+             <h4>Armament:</h4>
+            <ul>
+                <li>2x Size 5 forward-firing Railguns <cite></cite>.</li>
+                <li>2x Size 4 forward-firing Railguns <cite></cite>.</li>
             </ul>
         </div>
         <div class="variant-content" id="variant-spectre-lockdown">
-            <h4>Spectre Lockdown (Quantum Interdiction)</h4>
-            <p><strong>Role:</strong> Strategic battlefield control by trapping enemy vessels and preventing quantum travel.</p>
-            <p><strong>Description:</strong> By controlling the flow of battle on a strategic level, the Lockdown creates an inescapable cage in the middle of empty space. It uses its stealth to covertly position itself at a key jump point, waiting for the perfect moment to spring its trap.</p>
-            <h4>Key Features & Systems:</h4>
+            <h3>Spectre Lockdown (Interdiction/Quantum Enforcement)</h3>
+            <p><strong>Role:</strong> Quantum Enforcement and Interdiction <cite></cite>.</p>
+            <h4>Key Features &amp; Systems:</h4>
             <ul>
-                <li><strong>Quantum Enforcement Device (QED):</strong> Its core is a powerful, long-range Size 3 QED capable of generating a quantum snare large and strong enough to pull multiple ships from quantum travel.</li>
-                <li><strong>Armament:</strong> 1x QED (Size 3), supported by 2x forward-firing Size 5 Railguns to engage snared targets.</li>
+                <li><strong>Quantum Enforcement:</strong> Equipped with a Quantum Enforcement Device (QED) with snare capability, likely a Size 3 component <cite></cite>.</li>
+                <li><strong>Stealth:</strong> Features good signature reduction for covert QED deployment, though QED activation creates a substantial, temporary signature <cite></cite>.</li>
+            </ul>
+            <h4>Armament:</h4>
+            <ul>
+                <li>1x Quantum Enforcement Device <cite></cite>.</li>
+                <li>2x forward-firing Size 5 Railguns <cite></cite>.</li>
+                <li>Potential for Anti-Radiation Missiles (ARMs) supported by an integrated autoloader system <cite></cite>.</li>
             </ul>
         </div>
         <div class="variant-content" id="variant-spectre-pulse">
-            <h4>Spectre Pulse (Systems Disablement)</h4>
-            <p><strong>Role:</strong> HFW's non-lethal solution. The Pulse is designed to disable, disrupt, and neutralize enemy vessels without destroying them, making it the ideal tool for capture, boarding actions, and asset denial.</p>
-            <p><strong>Description:</strong> The Pulse is a master of electronic and energy warfare, but where the Shadow is subtle, the Pulse is a brute. It overwhelms enemy systems with raw power, leaving them dead in the water.</p>
-            <h4>Key Features & Systems:</h4>
+            <h3>Spectre Pulse (EMP/Electronic Warfare)</h3>
+            <p><strong>Role:</strong> Electronic Warfare and Target Disablement via EMP and Distortion weapons <cite></cite>.</p>
+            <h4>Key Features &amp; Systems:</h4>
             <ul>
-                <li><strong>EMP Warfare:</strong> Built around a powerful, wide-arc Size 3 EMP generator capable of being "focused" for greater range.</li>
-                <li><strong>Distortion & Torpedoes:</strong> Features 2x Size 5 Distortion Cannons to strip shields, supported by four integrated launch tubes carrying a payload of 24x Size 5 EMP Torpedoes.</li>
-                <li><strong>Lethal Backup:</strong> For targets that must be destroyed, it retains 2x Size 4 Railguns.</li>
+                <li><strong>EMP Warfare:</strong> Features a powerful EMP device (Likely a Size 3 component) capable of synchronized output <cite></cite>.</li>
+                <li><strong>Stealth:</strong> Moderate signature reduction focused on minimizing detection prior to system use. Weapon and torpedo use generates significant signatures <cite></cite>.</li>
+            </ul>
+            <h4>Armament:</h4>
+            <ul>
+                <li>2x Size 5 Distortion Cannons <cite></cite>.</li>
+                <li>4x Size 5 EMP Torpedo Launch Ports (24 torpedoes total) with integrated autoloading system <cite></cite>.</li>
+                <li>2x Size 4 Railguns for lethal backup <cite></cite>.</li>
             </ul>
         </div>
         <div class="variant-content" id="variant-spectre-revenant">
-            <h4>Spectre Revenant (Heavy Interceptor/Light Destroyer)</h4>
-            <p><strong>Classification:</strong> Light Destroyer / Heavy Interceptor</p>
-            <p><strong>Design Philosophy:</strong> The Spectre Revenant project was initiated by HFW as a parallel, even more highly classified effort to create the ultimate sentinel for The Forge. It is not merely a variant, but a significant scaling-up of the Spectre's core technologies to a 121-meter frame, designed to neutralize capital-class threats.</p>
-            <h5>General Specifications & Key Features</h5>
+            <h3>Spectre Revenant (Heavy Interceptor/Light Destroyer)</h3>
+            <p>Initiated by HFW as the ultimate sentinel for the Forge's perimeter <cite></cite>. Represents HFW's triumph in achieving Shadow-class stealth on a platform of its unprecedented size (121m) <cite></cite>.</p>
+            <p><strong>Role:</strong> Heavy Interceptor/Light Destroyer. Primary role is the main line of defense for the HFW base, eliminating capital ships <cite></cite>.</p>
+            <h4>Key Design Features &amp; Systems:</h4>
             <ul>
-                <li><strong>Dimensions:</strong> Length: 121m | Beam: 84+m | Height: 20m (23m gear down)</li>
-                <li><strong>Crew Complement:</strong> 3–5 (average 3), enabled by advanced HFW automation.</li>
-                <li><strong>Cargo Capacity:</strong> ~270 SCU, capable of carrying up to three Ursa rovers.</li>
-                <li><strong>Dual Combat Doctrine:</strong> Engineered for both long-range precision sniping and overwhelming close-quarters "knife fights."</li>
+                <li><strong>Dual Combat Doctrine:</strong> Supports both long-range engagement and close-quarters 'knife-fight' range combat <cite></cite>.</li>
+                <li><strong>Transport Capacity:</strong> Capacity for 270 SCU of cargo, capable of transporting up to three Ursa rovers <cite></cite>.</li>
+                <li><strong>Crew:</strong> Operates with a crew of 3-5 (average 3) <cite></cite>.</li>
             </ul>
-            <h5>The Phoenix Protocol (Pilot Training Program)</h5>
-            <p>Due to its immense power and complexity, pilots for the Revenant are trained using the **"Phoenix Protocol"**—a radical fusion of neural interface technology and a state-of-the-art regeneration facility that allows for consequence-reduced learning from "fatal" combat simulations.</p>
+            <h4>Armament:</h4>
+            <ul>
+                <li><strong>Forward-Facing:</strong> 4x Size 6 Railguns and 4x Size 5 Railguns <cite></cite>.</li>
+                <li><strong>Turrets:</strong> 6x Quad-mounted turrets, each mounting Size 5 Railguns (24 total) <cite></cite>.</li>
+                <li><strong>Point Defense:</strong> 8x Dual Point Defense Cannons (Size 3), totaling 16 PDCs <cite></cite>.</li>
+            </ul>
+            <h4>Pilot Training Program (Phoenix Protocol)</h4>
+            <p>Pilots for the Revenant must undergo the "Phoenix Protocol" <cite></cite>. This is a radical fusion of neural interface technology and a state-of-the-art regeneration facility that creates an environment indistinguishable from reality, allowing pilots to learn from "fatal" combat simulations without permanent consequence <cite></cite>.</p>
         </div>
     </div>
-    
+
     <div class="ship-family-content-wrapper" id="content-family-eidolon" style="display: none;">
-        <h3>The Anvil Eidolon Series: Agile Shadows for Close Support</h3>
-        <p>While Spectres provide deep infiltration and strategic strikes, the Eidolons fill the crucial role of agile, unseen wingmen, designed to operate seamlessly alongside them and bolster the defenses of The Forge. Uniquely for a fighter, it features a full interior for long-duration missions.</p>
+        <h4>The Anvil Eidolon Series: Agile Shadows for Close Support</h4>
+        <p>Following the successful deployment of the Spectre series, HFW recognized a critical gap for an agile escort and rapid interceptor <cite></cite>. HFW engineers were tasked with scaling down Spectre technologies into a compact, single-pilot fighter frame to create the Eidolon: the invisible hand supporting the invisible hammer <cite></cite>.</p>
+        <h4>A. General Specifications &amp; Key Features (Base Eidolon)</h4>
+        <ul>
+            <li><strong>Dimensions:</strong> Length: 33.7m, Width: 31.4m, Height: 7m <cite></cite>.</li>
+            <li><strong>Full Interior:</strong> Designed for long-duration covert operations, featuring a bed, food prep station, 2-4 SCU storage, shower/toilet facility, and a suit locker <cite></cite>.</li>
+            <li><strong>Armament Philosophy:</strong> All weapons are retractable or concealed <cite></cite>. All variants have at least four fixed weapons and can carry at least 4x Size 5 torpedoes <cite></cite>. All variants are Anti-Radiation Missile (ARM) capable <cite></cite>.</li>
+            <li><strong>Escape Enhancement:</strong> All variants feature a miniaturized Thermal Obscurant Launcher <cite></cite>.</li>
+        </ul>
         <div class="variant-tabs eidolon-variant-tabs">
             <button class="styled-button" data-variant-id="variant-eidolon-shadow" data-family-id="eidolon">Eidolon Shadow</button>
             <button class="styled-button" data-variant-id="variant-eidolon-strike" data-family-id="eidolon">Eidolon Strike</button>
@@ -115,236 +133,153 @@
             <button class="styled-button" data-variant-id="variant-eidolon-pulse" data-family-id="eidolon">Eidolon Pulse</button>
             <button class="styled-button" data-variant-id="variant-eidolon-revenant" data-family-id="eidolon">Eidolon Revenant</button>
         </div>
-        <div class="variant-content" id="variant-eidolon-shadow">
-            <h4>Eidolon Shadow (Stealth Recon & EW Escort)</h4>
-            <p><strong>Role:</strong> Advanced stealth reconnaissance, electronic warfare, and dedicated escort. Features a sophisticated, miniaturized Size 2 Electronic Warfare Suite.</p>
-            <p><strong>Armament:</strong> 4x fixed Size 3 Railguns, housed in retractable stealth compartments. Capacity for 4x Size 5 torpedoes in internal bays.</p>
+        <div class="variant-content active" id="variant-eidolon-shadow">
+            <h3>Eidolon Shadow (Stealth Recon &amp; EW Escort)</h3>
+            <p><strong>Role:</strong> The premier stealth variant of the line, for scouting, electronic warfare, and providing an EW screen for larger ships <cite></cite>.</p>
+            <p><strong>Key Features:</strong> Features a sophisticated, miniaturized Size 2 Electronic Warfare Suite <cite></cite>.</p>
+            <p><strong>Armament:</strong> 4x fixed Size 3 Railguns and capacity for 4x Size 5 Torpedoes <cite></cite>.</p>
         </div>
         <div class="variant-content" id="variant-eidolon-strike">
-            <h4>Eidolon Strike (High-Speed Interdiction & Strike Escort)</h4>
-            <p><strong>Role:</strong> A dedicated heavy strike fighter blending agility with focused firepower. Features enhanced power distribution for a "Railgun Overcharge" ability.</p>
-            <p><strong>Armament:</strong> 2x fixed Size 4 railguns and 2x fixed Size 3 railguns, all utilizing retractable housings. Capacity for 4x Size 5 torpedoes.</p>
+             <h3>Eidolon Strike (High-Speed Interdiction &amp; Strike Escort)</h3>
+            <p><strong>Role:</strong> A heavy strike fighter blending agility with focused firepower for rapid, targeted strikes <cite></cite>.</p>
+            <p><strong>Key Features:</strong> Features enhanced power distribution for a "Railgun Overcharge" ability <cite></cite>.</p>
+            <p><strong>Armament:</strong> 2x fixed Size 4 Railguns, 2x fixed Size 3 Railguns, and capacity for 4x Size 5 Torpedoes <cite></cite>.</p>
         </div>
         <div class="variant-content" id="variant-eidolon-lockdown">
-            <h4>Eidolon Lockdown (Point-Defense & Interdiction Support)</h4>
-            <p><strong>Role:</strong> Providing localized quantum enforcement and point defense for capital assets. Equipped with a miniaturized Size 2 QED.</p>
-            <p><strong>Armament:</strong> 4x fixed Size 3 railguns, and 2x Size 1 point defense cannons. Capacity for 4x Size 5 torpedoes.</p>
+            <h3>Eidolon Lockdown (Point-Defense &amp; Interdiction Support)</h3>
+            <p><strong>Role:</strong> Providing localized quantum enforcement and point defense for capital assets <cite></cite>.</p>
+            <p><strong>Key Features:</strong> Equipped with a miniaturized Size 2 Quantum Enforcement Device (QED) with limited snare capability <cite></cite>.</p>
+            <p><strong>Armament:</strong> 4x fixed Size 3 Railguns, 2x Size 1 Point Defense Cannons, and capacity for 4x Size 5 Torpedoes <cite></cite>.</p>
         </div>
         <div class="variant-content" id="variant-eidolon-pulse">
-            <h4>Eidolon Pulse (EM/EW Suppression & Electronic Cover)</h4>
-            <p><strong>Role:</strong> Target disablement via powerful non-lethal EMP and distortion effects. Built around a miniaturized Size 2 EMP Device.</p>
-            <p><strong>Armament:</strong> 2x fixed Size 3 distortion cannons and 2x fixed Size 3 railguns. Capacity for 4x Size 5 torpedoes.</p>
+            <h3>Eidolon Pulse (EM/EW Suppression &amp; Electronic Cover)</h3>
+            <p><strong>Role:</strong> Target disablement via powerful non-lethal EMP and distortion effects <cite></cite>.</p>
+            <p><strong>Key Features:</strong> Built around a miniaturized Size 2 EMP Device <cite></cite>.</p>
+            <p><strong>Armament:</strong> 2x fixed Size 3 Distortion Cannons, 2x fixed Size 3 Railguns, and capacity for 4x Size 5 Torpedoes <cite></cite>.</p>
         </div>
         <div class="variant-content" id="variant-eidolon-revenant">
-            <h4>Eidolon Revenant (Heavy Interceptor & Capital Escort)</h4>
-            <p><strong>Role:</strong> The ultimate heavy interceptor of the series, designed to support the Spectre Revenant in assaulting capital ships. It hits harder than the Eidolon Strike.</p>
-            <p><strong>Armament:</strong> 2x fixed Size 5 railguns and 2x fixed Size 4 railguns. Capacity for 4x Size 5 torpedoes for anti-capital punch.</p>
+            <h3>Eidolon Revenant (Heavy Interceptor &amp; Capital Escort)</h3>
+            <p><strong>Role:</strong> The ultimate heavy interceptor of the series, designed to support the Spectre Revenant against capital-grade threats <cite></cite>. It hits harder than the Eidolon Strike <cite></cite>.</p>
+            <p><strong>Key Features:</strong> Achieves Shadow-class stealth at a fighter scale and features enhanced power and cooling for sustained combat <cite></cite>.</p>
+            <p><strong>Armament:</strong> 2x fixed Size 5 Railguns, 2x fixed Size 4 Railguns, and capacity for 4x Size 5 Torpedoes <cite></cite>.</p>
         </div>
     </div>
     
     <div class="ship-family-content-wrapper" id="content-family-phantom" style="display: none;">
-         <h3>The Valkyrie Phantom: Stealthy Insertion</h3>
-         <p>Recognizing the need for covert ground operations, HFW re-engineered the robust Anvil Valkyrie, stripping non-essential components and integrating their own advanced stealth and armament packages internally at The Forge.</p>
-         <div class="variant-tabs phantom-variant-tabs">
-            <button class="styled-button" data-variant-id="variant-phantom-base" data-family-id="phantom">Base</button>
-            <button class="styled-button" data-variant-id="variant-phantom-pathfinder" data-family-id="phantom">Pathfinder</button>
-            <button class="styled-button" data-variant-id="variant-phantom-breacher" data-family-id="phantom">Breacher</button>
-            <button class="styled-button" data-variant-id="variant-phantom-medical" data-family-id="phantom">Medical</button>
-         </div>
-        <div class="variant-content" id="variant-phantom-base">
-            <h4>Valkyrie Phantom (Base)</h4>
-            <p><strong>Role:</strong> Stealth Assault Dropship & Gunship. Delivers 20 operators and an Ursa-class vehicle into contested territory with minimal detection. Retains the Valkyrie's inherent toughness and a significant armament for fire support.</p>
-            <p><strong>Armament:</strong> Features 2x Size 2 pilot guns, two Size 5 remote wing turrets, and two Size 4 top/bottom remote turrets, all retractable. Also retains two Size 1 door guns.</p>
+        <h4>The Anvil Valkyrie Phantom: Stealthy Insertion</h4>
+        <p>The Valkyrie Phantom was born from the necessity to insert and extract ground personnel and assets without compromising stealth <cite></cite>. HFW adopted the proven Valkyrie frame, stripped non-essential components, and performed all subsequent modification and production internally at The Forge <cite></cite>.</p>
+        <div class="variant-tabs phantom-variant-tabs">
+            <button class="styled-button" data-variant-id="variant-phantom-base" data-family-id="phantom">Valkyrie Phantom (Base)</button>
+            <button class="styled-button" data-variant-id="variant-phantom-pathfinder" data-family-id="phantom">Phantom Pathfinder</button>
+            <button class="styled-button" data-variant-id="variant-phantom-breacher" data-family-id="phantom">Phantom Breacher</button>
+            <button class="styled-button" data-variant-id="variant-phantom-medical" data-family-id="phantom">Phantom Medical</button>
+        </div>
+        <div class="variant-content active" id="variant-phantom-base">
+            <h3>Anvil Valkyrie Phantom (Base)</h3>
+            <p><strong>Role:</strong> A Stealth Assault Dropship and Special Operations Transport designed to deliver a full contingent of troops (20 operators) and a ground vehicle (up to Ursa Rover size) into hostile territory with a minimal chance of detection <cite></cite>.</p>
+            <h4>Armament:</h4>
+            <ul>
+                <li><strong>Pilot Fixed Guns:</strong> 2x Size 2 Hardpoints in retractable housings <cite></cite>.</li>
+                <li><strong>Remote Wing Turrets:</strong> 2x Size 5 Remote Turrets in retractable stealth pods, typically with Size 4 repeaters <cite></cite>.</li>
+                <li><strong>Retractable Remote Turrets (Top/Bottom):</strong> 2x Size 4 Retractable Remote Turrets, each mounting 2x Size 3 guns, replacing the original manned turrets <cite></cite>.</li>
+                <li><strong>Missiles:</strong> All standard missile hardpoints have been removed by HFW to prioritize a low-observable profile <cite></cite>.</li>
+            </ul>
         </div>
         <div class="variant-content" id="variant-phantom-pathfinder">
-            <h4>Valkyrie Phantom Pathfinder</h4>
-            <p><strong>Role:</strong> Stealthy Reconnaissance and Forward Observation.</p>
-            <p><strong>Description:</strong> This variant precedes the main insertion force, providing clandestine "eyes on target." It sacrifices some troop capacity for an enhanced sensor array, long-range comms, and expanded recon drone capacity.</p>
+            <h3>Valkyrie Phantom Pathfinder</h3>
+            <p><strong>Role:</strong> Stealthy Reconnaissance and Forward Observation <cite></cite>.</p>
+            <p><strong>Description:</strong> This variant is designed to precede the main force, gathering critical intelligence <cite></cite>. It sacrifices some troop/storage space for an enhanced sensor array, long-range communication systems, and an expanded capacity for deployable reconnaissance drones <cite></cite>.</p>
         </div>
         <div class="variant-content" id="variant-phantom-breacher">
-            <h4>Valkyrie Phantom Breacher</h4>
-            <p><strong>Role:</strong> Covert Entry and Assault Facilitation.</p>
-            <p><strong>Description:</strong> The Breacher is a specialized tool for creating an entrance where none exists. It is tailored for bypassing hardened defenses and is equipped with heavy-duty plasma torches and seismic charges.</p>
+            <h3>Valkyrie Phantom Breacher</h3>
+            <p><strong>Role:</strong> Covert Entry and Assault Facilitation <cite></cite>.</p>
+            <p><strong>Description:</strong> Tailored for bypassing hardened defenses, its internal space is reconfigured to carry specialized breaching equipment, heavy explosive charges, and automated defense suppression systems <cite></cite>.</p>
         </div>
         <div class="variant-content" id="variant-phantom-medical">
-            <h4>Valkyrie Phantom Medical</h4>
-            <p><strong>Role:</strong> Combat Search and Rescue (CSAR) and Medical Extraction.</p>
-            <p><strong>Description:</strong> This variant prioritizes casualty collection. Its interior is modified into a mobile trauma bay with Tier 3 medical beds, stasis pods, and specialized extraction equipment like a rescue hoist.</p>
+            <h3>Valkyrie Phantom Medical</h3>
+            <p><strong>Role:</strong> Combat Search and Rescue (CSAR) and Medical Extraction <cite></cite>.</p>
+            <p><strong>Description:</strong> This variant prioritizes casualty collection and medical care in hot zones <cite></cite>. Its interior is modified into a mobile trauma bay with advanced medical facilities and specialized extraction equipment <cite></cite>.</p>
         </div>
     </div>
 
     <div class="ship-family-content-wrapper" id="content-family-pathfinder" style="display: none;">
-        <h3>The Pathfinder Program: From Reconnaissance to Retribution</h3>
-        <p>The **Pathfinder MKII** is the direct answer to the lessons learned from the MKI's destruction. It is a total rebuild, a clean-sheet design forged with a new, more aggressive philosophy. While it retains the "Pathfinder" designation, it is an entirely different class of vessel, engineered to be a **Heavy Reconnaissance Gunship**—a purpose-built hunter.</p>
-        <div class="variant-tabs pathfinder-variant-tabs">
-          <button class="styled-button" data-variant-id="variant-pathfinder-scout" data-family-id="pathfinder">MKII Scout (Base)</button>
-          <button class="styled-button" data-variant-id="variant-pathfinder-surveyor" data-family-id="pathfinder">MKII Surveyor</button>
-          <button class="styled-button" data-variant-id="variant-pathfinder-sentinel" data-family-id="pathfinder">MKII Sentinel</button>
-        </div>
-        <div class="variant-content" id="variant-pathfinder-scout">
-          <h4>Pathfinder MKII Scout (Heavy Reconnaissance Gunship)</h4>
-          <p><strong>Role:</strong> Long-Range Armed Pathfinder & Strategic Threat Eliminator.</p>
-          <p><strong>Description:</strong> The baseline Pathfinder MKII is designed to perform deep penetration missions, remain completely undetected using next-generation HFW systems, and possess overwhelming firepower to decisively neutralize any threat it encounters without the need for an escort.</p>
-          <p><strong>Armament:</strong> 2x Size 5 Concealed Railguns and 3x Size 5 Remote Turrets (each with 2x Size 4 Attrition Repeaters).</p>
-        </div>
-        <div class="variant-content" id="variant-pathfinder-surveyor">
-          <h4>Pathfinder MKII Surveyor</h4>
-          <p><strong>Role:</strong> Stellar Cartography & Covert Scientific Analysis.</p>
-          <p><strong>Description:</strong> This variant sacrifices some combat capability for an enhanced suite of scientific instruments, including geological scanners and an onboard analysis lab. Ideal for covertly assessing resource potential.</p>
-        </div>
-        <div class="variant-content" id="variant-pathfinder-sentinel">
-          <h4>Pathfinder MKII Sentinel</h4>
-          <p><strong>Role:</strong> Covert Overwatch & Secure Network Relay.</p>
-          <p><strong>Description:</strong> Designed for extremely long-duration static observation. Excels at creating hidden sensor networks and providing a persistent, low-signature C&C node for other HFW assets via an enhanced communications suite.</p>
+        <h4>The Anvil Pathfinder MKII: Charting the Unseen</h4>
+        <p>The loss of the Pathfinder MKI during "Operation: Ember Silence" confirmed that retrofitted stealth on conventional frames was insufficient for high-risk environments <cite></cite>. This validated the immediate need for the Pathfinder MKII program, which must incorporate a purpose-built stealth frame, silent propulsion via the "Umbral Drive," and significant defensive armament <cite></cite>.</p>
+        <p>This dedicated long-range reconnaissance platform is designed to operate autonomously for extended periods deep behind enemy lines or in uncharted space, silently gathering intelligence <cite></cite>.</p>
+        <div class="variant-content active" id="variant-pathfinder-scout">
+            <h3>Pathfinder MKII (Deep Reconnaissance &amp; Intelligence)</h3>
+            <p><strong>Role:</strong> Long-range stealth reconnaissance, signals intelligence, pathfinding in hostile/unknown territory, and covert observation.</p>
+            <p><strong>Description:</strong> The Pathfinder MKII is equipped for deep penetration and sustained intelligence gathering operations. It is designed to operate autonomously for weeks or months, providing invaluable data to HFW and select UEE commands <cite></cite>.</p>
+            <p><strong>Key Features:</strong> Emphasizes its advanced HFW "WhisperScan" passive sensor suite and SIGINT capabilities <cite></cite>. It utilizes the HFW "Umbral Drive" for ultra-low signature maneuvering and landings <cite></cite>.</p>
+            <p><strong>Armament:</strong> Primarily defensive, with retractable gimballed cannons for disabling pursuit.</p>
         </div>
     </div>
-
+    
     <div class="ship-family-content-wrapper" id="content-family-daemon" style="display: none;">
-        <div class="variant-content active" id="variant-daemon-solo">
-             <h3>Daemon: HFW’s Extreme Racing Prototype</h3>
-             <p>HFW’s Extreme Racing Prototype, now in limited production as a “super-scout” racer—sold under strict contract to military forces and, in civilian trim, to approved private pilots. The result is arguably the fastest and most agile single-seat craft in the UEE. It has no weapon mounts.</p>
+        <h4>The Daemon Project: The Apex of Speed</h4>
+        <p>Born from an internal challenge inspired by Murray Cup analysis, the Daemon Project's goal was to push HFW's expertise in propulsion and low-signature materials into a dedicated speed platform <cite></cite>. While marketed as a racer, its military applications as a "super-scout" for rapid reconnaissance are its primary, if unstated, purpose <cite></cite>. The Daemon and Eidolon development programs were greenlit in 2942 <cite></cite>.</p>
+        <div class="variant-tabs daemon-variant-tabs">
+            <button class="styled-button" data-variant-id="variant-daemon-base" data-family-id="daemon">Daemon Racer</button>
+            <button class="styled-button" data-variant-id="variant-daemon-nightshade" data-family-id="daemon">'Nightshade' Prototype</button>
+        </div>
+        <div class="variant-content active" id="variant-daemon-base">
+            <h3>Daemon (Racing &amp; Super-Scout)</h3>
+            <p><strong>Role:</strong> Experimental Racing & Super-Scout Vessel <cite></cite>.</p>
+            <h4>Key Features:</h4>
+            <ul>
+                <li><strong>Signature Management:</strong> While not a true stealth ship, its hull is composed of naturally low-EM composite panels and passive IR diffusion meshes <cite></cite>.</li>
+                <li><strong>System Hardening:</strong> Core systems are exceptionally resilient to EMP and distortion damage via the HFW "Aegis Protocol" <cite></cite>.</li>
+                <li><strong>Safety:</strong> The design has no weapon mounts and includes a mandatory HFW flight training program and an advanced ejection pod <cite></cite>.</li>
+            </ul>
+        </div>
+        <div class="variant-content" id="variant-daemon-nightshade">
+            <h3>'Nightshade' (Experimental Super-Scout / Interceptor)</h3>
+            <p><strong>Role:</strong> A one-of-a-kind discretionary deep-penetration asset and a personal gift from Dr. Aris Thorne to Jax Rylan <cite></cite>. It fuses the Daemon's racing performance with next-generation stealth and the teeth of a heavy fighter <cite></cite>.</p>
+            <h4>Key Experimental Systems:</h4>
+            <ul>
+                <li><strong>"Nocturne-Zero" Ablative Hull Coating:</strong> An experimental coating that actively absorbs sensor energy, resulting in an incredibly low base signature <cite></cite>.</li>
+                <li><strong>HFW "Styx" System:</strong> A power-intensive system that temporarily "sinks" all emissions and scrambles targeting locks, making the ship a sensor ghost <cite></cite>.</li>
+                <li><strong>Extreme Cooling:</strong> The cargo bay is repurposed to house two oversized Size 3 HFW "Cryo-Core" Coolers to manage heat from the 'Styx' system <cite></cite>.</li>
+                <li><strong>Advanced Systems:</strong> Features a miniaturized "Argus-Mini" strategic sensor suite and an experimental Size 2 "Aether Core" reactor <cite></cite>.</li>
+            </ul>
+             <h4>Armament:</h4>
+            <ul>
+                <li><strong>Concealed Main Guns:</strong> 6x Size 2 Concealed HFW "Specter" Railguns, housed behind signature-dampened, quick-deploy panels <cite></cite>.</li>
+            </ul>
         </div>
     </div>
     
-    <div class="ship-family-content-wrapper" id="content-family-atlas" style="display: none;">
-        <div class="variant-content active" id="variant-atlas-solo">
-            <h3>HFW Atlas-class (Strategic Hauler)</h3>
-            <p><strong>Classification:</strong> Frigate-class / Strategic Heavy Freighter</p>
-            <p><strong>Role:</strong> Strategic Logistics & High-Value Asset Transport. The "Unseen Backbone" of HFW's operations.</p>
-            <p><strong>Design Philosophy:</strong> Engineered with a "Strategic Blockade Runner" philosophy to securely and rapidly move large quantities of sensitive materials. Its primary defenses are its exceptional speed for its size and a suite of signature-reducing technologies.</p>
-            <p><strong>Capacity & Armament:</strong> Carries 7,500 SCU of cargo and is defended by five retractable remote turrets.</p>
-        </div>
-    </div>
-
     <div class="ship-family-content-wrapper" id="content-family-erebus" style="display: none;">
-        <div class="variant-content active" id="variant-erebus-solo">
-            <h3>HFW Erebus-Prime (Strategic Command Carrier)</h3>
-            <p><strong>Classification:</strong> Super-Capital (Flagship)</p>
-            <p><strong>Role:</strong> Clandestine Command & Control, Fleet Carrier, Strategic Strike.</p>
-            <p><strong>Design Philosophy:</strong> The Erebus is not a frontline destroyer; it is a clandestine command carrier. Its power projection comes from its apex stealth systems and its unmatched hangar capacity. It is designed to avoid a direct fight, instead deploying its own fleet of specialized assets from the shadows.</p>
-            <p><strong>Armament & Hangar:</strong> Its primary weapons are two "Tartarus Reach" Heavy Plasma Lances. It is defended by 4 heavy plasma turrets and a dense point-defense network. It carries a fleet of 16 Eidolons, 4 Valkyrie Phantoms, and 2 Pathfinder MKIIs.</p>
-        </div>
-    </div>
-</div>
-    
-    <div class="ship-family-content-wrapper" id="content-family-eidolon" style="display: none;">
-        <h3>The Anvil Eidolon Series: Agile Shadows for Close Support</h3>
-        <p>While Spectres provide deep infiltration and strategic strikes, the Eidolons fill the crucial role of agile, unseen wingmen, designed to operate seamlessly alongside them and bolster the defenses of The Forge. Uniquely for a fighter, it features a full interior for long-duration missions.</p>
-        <div class="variant-tabs eidolon-variant-tabs">
-            <button class="styled-button" data-variant-id="variant-eidolon-shadow" data-family-id="eidolon">Eidolon Shadow</button>
-            <button class="styled-button" data-variant-id="variant-eidolon-strike" data-family-id="eidolon">Eidolon Strike</button>
-            <button class="styled-button" data-variant-id="variant-eidolon-lockdown" data-family-id="eidolon">Eidolon Lockdown</button>
-            <button class="styled-button" data-variant-id="variant-eidolon-pulse" data-family-id="eidolon">Eidolon Pulse</button>
-            <button class="styled-button" data-variant-id="variant-eidolon-revenant" data-family-id="eidolon">Eidolon Revenant</button>
-        </div>
-        <div class="variant-content" id="variant-eidolon-shadow">
-            <h4>Eidolon Shadow (Stealth Recon & EW Escort)</h4>
-            <p><strong>Role:</strong> Advanced stealth reconnaissance, electronic warfare, and dedicated escort. Features a sophisticated, miniaturized Size 2 Electronic Warfare Suite.</p>
-            <p><strong>Armament:</strong> 4x fixed Size 3 Railguns, housed in retractable stealth compartments. Capacity for 4x Size 5 torpedoes in internal bays.</p>
-        </div>
-        <div class="variant-content" id="variant-eidolon-strike">
-            <h4>Eidolon Strike (High-Speed Interdiction & Strike Escort)</h4>
-            <p><strong>Role:</strong> A dedicated heavy strike fighter blending agility with focused firepower. Features enhanced power distribution for a "Railgun Overcharge" ability.</p>
-            <p><strong>Armament:</strong> 2x fixed Size 4 railguns and 2x fixed Size 3 railguns, all utilizing retractable housings. Capacity for 4x Size 5 torpedoes.</p>
-        </div>
-        <div class="variant-content" id="variant-eidolon-lockdown">
-            <h4>Eidolon Lockdown (Point-Defense & Interdiction Support)</h4>
-            <p><strong>Role:</strong> Providing localized quantum enforcement and point defense for capital assets. Equipped with a miniaturized Size 2 QED.</p>
-            <p><strong>Armament:</strong> 4x fixed Size 3 railguns, and 2x Size 1 point defense cannons. Capacity for 4x Size 5 torpedoes.</p>
-        </div>
-        <div class="variant-content" id="variant-eidolon-pulse">
-            <h4>Eidolon Pulse (EM/EW Suppression & Electronic Cover)</h4>
-            <p><strong>Role:</strong> Target disablement via powerful non-lethal EMP and distortion effects. Built around a miniaturized Size 2 EMP Device.</p>
-            <p><strong>Armament:</strong> 2x fixed Size 3 distortion cannons and 2x fixed Size 3 railguns. Capacity for 4x Size 5 torpedoes.</p>
-        </div>
-        <div class="variant-content" id="variant-eidolon-revenant">
-            <h4>Eidolon Revenant (Heavy Interceptor & Capital Escort)</h4>
-            <p><strong>Role:</strong> The ultimate heavy interceptor of the series, designed to support the Spectre Revenant in assaulting capital ships. It hits harder than the Eidolon Strike.</p>
-            <p><strong>Armament:</strong> 2x fixed Size 5 railguns and 2x fixed Size 4 railguns. Capacity for 4x Size 5 torpedoes for anti-capital punch.</p>
-        </div>
-    </div>
-    
-    <div class="ship-family-content-wrapper" id="content-family-phantom" style="display: none;">
-        <h3>The Valkyrie Phantom: Stealthy Insertion</h3>
-        <p>Recognizing the need for covert ground operations, HFW re-engineered the robust Anvil Valkyrie, stripping non-essential components and integrating their own advanced stealth and armament packages internally at The Forge.</p>
-         <div class="variant-tabs phantom-variant-tabs">
-            <button class="styled-button" data-variant-id="variant-phantom-base" data-family-id="phantom">Base</button>
-            <button class="styled-button" data-variant-id="variant-phantom-pathfinder" data-family-id="phantom">Pathfinder</button>
-            <button class="styled-button" data-variant-id="variant-phantom-breacher" data-family-id="phantom">Breacher</button>
-            <button class="styled-button" data-variant-id="variant-phantom-medical" data-family-id="phantom">Medical</button>
-         </div>
-        <div class="variant-content" id="variant-phantom-base">
-            <h4>Valkyrie Phantom (Base)</h4>
-            <p><strong>Role:</strong> Stealth Assault Dropship & Gunship. Delivers 20 operators and an Ursa-class vehicle into contested territory with minimal detection. Retains the Valkyrie's toughness and a significant armament for fire support.</p>
-            <p><strong>Armament:</strong> Features 2x Size 2 pilot guns, two Size 5 remote wing turrets, and two Size 4 top/bottom remote turrets, all retractable. Also retains two Size 1 door guns.</p>
-        </div>
-        <div class="variant-content" id="variant-phantom-pathfinder">
-            <h4>Valkyrie Phantom Pathfinder</h4>
-            <p><strong>Role:</strong> Stealthy Reconnaissance and Forward Observation.</p>
-            <p><strong>Description:</strong> This variant precedes the main force, providing clandestine "eyes on target." It sacrifices some troop capacity for an enhanced sensor array, long-range comms, and expanded recon drone capacity.</p>
-        </div>
-        <div class="variant-content" id="variant-phantom-breacher">
-            <h4>Valkyrie Phantom Breacher</h4>
-            <p><strong>Role:</strong> Covert Entry and Assault Facilitation.</p>
-            <p><strong>Description:</strong> The Breacher is a specialized tool for creating an entrance where none exists. It is tailored for bypassing hardened defenses and is equipped with heavy-duty plasma torches and seismic charges.</p>
-        </div>
-        <div class="variant-content" id="variant-phantom-medical">
-            <h4>Valkyrie Phantom Medical</h4>
-            <p><strong>Role:</strong> Combat Search and Rescue (CSAR) and Medical Extraction.</p>
-            <p><strong>Description:</strong> This variant prioritizes casualty collection. Its interior is modified into a mobile trauma bay with Tier 3 medical beds, stasis pods, and specialized extraction equipment like a rescue hoist.</p>
-        </div>
-    </div>
-
-    <div class="ship-family-content-wrapper" id="content-family-pathfinder" style="display: none;">
-        <h3>The Pathfinder Program: From Reconnaissance to Retribution</h3>
-        <p>The **Pathfinder MKII** is the direct answer to the lessons learned from the MKI's destruction. It is a total rebuild, engineered to be a **Heavy Reconnaissance Gunship**—a purpose-built hunter.</p>
-        <div class="variant-tabs pathfinder-variant-tabs">
-          <button class="styled-button" data-variant-id="variant-pathfinder-scout" data-family-id="pathfinder">MKII Scout (Base)</button>
-          <button class="styled-button" data-variant-id="variant-pathfinder-surveyor" data-family-id="pathfinder">MKII Surveyor</button>
-          <button class="styled-button" data-variant-id="variant-pathfinder-sentinel" data-family-id="pathfinder">MKII Sentinel</button>
-        </div>
-        <div class="variant-content" id="variant-pathfinder-scout">
-          <h4>Pathfinder MKII Scout (Heavy Reconnaissance Gunship)</h4>
-          <p><strong>Role:</strong> Long-Range Armed Pathfinder & Strategic Threat Eliminator.</p>
-          <p><strong>Description:</strong> The baseline Pathfinder MKII is designed to perform deep penetration missions, remain completely undetected, and possess overwhelming firepower to neutralize any threat it encounters without an escort. Features the HFW "Umbral Drive" for silent landings and a "WhisperScan" LPI sensor array.</p>
-          <p><strong>Armament:</strong> 2x Size 5 Concealed Railguns and 3x Size 5 Remote Turrets (each with 2x Size 4 Attrition Repeaters).</p>
-        </div>
-        <div class="variant-content" id="variant-pathfinder-surveyor">
-          <h4>Pathfinder MKII Surveyor</h4>
-          <p><strong>Role:</strong> Stellar Cartography & Covert Scientific Analysis.</p>
-          <p><strong>Description:</strong> This variant sacrifices some combat capability for an enhanced suite of scientific instruments, including geological scanners and an onboard analysis lab. Ideal for covertly assessing resource potential.</p>
-        </div>
-        <div class="variant-content" id="variant-pathfinder-sentinel">
-          <h4>Pathfinder MKII Sentinel</h4>
-          <p><strong>Role:</strong> Covert Overwatch & Secure Network Relay.</p>
-          <p><strong>Description:</strong> Designed for extremely long-duration static observation. Excels at creating hidden sensor networks and providing a persistent, low-signature C&C node for other HFW assets via an enhanced communications suite.</p>
-        </div>
-    </div>
-
-    <div class="ship-family-content-wrapper" id="content-family-daemon" style="display: none;">
-        <div class="variant-content active" id="variant-daemon-solo">
-             <h3>Daemon: HFW’s Extreme Racing Prototype</h3>
-             <p>HFW’s Extreme Racing Prototype, now in limited production as a “super-scout” racer. Its purpose is to push HFW's expertise in propulsion and low-signature materials into a dedicated speed platform. The result is arguably the fastest and most agile single-seat craft in the UEE. It has no weapon mounts.</p>
-        </div>
-    </div>
-    
-    <div class="ship-family-content-wrapper" id="content-family-atlas" style="display: none;">
-        <div class="variant-content active" id="variant-atlas-solo">
-            <h3>HFW Atlas-class (Strategic Hauler)</h3>
-            <p><strong>Classification:</strong> Frigate-class / Strategic Heavy Freighter</p>
-            <p><strong>Role:</strong> Strategic Logistics & High-Value Asset Transport. The "Unseen Backbone" of HFW's operations.</p>
-            <p><strong>Design Philosophy:</strong> Engineered with a "Strategic Blockade Runner" philosophy to securely and rapidly move large quantities of sensitive materials. Its primary defenses are its exceptional speed for its size and a suite of signature-reducing technologies. Features a massive forward "Gulp" ramp for vehicle loading.</p>
-            <p><strong>Capacity & Armament:</strong> Carries 7,500 SCU of cargo and is defended by five retractable remote turrets.</p>
-        </div>
-    </div>
-
-    <div class="ship-family-content-wrapper" id="content-family-erebus" style="display: none;">
-        <div class="variant-content active" id="variant-erebus-solo">
-            <h3>HFW Erebus-Prime (Strategic Command Carrier)</h3>
-            <p><strong>Classification:</strong> Super-Capital (Flagship)</p>
-            <p><strong>Role:</strong> Clandestine Command & Control, Fleet Carrier, Strategic Strike.</p>
-            <p><strong>Design Philosophy:</strong> The Erebus is not a frontline destroyer; it is a clandestine command carrier. Its power projection comes from its apex stealth systems and its unmatched hangar capacity. It is faster and more maneuverable than any vessel of its size, designed to avoid a direct fight and deploy its own fleet of specialized assets from the shadows.</p>
-            <p><strong>Armament & Hangar:</strong> Its primary weapons are two "Tartarus Reach" Heavy Plasma Lances. It is defended by 4 heavy plasma turrets and a dense point-defense network. It carries a fleet of 24 Eidolons, 4 Valkyrie Phantoms, and 2 Pathfinder MKIIs.</p>
-        </div>
+        <h4>HFW Erebus-Prime (Strategic Stealth Dreadnought)</h4>
+        <p>The Erebus-Prime is not merely a ship; it is a statement of technological supremacy and the absolute zenith of HFW's mastery over signature reduction and sustained covert warfare at a scale previously thought impossible <cite></cite>. Its design philosophy is one of absolute covert supremacy and enduring operational autonomy, projecting power through undetectable presence and information dominance <cite></cite>. The first hull, HFW Erebus, was commissioned c. 2955 <cite></cite>.</p>
+        <h4>General Specifications:</h4>
+        <ul>
+            <li><strong>Length:</strong> 400 meters <cite></cite></li>
+            <li><strong>Beam (Width):</strong> 288 meters <cite></cite></li>
+            <li><strong>Crew Complement:</strong> 90 Optimal (Command & Operations Staff) | 40 Minimum <cite></cite></li>
+            <li><strong>Mission Complement:</strong> Capacity for up to 160 additional personnel (Ghost Teams, etc.) <cite></cite></li>
+            <li><strong>Cargo Capacity:</strong> 6,000 SCU (in dedicated, shielded holds) <cite></cite></li>
+        </ul>
+        <h4>Key Design Features &amp; Systems:</h4>
+        <ul>
+            <li><strong>"Obsidian Mantle" Apex Signature Management Suite:</strong> A synthesis of HFW's most advanced stealth technologies, including a "Nocturne Weave" Adaptive Hull and a "Night's Veil" Full-Spectrum Chameleon System <cite></cite>.</li>
+            <li><strong>HFW "Phantom Echo" Ghost Field Emitter:</strong> An advanced EW system that projects a complex cloud of false sensor returns to make precise targeting extremely challenging <cite></cite>.</li>
+            <li><strong>"Cryo-Static" Thermal Regulation Network:</strong> An extreme cooling system that allows the ship to operate in a "Sub-Kelvin" emission state for extended periods by shunting heat into massive cryo-sinks <cite></cite>.</li>
+            <li><strong>"Nyx-Eye" Fleet Command Nexus (FCN):</strong> An expansive, multi-deck, heavily fortified command center for orchestrating galaxy-spanning operations <cite></cite>.</li>
+            <li><strong>"Umbral Leviathan" Gravitic Drive Array:</strong> A colossal network of gravitic repulsors providing near-silent VTOL and atmospheric flight <cite></cite>.</li>
+        </ul>
+        <h4>Armament &amp; Defensive Systems (All Fully Retractable):</h4>
+        <ul>
+            <li><strong>Primary Spinal Armament:</strong> 2x HFW "Tartarus Reach" Heavy Gravitic Lance Cannons <cite></cite>.</li>
+            <li><strong>Heavy Retractable Turrets:</strong> 10x Twin-linked Size 7 Heavy Plasma Accelerator Cannon Turrets <cite></cite>.</li>
+            <li><strong>Broadside Emitter Arrays:</strong> 8x Size 6 Heavy Sustained Laser Emitter Arrays <cite></cite>.</li>
+            <li><strong>Strategic Ordnance Delivery System:</strong> 12x Size 10 Heavy Torpedo / Capital Cruise Missile Tubes (48 total ordnance) <cite></cite>.</li>
+        </ul>
+        <h4>Hangar &amp; Support Craft Complement:</h4>
+        <ul>
+            <li><strong>Stealth Fighter Wing:</strong> Up to 36 HFW Eidolon-class multi-role stealth fighters <cite></cite>.</li>
+            <li><strong>Support & Assault Craft:</strong> Up to 8 HFW Valkyrie Phantom dropships/gunships <cite></cite>.</li>
+            <li><strong>Reconnaissance & Command Support:</strong> Up to 4 HFW Pathfinder MKII deep recon vessels <cite></cite>.</li>
+        </ul>
     </div>
 </div>
