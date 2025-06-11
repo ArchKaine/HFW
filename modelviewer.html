@@ -75,6 +75,7 @@
             <button class="model-control-btn styled-button" onclick="switchModel('atlas')">Atlas Hauler</button>
             <button class="model-control-btn styled-button" onclick="switchModel('erebus')">Erebus Prime</button>
             <button class="model-control-btn styled-button" onclick="switchModel('daemon')">HFW Daemon</button>
+            <button class="model-control-btn styled-button" onclick="switchModel('thanatos')">HFW Thanatos</button>
         </div>
         
         <model-viewer
@@ -127,7 +128,9 @@
           pathfinder: { src: modelBaseURL + "Pathfinder_Corvette.glb", alt: "Pathfinder MKII" },
           atlas: { src: modelBaseURL + "Atlas_Strategic_Hauler.glb", alt: "Atlas Hauler" },
           erebus: { src: modelBaseURL + "Erebus-Prime_Command-Ship.glb", alt: "Erebus Prime" },
+          thanatos: { src: modelBaseURL + "thanatos.glb", alt: "Thanatos Heavy Assault" },
           daemon: { src: modelBaseURL + "HFW_Daemon.glb", alt: "Daemon Racer" },// URL Encoded
+          
       };
 
       function switchModel(modelKey) {
