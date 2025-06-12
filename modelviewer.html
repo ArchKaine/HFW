@@ -10,14 +10,13 @@
             margin: 0;
             padding: 0;
             font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
-            background-color: #0b0e13; /* Match main page's section background if needed */
+            background-color: #0b0e13;
             color: #f0f0f0;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center content horizontally */
+            align-items: center;
         }
 
-        /* Styles for model viewer controls, scoped to this component */
         .model-button-bar {
             margin: 1rem 0;
             text-align: center; 
@@ -41,13 +40,12 @@
             text-align:left;
         }
 
-        /* Button styles (copied from your main CSS for consistency) */
         .styled-button { 
             cursor: pointer; font-family: "Orbitron", sans-serif; text-transform: uppercase; 
             transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.2s ease-out, box-shadow 0.3s ease;
             border-radius: 6px; font-weight: bold; letter-spacing: 0.5px; display: inline-block;
         }
-        .model-control-btn { /* Specific model control button styles */
+        .model-control-btn {
             background-color: #1f1f1f; border: 1px solid #383838; color: #ffaaaa; 
             padding: 0.5rem 1rem; margin: 0.2rem; font-size: 0.85rem; 
             font-weight: normal; letter-spacing: 0.2px;
@@ -57,13 +55,12 @@
             transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,0.3); 
         }
 
-        /* Style for the container of just the model viewer and its direct controls */
         #spectre-viewer-component-container {
-             background-color: #0b0e13; /* Or your desired section background */
-             width: 100%; /* Ensure container takes full width */
+             background-color: #0b0e13;
+             width: 100%;
         }
 
-        /* CSS rules that apply ONLY when the container is in fullscreen */
+        /* MODIFIED: Added !important to the width and max-width properties */
         #spectre-viewer-component-container:fullscreen {
             display: flex;
             flex-direction: column;
@@ -73,16 +70,16 @@
             box-sizing: border-box;
         }
         #spectre-viewer-component-container:fullscreen .model-button-bar {
-            margin: 0.5rem 0; /* Tighter margins for fullscreen */
+            margin: 0.5rem 0;
         }
         #spectre-viewer-component-container:fullscreen model-viewer {
-            flex-grow: 1; /* Allows the viewer to take up all available vertical space */
-            height: auto; /* Let flexbox handle height */
-            width: 100%; /* Ensure it uses the full width */
-            max-width: none; /* MODIFIED: Override the inline max-width for fullscreen */
+            flex-grow: 1;
+            height: auto !important;
+            width: 100% !important;
+            max-width: none !important;
         }
         #spectre-viewer-component-container:fullscreen .viewer-legend {
-            display: none; /* Optionally hide legend in fullscreen for more space */
+            display: none;
         }
     </style>
 </head>
