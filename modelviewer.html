@@ -62,6 +62,27 @@
              background-color: #0b0e13; /* Or your desired section background */
              width: 100%; /* Ensure container takes full width */
         }
+
+        /* MODIFIED: CSS rules that apply ONLY when the container is in fullscreen */
+        #spectre-viewer-component-container:fullscreen {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        #spectre-viewer-component-container:fullscreen .model-button-bar {
+            margin: 0.5rem 0; /* Tighter margins for fullscreen */
+        }
+        #spectre-viewer-component-container:fullscreen model-viewer {
+            flex-grow: 1; /* Allows the viewer to take up all available space */
+            height: auto; /* Let flexbox handle height */
+            max-width: 100%;
+        }
+        #spectre-viewer-component-container:fullscreen .viewer-legend {
+            display: none; /* Optionally hide legend in fullscreen for more space */
+        }
     </style>
 </head>
 <body>
@@ -119,6 +140,8 @@
     </div>
 
     <script>
+      /* MODIFIED: Get a reference to the container as well */
+      const fullscreenContainer = document.getElementById('spectre-viewer-component-container');
       const modelViewerElement = document.getElementById('spectreViewerInComponent');
       console.log("Model Viewer Element in component HTML:", modelViewerElement);
 
@@ -165,13 +188,12 @@
         }
       }
 
-      /* MODIFIED: Replaced the maximize function with the native fullscreen function */
+      /* MODIFIED: This function now targets the entire container for fullscreen */
       function toggleNativeFullscreen() {
-        // Note: This function targets the model-viewer element itself for fullscreen.
-        if (document.fullscreenElement === modelViewerElement) {
+        if (document.fullscreenElement) {
             document.exitFullscreen();
         } else {
-            modelViewerElement.requestFullscreen();
+            fullscreenContainer.requestFullscreen();
         }
       }
       
