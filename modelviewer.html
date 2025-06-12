@@ -63,7 +63,7 @@
              width: 100%; /* Ensure container takes full width */
         }
 
-        /* MODIFIED: CSS rules that apply ONLY when the container is in fullscreen */
+        /* CSS rules that apply ONLY when the container is in fullscreen */
         #spectre-viewer-component-container:fullscreen {
             display: flex;
             flex-direction: column;
@@ -76,9 +76,10 @@
             margin: 0.5rem 0; /* Tighter margins for fullscreen */
         }
         #spectre-viewer-component-container:fullscreen model-viewer {
-            flex-grow: 1; /* Allows the viewer to take up all available space */
+            flex-grow: 1; /* Allows the viewer to take up all available vertical space */
             height: auto; /* Let flexbox handle height */
-            max-width: 100%;
+            width: 100%; /* Ensure it uses the full width */
+            max-width: none; /* MODIFIED: Override the inline max-width for fullscreen */
         }
         #spectre-viewer-component-container:fullscreen .viewer-legend {
             display: none; /* Optionally hide legend in fullscreen for more space */
@@ -140,7 +141,6 @@
     </div>
 
     <script>
-      /* MODIFIED: Get a reference to the container as well */
       const fullscreenContainer = document.getElementById('spectre-viewer-component-container');
       const modelViewerElement = document.getElementById('spectreViewerInComponent');
       console.log("Model Viewer Element in component HTML:", modelViewerElement);
@@ -188,7 +188,6 @@
         }
       }
 
-      /* MODIFIED: This function now targets the entire container for fullscreen */
       function toggleNativeFullscreen() {
         if (document.fullscreenElement) {
             document.exitFullscreen();
