@@ -19,26 +19,26 @@
 
         /* Styles for model viewer controls, scoped to this component */
         .model-button-bar {
-          margin: 1rem 0;
-          text-align: center; 
-          display: flex;
-          justify-content: center;
-          align-items: center; 
-          gap: 10px; 
-          flex-wrap: wrap; 
+            margin: 1rem 0;
+            text-align: center; 
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+            gap: 10px; 
+            flex-wrap: wrap; 
         }
 
         .viewer-legend {
-          position: relative; 
-          margin: 1rem auto; 
-          background: rgba(0,0,0,0.7);
-          padding: 1rem;
-          border-radius: 4px;
-          color: #fff;
-          font-size: 0.9rem;
-          max-width: 220px; 
-          z-index: 5; 
-          text-align:left;
+            position: relative; 
+            margin: 1rem auto; 
+            background: rgba(0,0,0,0.7);
+            padding: 1rem;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 0.9rem;
+            max-width: 220px; 
+            z-index: 5; 
+            text-align:left;
         }
 
         /* Button styles (copied from your main CSS for consistency) */
@@ -60,7 +60,7 @@
         /* Style for the container of just the model viewer and its direct controls */
         #spectre-viewer-component-container {
              background-color: #0b0e13; /* Or your desired section background */
-             /* padding: 2rem; /* If you want padding around this whole component */
+             width: 100%; /* Ensure container takes full width */
         }
     </style>
 </head>
@@ -114,6 +114,7 @@
             <button class="model-control-btn styled-button" onclick="setView('135deg 120deg 7m')">B-L&nbsp;Bot</button>
             <button class="model-control-btn styled-button" onclick="setView('-135deg 120deg 7m')">B-R&nbsp;Bot</button>
             <button class="model-control-btn styled-button" onclick="recenter()">Recenter</button>
+            <button class="model-control-btn styled-button" onclick="toggleNativeFullscreen()">Toggle Fullscreen</button>
         </div>
     </div>
 
@@ -163,7 +164,17 @@
             console.error("Error in recenter (in component): modelViewer element not found.");
         }
       }
-      // No need to assign to window if onclick is in the same document.
+
+      /* MODIFIED: Replaced the maximize function with the native fullscreen function */
+      function toggleNativeFullscreen() {
+        // Note: This function targets the model-viewer element itself for fullscreen.
+        if (document.fullscreenElement === modelViewerElement) {
+            document.exitFullscreen();
+        } else {
+            modelViewerElement.requestFullscreen();
+        }
+      }
+      
     </script>
 </body>
 </html>
