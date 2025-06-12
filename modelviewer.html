@@ -74,8 +74,9 @@
             <button class="model-control-btn styled-button" onclick="switchModel('pathfinder')">Pathfinder MKII</button>
             <button class="model-control-btn styled-button" onclick="switchModel('atlas')">Atlas Hauler</button>
             <button class="model-control-btn styled-button" onclick="switchModel('erebus')">Erebus Prime</button>
-            <button class="model-control-btn styled-button" onclick="switchModel('daemon')">HFW Daemon</button>
             <button class="model-control-btn styled-button" onclick="switchModel('thanatos')">HFW Thanatos</button>
+            <button class="model-control-btn styled-button" onclick="switchModel('daemon')">HFW Daemon</button>
+            <button class="model-control-btn styled-button" onclick="switchModel('umbra')">HFW Umbra Belos AEV</button>
         </div>
         
         <model-viewer
@@ -122,14 +123,15 @@
 
       const modelBaseURL = "https://ArchKaine.github.io/ship-models/";
       const models = {
-          shadow: { src: modelBaseURL + "Spectre_Shadow.glb", alt: "Anvil Spectre Shadow" },
-          revenant: { src: modelBaseURL + "Spectre_Revenant.glb", alt: "Anvil Spectre Revenant" },
-          eidolon_shadow: { src: modelBaseURL + "Eidolon_Shadow.glb", alt: "Anvil Eidolon Shadow" },
-          pathfinder: { src: modelBaseURL + "Pathfinder_Corvette.glb", alt: "Pathfinder MKII" },
-          atlas: { src: modelBaseURL + "Atlas_Strategic_Hauler.glb", alt: "Atlas Hauler" },
-          erebus: { src: modelBaseURL + "Erebus-Prime_Command-Ship.glb", alt: "Erebus Prime" },
-          thanatos: { src: modelBaseURL + "Thanatos.glb", alt: "Thanatos Heavy Assault" },
-          daemon: { src: modelBaseURL + "HFW_Daemon.glb", alt: "Daemon Racer" },// URL Encoded
+          shadow: { src: modelBaseURL + "Spectre_Shadow.glb", alt: "HFW Spectre Shadow" },
+          revenant: { src: modelBaseURL + "Spectre_Revenant.glb", alt: "HFW Spectre Revenant" },
+          eidolon_shadow: { src: modelBaseURL + "Eidolon_Shadow.glb", alt: "HFW Eidolon Shadow" },
+          pathfinder: { src: modelBaseURL + "Pathfinder_Corvette.glb", alt: "HFW Pathfinder MKII" },
+          atlas: { src: modelBaseURL + "Atlas_Strategic_Hauler.glb", alt: "HFW Atlas Hauler" },
+          erebus: { src: modelBaseURL + "Erebus-Prime_Command-Ship.glb", alt: "HFW Erebus Prime" },
+          thanatos: { src: modelBaseURL + "Thanatos.glb", alt: "HFW Thanatos Heavy Assault" },
+          daemon: { src: modelBaseURL + "HFW_Daemon.glb", alt: "HFW Daemon Racer" },
+          umbra: { src: modelBaseURL + "HFW_Umbra.glb", alt: "HFW Umra Belos AEV" },
           
       };
 
