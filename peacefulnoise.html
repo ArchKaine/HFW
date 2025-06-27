@@ -18,7 +18,7 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* --- Tooltip Styles --- */
+        /* Tooltip Styles */
         [data-tooltip] {
             position: relative;
         }
@@ -90,56 +90,79 @@
             width: 24px; height: 12px; background: #e5e7eb;
             cursor: ns-resize; border-radius: 4px;
         }
-         .eq-slider::-moz-range-thumb {
+        .eq-slider::-moz-range-thumb {
             width: 12px; height: 24px; background: #e5e7eb;
             cursor: ns-resize; border-radius: 4px;
         }
         .eq-slider-label { margin-top: 1rem; font-size: 0.7rem; font-weight: 500; color: #9ca3af; }
         .modal-backdrop, .notification { transition: opacity 0.3s ease; }
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out; }
+        
+        /* New: Light Theme Styles */
+        .light-theme {
+            background: #f3f4f6;
+            background-image: radial-gradient(circle at top right, #d1d5db, #f3f4f6 70%);
+        }
+        .light-theme .bg-gray-900\/70 { background: #ffffffcc; }
+        .light-theme .text-gray-300 { color: #1f2937; }
+        .light-theme .bg-gray-800 { background: #e5e7eb; }
+        .light-theme .bg-gray-700 { background: #d1d5db; }
+        .light-theme .text-gray-400 { color: #4b5563; }
+        .light-theme .border-gray-700\/50 { border-color: #d1d5db80; }
+        .light-theme .bg-gray-600 { background: #6b7280; }
+        .light-theme .hover\:bg-gray-500:hover { background: #4b5563; }
+        .light-theme .bg-blue-600 { background: #2563eb; }
+        .light-theme .hover\:bg-blue-500:hover { background: #1d4ed8; }
+        .light-theme .bg-red-800 { background: #b91c1c; }
+        .light-theme .hover\:bg-red-700:hover { background: #991b1b; }
+        .light-theme .bg-green-700 { background: #15803d; }
+        .light-theme .hover\:bg-green-600:hover { background: #166534; }
     </style>
 </head>
 <body class="text-gray-300 flex items-center justify-center min-h-screen p-4">
-
     <div class="max-w-4xl w-full p-6 md:p-8 space-y-6 bg-gray-900/70 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700 relative">
-        
-        <button id="settings-button" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors" data-tooltip="Settings">
+        <button id="settings-button" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors" title="Settings">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         </button>
 
         <div class="text-center pt-8 sm:pt-0"><h1 class="text-3xl font-bold text-white">Fantasy Cave Soundscape</h1><p class="mt-2 text-gray-400">Design your own subterranean world.</p></div>
 
         <div class="flex justify-center items-center gap-6 py-4">
-            <button id="play-pause-button" data-tooltip="Play/Pause Audio" class="w-20 h-20 bg-gray-700 text-white font-bold rounded-full shadow-lg hover:bg-gray-600 focus:outline-none focus:ring-4 focus:ring-gray-500/50 transition-all duration-200 transform hover:scale-105 flex items-center justify-center flex-shrink-0">
+            <button id="play-pause-button" aria-label="Play/Pause Audio" class="w-20 h-20 bg-gray-700 text-white font-bold rounded-full shadow-lg hover:bg-gray-600 focus:outline-none focus:ring-4 focus:ring-gray-500/50 transition-all duration-200 transform hover:scale-105 flex items-center justify-center flex-shrink-0">
                 <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><rect width="4" height="16" x="6" y="4"/><rect width="4" height="16" x="14" y="4"/></svg>
             </button>
             <div class="w-full max-w-xs space-y-2">
                  <label for="master-volume-slider" class="font-medium text-sm text-center block">Master Volume</label>
-                 <input id="master-volume-slider" type="range" min="0" max="1" step="0.01" value="0.8" data-tooltip="Overall volume">
+                 <input id="master-volume-slider" type="range" min="0" max="1" step="0.01" value="0.8" title="Overall volume">
+                 <div class="flex items-center gap-2">
+                     <input type="checkbox" id="lock-volume" class="ml-2">
+                     <label for="lock-volume" class="text-sm">Lock Volume</label>
+                 </div>
             </div>
         </div>
         
-        <div id="sound-channels-container" class="pt-4 border-t border-gray-700/50 space-y-2">
-            <!-- Accordion sections will be inserted here -->
-        </div>
+        <div id="sound-channels-container" class="pt-4 border-t border-gray-700/50 space-y-2"></div>
         
         <div class="pt-4 border-t border-gray-700/50">
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-lg font-bold text-white">Master Equalizer</h2>
-                 <select id="eq-preset-select" class="bg-gray-800 border border-gray-600 text-sm rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-500" data-tooltip="Load EQ profile"></select>
+                <div class="flex items-center gap-2">
+                    <button id="bypass-eq-button" class="px-3 py-1 bg-gray-600 hover:bg-gray-500 rounded-md text-sm">Bypass EQ</button>
+                    <select id="eq-preset-select" class="bg-gray-800 border border-gray-600 text-sm rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-500" title="Load EQ profile"></select>
+                </div>
             </div>
             <div class="eq-wrapper bg-gray-800/50 rounded-lg">
-                <div class="eq-slider-container"><input id="eq1-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" data-tooltip="31 Hz"><span class="eq-slider-label">31Hz</span></div>
-                <div class="eq-slider-container"><input id="eq2-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" data-tooltip="62 Hz"><span class="eq-slider-label">62Hz</span></div>
-                <div class="eq-slider-container"><input id="eq3-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" data-tooltip="125 Hz"><span class="eq-slider-label">125Hz</span></div>
-                <div class="eq-slider-container"><input id="eq4-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" data-tooltip="250 Hz"><span class="eq-slider-label">250Hz</span></div>
-                <div class="eq-slider-container"><input id="eq5-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" data-tooltip="500 Hz"><span class="eq-slider-label">500Hz</span></div>
-                <div class="eq-slider-container"><input id="eq6-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" data-tooltip="1 kHz"><span class="eq-slider-label">1kHz</span></div>
-                <div class="eq-slider-container"><input id="eq7-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" data-tooltip="2 kHz"><span class="eq-slider-label">2kHz</span></div>
-                <div class="eq-slider-container"><input id="eq8-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" data-tooltip="4 kHz"><span class="eq-slider-label">4kHz</span></div>
-                <div class="eq-slider-container"><input id="eq9-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" data-tooltip="8 kHz"><span class="eq-slider-label">8kHz</span></div>
-                <div class="eq-slider-container"><input id="eq10-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" data-tooltip="16 kHz"><span class="eq-slider-label">16kHz</span></div>
+                <div class="eq-slider-container"><input id="eq1-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="31 Hz"><span class="eq-slider-label">31Hz</span></div>
+                <div class="eq-slider-container"><input id="eq2-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="62 Hz"><span class="eq-slider-label">62Hz</span></div>
+                <div class="eq-slider-container"><input id="eq3-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="125 Hz"><span class="eq-slider-label">125Hz</span></div>
+                <div class="eq-slider-container"><input id="eq4-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="250 Hz"><span class="eq-slider-label">250Hz</span></div>
+                <div class="eq-slider-container"><input id="eq5-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="500 Hz"><span class="eq-slider-label">500Hz</span></div>
+                <div class="eq-slider-container"><input id="eq6-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="1 kHz"><span class="eq-slider-label">1kHz</span></div>
+                <div class="eq-slider-container"><input id="eq7-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="2 kHz"><span class="eq-slider-label">2kHz</span></div>
+                <div class="eq-slider-container"><input id="eq8-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="4 kHz"><span class="eq-slider-label">4kHz</span></div>
+                <div class="eq-slider-container"><input id="eq9-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="8 kHz"><span class="eq-slider-label">8kHz</span></div>
+                <div class="eq-slider-container"><input id="eq10-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="16 kHz"><span class="eq-slider-label">16kHz</span></div>
             </div>
         </div>
 
@@ -153,14 +176,14 @@
             </div>
             <div id="tab-content-presets" class="tab-content py-4 space-y-4">
                  <div class="flex flex-col sm:flex-row gap-4">
-                    <select id="preset-select" class="w-full sm:flex-1 bg-gray-800 border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500" data-tooltip="Load a soundscape"></select>
+                    <select id="preset-select" class="w-full sm:flex-1 bg-gray-800 border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500" title="Load a soundscape"></select>
                     <div class="flex-grow flex gap-4">
-                        <button id="save-preset-button" class="w-full px-4 py-2 text-sm font-semibold bg-gray-600 hover:bg-gray-500 rounded-md transition-colors" data-tooltip="Save current soundscape">Save As...</button>
-                        <button id="delete-preset-button" class="w-full px-4 py-2 text-sm font-semibold bg-red-800 hover:bg-red-700 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed" data-tooltip="Delete selected preset">Delete</button>
+                        <button id="save-preset-button" class="w-full px-4 py-2 text-sm font-semibold bg-gray-600 hover:bg-gray-500 rounded-md transition-colors" title="Save current soundscape">Save As...</button>
+                        <button id="delete-preset-button" class="w-full px-4 py-2 text-sm font-semibold bg-red-800 hover:bg-red-700 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Delete selected preset">Delete</button>
                     </div>
                 </div>
                  <div class="flex justify-center">
-                    <button id="share-button" class="px-6 py-2 font-semibold bg-green-700 hover:bg-green-600 rounded-md transition-colors flex items-center gap-2" data-tooltip="Copy a shareable link to your clipboard">
+                    <button id="share-button" class="px-6 py-2 font-semibold bg-green-700 hover:bg-green-600 rounded-md transition-colors flex items-center gap-2" title="Copy a shareable link to your clipboard">
                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
                         Share Soundscape
                     </button>
@@ -183,7 +206,7 @@
                     <p id="alarm-status-display" class="text-sm text-gray-400">Alarm is disabled.</p>
                     <div class="flex items-center gap-2 flex-wrap justify-center">
                         <input id="alarm-time-input" type="time" class="bg-gray-800 border border-gray-600 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-500">
-                        <select id="alarm-preset-select" class="bg-gray-800 border border-gray-600 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-500" data-tooltip="Sound to play for alarm"></select>
+                        <select id="alarm-preset-select" class="bg-gray-800 border border-gray-600 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-500" title="Sound to play for alarm"></select>
                         <input id="alarm-fade-input" type="number" min="0" value="15" class="w-24 bg-gray-800 border border-gray-600 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-500" placeholder="Fade (s)">
                         <button id="set-alarm-button" class="px-3 py-1 bg-green-700 hover:bg-green-600 rounded-md text-sm">Enable</button>
                         <button id="disable-alarm-button" class="px-3 py-1 bg-red-800 hover:bg-red-700 rounded-md text-sm">Disable</button>
@@ -195,7 +218,42 @@
     
     <!-- Modals and Notifications -->
     <div id="save-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop"><div class="bg-gray-800 rounded-lg p-6 w-full max-w-sm space-y-4 shadow-xl"><h3 class="text-lg font-bold text-white">Save Soundscape</h3><input id="preset-name-input" type="text" placeholder="Enter preset name..." class="w-full bg-gray-700 border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500"><div class="flex justify-end gap-4"><button id="cancel-save-button" class="px-4 py-2 text-sm font-semibold bg-gray-600 hover:bg-gray-500 rounded-md">Cancel</button><button id="confirm-save-button" class="px-4 py-2 text-sm font-semibold bg-blue-600 hover:bg-blue-500 rounded-md">Save</button></div></div></div>
-    <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop"><div class="bg-gray-800 rounded-lg p-6 w-full max-w-md space-y-6 shadow-xl"><div class="flex justify-between items-center"><h3 class="text-lg font-bold text-white">Settings</h3><button id="close-settings-button" class="text-gray-400 hover:text-white">&times;</button></div><div class="space-y-4"><p class="text-sm text-gray-400">Save the current sound and EQ settings as your default profile.</p><button id="save-default-button" class="w-full px-4 py-2 font-semibold bg-blue-600 hover:bg-blue-500 rounded-md transition-colors">Set Current as Default</button><button id="clear-default-button" class="w-full px-4 py-2 font-semibold bg-gray-600 hover:bg-gray-500 rounded-md transition-colors">Clear Saved Default</button></div></div></div>
+    <!-- New: Updated Settings Modal -->
+    <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+        <div class="bg-gray-800 rounded-lg p-6 w-full max-w-md space-y-6 shadow-xl">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-white">Settings</h3>
+                <button id="close-settings-button" class="text-gray-400 hover:text-white">×</button>
+            </div>
+            <div class="space-y-4">
+                <p class="text-sm text-gray-400">Customize your soundscape experience.</p>
+                <div class="space-y-2">
+                    <label for="buffer-size" class="text-sm text-gray-400">Audio Buffer Size</label>
+                    <select id="buffer-size" class="w-full bg-gray-800 border border-gray-600 rounded-md px-2 py-1">
+                        <option value="128">Low Latency (128 samples)</option>
+                        <option value="256" selected>Balanced (256 samples)</option>
+                        <option value="512">High Quality (512 samples)</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="theme-toggle" class="ml-2">
+                    <label for="theme-toggle" class="text-sm">Light Mode</label>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="auto-play" class="ml-2">
+                    <label for="auto-play" class="text-sm">Auto-Play on Load</label>
+                </div>
+                <div class="space-y-2">
+                    <label for="fade-in-time" class="text-sm text-gray-400">Fade-In Duration (seconds)</label>
+                    <input id="fade-in-time" type="number" min="0" max="10" value="2" class="w-full bg-gray-800 border border-gray-600 rounded-md px-2 py-1">
+                </div>
+                <button id="save-default-button" class="w-full px-4 py-2 font-semibold bg-blue-600 hover:bg-blue-500 rounded-md transition-colors">Set Current as Default</button>
+                <button id="clear-default-button" class="w-full px-4 py-2 font-semibold bg-gray-600 hover:bg-gray-500 rounded-md transition-colors">Clear Saved Default</button>
+                <button id="reset-all-button" class="w-full px-4 py-2 font-semibold bg-red-800 hover:bg-red-700 rounded-md transition-colors">Reset to Default</button>
+                <button id="export-presets-button" class="w-full px-4 py-2 font-semibold bg-gray-600 hover:bg-gray-500 rounded-md transition-colors">Export All Presets</button>
+            </div>
+        </div>
+    </div>
     <div id="notification" class="fixed bottom-5 right-5 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg opacity-0 -translate-y-10">Link copied to clipboard!</div>
 
     <script>
@@ -203,8 +261,10 @@
             // --- DOM Elements ---
             const playPauseButton = document.getElementById('play-pause-button'), playIcon = document.getElementById('play-icon'), pauseIcon = document.getElementById('pause-icon');
             const masterVolumeSlider = document.getElementById('master-volume-slider');
+            const lockVolumeCheckbox = document.getElementById('lock-volume');
             const presetSelect = document.getElementById('preset-select'), savePresetButton = document.getElementById('save-preset-button'), deletePresetButton = document.getElementById('delete-preset-button');
             const eqPresetSelect = document.getElementById('eq-preset-select');
+            const bypassEqButton = document.getElementById('bypass-eq-button');
             const saveModal = document.getElementById('save-modal'), presetNameInput = document.getElementById('preset-name-input'), cancelSaveButton = document.getElementById('cancel-save-button'), confirmSaveButton = document.getElementById('confirm-save-button');
             const settingsButton = document.getElementById('settings-button'), settingsModal = document.getElementById('settings-modal'), closeSettingsButton = document.getElementById('close-settings-button'), saveDefaultButton = document.getElementById('save-default-button'), clearDefaultButton = document.getElementById('clear-default-button');
             const channelsContainer = document.getElementById('sound-channels-container');
@@ -225,9 +285,9 @@
             });
             document.getElementById('tab-presets').classList.add('border-gray-300', 'text-white');
 
-
             let isPlaying = false, audioInitialized = false;
             let sleepTimerId, sleepIntervalId, alarmIntervalId;
+            let eqBypassed = false;
 
             // --- Preset Data ---
             const PRESET_STORAGE_KEY = 'fantasyCavePresets';
@@ -239,14 +299,21 @@
                 { name: 'Volcanic Lair', settings: { masterVolume: 0.8, eq: [8, 7, 5, 2, 0, -2, -3, -4, -4, -5], channels: { rumble: {volume: 0.9, pan: 0, mute: false}, flow: {volume: 0.1, pan: 0, mute: false}, wind: {volume: 0.6, pan: 0.4, mute: false}, bubbles: {volume: 0.6, pan: -0.3, mute: false}, drips: {volume: 0.1, pan: 0, mute: false, density: 0.5}, chimes: {volume: 0, pan: 0, mute: false}, lava: {volume: 0.8, pan: 0, mute: false}, monsters: {volume: 0.4, pan: 0.6, mute: false}, sparkle: {volume: 0, pan: 0, mute: false} } } },
                 { name: 'Crystal Grotto', settings: { masterVolume: 0.8, eq: [-5, -4, -3, -2, 0, 2, 4, 6, 8, 9], channels: { rumble: {volume: 0.2, pan: 0, mute: false}, flow: {volume: 0.4, pan: -0.1, mute: false}, wind: {volume: 0, pan: 0, mute: false}, bubbles: {volume: 0.2, pan: 0.2, mute: false}, drips: {volume: 0.9, pan: -0.4, mute: false, density: 5}, chimes: {volume: 0.7, pan: 0.5, mute: false}, lava: {volume: 0, pan: 0, mute: false}, monsters: {volume: 0, pan: 0, mute: false}, sparkle: {volume: 0.8, pan: 0, mute: false} } } }
             ];
-            const eqPresets = [{ name: 'Flat', values: flatEq }, { name: 'Full Bass & Treble', values: [7, 5, 2, -3, -4, -4, -3, 2, 5, 7] }, { name: 'Bass Booster', values: [8, 7, 5, 2, 0, -2, -3, -4, -4, -5] }, { name: 'Presence', values: [-4, -3, -2, 0, 3, 5, 5, 3, 1, 0] }, { name: 'Treble Enhancer', values: [-5, -4, -3, -2, 0, 2, 4, 6, 8, 9] }, { name: 'Loudness Contour', values: [5, 2, -2, -5, -6, -5, -2, 1, 3, 4] }];
+            const eqPresets = [
+                { name: 'Flat', values: flatEq },
+                { name: 'Full Bass & Treble', values: [7, 5, 2, -3, -4, -4, -3, 2, 5, 7] },
+                { name: 'Bass Booster', values: [8, 7, 5, 2, 0, -2, -3, -4, -4, -5] },
+                { name: 'Presence', values: [-4, -3, -2, 0, 3, 5, 5, 3, 1, 0] },
+                { name: 'Treble Enhancer', values: [-5, -4, -3, -2, 0, 2, 4, 6, 8, 9] },
+                { name: 'Loudness Contour', values: [5, 2, -2, -5, -6, -5, -2, 1, 3, 4] }
+            ];
             let userPresets = JSON.parse(localStorage.getItem(PRESET_STORAGE_KEY)) || [];
 
             // --- Audio Synthesis Setup ---
             const masterVolume = new Tone.Volume(-6).toDestination();
-            const masterBus = new Tone.Gain().connect(masterVolume);
+            const masterBus = new Tone.Gain();
             const eqBands = Array.from({ length: 10 }, (_, i) => new Tone.Filter(31 * Math.pow(2, i), "peaking"));
-            masterBus.chain(...eqBands);
+            masterBus.chain(...eqBands, masterVolume);
             
             const channels = {};
             const channelGroups = {
@@ -255,9 +322,15 @@
                 'Creatures & Dangers': ['monsters', 'lava', 'bubbles']
             };
             const channelConfig = {
-                rumble: {label: 'Low Rumble'}, flow: {label: 'Water Flow'}, drips: {label: 'Water Drips', hasDensity: true}, 
-                wind: {label: 'Cave Wind'}, sparkle: {label: 'Crystal Sparkle'}, chimes: {label: 'Crystal Chimes'},
-                monsters: {label: 'Distant Monsters'}, lava: {label: 'Lava Flow'}, bubbles: {label: 'Bubbles / Gurgle'}
+                rumble: {label: 'Low Rumble'},
+                flow: {label: 'Water Flow'},
+                drips: {label: 'Water Drips', hasDensity: true},
+                wind: {label: 'Cave Wind'},
+                sparkle: {label: 'Crystal Sparkle'},
+                chimes: {label: 'Crystal Chimes'},
+                monsters: {label: 'Distant Monsters'},
+                lava: {label: 'Lava Flow'},
+                bubbles: {label: 'Bubbles / Gurgle'}
             };
 
             const continuousSources = {};
@@ -265,134 +338,523 @@
                 const panner = new Tone.Panner(0).connect(masterBus);
                 const gain = new Tone.Gain(0).connect(panner);
                 channels[id] = { gain, panner, id };
-                if(id !== 'drips' && id !== 'chimes') {
+                if (id !== 'drips' && id !== 'chimes') {
                     const source = new Tone.Noise("brown").connect(gain);
                     continuousSources[id] = source;
                 }
             });
 
-            const windFilter = new Tone.AutoFilter(0.5, 100, 4).connect(channels.wind.gain); continuousSources.wind.disconnect().connect(windFilter);
-            const bubbleFilter = new Tone.Filter(400, 'bandpass', -12).set({ Q: 5}); new Tone.LFO(8, 400, 1000).start().connect(bubbleFilter.frequency); continuousSources.bubbles.type = 'white'; continuousSources.bubbles.disconnect().connect(bubbleFilter).connect(channels.bubbles.gain);
-            const lavaModGain = new Tone.Gain(0).connect(channels.lava.gain); new Tone.LFO(0.3, 0.2, 1.0).start().connect(lavaModGain.gain); continuousSources.lava.type = 'pink'; continuousSources.lava.disconnect().connect(lavaModGain);
-            const monsterModGain = new Tone.Gain(0); const monsterFilter = new Tone.Filter(400, 'lowpass'); const monsterPitchShift = new Tone.PitchShift(-12).connect(channels.monsters.gain); monsterModGain.chain(monsterFilter, monsterPitchShift); new Tone.LFO(0.2, 0.3, 1.0).start().connect(monsterModGain.gain); continuousSources.monsters.disconnect().connect(monsterModGain);
-            const sparkleFilter = new Tone.Filter(4000, "highpass").connect(channels.sparkle.gain); continuousSources.sparkle.type = 'white'; continuousSources.sparkle.disconnect().connect(sparkleFilter);
+            const windFilter = new Tone.AutoFilter(0.5, 100, 4).connect(channels.wind.gain);
+            continuousSources.wind.disconnect().connect(windFilter);
+            const bubbleFilter = new Tone.Filter(400, 'bandpass', -12).set({ Q: 5});
+            new Tone.LFO(8, 400, 1000).start().connect(bubbleFilter.frequency);
+            continuousSources.bubbles.type = 'white';
+            continuousSources.bubbles.disconnect().connect(bubbleFilter).connect(channels.bubbles.gain);
+            const lavaModGain = new Tone.Gain(0).connect(channels.lava.gain);
+            new Tone.LFO(0.3, 0.2, 1.0).start().connect(lavaModGain.gain);
+            continuousSources.lava.type = 'pink';
+            continuousSources.lava.disconnect().connect(lavaModGain);
+            const monsterModGain = new Tone.Gain(0);
+            const monsterFilter = new Tone.Filter(400, 'lowpass');
+            const monsterPitchShift = new Tone.PitchShift(-12).connect(channels.monsters.gain);
+            monsterModGain.chain(monsterFilter, monsterPitchShift);
+            new Tone.LFO(0.2, 0.3, 1.0).start().connect(monsterModGain.gain);
+            continuousSources.monsters.disconnect().connect(monsterModGain);
+            const sparkleFilter = new Tone.Filter(4000, "highpass").connect(channels.sparkle.gain);
+            continuousSources.sparkle.type = 'white';
+            continuousSources.sparkle.disconnect().connect(sparkleFilter);
             
-            const dripReverb = new Tone.Reverb(6, 0.05, 0.7).connect(channels.drips.panner); 
-            const dripSynth = new Tone.PluckSynth({ attackNoise: 1, dampening: 8000, resonance: 0.9 }).connect(dripReverb); channels.drips.gain.disconnect();
+            const dripReverb = new Tone.Reverb(6, 0.05, 0.7).connect(channels.drips.panner);
+            const dripSynth = new Tone.PluckSynth({ attackNoise: 1, dampening: 8000, resonance: 0.9 }).connect(dripReverb);
+            channels.drips.gain.disconnect();
             const chimesReverb = new Tone.Reverb(8, 0.1, 0.5).connect(channels.chimes.panner);
-            const chimeSynth = new Tone.MetalSynth({ frequency: 200, harmonicity: 8, modulationIndex: 20, resonance: 4000, octaves: 1.5 }).connect(chimesReverb); channels.chimes.gain.disconnect();
+            const chimeSynth = new Tone.MetalSynth({ frequency: 200, harmonicity: 8, modulationIndex: 20, resonance: 4000, octaves: 1.5 }).connect(chimesReverb);
+            channels.chimes.gain.disconnect();
             
             // --- Scheduling Logic ---
-            let dripInterval, chimeInterval;
-            function scheduleDrip() { if (isPlaying) { const channel = channels.drips; const density = channel.densitySlider.value; if (density > 0 && !channel.gain.mute) dripSynth.triggerAttackRelease(['C4', 'E4', 'G4', 'A4', 'C5'][Math.floor(Math.random() * 5)], "8n", undefined, parseFloat(channel.volumeSlider.value)); dripInterval = setTimeout(scheduleDrip, (density > 0 ? 1000 / density : 100000) * (1 + (Math.random() - 0.5) * 0.8)); } }
-            function scheduleChime() { if (isPlaying) { const channel = channels.chimes; if (!channel.gain.mute) chimeSynth.triggerAttackRelease(Math.random() * 1000 + 200, "4n", undefined, parseFloat(channel.volumeSlider.value)); chimeInterval = setTimeout(scheduleChime, Math.random() * 15000 + 10000); } }
+            const dripLoop = new Tone.Loop((time) => {
+                if (isPlaying && !channels.drips.gain.mute) {
+                    const density = parseFloat(channels.drips.densitySlider.value);
+                    const T = 0.1; // Loop interval in seconds
+                    const P = Math.min(density * T, 1);
+                    if (Math.random() < P) {
+                        dripSynth.triggerAttackRelease(['C4', 'E4', 'G4', 'A4', 'C5'][Math.floor(Math.random() * 5)], "8n", time, parseFloat(channels.drips.volumeSlider.value));
+                    }
+                }
+            }, 0.1).start(0);
+
+            function scheduleNextChime() {
+                if (isPlaying) {
+                    const delay = Math.random() * 15 + 10; // Delay in seconds (10 to 25 seconds)
+                    Tone.Transport.scheduleOnce((time) => {
+                        if (!channels.chimes.gain.mute) {
+                            chimeSynth.triggerAttackRelease(Math.random() * 1000 + 200, "4n", time, parseFloat(channels.chimes.volumeSlider.value));
+                        }
+                        scheduleNextChime();
+                    }, Tone.now() + delay);
+                }
+            }
 
             // --- Core Functions ---
-            async function startAudio() { if (!audioInitialized) { await Tone.start(); audioInitialized = true; } Object.values(continuousSources).forEach(s => s.start()); isPlaying = true; updatePlayButtonUI(); scheduleDrip(); scheduleChime(); }
-            function stopAudio() { Object.values(continuousSources).forEach(s => s.stop()); isPlaying = false; updatePlayButtonUI(); clearTimeout(dripInterval); clearTimeout(chimeInterval); }
-            function updatePlayButtonUI() { playIcon.classList.toggle('hidden', isPlaying); pauseIcon.classList.toggle('hidden', !isPlaying); }
+            async function startAudio() {
+                if (!audioInitialized) {
+                    await Tone.start();
+                    audioInitialized = true;
+                }
+                const fadeInTime = parseFloat(document.getElementById('fade-in-time').value) || 0;
+                masterVolume.volume.value = -Infinity;
+                Tone.Transport.start();
+                Object.values(continuousSources).forEach(s => s.start());
+                masterVolume.volume.rampTo(Tone.gainToDb(masterVolumeSlider.value), fadeInTime);
+                isPlaying = true;
+                updatePlayButtonUI();
+                scheduleNextChime();
+            }
+
+            function stopAudio() {
+                Tone.Transport.stop();
+                Object.values(continuousSources).forEach(s => s.stop());
+                isPlaying = false;
+                updatePlayButtonUI();
+            }
+
+            function updatePlayButtonUI() {
+                playIcon.classList.toggle('hidden', isPlaying);
+                pauseIcon.classList.toggle('hidden', !isPlaying);
+            }
 
             // --- Preset Functions & UI ---
             function populatePresets(selectElement, presetList, userList = []) {
                 selectElement.innerHTML = '';
-                if(selectElement.id === 'preset-select') selectElement.innerHTML = '<option value="">--- Custom Soundscape ---</option>';
-                const createGroup = (l, p, t) => { const g = document.createElement('optgroup'); g.label = l; p.forEach((pr, i) => { const o = document.createElement('option'); o.value = `${t}-${i}`; o.textContent = pr.name; g.appendChild(o); }); selectElement.appendChild(g); };
+                if (selectElement.id === 'preset-select') selectElement.innerHTML = '<option value="">--- Custom Soundscape ---</option>';
+                const createGroup = (label, presets, type) => {
+                    const group = document.createElement('optgroup');
+                    group.label = label;
+                    presets.forEach((pr, i) => {
+                        const option = document.createElement('option');
+                        option.value = `${type}-${i}`;
+                        option.textContent = pr.name;
+                        group.appendChild(option);
+                    });
+                    selectElement.appendChild(group);
+                };
                 createGroup('Default', presetList, 'default');
                 if (userList.length > 0) createGroup('Yours', userList, 'user');
-                if(selectElement.id === 'preset-select') updateDeleteButtonState();
+                if (selectElement.id === 'preset-select') updateDeleteButtonState();
             }
 
-            function populateEqPresets() { eqPresetSelect.innerHTML = '<option value="">--- Custom EQ ---</option>'; eqPresets.forEach((p, i) => { const o = document.createElement('option'); o.value = i; o.textContent = p.name; eqPresetSelect.appendChild(o); }); }
-            function applySettings(settings) { masterVolume.volume.rampTo(Tone.gainToDb(settings.masterVolume), 0.1); masterVolumeSlider.value = settings.masterVolume; Object.keys(settings.channels).forEach(key => { const s = settings.channels[key]; const c = channels[key]; c.volumeSlider.value = s.volume; c.gain.gain.rampTo(s.volume, 0.1); c.panSlider.value = s.pan; c.panner.pan.rampTo(s.pan, 0.1); c.gain.mute = s.mute; c.muteButton.classList.toggle('opacity-50', s.mute); if(c.densitySlider && s.density !== undefined) c.densitySlider.value = s.density; }); if (settings.eq) { applyEqSettings(settings.eq); findAndSelectEqPreset(settings.eq); } }
-            function applyEqSettings(eqValues) { eqSliders.forEach((s, i) => { s.value = eqValues[i]; eqBands[i].gain.rampTo(eqValues[i], 0.1); }); }
-            function getCurrentSettings() { const s = { masterVolume: parseFloat(masterVolumeSlider.value), channels: {}, eq: eqSliders.map(sl => parseFloat(sl.value))}; Object.keys(channels).forEach(key => { const c = channels[key]; s.channels[key] = { volume: parseFloat(c.volumeSlider.value), pan: parseFloat(c.panSlider.value), mute: c.gain.mute }; if(c.densitySlider) s.channels[key].density = parseFloat(c.densitySlider.value); }); return s; }
-            function updateDeleteButtonState() { const sel = presetSelect.value; deletePresetButton.disabled = !sel || sel.startsWith('default'); }
-            function findAndSelectEqPreset(eqValues) { const eqString = JSON.stringify(eqValues); const presetIndex = eqPresets.findIndex(p => JSON.stringify(p.values) === eqString); eqPresetSelect.value = presetIndex !== -1 ? presetIndex : ""; }
-            function showNotification(message) { notification.textContent = message; notification.classList.remove('opacity-0', '-translate-y-10'); setTimeout(() => notification.classList.add('opacity-0', '-translate-y-10'), 2000); }
+            function populateEqPresets() {
+                eqPresetSelect.innerHTML = '<option value="">--- Custom EQ ---</option>';
+                eqPresets.forEach((p, i) => {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = p.name;
+                    eqPresetSelect.appendChild(option);
+                });
+            }
+
+            function applySettings(settings) {
+                if (!lockVolumeCheckbox.checked) {
+                    masterVolume.volume.rampTo(Tone.gainToDb(settings.masterVolume), 0.1);
+                    masterVolumeSlider.value = settings.masterVolume;
+                }
+                Object.keys(settings.channels).forEach(key => {
+                    const s = settings.channels[key];
+                    const c = channels[key];
+                    c.volumeSlider.value = s.volume;
+                    c.gain.gain.rampTo(s.volume, 0.1);
+                    c.panSlider.value = s.pan;
+                    c.panner.pan.rampTo(s.pan, 0.1);
+                    c.gain.mute = s.mute;
+                    c.muteButton.classList.toggle('opacity-50', s.mute);
+                    if (c.densitySlider && s.density !== undefined) c.densitySlider.value = s.density;
+                });
+                if (settings.eq) {
+                    applyEqSettings(settings.eq);
+                    findAndSelectEqPreset(settings.eq);
+                }
+            }
+
+            function applyEqSettings(eqValues) {
+                eqSliders.forEach((s, i) => {
+                    s.value = eqValues[i];
+                    if (!eqBypassed) {
+                        eqBands[i].gain.rampTo(eqValues[i], 0.1);
+                    }
+                });
+            }
+
+            function getCurrentSettings() {
+                const settings = {
+                    masterVolume: parseFloat(masterVolumeSlider.value),
+                    channels: {},
+                    eq: eqSliders.map(sl => parseFloat(sl.value))
+                };
+                Object.keys(channels).forEach(key => {
+                    const c = channels[key];
+                    settings.channels[key] = {
+                        volume: parseFloat(c.volumeSlider.value),
+                        pan: parseFloat(c.panSlider.value),
+                        mute: c.gain.mute
+                    };
+                    if (c.densitySlider) settings.channels[key].density = parseFloat(c.densitySlider.value);
+                });
+                return settings;
+            }
+
+            function updateDeleteButtonState() {
+                const sel = presetSelect.value;
+                deletePresetButton.disabled = !sel || sel.startsWith('default');
+            }
+
+            function findAndSelectEqPreset(eqValues) {
+                const eqString = JSON.stringify(eqValues);
+                const presetIndex = eqPresets.findIndex(p => JSON.stringify(p.values) === eqString);
+                eqPresetSelect.value = presetIndex !== -1 ? presetIndex : "";
+            }
+
+            function showNotification(message) {
+                notification.textContent = message;
+                notification.classList.remove('opacity-0', '-translate-y-10');
+                setTimeout(() => notification.classList.add('opacity-0', '-translate-y-10'), 2000);
+            }
 
             // --- Event Listeners ---
             playPauseButton.addEventListener('click', () => isPlaying ? stopAudio() : startAudio());
-            masterVolumeSlider.addEventListener('input', e => masterVolume.volume.rampTo(Tone.gainToDb(parseFloat(e.target.value)), 0.1));
-            presetSelect.addEventListener('change', () => { const [t, i] = presetSelect.value.split('-'); if(!t) return; const p = t === 'default' ? defaultSoundPresets[parseInt(i)] : userPresets[parseInt(i)]; if (p) applySettings(p.settings); updateDeleteButtonState(); });
-            eqPresetSelect.addEventListener('change', () => { if (eqPresetSelect.value === "") return; const p = eqPresets[eqPresetSelect.value]; if (p) { applyEqSettings(p.values); presetSelect.value = ""; } });
-            savePresetButton.addEventListener('click', () => { saveModal.classList.remove('hidden'); presetNameInput.focus(); });
+            masterVolumeSlider.addEventListener('input', e => {
+                if (!lockVolumeCheckbox.checked) {
+                    masterVolume.volume.rampTo(Tone.gainToDb(parseFloat(e.target.value)), 0.1);
+                }
+            });
+            lockVolumeCheckbox.checked = localStorage.getItem('volumeLocked') === 'true';
+            lockVolumeCheckbox.addEventListener('change', () => {
+                localStorage.setItem('volumeLocked', lockVolumeCheckbox.checked);
+                showNotification(`Volume lock ${lockVolumeCheckbox.checked ? 'enabled' : 'disabled'}.`);
+            });
+            presetSelect.addEventListener('change', () => {
+                const [type, index] = presetSelect.value.split('-');
+                if (!type) return;
+                const preset = type === 'default' ? defaultSoundPresets[parseInt(index)] : userPresets[parseInt(index)];
+                if (preset) applySettings(preset.settings);
+                updateDeleteButtonState();
+            });
+            eqPresetSelect.addEventListener('change', () => {
+                if (eqPresetSelect.value === "") return;
+                const preset = eqPresets[eqPresetSelect.value];
+                if (preset) {
+                    applyEqSettings(preset.values);
+                    presetSelect.value = "";
+                }
+            });
+            eqSliders.forEach((s, i) => s.addEventListener('input', e => {
+                if (!eqBypassed) {
+                    eqBands[i].gain.rampTo(parseFloat(e.target.value), 0.1);
+                }
+                findAndSelectEqPreset(eqSliders.map(sl => parseFloat(sl.value)));
+                presetSelect.value = "";
+            }));
+            bypassEqButton.addEventListener('click', () => {
+                eqBypassed = !eqBypassed;
+                bypassEqButton.textContent = eqBypassed ? 'Enable EQ' : 'Bypass EQ';
+                if (eqBypassed) {
+                    eqBands.forEach(band => band.gain.rampTo(0, 0.1));
+                } else {
+                    eqSliders.forEach((slider, i) => eqBands[i].gain.rampTo(parseFloat(slider.value), 0.1));
+                }
+            });
+            savePresetButton.addEventListener('click', () => {
+                saveModal.classList.remove('hidden');
+                presetNameInput.focus();
+            });
             cancelSaveButton.addEventListener('click', () => saveModal.classList.add('hidden'));
-            confirmSaveButton.addEventListener('click', () => { const name = presetNameInput.value.trim(); if (name) { userPresets.push({ name, settings: getCurrentSettings() }); localStorage.setItem(PRESET_STORAGE_KEY, JSON.stringify(userPresets)); populatePresets(presetSelect, defaultSoundPresets, userPresets); populatePresets(alarmPresetSelect, defaultSoundPresets, userPresets); presetSelect.value = `user-${userPresets.length - 1}`; saveModal.classList.add('hidden'); presetNameInput.value = ''; } });
-            deletePresetButton.addEventListener('click', () => { const [t, i] = presetSelect.value.split('-'); if (t === 'user') { userPresets.splice(parseInt(i), 1); localStorage.setItem(PRESET_STORAGE_KEY, JSON.stringify(userPresets)); populatePresets(presetSelect, defaultSoundPresets, userPresets); populatePresets(alarmPresetSelect, defaultSoundPresets, userPresets); } });
+            confirmSaveButton.addEventListener('click', () => {
+                const name = presetNameInput.value.trim();
+                if (!name) {
+                    showNotification("Please enter a preset name.");
+                    return;
+                }
+                userPresets.push({ name, settings: getCurrentSettings() });
+                localStorage.setItem(PRESET_STORAGE_KEY, JSON.stringify(userPresets));
+                populatePresets(presetSelect, defaultSoundPresets, userPresets);
+                populatePresets(alarmPresetSelect, defaultSoundPresets, userPresets);
+                presetSelect.value = `user-${userPresets.length - 1}`;
+                saveModal.classList.add('hidden');
+                presetNameInput.value = '';
+            });
+            deletePresetButton.addEventListener('click', () => {
+                const [type, index] = presetSelect.value.split('-');
+                if (type === 'user') {
+                    userPresets.splice(parseInt(index), 1);
+                    localStorage.setItem(PRESET_STORAGE_KEY, JSON.stringify(userPresets));
+                    populatePresets(presetSelect, defaultSoundPresets, userPresets);
+                    populatePresets(alarmPresetSelect, defaultSoundPresets, userPresets);
+                    presetSelect.value = "";
+                    updateDeleteButtonState();
+                }
+            });
             settingsButton.addEventListener('click', () => settingsModal.classList.remove('hidden'));
             closeSettingsButton.addEventListener('click', () => settingsModal.classList.add('hidden'));
-            saveDefaultButton.addEventListener('click', () => { localStorage.setItem(DEFAULT_SETTINGS_KEY, JSON.stringify(getCurrentSettings())); settingsModal.classList.add('hidden'); showNotification('Default saved!'); });
-            clearDefaultButton.addEventListener('click', () => { localStorage.removeItem(DEFAULT_SETTINGS_KEY); settingsModal.classList.add('hidden'); showNotification('Default cleared.'); });
-            
+            saveDefaultButton.addEventListener('click', () => {
+                localStorage.setItem(DEFAULT_SETTINGS_KEY, JSON.stringify(getCurrentSettings()));
+                settingsModal.classList.add('hidden');
+                showNotification('Default saved!');
+            });
+            clearDefaultButton.addEventListener('click', () => {
+                localStorage.removeItem(DEFAULT_SETTINGS_KEY);
+                settingsModal.classList.add('hidden');
+                showNotification('Default cleared.');
+            });
+            // New: Settings Panel Event Listeners
+            document.getElementById('buffer-size').addEventListener('change', (e) => {
+                Tone.context.bufferSize = parseInt(e.target.value);
+                localStorage.setItem('bufferSize', e.target.value);
+                showNotification('Audio buffer size updated.');
+            });
+            document.getElementById('theme-toggle').addEventListener('change', () => {
+                const theme = document.getElementById('theme-toggle').checked ? 'light' : 'dark';
+                localStorage.setItem('theme', theme);
+                document.body.classList.toggle('light-theme', theme === 'light');
+                showNotification(`Switched to ${theme} mode.`);
+            });
+            document.getElementById('auto-play').addEventListener('change', () => {
+                localStorage.setItem('autoPlay', document.getElementById('auto-play').checked);
+                showNotification('Auto-play setting updated.');
+            });
+            document.getElementById('fade-in-time').addEventListener('change', () => {
+                localStorage.setItem('fadeInTime', document.getElementById('fade-in-time').value);
+                showNotification('Fade-in time updated.');
+            });
+            document.getElementById('reset-all-button').addEventListener('click', () => {
+                applySettings(defaultSoundPresets[0].settings);
+                settingsModal.classList.add('hidden');
+                showNotification('Settings reset to default.');
+            });
+            document.getElementById('export-presets-button').addEventListener('click', () => {
+                const data = JSON.stringify(userPresets);
+                const blob = new Blob([data], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'fantasy-cave-presets.json';
+                a.click();
+                URL.revokeObjectURL(url);
+                settingsModal.classList.add('hidden');
+                showNotification('All presets exported.');
+            });
+
             // Timer Logic
-            startSleepTimerButton.addEventListener('click', () => { const hours = parseInt(sleepHoursInput.value) || 0; const minutes = parseInt(sleepMinutesInput.value) || 0; const fade = parseInt(sleepFadeInput.value) || 10; const totalSeconds = (hours * 3600) + (minutes * 60); if (totalSeconds <= 0) return; clearTimeout(sleepTimerId); clearInterval(sleepIntervalId); let remaining = totalSeconds; timerDisplay.textContent = `Fading out in ${hours}h ${minutes}m...`; sleepTimerId = setTimeout(() => { masterVolume.volume.rampTo(-Infinity, fade); setTimeout(() => { stopAudio(); masterVolume.volume.rampTo(Tone.gainToDb(masterVolumeSlider.value), 0.1); }, (fade + 1) * 1000); }, (totalSeconds - fade) * 1000); sleepIntervalId = setInterval(() => { remaining--; const h = Math.floor(remaining/3600); const m = Math.floor((remaining % 3600) / 60); const s = remaining % 60; timerDisplay.textContent = `Fading out in ${h}h ${m}m ${s}s...`; if(remaining <= 0) clearInterval(sleepIntervalId); }, 1000); });
-            cancelSleepTimerButton.addEventListener('click', () => { clearTimeout(sleepTimerId); clearInterval(sleepIntervalId); timerDisplay.textContent = 'Timer is off.'; });
+            startSleepTimerButton.addEventListener('click', () => {
+                const hours = parseInt(sleepHoursInput.value) || 0;
+                const minutes = parseInt(sleepMinutesInput.value) || 0;
+                const fade = parseInt(sleepFadeInput.value) || 10;
+                const totalSeconds = (hours * 3600) + (minutes * 60);
+                if (totalSeconds <= 0) {
+                    showNotification("Please enter a valid time.");
+                    return;
+                }
+                clearTimeout(sleepTimerId);
+                clearInterval(sleepIntervalId);
+                let remaining = totalSeconds;
+                timerDisplay.textContent = `Fading out in ${hours}h ${minutes}m...`;
+                sleepTimerId = setTimeout(() => {
+                    masterVolume.volume.rampTo(-Infinity, fade);
+                    setTimeout(() => {
+                        stopAudio();
+                        masterVolume.volume.rampTo(Tone.gainToDb(masterVolumeSlider.value), 0.1);
+                    }, (fade + 1) * 1000);
+                }, (totalSeconds - fade) * 1000);
+                sleepIntervalId = setInterval(() => {
+                    remaining--;
+                    const h = Math.floor(remaining / 3600);
+                    const m = Math.floor((remaining % 3600) / 60);
+                    const s = remaining % 60;
+                    timerDisplay.textContent = `Fading out in ${h}h ${m}m ${s}s...`;
+                    if (remaining <= 0) clearInterval(sleepIntervalId);
+                }, 1000);
+            });
+            cancelSleepTimerButton.addEventListener('click', () => {
+                clearTimeout(sleepTimerId);
+                clearInterval(sleepIntervalId);
+                timerDisplay.textContent = 'Timer is off.';
+            });
 
             // Alarm Logic
-            setAlarmButton.addEventListener('click', () => { const time = alarmTimeInput.value; if(!time) return; clearInterval(alarmIntervalId); alarmStatusDisplay.textContent = `Alarm set for ${time}.`; alarmIntervalId = setInterval(() => { const now = new Date(); const currentTime = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`; if(currentTime === time) { triggerAlarm(); clearInterval(alarmIntervalId); alarmStatusDisplay.textContent = 'Alarm is disabled.'; }}, 1000); });
-            disableAlarmButton.addEventListener('click', () => { clearInterval(alarmIntervalId); alarmStatusDisplay.textContent = 'Alarm is disabled.'; });
-            function triggerAlarm() { const [t, i] = alarmPresetSelect.value.split('-'); const preset = (t === 'default' ? defaultSoundPresets[parseInt(i)] : userPresets[parseInt(i)]) || defaultSoundPresets[0]; const fade = parseInt(alarmFadeInput.value) || 15; stopAudio(); applySettings(preset.settings); masterVolume.volume.value = -Infinity; startAudio(); masterVolume.volume.rampTo(Tone.gainToDb(preset.settings.masterVolume), fade); }
+            setAlarmButton.addEventListener('click', () => {
+                const time = alarmTimeInput.value;
+                if (!time) {
+                    showNotification("Please select a time.");
+                    return;
+                }
+                clearInterval(alarmIntervalId);
+                alarmStatusDisplay.textContent = `Alarm set for ${time}.`;
+                alarmIntervalId = setInterval(() => {
+                    const now = new Date();
+                    const currentTime = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+                    if (currentTime === time) {
+                        triggerAlarm();
+                        clearInterval(alarmIntervalId);
+                        alarmStatusDisplay.textContent = 'Alarm is disabled.';
+                    }
+                }, 1000);
+            });
+            disableAlarmButton.addEventListener('click', () => {
+                clearInterval(alarmIntervalId);
+                alarmStatusDisplay.textContent = 'Alarm is disabled.';
+            });
+            function triggerAlarm() {
+                const [type, index] = alarmPresetSelect.value.split('-');
+                const preset = (type === 'default' ? defaultSoundPresets[parseInt(index)] : userPresets[parseInt(index)]) || defaultSoundPresets[0];
+                const fade = parseInt(alarmFadeInput.value) || 15;
+                stopAudio();
+                applySettings(preset.settings);
+                masterVolume.volume.value = -Infinity;
+                startAudio();
+                masterVolume.volume.rampTo(Tone.gainToDb(preset.settings.masterVolume), fade);
+            }
 
-            shareButton.addEventListener('click', () => { const settings = getCurrentSettings(); const encoded = btoa(JSON.stringify(settings)); const url = `${window.location.origin}${window.location.pathname}?settings=${encoded}`; navigator.clipboard.writeText(url).then(() => showNotification('Share link copied!')); });
-            eqSliders.forEach((s, i) => s.addEventListener('input', e => { eqBands[i].gain.value = parseFloat(e.target.value); findAndSelectEqPreset(eqSliders.map(sl => parseFloat(sl.value))); presetSelect.value = ""; }));
+            shareButton.addEventListener('click', () => {
+                const settings = getCurrentSettings();
+                const encoded = btoa(JSON.stringify(settings));
+                const url = `${window.location.origin}${window.location.pathname}?settings=${encoded}`;
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(url).then(() => showNotification('Share link copied!'));
+                } else {
+                    showNotification('Clipboard not available. Copy manually: ' + url);
+                    console.log(url);
+                }
+            });
 
-            // Initial setup
-            function initializeValues() {
-                Object.entries(channelGroups).forEach(([groupName, channelIds]) => {
-                    const accordionButton = document.createElement('button');
-                    accordionButton.className = 'w-full text-left p-3 bg-gray-800 hover:bg-gray-700 rounded-md font-bold text-lg';
-                    accordionButton.textContent = groupName;
-                    
-                    const accordionContent = document.createElement('div');
-                    accordionContent.className = 'accordion-content p-4 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6';
+            // --- Initial Setup ---
+            function createChannelControls(groupName, channelIds) {
+                const accordionButton = document.createElement('button');
+                accordionButton.className = 'w-full text-left p-3 bg-gray-800 hover:bg-gray-700 rounded-md font-bold text-lg';
+                accordionButton.textContent = groupName;
+                accordionButton.setAttribute('aria-expanded', 'false');
+                
+                const accordionContent = document.createElement('div');
+                accordionContent.className = 'accordion-content p-4 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6';
+                accordionContent.style.maxHeight = '0';
 
-                    accordionButton.onclick = () => {
-                        const isOpen = accordionContent.style.maxHeight;
-                        document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
-                        if (!isOpen) {
-                            accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
-                        }
-                    };
-                    
-                    channelIds.forEach(id => {
-                        const cfg = channelConfig[id];
-                        const channel = channels[id];
-                        const wrapper = document.createElement('div'); wrapper.className = 'space-y-2';
-                        const labelDiv = document.createElement('div'); labelDiv.className = 'flex items-center gap-2';
-                        const muteButton = document.createElement('button'); muteButton.className = 'text-gray-400 hover:text-white'; muteButton.setAttribute('data-tooltip', 'Mute/Unmute Channel');
-                        muteButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`;
-                        muteButton.onclick = () => { channel.gain.mute = !channel.gain.mute; muteButton.classList.toggle('opacity-50', channel.gain.mute); };
-                        channel.muteButton = muteButton;
-                        const label = document.createElement('label'); label.className = 'font-medium text-sm'; label.textContent = cfg.label;
-                        labelDiv.append(muteButton, label);
-                        const volumeSlider = document.createElement('input'); volumeSlider.type = 'range'; volumeSlider.min=0; volumeSlider.max=1; volumeSlider.step=0.01; volumeSlider.setAttribute('data-tooltip', 'Volume');
-                        volumeSlider.oninput = () => { channel.gain.gain.rampTo(parseFloat(volumeSlider.value), 0.1); presetSelect.value = ""; };
-                        channel.volumeSlider = volumeSlider;
-                        const panSliderWrapper = document.createElement('div'); panSliderWrapper.className = 'flex items-center gap-2';
-                        const panLabelL = document.createElement('span'); panLabelL.className='text-xs font-mono text-gray-500'; panLabelL.textContent = 'L';
-                        const panLabelR = document.createElement('span'); panLabelR.className='text-xs font-mono text-gray-500'; panLabelR.textContent = 'R';
-                        const panSlider = document.createElement('input'); panSlider.type='range'; panSlider.min=-1; panSlider.max=1; panSlider.step=0.01; panSlider.value=0; panSlider.setAttribute('data-tooltip', 'Pan Left/Right');
-                        panSlider.oninput = () => { channel.panner.pan.rampTo(parseFloat(panSlider.value), 0.1); presetSelect.value = ""; };
-                        channel.panSlider = panSlider;
-                        panSliderWrapper.append(panLabelL, panSlider, panLabelR);
-                        wrapper.append(labelDiv, volumeSlider, panSliderWrapper);
-                        if(cfg.hasDensity){
-                            const densityLabel = document.createElement('label'); densityLabel.textContent = "Density"; densityLabel.className="font-medium text-xs text-gray-400 pt-2";
-                            const densitySlider = document.createElement('input'); densitySlider.type='range'; densitySlider.min=0.1; densitySlider.max=10; densitySlider.step=0.1; densitySlider.setAttribute('data-tooltip', 'Frequency of drips');
-                            channel.densitySlider = densitySlider;
-                            wrapper.append(densityLabel, densitySlider);
-                        }
-                        accordionContent.appendChild(wrapper);
+                accordionButton.onclick = () => {
+                    const isOpen = accordionContent.style.maxHeight !== '0px';
+                    document.querySelectorAll('.accordion-content').forEach(c => {
+                        c.style.maxHeight = '0px';
+                        c.previousElementSibling.setAttribute('aria-expanded', 'false');
                     });
-
-                    channelsContainer.append(accordionButton, accordionContent);
+                    if (!isOpen) {
+                        accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
+                        accordionButton.setAttribute('aria-expanded', 'true');
+                    } else {
+                        accordionContent.style.maxHeight = '0px';
+                        accordionButton.setAttribute('aria-expanded', 'false');
+                    }
+                };
+                
+                channelIds.forEach(id => {
+                    const cfg = channelConfig[id];
+                    const channel = channels[id];
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'space-y-2';
+                    
+                    const labelDiv = document.createElement('div');
+                    labelDiv.className = 'flex items-center gap-2';
+                    
+                    const muteButton = document.createElement('button');
+                    muteButton.className = 'text-gray-400 hover:text-white';
+                    muteButton.setAttribute('aria-label', `Mute/Unmute ${cfg.label}`);
+                    muteButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`;
+                    muteButton.onclick = () => {
+                        channel.gain.mute = !channel.gain.mute;
+                        muteButton.classList.toggle('opacity-50', channel.gain.mute);
+                    };
+                    channel.muteButton = muteButton;
+                    
+                    const label = document.createElement('label');
+                    label.className = 'font-medium text-sm';
+                    label.textContent = cfg.label;
+                    
+                    labelDiv.append(muteButton, label);
+                    
+                    const volumeSlider = document.createElement('input');
+                    volumeSlider.type = 'range';
+                    volumeSlider.min = 0;
+                    volumeSlider.max = 1;
+                    volumeSlider.step = 0.01;
+                    volumeSlider.setAttribute('aria-label', `${cfg.label} Volume`);
+                    volumeSlider.title = 'Volume';
+                    volumeSlider.oninput = () => {
+                        channel.gain.gain.rampTo(parseFloat(volumeSlider.value), 0.1);
+                        presetSelect.value = "";
+                    };
+                    channel.volumeSlider = volumeSlider;
+                    
+                    const panSliderWrapper = document.createElement('div');
+                    panSliderWrapper.className = 'flex items-center gap-2';
+                    
+                    const panLabelL = document.createElement('span');
+                    panLabelL.className = 'text-xs font-mono text-gray-500';
+                    panLabelL.textContent = 'L';
+                    
+                    const panLabelR = document.createElement('span');
+                    panLabelR.className = 'text-xs font-mono text-gray-500';
+                    panLabelR.textContent = 'R';
+                    
+                    const panSlider = document.createElement('input');
+                    panSlider.type = 'range';
+                    panSlider.min = -1;
+                    panSlider.max = 1;
+                    panSlider.step = 0.01;
+                    panSlider.value = 0;
+                    panSlider.setAttribute('aria-label', `${cfg.label} Pan`);
+                    panSlider.title = 'Pan Left/Right';
+                    panSlider.oninput = () => {
+                        channel.panner.pan.rampTo(parseFloat(panSlider.value), 0.1);
+                        presetSelect.value = "";
+                    };
+                    channel.panSlider = panSlider;
+                    
+                    panSliderWrapper.append(panLabelL, panSlider, panLabelR);
+                    wrapper.append(labelDiv, volumeSlider, panSliderWrapper);
+                    
+                    if (cfg.hasDensity) {
+                        const densityLabel = document.createElement('label');
+                        densityLabel.textContent = "Density";
+                        densityLabel.className = "font-medium text-xs text-gray-400 pt-2";
+                        
+                        const densitySlider = document.createElement('input');
+                        densitySlider.type = 'range';
+                        densitySlider.min = 0.1;
+                        densitySlider.max = 10;
+                        densitySlider.step = 0.1;
+                        densitySlider.setAttribute('aria-label', `${cfg.label} Density`);
+                        densitySlider.title = 'Frequency of drips';
+                        densitySlider.oninput = () => {
+                            presetSelect.value = "";
+                        };
+                        channel.densitySlider = densitySlider;
+                        
+                        wrapper.append(densityLabel, densitySlider);
+                    }
+                    
+                    accordionContent.appendChild(wrapper);
                 });
 
+                channelsContainer.append(accordionButton, accordionContent);
+            }
+
+            function initializeValues() {
+                Object.entries(channelGroups).forEach(([groupName, channelIds]) => {
+                    createChannelControls(groupName, channelIds);
+                });
 
                 const urlParams = new URLSearchParams(window.location.search);
                 const settingsFromUrl = urlParams.get('settings');
-                if(settingsFromUrl){
-                    try{ applySettings(JSON.parse(atob(settingsFromUrl))); } catch(e){ console.error("Could not parse settings from URL", e); }
+                if (settingsFromUrl) {
+                    try {
+                        applySettings(JSON.parse(atob(settingsFromUrl)));
+                    } catch (e) {
+                        console.error("Could not parse settings from URL", e);
+                    }
                 } else {
                     const savedDefault = JSON.parse(localStorage.getItem(DEFAULT_SETTINGS_KEY));
                     applySettings(savedDefault || defaultSoundPresets[0].settings);
@@ -402,6 +864,15 @@
                 populatePresets(alarmPresetSelect, defaultSoundPresets, userPresets);
                 populateEqPresets();
                 findAndSelectEqPreset(eqSliders.map(s => parseFloat(s.value)));
+
+                // New: Initialize settings from localStorage
+                document.getElementById('buffer-size').value = localStorage.getItem('bufferSize') || '256';
+                Tone.context.bufferSize = parseInt(document.getElementById('buffer-size').value);
+                document.getElementById('theme-toggle').checked = localStorage.getItem('theme') === 'light';
+                document.body.classList.toggle('light-theme', localStorage.getItem('theme') === 'light');
+                document.getElementById('auto-play').checked = localStorage.getItem('autoPlay') === 'true';
+                document.getElementById('fade-in-time').value = localStorage.getItem('fadeInTime') || '2';
+                if (localStorage.getItem('autoPlay') === 'true') startAudio();
             }
 
             initializeValues();
