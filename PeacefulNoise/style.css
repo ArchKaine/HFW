@@ -1,0 +1,107 @@
+body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            background-image: radial-gradient(circle at top right, #1f2937, #0a0a0a 70%);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Tooltip Styles */
+        [data-tooltip] {
+            position: relative;
+        }
+        [data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-8px);
+            background-color: #1f2937;
+            color: #e5e7eb;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            line-height: 1.25;
+            white-space: nowrap;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+        }
+        [data-tooltip]:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Custom Horizontal Sliders */
+        input[type="range"]:not(.eq-slider) {
+            -webkit-appearance: none; appearance: none;
+            width: 100%; height: 6px;
+            background: linear-gradient(90deg, #374151, #4b5563);
+            border-radius: 9999px; outline: none; opacity: 0.8;
+            transition: opacity .2s;
+        }
+        input[type="range"]:not(.eq-slider):hover { opacity: 1; }
+        input[type="range"]:not(.eq-slider)::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none;
+            width: 20px; height: 20px;
+            background: #e5e7eb; cursor: pointer; border-radius: 50%;
+            border: 2px solid #1f2937;
+            transition: transform 0.2s ease;
+        }
+        input[type="range"]:not(.eq-slider)::-webkit-slider-thumb:hover { transform: scale(1.1); }
+        input[type="range"]:not(.eq-slider)::-moz-range-thumb {
+            width: 20px; height: 20px;
+            background: #e5e7eb; cursor: pointer; border-radius: 50%;
+            border: 2px solid #1f2937;
+        }
+        
+        /* Custom Vertical EQ Sliders */
+        .eq-wrapper {
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 1.5rem 0.5rem; height: 220px;
+        }
+        .eq-slider-container {
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center; height: 100%;
+        }
+        .eq-slider {
+            -webkit-appearance: slider-vertical;
+            appearance: slider-vertical;
+            width: 8px; height: 150px;
+            background: linear-gradient(to top, #374151, #4b5563);
+            border-radius: 9999px; outline: none;
+        }
+        .eq-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; 
+            appearance: none;
+            width: 24px; height: 12px; background: #e5e7eb;
+            cursor: ns-resize; border-radius: 4px;
+        }
+        .eq-slider::-moz-range-thumb {
+            width: 12px; height: 24px; background: #e5e7eb;
+            cursor: ns-resize; border-radius: 4px;
+        }
+        .eq-slider-label { margin-top: 1rem; font-size: 0.7rem; font-weight: 500; color: #9ca3af; }
+        .modal-backdrop, .notification { transition: opacity 0.3s ease; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out; }
+        
+        /* New: Light Theme Styles */
+        .light-theme {
+            background: #f3f4f6;
+            background-image: radial-gradient(circle at top right, #d1d5db, #f3f4f6 70%);
+        }
+        .light-theme .bg-gray-900\/70 { background: #ffffffcc; }
+        .light-theme .text-gray-300 { color: #1f2937; }
+        .light-theme .bg-gray-800 { background: #e5e7eb; }
+        .light-theme .bg-gray-700 { background: #d1d5db; }
+        .light-theme .text-gray-400 { color: #4b5563; }
+        .light-theme .border-gray-700\/50 { border-color: #d1d5db80; }
+        .light-theme .bg-gray-600 { background: #6b7280; }
+        .light-theme .hover\:bg-gray-500:hover { background: #4b5563; }
+        .light-theme .bg-blue-600 { background: #2563eb; }
+        .light-theme .hover\:bg-blue-500:hover { background: #1d4ed8; }
+        .light-theme .bg-red-800 { background: #b91c1c; }
+        .light-theme .hover\:bg-red-700:hover { background: #991b1b; }
+        .light-theme .bg-green-700 { background: #15803d; }
+        .light-theme .hover\:bg-green-600:hover { background: #166534; }
