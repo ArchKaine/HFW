@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fantasy Cave Soundscape Utility</title>
+<script src="https://cdn.tailwindcss.com"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+<script src="app.js"></script>
+<script src="jQueryAssets/SpryDOMUtils.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="style.css" rel="stylesheet" type="text/css">
+</head>
+<body class="text-gray-300 flex items-center justify-center min-h-screen p-4">
+<div class="max-w-4xl w-full p-6 md:p-8 space-y-6 bg-gray-900/70 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700 relative">
+  <button id="settings-button" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors" title="Settings">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+  </svg>
+  </button>
+  <div class="text-center pt-8 sm:pt-0">
+    <h1 class="text-3xl font-bold text-white">Fantasy Cave Soundscape</h1>
+    <p class="mt-2 text-gray-400">Design your own subterranean world.</p>
+  </div>
+  <div class="flex justify-center items-center gap-6 py-4">
+    <button id="play-pause-button" aria-label="Play/Pause Audio" class="w-20 h-20 bg-gray-700 text-white font-bold rounded-full shadow-lg hover:bg-gray-600 focus:outline-none focus:ring-4 focus:ring-gray-500/50 transition-all duration-200 transform hover:scale-105 flex items-center justify-center flex-shrink-0">
+    <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="5 3 19 12 5 21 5 3"/>
+    </svg>
+    <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden">
+      <rect width="4" height="16" x="6" y="4"/>
+      <rect width="4" height="16" x="14" y="4"/>
+    </svg>
+    </button>
+    <div class="w-full max-w-xs space-y-2">
+      <label for="master-volume-slider" class="font-medium text-sm text-center block">Master Volume</label>
+      <input id="master-volume-slider" type="range" min="0" max="1" step="0.01" value="0.8" title="Overall volume">
+      <div class="flex items-center gap-2">
+        <input type="checkbox" id="lock-volume" class="ml-2">
+        <label for="lock-volume" class="text-sm">Lock Volume</label>
+      </div>
+    </div>
+  </div>
+  <div id="sound-channels-container" class="pt-4 border-t border-gray-700/50 space-y-2"></div>
+  <div class="pt-4 border-t border-gray-700/50">
+    <div class="flex justify-between items-center mb-2">
+      <h2 class="text-lg font-bold text-white">Master Equalizer</h2>
+      <div class="flex items-center gap-2">
+        <button id="bypass-eq-button" class="px-3 py-1 bg-gray-600 hover:bg-gray-500 rounded-md text-sm">Bypass EQ</button>
+        <select id="eq-preset-select" class="bg-gray-800 border border-gray-600 text-sm rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-500" title="Load EQ profile">
+        </select>
+      </div>
+    </div>
+    <div class="eq-wrapper bg-gray-800/50 rounded-lg">
+      <div class="eq-slider-container">
+        <input id="eq1-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="31 Hz">
+        <span class="eq-slider-label">31Hz</span></div>
+      <div class="eq-slider-container">
+        <input id="eq2-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="62 Hz">
+        <span class="eq-slider-label">62Hz</span></div>
+      <div class="eq-slider-container">
+        <input id="eq3-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="125 Hz">
+        <span class="eq-slider-label">125Hz</span></div>
+      <div class="eq-slider-container">
+        <input id="eq4-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="250 Hz">
+        <span class="eq-slider-label">250Hz</span></div>
+      <div class="eq-slider-container">
+        <input id="eq5-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="500 Hz">
+        <span class="eq-slider-label">500Hz</span></div>
+      <div class="eq-slider-container">
+        <input id="eq6-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="1 kHz">
+        <span class="eq-slider-label">1kHz</span></div>
+      <div class="eq-slider-container">
+        <input id="eq7-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="2 kHz">
+        <span class="eq-slider-label">2kHz</span></div>
+      <div class="eq-slider-container">
+        <input id="eq8-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="4 kHz">
+        <span class="eq-slider-label">4kHz</span></div>
+      <div class="eq-slider-container">
+        <input id="eq9-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="8 kHz">
+        <span class="eq-slider-label">8kHz</span></div>
+      <div class="eq-slider-container">
+        <input id="eq10-slider" type="range" min="-20" max="20" step="1" value="0" class="eq-slider" orient="vertical" title="16 kHz">
+        <span class="eq-slider-label">16kHz</span></div>
+    </div>
+  </div>
+  <div class="pt-4 border-t border-gray-700/50">
+    <div class="border-b border-gray-600">
+      <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+        <button id="tab-presets" class="tab-button border-transparent text-gray-400 hover:text-white hover:border-gray-300 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm">Presets & Share</button>
+        <button id="tab-timer" class="tab-button border-transparent text-gray-400 hover:text-white hover:border-gray-300 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm">Sleep Timer</button>
+        <button id="tab-alarm" class="tab-button border-transparent text-gray-400 hover:text-white hover:border-gray-300 whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm">Alarm</button>
+      </nav>
+    </div>
+    <div id="tab-content-presets" class="tab-content py-4 space-y-4">
+      <div class="flex flex-col sm:flex-row gap-4">
+        <select id="preset-select" class="w-full sm:flex-1 bg-gray-800 border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500" title="Load a soundscape">
+        </select>
+        <div class="flex-grow flex gap-4">
+          <button id="save-preset-button" class="w-full px-4 py-2 text-sm font-semibold bg-gray-600 hover:bg-gray-500 rounded-md transition-colors" title="Save current soundscape">Save As...</button>
+          <button id="delete-preset-button" class="w-full px-4 py-2 text-sm font-semibold bg-red-800 hover:bg-red-700 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed" title="Delete selected preset">Delete</button>
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <button id="share-button" class="px-6 py-2 font-semibold bg-green-700 hover:bg-green-600 rounded-md transition-colors flex items-center gap-2" title="Copy a shareable link to your clipboard">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"/>
+          <circle cx="6" cy="12" r="3"/>
+          <circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+        Share Soundscape </button>
+      </div>
+    </div>
+    <div id="tab-content-timer" class="tab-content hidden py-4">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p id="sleep-timer-display" class="text-sm text-gray-400">Timer is off.</p>
+        <div class="flex items-center gap-2">
+          <input id="sleep-hours-input" type="number" min="0" class="w-20 bg-gray-800 border border-gray-600 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-500" placeholder="Hrs">
+          <input id="sleep-minutes-input" type="number" min="0" class="w-20 bg-gray-800 border border-gray-600 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-500" placeholder="Mins">
+          <input id="sleep-fade-input" type="number" min="0" value="10" class="w-24 bg-gray-800 border border-gray-600 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-500" placeholder="Fade (s)">
+          <button id="start-sleep-timer-button" class="px-3 py-1 bg-green-700 hover:bg-green-600 rounded-md text-sm">Start</button>
+          <button id="cancel-sleep-timer-button" class="px-3 py-1 bg-red-800 hover:bg-red-700 rounded-md text-sm">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <div id="tab-content-alarm" class="tab-content hidden py-4">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p id="alarm-status-display" class="text-sm text-gray-400">Alarm is disabled.</p>
+        <div class="flex items-center gap-2 flex-wrap justify-center">
+          <input id="alarm-time-input" type="time" class="bg-gray-800 border border-gray-600 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-500">
+          <select id="alarm-preset-select" class="bg-gray-800 border border-gray-600 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-500" title="Sound to play for alarm">
+          </select>
+          <input id="alarm-fade-input" type="number" min="0" value="15" class="w-24 bg-gray-800 border border-gray-600 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-gray-500" placeholder="Fade (s)">
+          <button id="set-alarm-button" class="px-3 py-1 bg-green-700 hover:bg-green-600 rounded-md text-sm">Enable</button>
+          <button id="disable-alarm-button" class="px-3 py-1 bg-red-800 hover:bg-red-700 rounded-md text-sm">Disable</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modals and Notifications -->
+<div id="save-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+  <div class="bg-gray-800 rounded-lg p-6 w-full max-w-sm space-y-4 shadow-xl">
+    <h3 class="text-lg font-bold text-white">Save Soundscape</h3>
+    <input id="preset-name-input" type="text" placeholder="Enter preset name..." class="w-full bg-gray-700 border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500">
+    <div class="flex justify-end gap-4">
+      <button id="cancel-save-button" class="px-4 py-2 text-sm font-semibold bg-gray-600 hover:bg-gray-500 rounded-md">Cancel</button>
+      <button id="confirm-save-button" class="px-4 py-2 text-sm font-semibold bg-blue-600 hover:bg-blue-500 rounded-md">Save</button>
+    </div>
+  </div>
+</div>
+<!-- New: Updated Settings Modal -->
+<div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+  <div class="bg-gray-800 rounded-lg p-6 w-full max-w-md space-y-6 shadow-xl">
+    <div class="flex justify-between items-center">
+      <h3 class="text-lg font-bold text-white">Settings</h3>
+      <button id="close-settings-button" class="text-gray-400 hover:text-white">×</button>
+    </div>
+    <div class="space-y-4">
+      <p class="text-sm text-gray-400">Customize your soundscape experience.</p>
+      <div class="space-y-2">
+        <label for="buffer-size" class="text-sm text-gray-400">Audio Buffer Size</label>
+        <select id="buffer-size" class="w-full bg-gray-800 border border-gray-600 rounded-md px-2 py-1">
+          <option value="128">Low Latency (128 samples)</option>
+          <option value="256" selected>Balanced (256 samples)</option>
+          <option value="512">High Quality (512 samples)</option>
+        </select>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="checkbox" id="theme-toggle" class="ml-2">
+        <label for="theme-toggle" class="text-sm">Light Mode</label>
+      </div>
+      <div class="flex items-center gap-2">
+        <input type="checkbox" id="auto-play" class="ml-2">
+        <label for="auto-play" class="text-sm">Auto-Play on Load</label>
+      </div>
+      <div class="space-y-2">
+        <label for="fade-in-time" class="text-sm text-gray-400">Fade-In Duration (seconds)</label>
+        <input id="fade-in-time" type="number" min="0" max="10" value="2" class="w-full bg-gray-800 border border-gray-600 rounded-md px-2 py-1">
+      </div>
+      <button id="save-default-button" class="w-full px-4 py-2 font-semibold bg-blue-600 hover:bg-blue-500 rounded-md transition-colors">Set Current as Default</button>
+      <button id="clear-default-button" class="w-full px-4 py-2 font-semibold bg-gray-600 hover:bg-gray-500 rounded-md transition-colors">Clear Saved Default</button>
+      <button id="reset-all-button" class="w-full px-4 py-2 font-semibold bg-red-800 hover:bg-red-700 rounded-md transition-colors">Reset to Default</button>
+      <button id="export-presets-button" class="w-full px-4 py-2 font-semibold bg-gray-600 hover:bg-gray-500 rounded-md transition-colors">Export All Presets</button>
+    </div>
+  </div>
+</div>
+<div id="notification" class="fixed bottom-5 right-5 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg opacity-0 -translate-y-10">Link copied to clipboard!</div>
+</body>
+</html>
