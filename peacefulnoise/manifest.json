@@ -1,0 +1,21 @@
+{
+  "name": "Fantasy Cave Soundscape Utility",
+  "short_name": "Cave Sound",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#1f2937",
+  "description": "A tool for generating ambient fantasy cave sounds.",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
