@@ -1,0 +1,10 @@
+# Netlify Build Configuration
+
+[build]
+  # Sets the publish directory to the current folder.
+  publish = "."
+
+# Disable the default image optimization plugin that is causing the error.
+[[plugins]]
+  package = "netlify-plugin-image-optim"
+  enabled = false
