@@ -194,5 +194,17 @@
   </div>
 </div>
 <div id="notification" class="fixed bottom-5 right-5 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg opacity-0 -translate-y-10">Link copied to clipboard!</div>
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            // Corrected Path to the service worker
+            navigator.serviceWorker.register('/PeacefulNoise/sw.js').then(registration => {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, err => {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+    }
+</script>
 </body>
 </html>
