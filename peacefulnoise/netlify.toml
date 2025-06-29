@@ -1,10 +1,10 @@
 # Netlify Build Configuration
 
 [build]
-  # Sets the publish directory to the current folder.
+  # This tells Netlify where your site's files are.
+  # The "." means the root of the repository.
   publish = "."
 
-# Disable the default image optimization plugin that is causing the error.
-[[plugins]]
-  package = "netlify-plugin-image-optim"
-  enabled = false
+# This section explicitly disables asset optimization.
+[build.processing]
+  skip_processing = true
