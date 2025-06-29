@@ -1,0 +1,10 @@
+# Netlify Build Configuration
+
+[build]
+  # This tells Netlify where your site's files are.
+  # The "." means the root of the repository.
+  publish = "."
+
+# This section explicitly disables asset optimization.
+[build.processing]
+  skip_processing = true
