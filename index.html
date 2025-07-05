@@ -1,23 +1,598 @@
-<!DOCTYPE html><html lang="en"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Comprehensive design document for the HFW Shadow Fleet, an Anvil Aerospace subsidiary project. Details include genesis, variants, specifications, and operational doctrines.">
-    <title>HFW Shadow Fleet - Comprehensive Design Document</title>
+<!DOCTYPE html>
+<html lang="en">
 
-    <link rel="stylesheet" href="styles.css"> 
-    
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-  </head>
-  <body class="dynamic-load">
-    <div class="spectre-post-container" id="spectre-top">
-      <header>
-        <h1>HFW Shadow Fleet - Comprehensive Design Document</h1>
-        <p style="color: #aaaaaa; font-size: 0.9em; margin-top: 0.2em">
-          Developed by Hephaestus Forge Works (An Anvil Aerospace Subsidiary)
-        </p>
-      </header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Comprehensive design document for the HFW Shadow Fleet, an Anvil Aerospace subsidiary project. Details include genesis, variants, specifications, and operational doctrines.">
+  <title>HFW Shadow Fleet - Comprehensive Design Document</title>
 
-      <nav>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <style>
+    /* === Integrated Stylesheet === */
+
+    /* --- Base Styles & Full Viewport Setup --- */
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-y: auto;
+      /* Allow normal vertical scrolling */
+      overflow-x: hidden;
+      /* Prevent horizontal scrolling */
+      font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+      background-color: #07090D;
+      color: #f0f0f0;
+      box-sizing: border-box;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit;
+    }
+
+    /* --- MODIFIED for Responsiveness --- */
+    .spectre-post-container {
+      display: grid !important;
+      /* Stack everything in one column for mobile */
+      grid-template-areas:
+        "header"
+        "nav"
+        "content"
+        "aside";
+      grid-template-rows: auto auto 1fr auto;
+      /* Let rows size themselves */
+      grid-template-columns: 1fr;
+      /* A single, flexible column */
+      gap: 0;
+      min-height: 100vh;
+      /* Use min-height instead of fixed height */
+      width: 100%;
+      /* Use full available width */
+      max-width: 1920px;
+      /* Optional: Keep a max width for very large screens */
+      margin: 0 auto;
+      overflow: hidden;
+      font-size: 18px;
+      line-height: 1.6;
+      background-color: #0b0e13;
+    }
+
+    /* Grid area assignments */
+    .spectre-post-container>header {
+      grid-area: header;
+      background-color: #1a1a1a;
+      padding: 1rem 2rem;
+      text-align: center;
+      border-bottom: 1px solid #2a2a2a;
+      position: relative;
+    }
+
+    .spectre-post-container>nav {
+      grid-area: nav;
+    }
+
+    .spectre-post-container>.container {
+      grid-area: content;
+    }
+
+    .spectre-post-container>.spectre-post-aside {
+      grid-area: aside;
+    }
+
+    /* Header Styling */
+    .spectre-post-container header h1 {
+      color: #ff4c4c;
+      font-family: "Orbitron", sans-serif;
+      margin: 0;
+      font-size: 2.5rem;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Sticky sidebars: nav and aside - Full Height Appearance (Applies on Desktop) */
+    .spectre-post-container>nav,
+    .spectre-post-container>.spectre-post-aside {
+      background-color: #111;
+    }
+
+    .spectre-post-container>.spectre-post-aside {
+      border-left: 2px solid #ff4c4c;
+    }
+
+    /* Inner scroll wrappers for nav and aside */
+    .nav-scroll-wrapper,
+    .aside-scroll-wrapper {
+      height: 100%;
+      overflow-y: auto;
+      padding: 1rem;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Custom scrollbar styling */
+    .nav-scroll-wrapper::-webkit-scrollbar,
+    .aside-scroll-wrapper::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .nav-scroll-wrapper::-webkit-scrollbar-track,
+    .aside-scroll-wrapper::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+
+    .nav-scroll-wrapper::-webkit-scrollbar-thumb,
+    .aside-scroll-wrapper::-webkit-scrollbar-thumb {
+      background-color: #ff4c4c;
+      border-radius: 4px;
+      border: 1px solid #0b0e13;
+    }
+
+    .nav-scroll-wrapper,
+    .aside-scroll-wrapper {
+      scrollbar-width: thin;
+      scrollbar-color: #ff4c4c #1a1a1a;
+    }
+
+    /* Nav Logo */
+    .spectre-post-container>nav .nav-scroll-wrapper .nav-logo {
+      padding: 0.5rem 0;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .spectre-post-container>nav .nav-scroll-wrapper .nav-logo-top {
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #333;
+    }
+
+    .spectre-post-container>nav .nav-scroll-wrapper .nav-logo img {
+      display: block;
+      max-width: 150px;
+      max-height: 150px;
+      width: auto;
+      height: auto;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+
+    /* Left Navigation Button Styling */
+    .spectre-post-container>nav .nav-scroll-wrapper a {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.9rem 1.5rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid #4a4a4a;
+      background-color: #1f1f1f;
+      color: #ff8c8c;
+      text-align: left;
+      border-radius: 6px;
+      font-family: "Orbitron", sans-serif;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: normal;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .spectre-post-container>nav .nav-scroll-wrapper a:hover {
+      background-color: #ff4c4c;
+      color: #0b0e13;
+      border-color: #ff6a6a;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3);
+    }
+
+    .spectre-post-container>nav .nav-scroll-wrapper a.nav-active {
+      background: linear-gradient(to bottom, #ff4c4c, #d13b3b);
+      color: #ffffff;
+      border-color: #c02c2c;
+      box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2);
+      transform: translateY(0px);
+      font-weight: bold;
+    }
+
+    .spectre-post-container>nav .nav-scroll-wrapper a.nav-active:hover {
+      background: linear-gradient(to bottom, #ff6a6a, #ff4c4c);
+      color: #ffffff;
+      border-color: #d13b3b;
+    }
+
+    .spectre-post-container>nav .nav-scroll-wrapper a svg {
+      fill: currentColor;
+      width: 1em;
+      height: 1em;
+      margin-right: 0.8rem;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    /* Aside content: Top Logo and Headings */
+    .aside-scroll-wrapper>.aside-top-logo {
+      padding: 1rem 0;
+      text-align: center;
+      border-bottom: 1px solid #333;
+      margin-bottom: 0;
+      flex-shrink: 0;
+    }
+
+    .aside-scroll-wrapper>.aside-top-logo img {
+      display: block;
+      max-width: 180px;
+      height: auto;
+      margin: 0 auto 1rem;
+      object-fit: contain;
+    }
+
+    .aside-scroll-wrapper>h2 {
+      font-size: 1.1rem;
+      color: #ff4c4c;
+      text-transform: uppercase;
+      margin: 0 0 0.5rem 0;
+      padding: 1rem 0 0.5rem 0;
+      border-bottom: 1px solid #333;
+      flex-shrink: 0;
+      font-family: "Orbitron", sans-serif;
+    }
+
+    /* UNIFIED STYLING for Right Aside Table of Contents Links */
+    .spectre-post-aside ul.aside-toc {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0;
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: 0;
+      overflow-y: auto;
+      min-height: 80px;
+    }
+
+    .spectre-post-aside ul.aside-toc li {
+      margin: 0;
+    }
+
+    .spectre-post-aside ul.aside-toc a {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.9rem 1.5rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid #4a4a4a;
+      background-color: #1f1f1f;
+      color: #ff8c8c;
+      text-align: left;
+      border-radius: 6px;
+      font-family: "Orbitron", sans-serif;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: normal;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .spectre-post-aside ul.aside-toc a:hover {
+      background-color: #ff4c4c;
+      color: #0b0e13;
+      border-color: #ff6a6a;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3);
+    }
+
+    .spectre-post-aside ul.aside-toc a.active {
+      background: linear-gradient(to bottom, #ff4c4c, #d13b3b);
+      color: #ffffff;
+      border-color: #c02c2c;
+      box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2);
+      transform: translateY(0px);
+      font-weight: bold;
+    }
+
+    .spectre-post-aside ul.aside-toc a.active:hover {
+      background: linear-gradient(to bottom, #ff6a6a, #ff4c4c);
+      color: #ffffff;
+      border-color: #d13b3b;
+    }
+
+    .spectre-post-aside ul.aside-toc a svg {
+      fill: currentColor;
+      width: 1em;
+      height: 1em;
+      margin-right: 0.8rem;
+      vertical-align: middle;
+      flex-shrink: 0;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .spectre-post-aside ul.aside-toc a:hover svg {
+      opacity: 1;
+    }
+
+    .spectre-post-aside ul.aside-toc a.active svg {
+      opacity: 1;
+      color: #ffffff;
+    }
+
+    /* Bio Section */
+    .aside-bio-section {
+      padding: 1rem;
+      border-top: 1px solid #333;
+      margin-top: 1rem;
+      flex-shrink: 0;
+      color: #f0f0f0;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      background-color: rgba(255, 76, 76, 0.05);
+      border-radius: 0 0 5px 5px;
+    }
+
+    .aside-bio-section .aside-bio-heading {
+      font-size: 1rem !important;
+      color: #ff8c8c !important;
+      text-transform: uppercase;
+      margin: 0 0 0.5rem 0 !important;
+      padding: 0 0 0.3rem 0 !important;
+      border-bottom: 1px dashed #444 !important;
+      font-family: "Orbitron", sans-serif;
+    }
+
+    .aside-bio-content {
+      max-height: 30vh;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: #ff4c4c #111;
+    }
+
+    .aside-bio-content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .aside-bio-content::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+
+    .aside-bio-content::-webkit-scrollbar-thumb {
+      background-color: #ff4c4c;
+      border-radius: 3px;
+      border: 1px solid #0b0e13;
+    }
+
+    /* Main content area */
+    .spectre-post-container>.container {
+      /* overflow-y is now controlled by media queries */
+      overflow-x: hidden;
+      min-height: 0;
+      padding: 1.5rem 2rem;
+      box-sizing: border-box;
+    }
+
+    .spectre-post-container>.container>.section:first-child {
+      margin-top: 0;
+    }
+
+    /* --- Content Responsiveness & Overflow Management --- */
+    .spectre-post-container>.container img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .spectre-post-container>.container table,
+    .spectre-post-container>.container pre {
+      max-width: 100%;
+      overflow-x: auto;
+      word-wrap: break-word;
+    }
+
+    .spectre-post-container>.container .section p,
+    .spectre-post-container>.container .section li,
+    .spectre-post-container>.container .section div:not(.gallery):not(.gallery-item):not([class*='tabs']):not([class*='content-wrapper']),
+    .spectre-post-container>.container .section td,
+    .spectre-post-container>.container .section th {
+      word-wrap: break-word;
+    }
+
+    /* General Content Styles */
+    .spectre-post-container .container h2 {
+      font-size: 1.8rem;
+      color: #ff4c4c;
+      text-transform: uppercase;
+      font-family: "Orbitron", sans-serif;
+      border-bottom: 1px solid #444;
+      padding-bottom: 0.5rem;
+      margin-top: 2rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .spectre-post-container .container h3 {
+      font-size: 1.4rem;
+      color: #ff8c8c;
+      text-transform: uppercase;
+      font-family: "Orbitron", sans-serif;
+      border-bottom: 1px solid #333;
+      padding-bottom: 0.3rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .spectre-post-container .container h4 {
+      font-size: 1.2rem;
+      color: #ffaaaa;
+      font-family: "Orbitron", sans-serif;
+      margin-top: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .spectre-post-container .container .section>h2:first-child,
+    .spectre-post-container .container .section>h3:first-child {
+      margin-top: 0;
+    }
+
+    .spectre-post-container .container p {
+      margin-bottom: 1.2rem;
+    }
+
+    /* --- Iframe Responsiveness --- */
+    #spectre-viewer-wrapper iframe {
+        aspect-ratio: 4 / 3;
+        height: auto;
+    }
+
+    /* --- Existing Component Styles (Tabs, Gallery, etc.) --- */
+    /* (All other component styles remain the same) */
+    .spectre-post-container .container .scenario-narrative { background-color: rgba(20, 20, 25, 0.5); padding: 1.5rem; border-left: 3px solid #ff4c4c; margin-bottom: 1.5rem; border-radius: 0 5px 5px 0; }
+    .spectre-post-container .container .scenario-narrative p { margin-bottom: 0.8rem; text-indent: 1.5em; }
+    .spectre-post-container .container .scenario-narrative p:first-of-type { text-indent: 0; }
+    .spectre-post-container .container .scenario-narrative h3 + p { text-indent: 0; }
+    .spectre-post-container .container .scenario-narrative h4 { font-size: 1.1rem; color: #ff6a6a; text-transform: none; border-bottom: 1px dashed #555; padding-bottom: 0.2rem; margin-top: 1rem; margin-bottom: 0.5rem; }
+    .spectre-post-container .container .scenario-narrative strong { color: #ffaaaa; font-family: "Orbitron", sans-serif; }
+    .spectre-post-container .container .back-to-top { font-size: 14px; color: #ffaaaa; text-decoration: underline; margin-left: 1em; text-transform: none; font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif; vertical-align: middle; transition: color 0.3s ease; }
+    .spectre-post-container .container .back-to-top:hover { color: #fff; }
+    .styled-button { cursor: pointer; font-family: "Orbitron", sans-serif; text-transform: uppercase; transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.2s ease-out, box-shadow 0.3s ease; border-radius: 6px; font-weight: bold; letter-spacing: 0.5px; display: inline-block; }
+    .spectre-post-container .container .ship-family-tabs { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 3px solid #ff4c4c; }
+    .spectre-post-container .container .ship-family-tabs button.family-tab { background-color: #1f1f1f; border: 1px solid #4a4a4a; color: #ff8c8c; padding: 0.9rem 1.8rem; margin: 0.5rem; font-size: 1.1rem; }
+    .spectre-post-container .container .ship-family-tabs button.family-tab:hover { border-color: #ff6a6a; color: #0b0e13; background-color: #ff4c4c; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3); }
+    .spectre-post-container .container .ship-family-tabs button.family-tab.active-family { background: linear-gradient(to bottom, #ff4c4c, #d13b3b); color: #ffffff; border-color: #c02c2c; box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2); transform: translateY(0px); }
+    .spectre-post-container .container .ship-family-content-wrapper { display: none; padding-top: 1rem; }
+    .spectre-post-container .container .ship-family-content-wrapper.active-family-content { display: block; }
+    .spectre-post-container .container .variant-tabs { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 1rem; }
+    .spectre-post-container .container .variant-tabs button { background-color: #1a1a1a; border: 1px solid #444; color: #ffaaaa; padding: 0.7rem 1.4rem; margin: 0.3rem; font-size: 1rem; }
+    .spectre-post-container .container .variant-tabs button:hover { border-color: #ff4c4c; color: #0b0e13; background-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(255, 106, 106, 0.25); }
+    .spectre-post-container .container .variant-tabs button.active { background: linear-gradient(to bottom, #ff6a6a, #ff4c4c); color: #0b0e13; border-color: #ff4c4c; box-shadow: 0 2px 5px rgba(255, 76, 76, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.1); transform: translateY(0px); }
+    .spectre-post-container .container .model-control-btn { background-color: #1f1f1f; border: 1px solid #383838; color: #ffaaaa; padding: 0.5rem 1rem; margin: 0.2rem; font-size: 0.85rem; font-weight: normal; letter-spacing: 0.2px; }
+    .spectre-post-container .container .model-control-btn:hover { border-color: #ff4c4c; color: #fff; background-color: #2a2a2a; transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
+    .spectre-post-container .container .variant-content { display: none; background-color: rgba(30, 30, 30, 0.6); padding: 1.5rem; border-radius: 5px; margin-top: 1rem; border: 1px solid #333; }
+    .spectre-post-container .container .variant-content h3 { border-bottom: none !important; margin-top: 0 !important; margin-bottom: 1rem !important; color: #ff4c4c; font-size: 1.6rem; }
+    .spectre-post-container .container .variant-content h4 { font-size: 1.3rem; color: #ff8c8c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px dotted #444; padding-bottom: 0.2rem; margin-top: 1.2rem; margin-bottom: 0.8rem; }
+    .spectre-post-container .container .variant-content ul { list-style: disc; padding-left: 25px; margin: 1rem 0 0 0; }
+    .spectre-post-container .container .variant-content li { margin-bottom: 0.7rem; padding-left: 5px; }
+    .spectre-post-container .container .variant-content.active { display: block; }
+    .spectre-post-container .container .section { background-color: rgba(255, 76, 76, 0.03); padding: 2rem; border-radius: 8px; margin-top: 2.5rem; border: 1px solid #2a2a2a; transition: background-color 0.3s ease, border-color 0.3s ease; }
+    .spectre-post-container .container .section:first-child { margin-top: 0; }
+    .spectre-post-container .container table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; margin-bottom: 1rem; table-layout: fixed; }
+    .spectre-post-container .container th, .spectre-post-container .container td { padding: 0.5rem 1rem; border-bottom: 1px solid #333; color: #f0f0f0; text-align: left; vertical-align: top; }
+    .spectre-post-container .container th { background-color: #1f1f1f; color: #ffaaaa; font-family: "Orbitron", sans-serif; width: 25%; font-size: 0.95rem; }
+    .spectre-post-container .container td { width: 75%; }
+    .spectre-post-container .container a img:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(255, 76, 76, 0.3); }
+    .spectre-post-container .container .gallery { display: flex; flex-wrap: nowrap; gap: 1rem; overflow-x: auto; padding: 1rem; background-color: rgba(0, 0, 0, 0.3); border-radius: 6px; border: 1px solid #2a2a2a; justify-content: flex-start; max-width: 100%; }
+    .spectre-post-container .container .gallery img { width: auto; height: 426px; max-height: 426px; max-width: 640px; flex-shrink: 0; border-radius: 6px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid #444; object-fit: cover; }
+    .spectre-post-container .container .caption { text-align: center; font-size: 16px; color: #ffaaaa; margin-top: 0.5rem; }
+    .spectre-post-container .container details { background-color: #1a1a1a; border: 1px solid #333; border-radius: 5px; padding: 0.8rem 1.2rem; margin-top: 1rem; transition: background-color 0.3s ease; }
+    .spectre-post-container .container details:hover { background-color: #222; }
+    .spectre-post-container .container details summary { cursor: pointer; font-family: "Orbitron", sans-serif; color: #ffaaaa; outline: none; list-style: none; display: block; padding: 0.3rem 0; }
+    .spectre-post-container .container details summary::-webkit-details-marker { display: none; }
+    .spectre-post-container .container details summary h3 { margin: 0; display: inline; color: #ffaaaa; border-bottom: none; font-size: 1.2rem; }
+    .spectre-post-container .container details summary::before { content: "▶"; display: inline-block; color: #ffaaaa; font-size: 1rem; margin-right: 0.8rem; transition: transform 0.2s ease; vertical-align: middle; }
+    .spectre-post-container .container details[open] summary::before { transform: rotate(90deg); }
+    .spectre-post-container .container details div { padding-top: 1rem; margin-top: 0.5rem; border-top: 1px solid #333; }
+    .spectre-post-container .container blockquote { border-left: 4px solid #ff4c4c; margin: 1rem 0 0.5rem 0; padding: 0.5rem 1.5rem; font-style: italic; color: #ddd; background-color: rgba(255, 76, 76, 0.02); }
+    .spectre-post-container .container blockquote br { display: none; }
+    .spectre-post-container .container blockquote + p { margin-left: 1.5rem; font-size: 15px; color: #aaa; margin-top: 0.2rem; margin-bottom: 1.5rem; }
+    .spectre-post-container .container img:not([src]),
+    .spectre-post-container .container img[src=""] { display: none; }
+
+    /* --- ADDED FOR MOBILE NAV --- */
+    #mobile-nav-toggle {
+        display: none; /* Hidden by default */
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        background: #ff4c4c;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        padding: 0 1rem;
+        border-radius: 5px;
+        z-index: 1000;
+        cursor: pointer;
+    }
+
+    /* =================================== */
+    /* === RESPONSIVE MEDIA QUERIES === */
+    /* =================================== */
+
+    @media (max-width: 1279px) { /* On tablet and mobile */
+        #mobile-nav-toggle {
+            display: block;
+        }
+        .spectre-post-container > nav {
+            display: none; /* Hide nav by default */
+        }
+        .spectre-post-container > nav.is-visible {
+            display: block; /* Show it when toggled */
+        }
+    }
+
+    /* --- Tablet View (e.g., 768px and up) --- */
+    @media (min-width: 768px) {
+      .spectre-post-container {
+        grid-template-areas:
+          "header header"
+          "nav    nav"
+          "content aside";
+        grid-template-columns: 1fr 300px;
+        grid-template-rows: auto auto 1fr;
+      }
+    }
+
+    /* --- Desktop View (e.g., 1280px and up) --- */
+    @media (min-width: 1280px) {
+      html, body {
+        overflow-y: hidden; /* RE-ENABLE locked body scroll on desktop */
+      }
+
+      .spectre-post-container {
+        height: 100vh;
+        grid-template-areas:
+          "header header header"
+          "nav    content aside";
+        grid-template-columns: 320px 1fr 320px;
+        grid-template-rows: auto 1fr;
+      }
+
+      .spectre-post-container > nav,
+      .spectre-post-container > .spectre-post-aside,
+      .spectre-post-container > .container {
+        height: 100%;
+        overflow-y: auto;
+      }
+
+      .spectre-post-container > nav,
+      .spectre-post-container > .spectre-post-aside {
+        position: sticky;
+        top: 0;
+        align-self: stretch;
+      }
+    }
+  </style>
+</head>
+
+<body class="dynamic-load">
+  <div class="spectre-post-container" id="spectre-top">
+    <header>
+      <button id="mobile-nav-toggle" aria-label="Open Navigation Menu">☰</button>
+
+      <h1>HFW Shadow Fleet - Comprehensive Design Document</h1>
+      <p style="color: #aaaaaa; font-size: 0.9em; margin-top: 0.2em">
+        Developed by Hephaestus Forge Works (An Anvil Aerospace Subsidiary)
+      </p>
+    </header>
+
+    <nav>
         <div class="nav-scroll-wrapper">
           <div class="nav-logo nav-logo-top">
             <img alt="Made By The Community Logo" src="https://imagizer.imageshack.com/img922/7540/a21t3g.png" onerror="this.onerror=null;this.src='https://placehold.co/400x200/1a1a1a/ff4c4c?text=Anvil+Logo';" loading="lazy" width="400" height="200">
@@ -40,102 +615,337 @@
         </div>
       </nav>
 
-      <div class="container">
-        
-
-        
-
-        
-
-        
-
-        
-
-      <div class="section" id="spectre-viewer-wrapper"> <iframe src="https://archkaine.github.io/HFW/modelviewer.html" style="width: 100%; height: 1200px; border: none;" title="Interactive 3D Model Viewer" allow="fullscreen">
+    <div class="container">
+      <div class="section" id="spectre-viewer-wrapper">
+        <iframe src="https://archkaine.github.io/HFW/modelviewer.html" style="width: 100%; border: none;" title="Interactive 3D Model Viewer" allow="fullscreen">
         </iframe>
       </div>
 
-          <section>
-          <div>
-            <p align="center">
-              My reflection is the following: I did this because it seemed like
-              it would be a fun project, and so far it has been.
-            </p>
-          </div>
-        </section>
-      </div>
+      <section>
+        <div>
+          <p align="center">
+            My reflection is the following: I did this because it seemed like
+            it would be a fun project, and so far it has been.
+          </p>
+        </div>
+      </section>
+    </div>
 
-      <aside id="section-aside" class="spectre-post-aside">
-        <div class="aside-scroll-wrapper">
-          <div class="aside-top-logo">
-            <img alt="Profile Logo" src="https://imagizer.imageshack.com/v2/834x1307q90/r/924/cy4z4L.png" onerror="this.onerror=null;this.src='https://placehold.co/180x100/1a1a1a/ff4c4c?text=Profile+Logo';" loading="lazy" width="180" height="100">
-          </div>
-          <h2>On This Section</h2>
-          <ul class="aside-toc"></ul>
-          <div class="aside-bio-section">
-            <h2 class="aside-bio-heading">Dr. Aris D. Thorne: Visionary</h2>
-            <div class="aside-bio-content">
-              <p>
-                <strong>Dr. Aris David Thorne</strong> (born 2910, Portland, Earth) is
-                considered Anvil Aerospace's single most valuable person and
-                asset, recognized as <strong>likely the smartest person alive</strong>—the
-                Stephen Hawking or Albert Einstein of his era. His academic path
-                defied convention, earning <strong>sixteen doctorates</strong> across diverse
-                fields from aerospace engineering to cognitive psychology and
-                medicine. He excelled by seeing the <strong>interconnectedness of all
+    <aside id="section-aside" class="spectre-post-aside">
+      <div class="aside-scroll-wrapper">
+        <div class="aside-top-logo">
+          <img alt="Profile Logo" src="https://imagizer.imageshack.com/v2/834x1307q90/r/924/cy4z4L.png" onerror="this.onerror=null;this.src='https://placehold.co/180x100/1a1a1a/ff4c4c?text=Profile+Logo';" loading="lazy" width="180" height="100">
+        </div>
+        <h2>On This Section</h2>
+        <ul class="aside-toc"></ul>
+        <div class="aside-bio-section">
+          <h2 class="aside-bio-heading">Dr. Aris D. Thorne: Visionary</h2>
+          <div class="aside-bio-content">
+            <p>
+              <strong>Dr. Aris David Thorne</strong> (born 2910, Portland, Earth) is
+              considered Anvil Aerospace's single most valuable person and
+              asset, recognized as <strong>likely the smartest person alive</strong>—the
+              Stephen Hawking or Albert Einstein of his era. His academic path
+              defied convention, earning <strong>sixteen doctorates</strong> across diverse
+              fields from aerospace engineering to cognitive psychology and
+              medicine. He excelled by seeing the <strong>interconnectedness of all
                 knowledge</strong>, a polymathic approach that revolutionized his studies
-                at institutions like Terra's University of Rhetor and Archimedes
-                Institute.
-              </p>
-              <p>
-                Thorne's profound understanding of <strong>all forms of technology</strong>
-                catapulted Anvil's ships to a tier unmatched by any other Human
-                manufacturer. His leadership led to the creation of
-                <strong>Hephaestus Forge Works (HFW)</strong>, his equivalent of nuclear
-                technology development: a secret division dedicated to forging
-                paradigm-shifting military solutions.
-              </p>
-              <p>
-                Despite his monumental intellect, Dr. Thorne is a <strong>humble and
+              at institutions like Terra's University of Rhetor and Archimedes
+              Institute.
+            </p>
+            <p>
+              Thorne's profound understanding of <strong>all forms of technology</strong>
+              catapulted Anvil's ships to a tier unmatched by any other Human
+              manufacturer. His leadership led to the creation of
+              <strong>Hephaestus Forge Works (HFW)</strong>, his equivalent of nuclear
+              technology development: a secret division dedicated to forging
+              paradigm-shifting military solutions.
+            </p>
+            <p>
+              Despite his monumental intellect, Dr. Thorne is a <strong>humble and
                 dedicated leader, well-loved by his staff</strong>. He insists on <strong>full
                 disclosure</strong> for all HFW personnel, ensuring they have <strong>all the
                 information needed</strong> to assess mission viability. This respect
-                fosters an unparalleled familial loyalty. His rescue from
-                danger, for instance, wasn't a strategic necessity to protect
-                classified information, but a visceral "he's family, get him back
-                NOW!" imperative from his devoted teams.
-              </p>
-              <p>
-                His influence extends even to <strong>Aegis Dynamics</strong>. Despite Aegis's
-                checkered history and their usual guardedness, their respect for
-                Thorne's unparalleled vision and expertise is immense. Debating
-                Thorne is akin to "a three-year-old playing chess against a
-                Grandmaster"; his mind <strong>runs circles around the smartest in the
+              fosters an unparalleled familial loyalty. His rescue from
+              danger, for instance, wasn't a strategic necessity to protect
+              classified information, but a visceral "he's family, get him back
+              NOW!" imperative from his devoted teams.
+            </p>
+            <p>
+              His influence extends even to <strong>Aegis Dynamics</strong>. Despite Aegis's
+              checkered history and their usual guardedness, their respect for
+              Thorne's unparalleled vision and expertise is immense. Debating
+              Thorne is akin to "a three-year-old playing chess against a
+              Grandmaster"; his mind <strong>runs circles around the smartest in the
                 UEE, and potentially even the Xi'an, Tevarin, and Banu</strong>. This
-                intellectual gravity, paired with his humility, convinced Aegis to
-                share their advanced EW and sensor technology, a testament to his
-                singular standing.
-              </p>
-            </div>
+              intellectual gravity, paired with his humility, convinced Aegis to
+              share their advanced EW and sensor technology, a testament to his
+              singular standing.
+            </p>
           </div>
         </div>
-      </aside>
-    </div>
-<script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            // Corrected Path to the service worker
-            navigator.serviceWorker.register('/PeacefulNoise/sw.js').then(registration => {
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            }, err => {
-                console.log('ServiceWorker registration failed: ', err);
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // --- Integrated Scripts ---
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (document.body.classList.contains('dynamic-load')) {
+        console.log("Dynamic mode detected. Loading sections...");
+        loadAllSections()
+          .then(() => {
+            console.log("All sections loaded.");
+            initPageListeners();
+          })
+          .catch(error => {
+            const mainContainer = document.querySelector(".container");
+            mainContainer.innerHTML = `<div style="text-align: center; padding: 5rem 1rem; color: #ff4c4c;"><strong>Error:</strong> ${error.message}</div>`;
+            console.error("Failed to load HFW content:", error);
+          });
+      } else {
+        console.log("Static content detected. Initializing scripts...");
+        initPageListeners();
+      }
+    });
+
+    async function loadAllSections() {
+      if (window.location.protocol === 'file:') {
+        throw new Error(`Due to browser security, this page must be viewed on a web server.`);
+      }
+
+      const mainContainer = document.querySelector(".container");
+      if (!mainContainer) throw new Error("Main content container not found.");
+
+      const manifestResponse = await fetch('sections/sections.json');
+      if (!manifestResponse.ok) throw new Error('Could not fetch sections.json. Please run "node split-sections.js split" first.');
+      const manifest = await manifestResponse.json();
+
+      const fetchPromises = manifest.map(item => {
+        if (item.type === 'section') {
+          return fetch(`sections/${item.filename}`)
+            .then(response => {
+              if (!response.ok) throw new Error(`Failed to load '${item.filename}'`);
+              return response.text();
             });
-        });
+        }
+        return Promise.resolve(document.getElementById(item.id)?.outerHTML || '');
+      });
+
+      const results = await Promise.allSettled(fetchPromises);
+      let finalHtml = '';
+      results.forEach((result, index) => {
+        if (result.status === 'fulfilled') {
+          finalHtml += result.value + '\n';
+        } else {
+          const failedFile = manifest[index].filename || `ID: ${manifest[index].id}`;
+          finalHtml += `<div style="color: red; border: 1px solid red; padding: 1rem; margin: 1rem;">Error loading section: <strong>${failedFile}</strong>.</div>\n`;
+          console.error(`Failed to load content for ${failedFile}:`, result.reason);
+        }
+      });
+
+      mainContainer.innerHTML = finalHtml;
     }
-</script>
-<script src="scripts.js?v=1.0" defer=""></script>
-      
 
-  
+    let asideElement, mainContentScroller, spectreNavLinks;
 
-</body></html>
+    function initPageListeners() {
+      asideElement = document.getElementById("section-aside");
+      mainContentScroller = document.querySelector(".spectre-post-container > .container");
+      spectreNavLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
+      if (!mainContentScroller) return;
+      const scrollOptions = {
+        passive: true
+      };
+      window.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
+      mainContentScroller.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
+      window.addEventListener("scroll", updateAside, scrollOptions);
+      mainContentScroller.addEventListener("scroll", updateAside, scrollOptions);
+      window.addEventListener("resize", updateAside, scrollOptions);
+      if (spectreNavLinks) {
+        spectreNavLinks.forEach(link => {
+          link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+              targetSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            }
+          });
+        });
+      }
+      document.querySelectorAll(".ship-family-tabs .family-tab").forEach(tab => {
+        tab.addEventListener('click', () => {
+          if (tab.dataset.family) showFamily(tab.dataset.family, tab);
+        });
+      });
+      document.querySelectorAll(".variant-tabs button").forEach(tab => {
+        tab.addEventListener('click', () => {
+          if (tab.dataset.variantId && tab.dataset.familyId) showVariantContent(tab.dataset.variantId, tab, tab.dataset.familyId);
+        });
+      });
+      const firstFamilyButton = document.querySelector(".ship-family-tabs button.family-tab");
+      if (firstFamilyButton && firstFamilyButton.dataset.family) {
+        showFamily(firstFamilyButton.dataset.family, firstFamilyButton);
+      }
+
+      // --- ADDED Mobile Nav Toggle Logic ---
+      const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+      const mainNav = document.querySelector('.spectre-post-container > nav');
+
+      if (mobileNavToggle && mainNav) {
+        mobileNavToggle.addEventListener('click', () => {
+          mainNav.classList.toggle('is-visible');
+        });
+      }
+      // --- END Mobile Nav Toggle ---
+
+      updateAside();
+      handleSpectreNavScroll();
+    }
+
+    function updateAside() {
+      if (!asideElement || !mainContentScroller) return;
+      const asideTocList = asideElement.querySelector("ul.aside-toc");
+      if (!asideTocList) return;
+      const svgIcon = '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" style="vertical-align:-0.1em;margin-right:0.8em;opacity:0.7;"><path d="M10 17l5-5-5-5v10z"></path></svg>';
+      const activationOffset = window.innerHeight * 0.35;
+      const pageSections = Array.from(mainContentScroller.querySelectorAll(":scope > .section, :scope > div[id]"));
+      let activeSection = null;
+      for (let i = pageSections.length - 1; i >= 0; i--) {
+        const sec = pageSections[i];
+        if (sec.offsetParent === null) continue;
+        const rect = sec.getBoundingClientRect();
+        if (rect.top < activationOffset && rect.bottom > activationOffset * 0.2) {
+          activeSection = sec;
+          break;
+        }
+      }
+      if (!activeSection && pageSections.length > 0 && pageSections[0].offsetParent !== null && (mainContentScroller.scrollTop < 50 || window.scrollY < 50)) {
+        activeSection = pageSections[0];
+      }
+      asideTocList.innerHTML = "";
+      if (!activeSection) {
+        const li = document.createElement("li");
+        li.textContent = "Scroll to a section.";
+        asideTocList.appendChild(li);
+        return;
+      }
+      let sourceForHeadings = activeSection;
+      if (activeSection.id === "spectre-variants") {
+        const activeFamilyContent = activeSection.querySelector(".ship-family-content-wrapper.active-family-content");
+        if (activeFamilyContent) {
+          sourceForHeadings = activeFamilyContent.querySelector(".variant-content.active") || activeFamilyContent;
+        }
+      }
+      const headings = Array.from(sourceForHeadings.querySelectorAll("h2, h3, h4"));
+      if (!headings.length) return;
+      const tocLinks = [];
+      headings.forEach(h => {
+        if (!h.id) {
+          h.id = `${activeSection.id}-${h.tagName.toLowerCase()}-${h.textContent.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")}`;
+        }
+        const a = document.createElement("a");
+        a.href = `#${h.id}`;
+        const headingText = Array.from(h.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent.trim()).join(' ').trim() || h.textContent.trim();
+        a.innerHTML = svgIcon + headingText;
+        if (h.tagName.toLowerCase() === "h4") {
+          a.style.paddingLeft = "1.5rem";
+        }
+        a.addEventListener("click", e => {
+          e.preventDefault();
+          const targetElement = document.getElementById(h.id);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+        const li = document.createElement("li");
+        li.appendChild(a);
+        asideTocList.appendChild(li);
+        tocLinks.push(a);
+      });
+      let activeLink = null;
+      for (let i = headings.length - 1; i >= 0; i--) {
+        if (headings[i].getBoundingClientRect().top < activationOffset) {
+          activeLink = tocLinks[i];
+          break;
+        }
+      }
+      tocLinks.forEach(link => {
+        link.classList.toggle("active", link === activeLink);
+      });
+    }
+
+    function handleSpectreNavScroll() {
+      if (!mainContentScroller || !spectreNavLinks) return;
+      let currentNavId = "";
+      const navActivationOffset = window.innerHeight * 0.4;
+      spectreNavLinks.forEach(link => {
+        if (!link.getAttribute('href').startsWith("#view-")) {
+          const sectionId = link.getAttribute("href");
+          const sec = sectionId.startsWith("#") ? document.getElementById(sectionId.substring(1)) : null;
+          if (sec && sec.offsetParent !== null) {
+            const rect = sec.getBoundingClientRect();
+            if (rect.top < navActivationOffset) {
+              currentNavId = sec.id;
+            }
+          }
+        }
+      });
+      spectreNavLinks.forEach(link => {
+        if (!link.getAttribute('href').startsWith("#view-")) {
+          link.classList.toggle("nav-active", link.getAttribute("href") === `#${currentNavId}`);
+        }
+      });
+    }
+
+    function showFamily(familyIdSuffix, btnEl) {
+      const variantsWrapper = document.getElementById('spectre-variants');
+      if (!variantsWrapper) return;
+      variantsWrapper.querySelectorAll(".ship-family-content-wrapper").forEach(w => {
+        w.style.display = "none";
+        w.classList.remove("active-family-content");
+      });
+      variantsWrapper.querySelectorAll(".ship-family-tabs button.family-tab").forEach(t => {
+        t.classList.remove("active-family");
+      });
+      const contentToShow = document.getElementById("content-family-" + familyIdSuffix);
+      if (contentToShow) {
+        contentToShow.style.display = "block";
+        contentToShow.classList.add("active-family-content");
+      }
+      if (btnEl) {
+        btnEl.classList.add("active-family");
+      }
+      const firstVariantButton = contentToShow ? contentToShow.querySelector(".variant-tabs button") : null;
+      if (firstVariantButton) {
+        const variantId = firstVariantButton.dataset.variantId;
+        const familyId = firstVariantButton.dataset.familyId;
+        if (variantId && familyId) showVariantContent(variantId, firstVariantButton, familyId);
+      } else {
+        updateAside();
+      }
+    }
+
+    function showVariantContent(variantId, btnEl, familyId) {
+      const familyContentWrapper = document.getElementById('content-family-' + familyId);
+      if (!familyContentWrapper) return;
+      familyContentWrapper.querySelectorAll(".variant-content").forEach(c => c.classList.remove("active"));
+      familyContentWrapper.querySelectorAll(".variant-tabs button").forEach(t => t.classList.remove("active"));
+      const contentToShow = document.getElementById(variantId);
+      if (contentToShow) contentToShow.classList.add("active");
+      if (btnEl) btnEl.classList.add("active");
+      updateAside();
+    }
+  </script>
+
+</body>
+
+</html>
