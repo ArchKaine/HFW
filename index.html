@@ -538,16 +538,26 @@
     }
 
     /* --- Tablet View (e.g., 768px and up) --- */
-    @media (min-width: 768px) {
-      .spectre-post-container {
-        grid-template-areas:
-          "header header"
-          "nav    nav"
-          "content aside";
-        grid-template-columns: 1fr 300px;
-        grid-template-rows: auto auto 1fr;
-      }
-    }
+@media (min-width: 768px) {
+  /* Hide the mobile nav toggle on tablets and larger */
+  #mobile-nav-toggle {
+    display: none;
+  }
+
+  .spectre-post-container {
+    /* Use a three-column, full-scrolling layout */
+    grid-template-areas:
+      "header header header"
+      "nav    content aside";
+    grid-template-columns: 280px 1fr 280px; /* Adjust column widths as needed */
+    grid-template-rows: auto 1fr;
+  }
+
+  /* Make sure the nav is visible again */
+  .spectre-post-container > nav {
+    display: block;
+  }
+}
 
     /* --- Desktop View (e.g., 1280px and up) --- */
     @media (min-width: 1280px) and (min-height: 720px) {
