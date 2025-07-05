@@ -36,7 +36,6 @@
     /* Base layout for Mobile First */
     .spectre-post-container {
       display: grid !important;
-      /* The nav is not in the base grid; it's positioned via JS/CSS for mobile */
       grid-template-areas:
         "header"
         "content"
@@ -151,193 +150,74 @@
 
     /* Left Navigation Button Styling */
     .spectre-post-container>nav .nav-scroll-wrapper a {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      width: 100%;
-      box-sizing: border-box;
-      padding: 0.9rem 1.5rem;
-      margin-bottom: 0.5rem;
-      border: 1px solid #4a4a4a;
-      background-color: #1f1f1f;
-      color: #ff8c8c;
-      text-align: left;
-      border-radius: 6px;
-      font-family: "Orbitron", sans-serif;
-      text-transform: uppercase;
-      text-decoration: none;
-      font-size: 1rem;
-      font-weight: normal;
-      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: flex-start; width: 100%; box-sizing: border-box; padding: 0.9rem 1.5rem; margin-bottom: 0.5rem; border: 1px solid #4a4a4a; background-color: #1f1f1f; color: #ff8c8c; text-align: left; border-radius: 6px; font-family: "Orbitron", sans-serif; text-transform: uppercase; text-decoration: none; font-size: 1rem; font-weight: normal; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease; flex-shrink: 0;
     }
     .spectre-post-container>nav .nav-scroll-wrapper a:hover {
-      background-color: #ff4c4c;
-      color: #0b0e13;
-      border-color: #ff6a6a;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3);
+      background-color: #ff4c4c; color: #0b0e13; border-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3);
     }
     .spectre-post-container>nav .nav-scroll-wrapper a.nav-active {
-      background: linear-gradient(to bottom, #ff4c4c, #d13b3b);
-      color: #ffffff;
-      border-color: #c02c2c;
-      box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2);
-      transform: translateY(0px);
-      font-weight: bold;
+      background: linear-gradient(to bottom, #ff4c4c, #d13b3b); color: #ffffff; border-color: #c02c2c; box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2); transform: translateY(0px); font-weight: bold;
     }
     .spectre-post-container>nav .nav-scroll-wrapper a.nav-active:hover {
-      background: linear-gradient(to bottom, #ff6a6a, #ff4c4c);
-      color: #ffffff;
-      border-color: #d13b3b;
+      background: linear-gradient(to bottom, #ff6a6a, #ff4c4c); color: #ffffff; border-color: #d13b3b;
     }
     .spectre-post-container>nav .nav-scroll-wrapper a svg {
-      fill: currentColor;
-      width: 1em;
-      height: 1em;
-      margin-right: 0.8rem;
-      vertical-align: middle;
-      flex-shrink: 0;
+      fill: currentColor; width: 1em; height: 1em; margin-right: 0.8rem; vertical-align: middle; flex-shrink: 0;
     }
 
     /* Aside content styling */
     .aside-scroll-wrapper>.aside-top-logo {
-      padding: 1rem 0;
-      text-align: center;
-      border-bottom: 1px solid #333;
-      margin-bottom: 0;
-      flex-shrink: 0;
+      padding: 1rem 0; text-align: center; border-bottom: 1px solid #333; margin-bottom: 0; flex-shrink: 0;
     }
     .aside-scroll-wrapper>.aside-top-logo img {
-      display: block;
-      max-width: 180px;
-      height: auto;
-      margin: 0 auto 1rem;
-      object-fit: contain;
+      display: block; max-width: 180px; height: auto; margin: 0 auto 1rem; object-fit: contain;
     }
     .aside-scroll-wrapper>h2 {
-      font-size: 1.1rem;
-      color: #ff4c4c;
-      text-transform: uppercase;
-      margin: 0 0 0.5rem 0;
-      padding: 1rem 0 0.5rem 0;
-      border-bottom: 1px solid #333;
-      flex-shrink: 0;
-      font-family: "Orbitron", sans-serif;
+      font-size: 1.1rem; color: #ff4c4c; text-transform: uppercase; margin: 0 0 0.5rem 0; padding: 1rem 0 0.5rem 0; border-bottom: 1px solid #333; flex-shrink: 0; font-family: "Orbitron", sans-serif;
     }
     .spectre-post-aside ul.aside-toc {
-      list-style: none;
-      padding: 0;
-      margin: 0.5rem 0;
-      flex-grow: 1;
-      flex-shrink: 1;
-      flex-basis: 0;
-      overflow-y: auto;
-      min-height: 80px;
+      list-style: none; padding: 0; margin: 0.5rem 0; flex-grow: 1; flex-shrink: 1; flex-basis: 0; overflow-y: auto; min-height: 80px;
     }
     .spectre-post-aside ul.aside-toc li {
       margin: 0;
     }
     .spectre-post-aside ul.aside-toc a {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      width: 100%;
-      box-sizing: border-box;
-      padding: 0.9rem 1.5rem;
-      margin-bottom: 0.5rem;
-      border: 1px solid #4a4a4a;
-      background-color: #1f1f1f;
-      color: #ff8c8c;
-      text-align: left;
-      border-radius: 6px;
-      font-family: "Orbitron", sans-serif;
-      text-transform: uppercase;
-      text-decoration: none;
-      font-size: 1rem;
-      font-weight: normal;
-      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: flex-start; width: 100%; box-sizing: border-box; padding: 0.9rem 1.5rem; margin-bottom: 0.5rem; border: 1px solid #4a4a4a; background-color: #1f1f1f; color: #ff8c8c; text-align: left; border-radius: 6px; font-family: "Orbitron", sans-serif; text-transform: uppercase; text-decoration: none; font-size: 1rem; font-weight: normal; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease; flex-shrink: 0;
     }
     .spectre-post-aside ul.aside-toc a:hover {
-      background-color: #ff4c4c;
-      color: #0b0e13;
-      border-color: #ff6a6a;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3);
+      background-color: #ff4c4c; color: #0b0e13; border-color: #ff6a6a; transform: translateY(-2px); box-shadow: 0 5px 12px rgba(255, 76, 76, 0.3);
     }
     .spectre-post-aside ul.aside-toc a.active {
-      background: linear-gradient(to bottom, #ff4c4c, #d13b3b);
-      color: #ffffff;
-      border-color: #c02c2c;
-      box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2);
-      transform: translateY(0px);
-      font-weight: bold;
+      background: linear-gradient(to bottom, #ff4c4c, #d13b3b); color: #ffffff; border-color: #c02c2c; box-shadow: 0 3px 8px rgba(255, 76, 76, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2); transform: translateY(0px); font-weight: bold;
     }
     .spectre-post-aside ul.aside-toc a.active:hover {
-      background: linear-gradient(to bottom, #ff6a6a, #ff4c4c);
-      color: #ffffff;
-      border-color: #d13b3b;
+      background: linear-gradient(to bottom, #ff6a6a, #ff4c4c); color: #ffffff; border-color: #d13b3b;
     }
     .spectre-post-aside ul.aside-toc a svg {
-      fill: currentColor;
-      width: 1em;
-      height: 1em;
-      margin-right: 0.8rem;
-      vertical-align: middle;
-      flex-shrink: 0;
-      opacity: 0.7;
-      transition: opacity 0.3s ease;
+      fill: currentColor; width: 1em; height: 1em; margin-right: 0.8rem; vertical-align: middle; flex-shrink: 0; opacity: 0.7; transition: opacity 0.3s ease;
     }
     .spectre-post-aside ul.aside-toc a:hover svg {
       opacity: 1;
     }
     .spectre-post-aside ul.aside-toc a.active svg {
-      opacity: 1;
-      color: #ffffff;
+      opacity: 1; color: #ffffff;
     }
     .aside-bio-section {
-      padding: 1rem;
-      border-top: 1px solid #333;
-      margin-top: 1rem;
-      flex-shrink: 0;
-      color: #f0f0f0;
-      font-size: 0.85rem;
-      line-height: 1.5;
-      background-color: rgba(255, 76, 76, 0.05);
-      border-radius: 0 0 5px 5px;
+      padding: 1rem; border-top: 1px solid #333; margin-top: 1rem; flex-shrink: 0; color: #f0f0f0; font-size: 0.85rem; line-height: 1.5; background-color: rgba(255, 76, 76, 0.05); border-radius: 0 0 5px 5px;
     }
     .aside-bio-section .aside-bio-heading {
-      font-size: 1rem !important;
-      color: #ff8c8c !important;
-      text-transform: uppercase;
-      margin: 0 0 0.5rem 0 !important;
-      padding: 0 0 0.3rem 0 !important;
-      border-bottom: 1px dashed #444 !important;
-      font-family: "Orbitron", sans-serif;
+      font-size: 1rem !important; color: #ff8c8c !important; text-transform: uppercase; margin: 0 0 0.5rem 0 !important; padding: 0 0 0.3rem 0 !important; border-bottom: 1px dashed #444 !important; font-family: "Orbitron", sans-serif;
     }
     .aside-bio-content {
-      max-height: 30vh;
-      overflow-y: auto;
-      padding-right: 0.5rem;
-      scrollbar-width: thin;
-      scrollbar-color: #ff4c4c #111;
+      max-height: 30vh; overflow-y: auto; padding-right: 0.5rem; scrollbar-width: thin; scrollbar-color: #ff4c4c #111;
     }
-    .aside-bio-content::-webkit-scrollbar {
-      width: 6px;
-    }
-    .aside-bio-content::-webkit-scrollbar-track {
-      background: #1a1a1a;
-    }
-    .aside-bio-content::-webkit-scrollbar-thumb {
-      background-color: #ff4c4c;
-      border-radius: 3px;
-      border: 1px solid #0b0e13;
-    }
+    .aside-bio-content::-webkit-scrollbar { width: 6px; }
+    .aside-bio-content::-webkit-scrollbar-track { background: #1a1a1a; }
+    .aside-bio-content::-webkit-scrollbar-thumb { background-color: #ff4c4c; border-radius: 3px; border: 1px solid #0b0e13; }
 
     /* Main content area */
     .spectre-post-container>.container {
-      overflow-x: hidden;
+      /* overflow-x: hidden; <--- THIS WAS THE BUG, NOW REMOVED */
       min-height: 0;
       padding: 1.5rem 2rem;
       box-sizing: border-box;
@@ -355,43 +235,25 @@
       height: auto;
     }
     .spectre-post-container .container h2 {
-      font-size: 1.8rem;
-      color: #ff4c4c;
-      text-transform: uppercase;
-      font-family: "Orbitron", sans-serif;
-      border-bottom: 1px solid #444;
-      padding-bottom: 0.5rem;
-      margin-top: 2rem;
-      margin-bottom: 1.5rem;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      font-size: 1.8rem; color: #ff4c4c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px solid #444; padding-bottom: 0.5rem; margin-top: 2rem; margin-bottom: 1.5rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     }
     .spectre-post-container .container h3 {
-      font-size: 1.4rem;
-      color: #ff8c8c;
-      text-transform: uppercase;
-      font-family: "Orbitron", sans-serif;
-      border-bottom: 1px solid #333;
-      padding-bottom: 0.3rem;
-      margin-top: 1.5rem;
-      margin-bottom: 1rem;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      font-size: 1.4rem; color: #ff8c8c; text-transform: uppercase; font-family: "Orbitron", sans-serif; border-bottom: 1px solid #333; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 1rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     }
     .spectre-post-container .container h4 {
-      font-size: 1.2rem;
-      color: #ffaaaa;
-      font-family: "Orbitron", sans-serif;
-      margin-top: 1.2rem;
-      margin-bottom: 0.8rem;
+      font-size: 1.2rem; color: #ffaaaa; font-family: "Orbitron", sans-serif; margin-top: 1.2rem; margin-bottom: 0.8rem;
     }
     .spectre-post-container .container .section {
-      background-color: rgba(255, 76, 76, 0.03);
-      padding: 2rem;
-      border-radius: 8px;
-      margin-top: 2.5rem;
-      border: 1px solid #2a2a2a;
+      background-color: rgba(255, 76, 76, 0.03); padding: 2rem; border-radius: 8px; margin-top: 2.5rem; border: 1px solid #2a2a2a;
     }
     .spectre-post-container .container .section:first-child {
       margin-top: 0;
+    }
+    .spectre-post-container .container .gallery {
+      display: flex; flex-wrap: nowrap; gap: 1rem; overflow-x: auto; padding: 1rem; background-color: rgba(0, 0, 0, 0.3); border-radius: 6px; border: 1px solid #2a2a2a; justify-content: flex-start; max-width: 100%;
+    }
+    .spectre-post-container .container .gallery img {
+      width: auto; height: 426px; max-height: 426px; max-width: 640px; flex-shrink: 0; border-radius: 6px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid #444; object-fit: cover;
     }
 
 
@@ -401,99 +263,48 @@
 
     /* --- STICKY HAMBURGER NAV STYLES (Mobile/Tablet) --- */
     @media (max-width: 767px) {
-      /* Style the hamburger button */
+      .spectre-post-container {
+        grid-template-areas: "header" "content" "aside";
+      }
       #mobile-nav-toggle {
-        display: block;
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 2000;
-        background-color: #ff4c4c;
-        color: white;
-        border: 1px solid #c02c2c;
-        border-radius: 8px;
-        width: 50px;
-        height: 50px;
-        font-size: 28px;
-        line-height: 50px;
-        text-align: center;
-        cursor: pointer;
+        display: block; position: fixed; top: 15px; left: 15px; z-index: 2000; background-color: #ff4c4c; color: white; border: 1px solid #c02c2c; border-radius: 8px; width: 50px; height: 50px; font-size: 28px; line-height: 50px; text-align: center; cursor: pointer;
       }
-      /* Style the menu overlay */
       #menu-overlay {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
+        display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
       }
-      /* Reposition the Nav panel to be off-screen */
       .spectre-post-container > nav {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 300px;
-        max-width: 80%;
-        z-index: 1500;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease-in-out;
+        display: block; position: fixed; top: 0; left: 0; height: 100vh; width: 300px; max-width: 80%; z-index: 1500; transform: translateX(-100%); transition: transform 0.3s ease-in-out;
       }
-      /* The "is-open" state for showing the menu */
       .spectre-post-container > nav.is-open {
-        transform: translateX(0);
-        box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+        transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5);
       }
       #menu-overlay.is-open {
-        opacity: 1;
-        visibility: visible;
+        opacity: 1; visibility: visible;
       }
     }
 
 
     /* --- DESKTOP LAYOUT (Tablet & Larger) --- */
     @media (min-width: 768px) {
-      /* Hide the mobile-only elements on desktop */
-      #mobile-nav-toggle,
-      #menu-overlay {
+      #mobile-nav-toggle, #menu-overlay {
         display: none !important;
       }
-
-      html,
-      body {
+      html, body {
         overflow-y: hidden;
       }
-
       .spectre-post-container {
         height: 100vh;
-        grid-template-areas:
-          "header header header"
-          "nav    content aside";
+        grid-template-areas: "header header header" "nav    content aside";
         grid-template-columns: 280px 1fr 280px;
         grid-template-rows: auto 1fr;
       }
-
       .spectre-post-container > nav {
-        display: block;
-        position: sticky;
-        transform: translateX(0);
+        display: block; position: sticky; transform: translateX(0);
       }
-
       .spectre-post-container > nav,
       .spectre-post-container > .container,
       .spectre-post-container > .spectre-post-aside {
-        height: 100%;
-        overflow-y: auto;
-        position: sticky;
-        top: 0;
-        align-self: stretch;
+        height: 100%; overflow-y: auto; position: sticky; top: 0; align-self: stretch;
       }
     }
   </style>
@@ -519,34 +330,11 @@
         <a href="#spectre-concept-image"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>Gallery</a>
         <a href="#spectre-genesis"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M22 12h-6l-2 3h-4l-2-3H2"></path><path d="M5 12v6a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3v-6"></path><path d="M18 3a3 3 0 0 0-3 3v6h4V6a3 3 0 0 0-3-3Z"></path><path d="M6 3a3 3 0 0 0-3 3v6h4V6a3 3 0 0 0-3-3Z"></path></svg>Genesis</a>
         <a href="#spectre-hfw-overview"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>HFW Overview</a>
-        <a href="#spectre-founding-docs"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="3" x2="3.01" y1="6" y2="6"></line><line x1="3" x2="3.01" y1="12" y2="12"></line><line x1="3" x2="3.01" y1="18" y2="18"></line></svg>Founding Docs</a>
-        <a href="#spectre-specs"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><line x1="8" x2="21" y1="6" y2="6"></line><line x1="8" x2="21" y1="12" y2="12"></line><line x1="8" x2="21" y1="18" y2="18"></line><line x1="3" x2="3.01" y1="6" y2="6"></line><line x1="3" x2="3.01" y1="12" y2="12"></line><line x1="3" x2="3.01" y1="18" y2="18"></line></svg>Specs</a>
-        <a href="#spectre-variants"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M11 17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"></path><path d="M15 5h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6"></path></svg>HFW Variants</a>
-        <a href="#spectre-stealth-doctrine"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M11 17H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"></path><path d="M15 5h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6"></path></svg>Stealth</a>
-        <a href="#spectre-scenarios"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg>Scenarios</a>
-        <a href="#spectre-interior"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><rect height="18" rx="2" width="18" x="3" y="3"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>Interior</a>
-        <a href="#spectre-talent"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Talent</a>
-        <a href="#spectre-comparison"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v18"></path><path d="M3.5 8.5v7"></path><path d="M20.5 12v-7"></path></svg>Comparison</a>
-        <a href="#spectre-environment"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M21.2 15c.7-1.2 1-2.5.7-3.9-.6-2.4-2.4-4.2-4.8-4.8-.4-.1-.8-.2-1.2-.2-1.4-.1-2.7.1-3.9.7-1.2.6-2.2 1.4-3 2.4-.8 1-1.3 2.1-1.6 3.2C2 14.8 3.2 18 6.2 19.7c1 .6 2.1.9 3.2 1 .8.1 1.5 0 2.3-.2 1.1-.3 2.2-.8 3.1-1.5.9-.7 1.7-1.5 2.4-2.4.7-.9 1.2-2 1.5-3.1.2-.8.2-1.6 0-2.3z"></path><path d="M12 6V2"></path><path d="m4.9 4.9 2.8 2.8"></path><path d="M2 12h4"></path><path d="m4.9 19.1 2.8-2.8"></path><path d="M12 18v4"></path><path d="m19.1 19.1-2.8-2.8"></path><path d="M22 12h-4"></path><path d="m19.1 4.9-2.8 2.8"></path></svg>Environment</a>
-        <a href="#spectre-testimonials"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>Testimonials</a>
-        <a href="#revenant-acquisition"><svg class="feather feather-gitlab" fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.59A4.28 4.28 0 0 1 8.09 2h7.82a4.28 4 0 0 1 3.06 1.64l2.44 7.59 1.22 3.78a.84.84 0 0 1-.3.94z"></path><line x1="10.53" x2="10.53" y1="20.24" y2="22.24"></line><line x1="13.47" x2="13.47" y1="20.24" y2="22.24"></line><line x1="16.41" x2="18.41" y1="18.23" y2="18.23"></line><line x1="5.59" x2="7.59" y1="18.23" y2="18.23"></line></svg>Revenant Acquisition</a>
-        <a href="#spectre-conclusion"><svg fill="none" height="1em" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>Conclusion</a>
-      </div>
+        </div>
     </nav>
 
     <div class="container">
-      <div class="section" id="spectre-viewer-wrapper">
-        <iframe src="https://archkaine.github.io/HFW/modelviewer.html" style="width: 100%; border: none;" title="Interactive 3D Model Viewer" allow="fullscreen">
-        </iframe>
       </div>
-      <section>
-        <div>
-          <p align="center">
-            My reflection is the following: I did this because it seemed like it would be a fun project, and so far it has been.
-          </p>
-        </div>
-      </section>
-    </div>
 
     <aside id="section-aside" class="spectre-post-aside">
       <div class="aside-scroll-wrapper">
@@ -558,7 +346,7 @@
         <div class="aside-bio-section">
           <h2 class="aside-bio-heading">Dr. Aris D. Thorne: Visionary</h2>
           <div class="aside-bio-content">
-            <p><strong>Dr. Aris David Thorne</strong>...</p>
+            <p><strong>Dr. Aris David Thorne</strong> (born 2910, Portland, Earth) is considered Anvil Aerospace's single most valuable person and asset...</p>
           </div>
         </div>
       </div>
@@ -570,10 +358,8 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       if (document.body.classList.contains('dynamic-load')) {
-        console.log("Dynamic mode detected. Loading sections...");
         loadAllSections()
           .then(() => {
-            console.log("All sections loaded.");
             initPageListeners();
           })
           .catch(error => {
@@ -582,7 +368,6 @@
             console.error("Failed to load HFW content:", error);
           });
       } else {
-        console.log("Static content detected. Initializing scripts...");
         initPageListeners();
       }
     });
@@ -591,40 +376,33 @@
       if (window.location.protocol === 'file:') {
         throw new Error(`Due to browser security, this page must be viewed on a web server.`);
       }
-
       const mainContainer = document.querySelector(".container");
       if (!mainContainer) throw new Error("Main content container not found.");
 
       const manifestResponse = await fetch('sections/sections.json');
-      if (!manifestResponse.ok) throw new Error('Could not fetch sections.json. Please run "node split-sections.js split" first.');
+      if (!manifestResponse.ok) throw new Error('Could not fetch sections.json.');
       const manifest = await manifestResponse.json();
 
       const fetchPromises = manifest.map(item => {
-        if (item.type === 'section') {
           return fetch(`sections/${item.filename}`)
             .then(response => {
               if (!response.ok) throw new Error(`Failed to load '${item.filename}'`);
               return response.text();
             });
-        }
-        return Promise.resolve(document.getElementById(item.id)?.outerHTML || '');
       });
 
       const results = await Promise.allSettled(fetchPromises);
       let finalHtml = '';
-      results.forEach((result, index) => {
+      results.forEach((result) => {
         if (result.status === 'fulfilled') {
           finalHtml += result.value + '\n';
         } else {
-          const failedFile = manifest[index].filename || `ID: ${manifest[index].id}`;
-          finalHtml += `<div style="color: red; border: 1px solid red; padding: 1rem; margin: 1rem;">Error loading section: <strong>${failedFile}</strong>.</div>\n`;
-          console.error(`Failed to load content for ${failedFile}:`, result.reason);
+          finalHtml += `<div style="color: red;">Error loading a section.</div>\n`;
+          console.error(`Failed to load content:`, result.reason);
         }
       });
-      // Correctly replacing content, not appending
       mainContainer.innerHTML = finalHtml;
     }
-
 
     let asideElement, mainContentScroller, spectreNavLinks;
     function initPageListeners() {
@@ -632,14 +410,14 @@
       mainContentScroller = document.querySelector(".spectre-post-container > .container");
       spectreNavLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
       if (!mainContentScroller) return;
-      
+
       const scrollOptions = { passive: true };
       window.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
       mainContentScroller.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
       window.addEventListener("scroll", updateAside, scrollOptions);
       mainContentScroller.addEventListener("scroll", updateAside, scrollOptions);
       window.addEventListener("resize", updateAside, scrollOptions);
-      
+
       if (spectreNavLinks) {
         spectreNavLinks.forEach(link => {
           link.addEventListener('click', function(event) {
@@ -652,19 +430,7 @@
           });
         });
       }
-      
-      // Logic for variant tabs, etc.
-      document.querySelectorAll(".ship-family-tabs .family-tab").forEach(tab => {
-        tab.addEventListener('click', () => { if (tab.dataset.family) showFamily(tab.dataset.family, tab); });
-      });
-      document.querySelectorAll(".variant-tabs button").forEach(tab => {
-        tab.addEventListener('click', () => { if (tab.dataset.variantId && tab.dataset.familyId) showVariantContent(tab.dataset.variantId, tab, tab.dataset.familyId); });
-      });
-      const firstFamilyButton = document.querySelector(".ship-family-tabs button.family-tab");
-      if (firstFamilyButton && firstFamilyButton.dataset.family) {
-        showFamily(firstFamilyButton.dataset.family, firstFamilyButton);
-      }
-      
+
       // --- STICKY HAMBURGER MENU LOGIC ---
       const navToggleBtn = document.getElementById('mobile-nav-toggle');
       const navPanel = document.querySelector('.spectre-post-container > nav');
@@ -682,6 +448,18 @@
         });
       }
       // --- END HAMBURGER MENU LOGIC ---
+      
+      // Re-initialize tab listeners after content is loaded
+      document.querySelectorAll(".ship-family-tabs .family-tab").forEach(tab => {
+        tab.addEventListener('click', () => { if (tab.dataset.family) showFamily(tab.dataset.family, tab); });
+      });
+      document.querySelectorAll(".variant-tabs button").forEach(tab => {
+        tab.addEventListener('click', () => { if (tab.dataset.variantId && tab.dataset.familyId) showVariantContent(tab.dataset.variantId, tab, tab.dataset.familyId); });
+      });
+      const firstFamilyButton = document.querySelector(".ship-family-tabs button.family-tab");
+      if (firstFamilyButton && firstFamilyButton.dataset.family) {
+        showFamily(firstFamilyButton.dataset.family, firstFamilyButton);
+      }
 
       updateAside();
       handleSpectreNavScroll();
@@ -820,6 +598,7 @@
       if (btnEl) btnEl.classList.add("active");
       updateAside();
     }
+
   </script>
 </body>
 </html>
