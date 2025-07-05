@@ -550,13 +550,13 @@
     }
 
     /* --- Desktop View (e.g., 1280px and up) --- */
-    @media (min-width: 1280px) {
+    @media (min-width: 1280px) and (min-height: 720px) {
       html, body {
         overflow-y: hidden; /* RE-ENABLE locked body scroll on desktop */
       }
 
       .spectre-post-container {
-        min-height: 100vh;
+        height: 100vh;
         grid-template-areas:
           "header header header"
           "nav    content aside";
