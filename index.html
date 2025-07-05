@@ -371,7 +371,6 @@
 
     /* Main content area */
     .spectre-post-container>.container {
-      /* overflow-y is now controlled by media queries */
       overflow-x: hidden;
       min-height: 0;
       padding: 1.5rem 2rem;
@@ -453,7 +452,6 @@
     }
 
     /* --- Existing Component Styles (Tabs, Gallery, etc.) --- */
-    /* (All other component styles remain the same) */
     .spectre-post-container .container .scenario-narrative { background-color: rgba(20, 20, 25, 0.5); padding: 1.5rem; border-left: 3px solid #ff4c4c; margin-bottom: 1.5rem; border-radius: 0 5px 5px 0; }
     .spectre-post-container .container .scenario-narrative p { margin-bottom: 0.8rem; text-indent: 1.5em; }
     .spectre-post-container .container .scenario-narrative p:first-of-type { text-indent: 0; }
@@ -755,14 +753,30 @@
       mainContentScroller = document.querySelector(".spectre-post-container > .container");
       spectreNavLinks = document.querySelectorAll('nav a[href^="#"]:not([href="#spectre-top"])');
       if (!mainContentScroller) return;
-      const scrollOptions = {
-        passive: true
+      
+      // --- THROTTLE OPTIMIZATION APPLIED HERE ---
+      const throttle = (func, limit) => {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
       };
-      window.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
-      mainContentScroller.addEventListener("scroll", handleSpectreNavScroll, scrollOptions);
-      window.addEventListener("scroll", updateAside, scrollOptions);
-      mainContentScroller.addEventListener("scroll", updateAside, scrollOptions);
-      window.addEventListener("resize", updateAside, scrollOptions);
+      
+      const throttleInterval = 150; // ms
+      const scrollOptions = { passive: true };
+
+      window.addEventListener("scroll", throttle(handleSpectreNavScroll, throttleInterval), scrollOptions);
+      mainContentScroller.addEventListener("scroll", throttle(handleSpectreNavScroll, throttleInterval), scrollOptions);
+      window.addEventListener("scroll", throttle(updateAside, throttleInterval), scrollOptions);
+      mainContentScroller.addEventListener("scroll", throttle(updateAside, throttleInterval), scrollOptions);
+      window.addEventListener("resize", throttle(updateAside, throttleInterval), scrollOptions);
+
       if (spectreNavLinks) {
         spectreNavLinks.forEach(link => {
           link.addEventListener('click', function(event) {
@@ -793,7 +807,6 @@
         showFamily(firstFamilyButton.dataset.family, firstFamilyButton);
       }
 
-      // --- ADDED Mobile Nav Toggle Logic ---
       const mobileNavToggle = document.getElementById('mobile-nav-toggle');
       const mainNav = document.querySelector('.spectre-post-container > nav');
 
@@ -802,7 +815,6 @@
           mainNav.classList.toggle('is-visible');
         });
       }
-      // --- END Mobile Nav Toggle ---
 
       updateAside();
       handleSpectreNavScroll();
