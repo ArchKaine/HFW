@@ -7,16 +7,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const navLinks = sidebarNavUl.querySelectorAll('li a');
 
-    // Select all scrollable sections within the main content area
-    // Using the generic classes: .content-body and section[id]
-    const sections = document.querySelectorAll('.main-content-area .content-body section[id]');
+    // Select the main content area where the scrollable sections reside
+    const mainContentArea = document.querySelector('.main-content-area');
+    if (!mainContentArea) {
+        // console.warn("No .main-content-area found. Scrollspy script will not run.");
+        return; // Exit if the main content area is not present
+    }
+
+    // Select all scrollable sections with an 'id' attribute within the main content area.
+    // This is now more flexible, looking for section[id] anywhere inside mainContentArea,
+    // not strictly requiring them to be nested within .content-body.
+    const sections = mainContentArea.querySelectorAll('section[id]');
     if (sections.length === 0) {
-        // console.warn("No scrollable sections with ID found in .main-content-area .content-body. Scrollspy will not observe.");
+        // console.warn("No scrollable sections with ID found in .main-content-area. Scrollspy will not observe.");
         return; // Exit if there are no sections to observe
     }
 
     // Get the effective height of your fixed header from CSS variable
-    // This is crucial for correctly positioning the Intersection Observer's detection area
     const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-effective-height-for-sticky')) || 250; // Default to 250px if variable not found
 
     // Smooth scrolling for sidebar navigation links
@@ -42,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Intersection Observer for active link highlighting
-    // This observes when a section enters a specific area of the viewport (just below the header)
     const observerOptions = {
         root: null, // viewport
         // rootMargin defines a shrinking of the viewport.
@@ -53,20 +59,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const observer = new IntersectionObserver((entries) => {
-        // Filter for entries that are currently intersecting (i.e., visible in our detection zone)
         const intersectingEntries = entries.filter(entry => entry.isIntersecting);
 
-        // If there are intersecting entries, find the topmost one
-        // This handles cases where multiple sections might briefly intersect the rootMargin
         if (intersectingEntries.length > 0) {
-            // Sort by bounding client rect top to get the one closest to the top of the viewport
             intersectingEntries.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
             const activeEntry = intersectingEntries[0]; // The topmost intersecting section
 
-            // Remove 'active' from all links
             navLinks.forEach(link => link.classList.remove('active'));
 
-            // Add 'active' to the corresponding link
             const currentId = activeEntry.target.id;
             const activeLink = sidebarNavUl.querySelector(`a[href="#${currentId}"]`);
             if (activeLink) {
@@ -74,13 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
             // If no section is intersecting (e.g., at the very top of the page before first section)
-            // or at the very bottom after the last section, you might want to deactivate all
-            // or activate the first link if at the top.
-            // For now, let's ensure the first link is active if at the very top.
+            // If scrolled to the very top, make the first link active
             if (window.scrollY < headerHeight && navLinks.length > 0) {
                  navLinks.forEach(link => link.classList.remove('active'));
-                 // Optionally activate the very first link if scrolled to top
-                 // navLinks[0].classList.add('active');
+                 navLinks[0].classList.add('active'); // Activate the very first link
             }
         }
     }, observerOptions);
@@ -91,8 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Handle initial active state on page load
-    // This ensures the correct link is highlighted when the page first loads,
-    // even if it loads scrolled down to a specific section.
     const updateActiveLinkOnLoad = () => {
         let currentActiveSectionId = null;
         for (let i = 0; i < sections.length; i++) {
@@ -122,7 +117,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial check (useful for cases where load event might be delayed or page isn't fully loaded yet)
     updateActiveLinkOnLoad();
-
-    // Removed the optional sticky-lore-nav scroll listener
-    // as position: sticky in CSS handles that much more robustly.
 });
