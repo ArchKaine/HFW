@@ -23,7 +23,7 @@
     --text-dark: #000000;         /* Pure black (rarely used, mainly for inverse buttons) */
 
     /* Typography */
-    --font-heading: 'Metal Mania', serif; /* UPDATED: MedievalSharp for dragonic feel */
+    --font-heading: 'Metal Mania', cursive; /* UPDATED: Metal Mania for aggressive, raw feel */
     --font-body: 'Montserrat', sans-serif;    /* Clean, modern sans-serif */
     --font-nav: 'Montserrat', sans-serif;     /* Consistent with body for readability */
 
@@ -41,8 +41,9 @@
 }
 
 /* --- 1. Global Resets & Base Styles --- */
-/* UPDATED: Added MedievalSharp to the font import */
+/* UPDATED: Added Metal Mania to the font import (removed Grenze Gotisch) */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;500;700&family=Metal+Mania&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -144,7 +145,7 @@ img {
 
 /* Logo */
 .logo {
-    font-family: var(--font-heading); /* Will now use MedievalSharp */
+    font-family: var(--font-heading); /* Now uses Metal Mania */
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--color-accent-gold);
@@ -195,7 +196,7 @@ img {
 }
 
 .hero-content h1 {
-    font-family: var(--font-heading); /* Will now use MedievalSharp */
+    font-family: var(--font-heading); /* Now uses Metal Mania */
     font-size: 3.8rem;
     font-weight: 700;
     color: var(--color-accent-gold);
@@ -220,7 +221,7 @@ img {
 }
 
 .hero-content-small h1 {
-    font-family: var(--font-heading); /* Will now use MedievalSharp */
+    font-family: var(--font-heading); /* Now uses Metal Mania */
     font-size: 3rem;
     margin-bottom: var(--spacing-xs);
 }
@@ -285,7 +286,7 @@ img {
 }
 
 .intro-section h2 {
-    font-family: var(--font-heading); /* Will now use MedievalSharp */
+    font-family: var(--font-heading); /* Now uses Metal Mania */
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--color-accent-red);
@@ -314,7 +315,7 @@ img {
 }
 
 .page-section h2 {
-    font-family: var(--font-heading); /* Will now use MedievalSharp */
+    font-family: var(--font-heading); /* Now uses Metal Mania */
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--color-accent-red);
