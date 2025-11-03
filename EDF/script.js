@@ -50,44 +50,52 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Intersection Observer for active link highlighting
-    // Re-calibrated rootMargin for broader, more reliable detection
     const observerOptions = {
         root: null, // viewport
-        // Top margin: Start detection just below the header
-        // Bottom margin: End detection near the bottom of the viewport
-        // This creates a wide detection window that covers most of the screen below the header.
-        // The 'active' link will be the one whose top is highest within this window.
         rootMargin: `-${headerHeight + detectionBuffer}px 0px -50% 0px`, // More forgiving bottom margin
         threshold: [0, 0.5, 1] // Observe when 0%, 50%, or 100% of target is visible
     };
     
-    // We'll use a Map to keep track of intersection status for a more robust detection
     const intersectionMap = new Map();
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             intersectionMap.set(entry.target.id, entry.isIntersecting);
-            // console.log(`${entry.target.id} is intersecting: ${entry.isIntersecting}`);
+            // console.log(`${entry.target.id} intersecting: ${entry.isIntersecting}`);
         });
 
         let activeId = null;
-        // Iterate through sections from top to bottom
+        // Iterate through sections from top to bottom to find the topmost intersecting one
         for (let i = 0; i < sections.length; i++) {
             const section = sections[i];
-            // Check if the section's ID is in our intersection map and is currently intersecting
             if (intersectionMap.get(section.id)) {
-                // Also double check if its top is actually above our detection line
                 const rect = section.getBoundingClientRect();
-                if (rect.top <= headerHeight + detectionBuffer + 50) { // Give a little more buffer for detection
+                // Ensure the section's top is actually within a reasonable range below the header
+                // and it's not just barely peeking into the viewport from the bottom
+                if (rect.top <= headerHeight + detectionBuffer + 50 && rect.bottom > 0) { 
                     activeId = section.id;
-                    break; // Found the topmost intersecting section, stop
+                    break; 
                 }
             }
         }
+        
+        // --- NEW LOGIC: Check if scrolled to the very bottom ---
+        // This is a common fallback for the last element
+        const isScrolledToBottom = (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 5; // -5px buffer
+        if (isScrolledToBottom && sections.length > 0) {
+            const lastSectionId = sections[sections.length - 1].id;
+            // Only activate if the current active is not already the last, or if there's no active
+            if (activeId !== lastSectionId) {
+                activeId = lastSectionId;
+                // console.log("Scrollspy: Forced last section active due to scroll to bottom.");
+            }
+        }
 
-        // Fallback for very top of the page (before first section) or very bottom (after last)
+
+        // Fallback for very top of the page (before first section)
         if (!activeId && window.scrollY < headerHeight + 100 && sections.length > 0) {
             activeId = sections[0].id; // Activate the first link if near the top
+            // console.log("Scrollspy: Forced first section active due to scroll to top.");
         }
 
         // Update active class if ID has changed or if it's currently null
