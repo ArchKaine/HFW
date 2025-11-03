@@ -14,16 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return; // Exit if the main content area is not present
     }
 
-    // --- CRITICAL CHANGE FOR UNIVERSAL SECTION TRACKING ---
     // Select all elements with an 'id' that are either a <section> or have the .content-body class
-    // This allows it to track both <section id="..."> and <div class="content-body" id="...">
     const sections = mainContentArea.querySelectorAll('section[id], .content-body[id]');
-    // Note: If you have other element types with IDs you want to track, you would add them here.
-    // E.g., mainContentArea.querySelectorAll('section[id], div[id], article[id]');
-    // Or, for broadest compatibility with ALL IDs that are scroll targets:
-    // const sections = mainContentArea.querySelectorAll('[id]');
-    // However, targeting .content-body[id] is more precise given your current HTML.
-
     if (sections.length === 0) {
         // console.warn("No scrollable sections/content-body divs with ID found in .main-content-area. Scrollspy will not observe.");
         return; // Exit if there are no elements to observe
@@ -37,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId); // Renamed targetSection to targetElement for generality
+            const targetElement = document.getElementById(targetId);
 
             if (targetElement) {
                 // Remove 'active' from all links and add to the clicked one
@@ -55,46 +47,66 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Intersection Observer for active link highlighting
+    // Refined rootMargin for more precise tracking
     const observerOptions = {
         root: null, // viewport
-        rootMargin: `-${headerHeight + 20}px 0px -20% 0px`, 
-        threshold: 0 
+        // This creates a narrow 'window' for detection:
+        // top: headerHeight + 1px (just below your fixed header)
+        // bottom: viewport height - (headerHeight + some small buffer), effectively making the detection window very short
+        // A smaller negative bottom margin will make the detection window for 'intersecting' shorter.
+        // We're looking for the element whose TOP edge crosses the line just below the header.
+        rootMargin: `-${headerHeight + 1}px 0px -90% 0px`, // Changed -20% to -90% to make the detection window very narrow
+        threshold: 0 // No threshold needed, as rootMargin creates the precise window
     };
 
+    let activeLinkOnScroll = null; // Variable to keep track of the currently active link by scroll
+
     const observer = new IntersectionObserver((entries) => {
+        // Find all entries that are currently intersecting (visible in our narrow detection window)
         const intersectingEntries = entries.filter(entry => entry.isIntersecting);
 
         if (intersectingEntries.length > 0) {
+            // Sort entries to find the one whose TOP is closest to the detection line (i.e., the one highest on screen)
             intersectingEntries.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-            const activeEntry = intersectingEntries[0]; 
+            
+            // The first element in the sorted array is the one that should be active
+            const currentActiveEntry = intersectingEntries[0];
+            const currentId = currentActiveEntry.target.id;
+            const correspondingLink = sidebarNavUl.querySelector(`a[href="#${currentId}"]`);
 
-            navLinks.forEach(link => link.classList.remove('active'));
-
-            const currentId = activeEntry.target.id;
-            const activeLink = sidebarNavUl.querySelector(`a[href="#${currentId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
+            // Only update if the active link has actually changed
+            if (correspondingLink && correspondingLink !== activeLinkOnScroll) {
+                navLinks.forEach(link => link.classList.remove('active'));
+                correspondingLink.classList.add('active');
+                activeLinkOnScroll = correspondingLink;
             }
         } else {
+            // If no sections are intersecting (e.g., at the very top of the page before any section)
+            // Or if all sections have scrolled past
+            // Let's ensure the first link is active if scrolled very near the top.
             if (window.scrollY < headerHeight && navLinks.length > 0) {
-                 navLinks.forEach(link => link.classList.remove('active'));
-                 navLinks[0].classList.add('active'); 
+                 if (navLinks[0] !== activeLinkOnScroll) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    navLinks[0].classList.add('active');
+                    activeLinkOnScroll = navLinks[0];
+                 }
             }
         }
     }, observerOptions);
 
     // Observe each relevant element for changes in visibility
-    sections.forEach(section => { // 'section' here refers to any element found by the selector
+    sections.forEach(section => {
         observer.observe(section);
     });
 
-    // Handle initial active state on page load
+    // Handle initial active state on page load and on resize
     const updateActiveLinkOnLoad = () => {
         let currentActiveElementId = null;
         for (let i = 0; i < sections.length; i++) {
             const rect = sections[i].getBoundingClientRect();
-            // Check if element is past the header, but not completely scrolled past its bottom
-            if (rect.top <= headerHeight && rect.bottom > headerHeight) {
+            // Check if element's top is just past the header, and its bottom is still visible
+            // This is the initial "active" detection logic
+            if (rect.top <= headerHeight + 50 && rect.bottom > headerHeight + 50) { // Added a small buffer
                 currentActiveElementId = sections[i].id;
                 break;
             }
@@ -105,13 +117,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const initialActiveLink = sidebarNavUl.querySelector(`a[href="#${currentActiveElementId}"]`);
             if (initialActiveLink) {
                 initialActiveLink.classList.add('active');
+                activeLinkOnScroll = initialActiveLink; // Set initial active link for scroll tracking
             }
         } else if (navLinks.length > 0) {
+            // If no section is in view (e.g., at very top), activate the first link
             navLinks[0].classList.add('active');
+            activeLinkOnScroll = navLinks[0];
         }
     };
 
     window.addEventListener('load', updateActiveLinkOnLoad);
     window.addEventListener('resize', updateActiveLinkOnLoad);
-    updateActiveLinkOnLoad();
+    updateActiveLinkOnLoad(); // Run immediately for initial state
 });
