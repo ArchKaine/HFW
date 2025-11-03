@@ -343,7 +343,7 @@ footer {
 }
 
 
-/* --- DYNAMIC SIDEBAR LAYOUT STYLING (General Use) --- */
+/* --- DYNAMIC SIDEBAR LAYOUT STYLING (General Use - CORRECTED COLORS) --- */
 
 /* Local variable for the small header height, derived from your .hero-small */
 /* Ensure this matches your .hero-small's actual height when it's minimized */
@@ -358,7 +358,7 @@ footer {
 /* This section can be kept if you want specific padding around sidebar layouts */
 .main-content {
     padding: var(--spacing-lg) 0;
-    background-color: var(--color-dark-bg); /* Explicitly set to your background color */
+    background-color: var(--color-dark-bg); /* Explicitly using your dark background color */
 }
 
 /* Main layout for pages with a dynamic sidebar (e.g., lore, documentation, guides) */
@@ -370,7 +370,7 @@ footer {
     background: var(--color-medium-dark); /* Using your defined medium-dark for the container */
     padding: var(--spacing-xl); /* Generous padding inside the sidebar layout */
     border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6); /* Darker shadow for depth on dark background */
 }
 
 /* Styling for the sticky dynamic sidebar (e.g., Table of Contents, Navigation Menu) */
@@ -443,7 +443,7 @@ footer {
     background-color: var(--color-dark-bg); /* Your dark background for the text block */
     padding: var(--spacing-lg);
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); /* Darker shadow for depth */
     margin-top: var(--spacing-lg); /* Space after the intro text */
 }
 
@@ -583,6 +583,7 @@ section[id] {
         font-size: 1.1rem;
     }
 }
+
 
 
 /* --- 7. Responsive Design (Basic Media Queries) --- */
