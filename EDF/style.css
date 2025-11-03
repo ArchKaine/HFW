@@ -42,8 +42,7 @@
 
 /* --- 1. Global Resets & Base Styles --- */
 /* UPDATED: Added MedievalSharp to the font import */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;500;700&family=MedievalSharp&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;500;700&family=Metal+Mania&display=swap');
 * {
     margin: 0;
     padding: 0;
