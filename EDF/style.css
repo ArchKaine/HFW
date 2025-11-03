@@ -8,27 +8,32 @@
 /* --- 0. Custom Properties (CSS Variables) --- */
 :root {
     /* Base Colors (Black, Stark Greys - Volcanic Ash / Burnt Granite) */
-    --color-dark-bg: #101010; /* Primary deep charcoal/near-black background */
+    --color-dark-bg: #101010;     /* Primary deep charcoal/near-black background */
     --color-medium-dark: #222222; /* Slightly lighter dark for subtle contrast */
-    --color-ash-grey: #444444; /* For subtle textures, borders, secondary text */
-    --color-light-grey: #666666; /* For very subtle accents if needed */
+    --color-ash-grey: #444444;    /* For subtle textures, borders, secondary text */
+    --color-light-grey: #666666;  /* For very subtle accents if needed */
+
     /* Accent Colors (Fire, Blood, Molten Metal) */
-    --color-accent-red: #CC0000; /* Deep, muted red for highlights, buttons */
+    --color-accent-red: #CC0000;  /* Deep, muted red for highlights, buttons */
     --color-accent-gold: #B08B48; /* Metallic gold/bronze for logos, headings */
     --color-accent-orange: #D05000; /* Burnt orange for glowing effects, active states */
+
     /* Text Colors */
-    --text-light: #F0F0F0; /* Off-white for primary body text */
-    --text-dark: #000000; /* Pure black (rarely used, mainly for inverse buttons) */
+    --text-light: #F0F0F0;        /* Off-white for primary body text */
+    --text-dark: #000000;         /* Pure black (rarely used, mainly for inverse buttons) */
+
     /* Typography */
-    --font-heading: 'Orbitron', serif; /* A strong, perhaps slightly ancient/mystical serif */
-    --font-body: 'Montserrat', sans-serif; /* Clean, modern sans-serif (similar to HFW, but fitting DF) */
-    --font-nav: 'Montserrat', sans-serif; /* Consistent with body for readability */
+    --font-heading: 'MedievalSharp', serif; /* UPDATED: MedievalSharp for dragonic feel */
+    --font-body: 'Montserrat', sans-serif;    /* Clean, modern sans-serif */
+    --font-nav: 'Montserrat', sans-serif;     /* Consistent with body for readability */
+
     /* Spacing */
     --spacing-xs: 0.5rem;
     --spacing-sm: 1rem;
     --spacing-md: 1.5rem;
     --spacing-lg: 2rem;
     --spacing-xl: 3rem;
+
     /* RGB values for shadows (can be calculated from hex, but defined for convenience) */
     --color-accent-gold-rgb: 176, 139, 72;
     --color-accent-red-rgb: 204, 0, 0;
@@ -36,7 +41,8 @@
 }
 
 /* --- 1. Global Resets & Base Styles --- */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;500;700&display=swap');
+/* UPDATED: Added MedievalSharp to the font import */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;500;700&family=MedievalSharp&display=swap');
 
 * {
     margin: 0;
@@ -65,9 +71,9 @@ a {
     transition: color 0.3s ease, border-bottom 0.3s ease;
 }
 
-    a:hover {
-        color: var(--color-accent-red);
-    }
+a:hover {
+    color: var(--color-accent-red);
+}
 
 img {
     max-width: 100%;
@@ -91,22 +97,21 @@ img {
     position: relative;
     width: 100%;
     height: 100vh; /* Full viewport height for index.html */
-    background-image: url('./images/Keine-Forging.jpg'); /* This path is from your provided file */
-    background-size: 60%; /* This size is from your provided file */
-    background-position: center 10%; /* This position is from your provided file */
+    background-image: url('./images/Keine-Forging.jpg');
+    background-size: 60%;
+    background-position: center 10%;
     background-repeat: no-repeat;
     display: flex;
-    flex-direction: column; /* To stack header and content */
-    justify-content: space-between; /* Push header to top, content to middle/bottom */
+    flex-direction: column;
+    justify-content: space-between;
     color: var(--text-light);
 }
 
-/* NEW: Smaller Hero Section for Sub-pages */
+/* Smaller Hero Section for Sub-pages */
 .hero-small {
-    height: 40vh; /* Shorter height for sub-pages */
-    min-height: 250px; /* Minimum height on very small screens */
-    justify-content: center; /* Center content vertically */
-    /* background-position will default to center unless overridden specifically for sub-page images */
+    height: 40vh;
+    min-height: 250px;
+    justify-content: center;
 }
 
 
@@ -116,43 +121,43 @@ img {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); /* Dark overlay for text legibility */
+    background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Ensures logo/nav are at top, hero content in middle/bottom */
+    justify-content: space-between;
 }
 
 /* Container for Logo and Nav to manage their horizontal spacing */
 .header-container {
-    max-width: 1200px; /* Aligns with global container max-width */
-    margin: 0 auto; /* Centers the header elements horizontally */
-    padding: var(--spacing-lg) var(--spacing-xl); /* Padding around logo and nav */
-    width: 100%; /* Spans the full width of its parent (header-overlay) */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-lg) var(--spacing-xl);
+    width: 100%;
     display: flex;
-    justify-content: space-between; /* Pushes logo to left, nav to right */
-    align-items: center; /* Vertically centers logo and nav */
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* Logo Wrapper - Just a container for the logo, no extra padding/margin */
 .logo-wrapper {
-    flex-shrink: 0; /* Prevents logo from shrinking if space is tight */
+    flex-shrink: 0;
 }
 
 /* Logo */
 .logo {
-    font-family: var(--font-heading);
+    font-family: var(--font-heading); /* Will now use MedievalSharp */
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--color-accent-gold);
-    text-shadow: 0 0 8px rgba(var(--color-accent-gold-rgb), 0.5); /* Subtle glow */
+    text-shadow: 0 0 8px rgba(var(--color-accent-gold-rgb), 0.5);
 }
 
 /* Navigation */
 .main-nav ul {
     list-style: none;
     display: flex;
-    justify-content: flex-end; /* Pushes items to the right within the nav */
-    gap: var(--spacing-xl); /* Space between nav items */
+    justify-content: flex-end;
+    gap: var(--spacing-xl);
 }
 
 .main-nav a {
@@ -165,65 +170,66 @@ img {
     position: relative;
 }
 
-    .main-nav a:hover,
-    .main-nav a.active { /* 'active' class for current page */
-        color: var(--color-accent-orange);
-        text-shadow: 0 0 5px rgba(var(--color-accent-orange-rgb), 0.7);
-    }
+.main-nav a:hover,
+.main-nav a.active {
+    color: var(--color-accent-orange);
+    text-shadow: 0 0 5px rgba(var(--color-accent-orange-rgb), 0.7);
+}
 
-        .main-nav a.active::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: -5px; /* Adjust as needed */
-            height: 2px;
-            background-color: var(--color-accent-orange);
-            box-shadow: 0 0 5px rgba(var(--color-accent-orange-rgb), 0.7);
-        }
+.main-nav a.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    height: 2px;
+    background-color: var(--color-accent-orange);
+    box-shadow: 0 0 5px rgba(var(--color-accent-orange-rgb), 0.7);
+}
 
 
 /* Hero Content (Headline, Subtitle, Button) */
 .hero-content {
     text-align: center;
-    margin-bottom: 10vh; /* Adjust as needed to position content for full hero */
+    margin-bottom: 10vh;
     padding: 0 var(--spacing-md);
 }
 
-    .hero-content h1 {
-        font-family: var(--font-heading);
-        font-size: 3.8rem; /* Large headline */
-        font-weight: 700;
-        color: var(--color-accent-gold);
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        margin-bottom: var(--spacing-sm);
-        text-shadow: 0 0 15px rgba(var(--color-accent-gold-rgb), 0.8);
-    }
-
-    .hero-content p {
-        font-family: var(--font-body);
-        font-size: 1.5rem;
-        font-weight: 400;
-        color: var(--text-light);
-        margin-bottom: var(--spacing-xl);
-    }
-
-/* NEW: Hero content for smaller hero sections (sub-pages) */
-.hero-content-small {
-    margin-bottom: 0; /* Remove the bottom margin from the full hero */
-    padding: 0 var(--spacing-md); /* Keep horizontal padding */
+.hero-content h1 {
+    font-family: var(--font-heading); /* Will now use MedievalSharp */
+    font-size: 3.8rem;
+    font-weight: 700;
+    color: var(--color-accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: var(--spacing-sm);
+    text-shadow: 0 0 15px rgba(var(--color-accent-gold-rgb), 0.8);
 }
 
-    .hero-content-small h1 {
-        font-size: 3rem; /* Slightly smaller headline for sub-pages */
-        margin-bottom: var(--spacing-xs);
-    }
+.hero-content p {
+    font-family: var(--font-body);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text-light);
+    margin-bottom: var(--spacing-xl);
+}
 
-    .hero-content-small p {
-        font-size: 1.2rem; /* Slightly smaller subtitle for sub-pages */
-        margin-bottom: 0; /* No button below it usually */
-    }
+/* Hero content for smaller hero sections (sub-pages) */
+.hero-content-small {
+    margin-bottom: 0;
+    padding: 0 var(--spacing-md);
+}
+
+.hero-content-small h1 {
+    font-family: var(--font-heading); /* Will now use MedievalSharp */
+    font-size: 3rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.hero-content-small p {
+    font-size: 1.2rem;
+    margin-bottom: 0;
+}
 
 
 /* --- 4. Buttons --- */
@@ -238,63 +244,63 @@ img {
     font-size: 1.1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border-radius: 4px; /* Slightly rounded corners */
+    border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 0 10px rgba(var(--color-accent-red-rgb), 0.5);
 }
 
-    .button:hover {
-        background-color: var(--color-accent-gold);
-        color: var(--color-dark-bg);
-        border-color: var(--color-accent-gold); /* Keep border color for consistency */
-        box-shadow: 0 0 15px rgba(var(--color-accent-gold-rgb), 0.7);
-    }
+.button:hover {
+    background-color: var(--color-accent-gold);
+    color: var(--color-dark-bg);
+    border-color: var(--color-accent-gold);
+    box-shadow: 0 0 15px rgba(var(--color-accent-gold-rgb), 0.7);
+}
 
-.button-secondary { /* For buttons in the main content area */
+.button-secondary {
     background-color: transparent;
     border: 2px solid var(--color-ash-grey);
     color: var(--color-ash-grey);
     box-shadow: none;
 }
 
-    .button-secondary:hover {
-        background-color: var(--color-medium-dark);
-        border-color: var(--color-accent-gold);
-        color: var(--text-light);
-        box-shadow: 0 0 8px rgba(var(--color-accent-gold-rgb), 0.4);
-    }
+.button-secondary:hover {
+    background-color: var(--color-medium-dark);
+    border-color: var(--color-accent-gold);
+    color: var(--text-light);
+    box-shadow: 0 0 8px rgba(var(--color-accent-gold-rgb), 0.4);
+}
 
 
 /* --- 5. Main Content Sections --- */
 .main-content {
-    background-color: var(--color-dark-bg); /* Ensure consistent background for scrolling content */
+    background-color: var(--color-dark-bg);
     padding: var(--spacing-xl) 0;
 }
 
 .intro-section {
-    max-width: 900px; /* Wider for narrative text */
+    max-width: 900px;
     margin: var(--spacing-xl) auto;
     padding: 0 var(--spacing-md);
     text-align: center;
 }
 
-    .intro-section h2 {
-        font-family: var(--font-heading);
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: var(--color-accent-red);
-        margin-bottom: var(--spacing-md);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        text-shadow: 0 0 10px rgba(var(--color-accent-red-rgb), 0.5);
-    }
+.intro-section h2 {
+    font-family: var(--font-heading); /* Will now use MedievalSharp */
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-accent-red);
+    margin-bottom: var(--spacing-md);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(var(--color-accent-red-rgb), 0.5);
+}
 
-    .intro-section p {
-        font-size: 1.15rem;
-        margin-bottom: var(--spacing-xl);
-        color: var(--text-light);
-    }
+.intro-section p {
+    font-size: 1.15rem;
+    margin-bottom: var(--spacing-xl);
+    color: var(--text-light);
+}
 
 .quick-links {
     display: flex;
@@ -303,27 +309,27 @@ img {
     margin-top: var(--spacing-lg);
 }
 
-/* NEW: General Page Section Styling for content below the hero */
+/* General Page Section Styling for content below the hero */
 .page-section {
     padding: var(--spacing-xl) 0;
 }
 
-    .page-section h2 {
-        font-family: var(--font-heading);
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: var(--color-accent-red);
-        margin-bottom: var(--spacing-md);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        text-shadow: 0 0 10px rgba(var(--color-accent-red-rgb), 0.5);
-    }
+.page-section h2 {
+    font-family: var(--font-heading); /* Will now use MedievalSharp */
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-accent-red);
+    margin-bottom: var(--spacing-md);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(var(--color-accent-red-rgb), 0.5);
+}
 
-    .page-section p {
-        font-size: 1.15rem;
-        color: var(--text-light);
-        margin-bottom: var(--spacing-lg);
-    }
+.page-section p {
+    font-size: 1.15rem;
+    color: var(--text-light);
+    margin-bottom: var(--spacing-lg);
+}
 
 
 /* --- 6. Footer --- */
@@ -347,12 +353,10 @@ footer {
         font-size: 1.3rem;
     }
 
-    /* NEW: Adjusted for sub-page small hero */
     .hero-content-small h1 {
         font-size: 2.5rem;
     }
 
-    /* NEW: Adjusted for sub-page small hero */
     .hero-content-small p {
         font-size: 1.1rem;
     }
@@ -371,26 +375,25 @@ footer {
         font-size: 2rem;
     }
 
-    .header-container { /* Stack logo and nav vertically on smaller screens */
+    .header-container {
         flex-direction: column;
         align-items: center;
         gap: var(--spacing-sm);
         padding: var(--spacing-md);
     }
 
-    .main-nav ul { /* Stack nav items vertically */
+    .main-nav ul {
         flex-direction: column;
         align-items: center;
         gap: var(--spacing-sm);
-        margin-top: var(--spacing-sm); /* Space between nav and logo */
+        margin-top: var(--spacing-sm);
     }
 
-    .hero-section { /* Adjust full hero for mobile */
-        height: 70vh; /* Shorter for better content visibility */
-        background-position: center 10%; /* More pronounced shift for mobile */
+    .hero-section {
+        height: 70vh;
+        background-position: center 10%;
     }
 
-    /* NEW: Adjust small hero for mobile */
     .hero-small {
         height: 30vh;
         min-height: 200px;
@@ -404,12 +407,10 @@ footer {
         font-size: 1.1rem;
     }
 
-    /* NEW: Adjusted for sub-page small hero */
     .hero-content-small h1 {
         font-size: 2rem;
     }
 
-    /* NEW: Adjusted for sub-page small hero */
     .hero-content-small p {
         font-size: 1rem;
     }
@@ -419,18 +420,16 @@ footer {
         padding: var(--spacing-sm) var(--spacing-md);
     }
 
-    /* NEW: For main page content headers and paragraphs */
     .intro-section h2, .page-section h2 {
         font-size: 2rem;
     }
 
-    /* NEW: For main page content headers and paragraphs */
     .intro-section p, .page-section p {
         font-size: 1rem;
     }
 
     .quick-links {
-        flex-direction: column; /* Stack buttons */
+        flex-direction: column;
         align-items: center;
     }
 }
@@ -440,7 +439,6 @@ footer {
         height: 60vh;
     }
 
-    /* NEW: Adjust small hero for very small mobile */
     .hero-small {
         height: 25vh;
         min-height: 180px;
@@ -454,12 +452,10 @@ footer {
         font-size: 0.9rem;
     }
 
-    /* NEW: Adjusted for sub-page small hero */
     .hero-content-small h1 {
         font-size: 1.6rem;
     }
 
-    /* NEW: Adjusted for sub-page small hero */
     .hero-content-small p {
         font-size: 0.8rem;
     }
