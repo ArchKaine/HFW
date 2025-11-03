@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Metal+Mania&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Metal+Mania&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <header class="hero-section hero-small">
         <div class="header-overlay">
-            <div class="header-container">
+            <div class="header-container container">
                 <div class="logo-wrapper">
                     <a href="index.html" class="logo">Dragon's Forge</a>
                 </div>
@@ -40,8 +40,41 @@
         <section class="container page-section">
             <h2 class="text-center">Our Albums & Tracks</h2>
             <p class="text-center">Discover the full discography of Dragon's Forge. Each track a step in the grand narrative.</p>
-            <div style="height: 500px; background-color: var(--color-medium-dark); margin-top: var(--spacing-xl); display: flex; align-items: center; justify-content: center;">
-                <p style="font-size: 1.5rem; color: var(--color-ash-grey);">[ Music Album/Track Listings ]</p>
+
+            <div class="sidebar-layout">
+                <aside class="dynamic-sidebar">
+                    <nav class="sidebar-nav">
+                        <h3>Discography</h3>
+                        <ul>
+                            <li><a href="#album-the-bleed" class="active">The Bleed</a></li>
+                            <li><a href="#featured-tracks">Featured Tracks</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <section class="main-content-area">
+                    <div class="content-body intro-music-text">
+                        <p>Welcome to the sonic forge. Below, you'll find our releases embedded directly from our Bandcamp page. Immerse yourself in the epic soundscapes and support our craft by purchasing tracks or albums on Bandcamp.</p>
+                    </div>
+
+                    <div class="content-body" id="album-the-bleed">
+                        <h2>The Bleed (2023)</h2>
+                        <p>Our latest album, a raw and relentless journey into the heart of the forge. Experience the might of Dragon's Forge.</p>
+                        <div class="bandcamp-embed-wrapper">
+                            <iframe style="border: 0; width: 400px; height: 373px;" src="https://bandcamp.com/EmbeddedPlayer/album=4242320661/size=large/bgcol=333333/linkcol=e32c14/artwork=small/transparent=true/" seamless><a href="https://dragonsforge.bandcamp.com/album/the-bleed">The Bleed by Dragon&#39;s Forge</a></iframe>
+                        </div>
+                        <p class="purchase-cta">Listen and purchase the full album on <a href="https://dragonsforge.bandcamp.com/album/the-bleed" target="_blank">Bandcamp</a>.</p>
+                    </div>
+
+                    <div class="content-body" id="featured-tracks">
+                        <h2>Featured Tracks</h2>
+                        <p>A hand-picked selection of fan favorites and essential listening. Add individual track players here.</p>
+                        <div class="bandcamp-embed-wrapper featured-track-stack">
+                            </div>
+                        <p class="purchase-cta">Explore our full discography and support us directly on <a href="https://dragonsforge.bandcamp.com/" target="_blank">Bandcamp</a>.</p>
+                    </div>
+
+                </section>
             </div>
         </section>
     </main>
@@ -52,5 +85,6 @@
         </div>
     </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
