@@ -2,27 +2,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // Select dynamic sidebar navigation links using the new generic class
     const sidebarNavUl = document.querySelector('.sidebar-nav ul');
     if (!sidebarNavUl) {
-        // console.warn("No .sidebar-nav ul found. Scrollspy script will not run.");
-        return; // Exit if the sidebar navigation is not present on this page
+        // console.warn("Scrollspy: No .sidebar-nav ul found. Script will not run.");
+        return;
     }
     const navLinks = sidebarNavUl.querySelectorAll('li a');
 
     // Select the main content area where the scrollable sections reside
     const mainContentArea = document.querySelector('.main-content-area');
     if (!mainContentArea) {
-        // console.warn("No .main-content-area found. Scrollspy script will not run.");
-        return; // Exit if the main content area is not present
+        // console.warn("Scrollspy: No .main-content-area found. Script will not run.");
+        return;
     }
 
     // Select all elements with an 'id' that are either a <section> or have the .content-body class
     const sections = mainContentArea.querySelectorAll('section[id], .content-body[id]');
     if (sections.length === 0) {
-        // console.warn("No scrollable sections/content-body divs with ID found in .main-content-area. Scrollspy will not observe.");
-        return; // Exit if there are no elements to observe
+        // console.warn("Scrollspy: No scrollable sections/content-body divs with ID found. Script will not observe.");
+        return;
     }
 
     // Get the effective height of your fixed header from CSS variable
-    const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-effective-height-for-sticky')) || 250; // Default to 250px if variable not found
+    const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-effective-height-for-sticky')) || 250; 
+    
+    // Define a buffer for the detection zone to give it a little more room
+    const detectionBuffer = 10; // Pixels below the header for the detection line
 
     // Smooth scrolling for sidebar navigation links
     navLinks.forEach(link => {
@@ -32,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetElement = document.getElementById(targetId);
 
             if (targetElement) {
-                // Remove 'active' from all links and add to the clicked one
+                // Instantly set active class on click for immediate feedback
                 navLinks.forEach(nav => nav.classList.remove('active'));
                 this.classList.add('active');
 
@@ -47,51 +50,55 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Intersection Observer for active link highlighting
-    // Refined rootMargin for more precise tracking
+    // Re-calibrated rootMargin for broader, more reliable detection
     const observerOptions = {
         root: null, // viewport
-        // This creates a narrow 'window' for detection:
-        // top: headerHeight + 1px (just below your fixed header)
-        // bottom: viewport height - (headerHeight + some small buffer), effectively making the detection window very short
-        // A smaller negative bottom margin will make the detection window for 'intersecting' shorter.
-        // We're looking for the element whose TOP edge crosses the line just below the header.
-        rootMargin: `-${headerHeight + 1}px 0px -90% 0px`, // Changed -20% to -90% to make the detection window very narrow
-        threshold: 0 // No threshold needed, as rootMargin creates the precise window
+        // Top margin: Start detection just below the header
+        // Bottom margin: End detection near the bottom of the viewport
+        // This creates a wide detection window that covers most of the screen below the header.
+        // The 'active' link will be the one whose top is highest within this window.
+        rootMargin: `-${headerHeight + detectionBuffer}px 0px -50% 0px`, // More forgiving bottom margin
+        threshold: [0, 0.5, 1] // Observe when 0%, 50%, or 100% of target is visible
     };
-
-    let activeLinkOnScroll = null; // Variable to keep track of the currently active link by scroll
+    
+    // We'll use a Map to keep track of intersection status for a more robust detection
+    const intersectionMap = new Map();
 
     const observer = new IntersectionObserver((entries) => {
-        // Find all entries that are currently intersecting (visible in our narrow detection window)
-        const intersectingEntries = entries.filter(entry => entry.isIntersecting);
+        entries.forEach(entry => {
+            intersectionMap.set(entry.target.id, entry.isIntersecting);
+            // console.log(`${entry.target.id} is intersecting: ${entry.isIntersecting}`);
+        });
 
-        if (intersectingEntries.length > 0) {
-            // Sort entries to find the one whose TOP is closest to the detection line (i.e., the one highest on screen)
-            intersectingEntries.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-            
-            // The first element in the sorted array is the one that should be active
-            const currentActiveEntry = intersectingEntries[0];
-            const currentId = currentActiveEntry.target.id;
-            const correspondingLink = sidebarNavUl.querySelector(`a[href="#${currentId}"]`);
-
-            // Only update if the active link has actually changed
-            if (correspondingLink && correspondingLink !== activeLinkOnScroll) {
-                navLinks.forEach(link => link.classList.remove('active'));
-                correspondingLink.classList.add('active');
-                activeLinkOnScroll = correspondingLink;
-            }
-        } else {
-            // If no sections are intersecting (e.g., at the very top of the page before any section)
-            // Or if all sections have scrolled past
-            // Let's ensure the first link is active if scrolled very near the top.
-            if (window.scrollY < headerHeight && navLinks.length > 0) {
-                 if (navLinks[0] !== activeLinkOnScroll) {
-                    navLinks.forEach(link => link.classList.remove('active'));
-                    navLinks[0].classList.add('active');
-                    activeLinkOnScroll = navLinks[0];
-                 }
+        let activeId = null;
+        // Iterate through sections from top to bottom
+        for (let i = 0; i < sections.length; i++) {
+            const section = sections[i];
+            // Check if the section's ID is in our intersection map and is currently intersecting
+            if (intersectionMap.get(section.id)) {
+                // Also double check if its top is actually above our detection line
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= headerHeight + detectionBuffer + 50) { // Give a little more buffer for detection
+                    activeId = section.id;
+                    break; // Found the topmost intersecting section, stop
+                }
             }
         }
+
+        // Fallback for very top of the page (before first section) or very bottom (after last)
+        if (!activeId && window.scrollY < headerHeight + 100 && sections.length > 0) {
+            activeId = sections[0].id; // Activate the first link if near the top
+        }
+
+        // Update active class if ID has changed or if it's currently null
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === `#${activeId}`) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
     }, observerOptions);
 
     // Observe each relevant element for changes in visibility
@@ -105,8 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < sections.length; i++) {
             const rect = sections[i].getBoundingClientRect();
             // Check if element's top is just past the header, and its bottom is still visible
-            // This is the initial "active" detection logic
-            if (rect.top <= headerHeight + 50 && rect.bottom > headerHeight + 50) { // Added a small buffer
+            if (rect.top <= headerHeight + detectionBuffer + 50 && rect.bottom > headerHeight + detectionBuffer + 50) { 
                 currentActiveElementId = sections[i].id;
                 break;
             }
@@ -117,12 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const initialActiveLink = sidebarNavUl.querySelector(`a[href="#${currentActiveElementId}"]`);
             if (initialActiveLink) {
                 initialActiveLink.classList.add('active');
-                activeLinkOnScroll = initialActiveLink; // Set initial active link for scroll tracking
             }
         } else if (navLinks.length > 0) {
-            // If no section is in view (e.g., at very top), activate the first link
             navLinks[0].classList.add('active');
-            activeLinkOnScroll = navLinks[0];
         }
     };
 
