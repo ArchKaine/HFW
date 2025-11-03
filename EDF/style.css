@@ -585,6 +585,94 @@ section[id] {
 }
 
 
+/* --- BANDCAMP EMBED STYLING --- */
+
+.bandcamp-embed-wrapper {
+    margin: var(--spacing-lg) 0; /* Add vertical spacing around each player */
+    position: relative;
+    /* Optional: Add a subtle border or shadow around the player itself to match your theme */
+    border: 1px solid var(--color-ash-grey);
+    border-radius: 4px;
+    overflow: hidden; /* Ensures any border-radius applies to the iframe */
+    background-color: var(--color-dark-bg); /* Match your background if iframe is transparent */
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    /* Set a max-width for consistency, let it be responsive */
+    max-width: 400px; /* Adjust this to match your iframe's max width for the large player */
+    margin-left: auto; /* Center the embed if it's smaller than the container */
+    margin-right: auto;
+}
+
+.bandcamp-embed-wrapper iframe {
+    /* Override inline styles for responsiveness */
+    width: 100% !important; /* Force iframe to take full width of its wrapper */
+    height: auto; /* Let height adjust automatically or use padding-bottom trick for aspect ratio */
+    min-height: 200px; /* Ensure a minimum height for larger players */
+    display: block; /* Remove any extra space below the iframe */
+}
+
+/* For full-album players (like "The Bleed"), we want a good aspect ratio */
+/* Bandcamp's 'large' player often is around 400px wide, 373px tall, roughly 1.07 aspect ratio */
+.bandcamp-embed-wrapper iframe[src*="size=large"] {
+    /* A common technique for responsive video/iframe aspect ratios.
+       Padding-bottom is (height / width) * 100%. For 373/400 = 0.9325 * 100 = 93.25% */
+    position: absolute; /* This iframe wrapper might need a specific height if using this */
+    top: 0;
+    left: 0;
+    height: 100%;
+    /* The iframe itself will be 100% width/height of its parent. */
+    /* If you're using this, you'd need a parent with padding-bottom.
+       Let's keep it simpler for now with just 100% width and auto height. */
+}
+
+
+/* Styling for the purchase call-to-action link */
+.purchase-cta {
+    text-align: center;
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    font-size: 1rem;
+}
+
+.purchase-cta a {
+    color: var(--color-accent-red); /* Highlight the purchase link with your accent red */
+    font-weight: 500;
+    border-bottom: 1px solid var(--color-accent-red);
+}
+
+.purchase-cta a:hover {
+    color: var(--color-accent-gold);
+    border-bottom-color: var(--color-accent-gold);
+}
+
+/* Specific styling for a stack of smaller track players (like in Featured Tracks) */
+.featured-track-stack .bandcamp-embed-wrapper {
+    max-width: none; /* Allow smaller players to take full width if desired */
+    box-shadow: none; /* Remove shadow for individual tracks in a stack */
+    border: none; /* Remove border for individual tracks */
+    margin: var(--spacing-md) 0; /* Adjust spacing */
+}
+
+.featured-track-stack p {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: var(--spacing-xs);
+}
+
+.featured-track-stack iframe {
+    min-height: 42px; /* Standard small player height */
+    height: 42px !important; /* Force small player height */
+}
+
+
+/* RESPONSIVENESS FOR BANDCAMP EMBEDS */
+@media (max-width: 768px) {
+    .bandcamp-embed-wrapper {
+        max-width: 100%; /* Allow embeds to go full width on smaller screens */
+        border-radius: 0; /* Remove rounded corners if going edge-to-edge */
+    }
+}
+
 
 /* --- 7. Responsive Design (Basic Media Queries) --- */
 @media (max-width: 1024px) {
