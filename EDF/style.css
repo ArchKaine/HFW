@@ -20,7 +20,7 @@
     --text-light: #F0F0F0; /* Off-white for primary body text */
     --text-dark: #000000; /* Pure black (rarely used, mainly for inverse buttons) */
     /* Typography */
-    --font-heading: 'Cinzel Decorative', serif; /* A strong, perhaps slightly ancient/mystical serif */
+    --font-heading: 'Orbitron', serif; /* A strong, perhaps slightly ancient/mystical serif */
     --font-body: 'Montserrat', sans-serif; /* Clean, modern sans-serif (similar to HFW, but fitting DF) */
     --font-nav: 'Montserrat', sans-serif; /* Consistent with body for readability */
     /* Spacing */
