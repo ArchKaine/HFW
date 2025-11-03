@@ -23,7 +23,7 @@
     --text-dark: #000000;         /* Pure black (rarely used, mainly for inverse buttons) */
 
     /* Typography */
-    --font-heading: 'Metal Mania', cursive; /* UPDATED: Metal Mania for aggressive, raw feel */
+    --font-heading: 'Metal Mania', cursive; /* Using cursive as generic fallback */
     --font-body: 'Montserrat', sans-serif;    /* Clean, modern sans-serif */
     --font-nav: 'Montserrat', sans-serif;     /* Consistent with body for readability */
 
@@ -41,8 +41,8 @@
 }
 
 /* --- 1. Global Resets & Base Styles --- */
-/* UPDATED: Added Metal Mania to the font import (removed Grenze Gotisch) */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Montserrat:wght@300;400;500;700&family=Metal+Mania&display=swap');
+/* REVISED IMPORT: Focusing only on Montserrat and Metal Mania, checking weights */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Metal+Mania&display=swap');
 
 * {
     margin: 0;
@@ -145,9 +145,9 @@ img {
 
 /* Logo */
 .logo {
-    font-family: var(--font-heading); /* Now uses Metal Mania */
+    font-family: var(--font-heading);
     font-size: 2.5rem;
-    font-weight: 700;
+    font-weight: 400; /* CHANGED: Metal Mania is typically only 400 weight */
     color: var(--color-accent-gold);
     text-shadow: 0 0 8px rgba(var(--color-accent-gold-rgb), 0.5);
 }
@@ -196,9 +196,9 @@ img {
 }
 
 .hero-content h1 {
-    font-family: var(--font-heading); /* Now uses Metal Mania */
+    font-family: var(--font-heading);
     font-size: 3.8rem;
-    font-weight: 700;
+    font-weight: 400; /* CHANGED: Metal Mania is typically only 400 weight */
     color: var(--color-accent-gold);
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -221,8 +221,9 @@ img {
 }
 
 .hero-content-small h1 {
-    font-family: var(--font-heading); /* Now uses Metal Mania */
+    font-family: var(--font-heading);
     font-size: 3rem;
+    font-weight: 400; /* CHANGED: Metal Mania is typically only 400 weight */
     margin-bottom: var(--spacing-xs);
 }
 
@@ -286,9 +287,9 @@ img {
 }
 
 .intro-section h2 {
-    font-family: var(--font-heading); /* Now uses Metal Mania */
+    font-family: var(--font-heading);
     font-size: 2.5rem;
-    font-weight: 700;
+    font-weight: 400; /* CHANGED: Metal Mania is typically only 400 weight */
     color: var(--color-accent-red);
     margin-bottom: var(--spacing-md);
     text-transform: uppercase;
@@ -315,9 +316,9 @@ img {
 }
 
 .page-section h2 {
-    font-family: var(--font-heading); /* Now uses Metal Mania */
+    font-family: var(--font-heading);
     font-size: 2.5rem;
-    font-weight: 700;
+    font-weight: 400; /* CHANGED: Metal Mania is typically only 400 weight */
     color: var(--color-accent-red);
     margin-bottom: var(--spacing-md);
     text-transform: uppercase;
