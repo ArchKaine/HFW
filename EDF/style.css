@@ -598,6 +598,7 @@ section[id] {
     box-shadow: 0 0 10px rgba(0,0,0,0.4);
     /* Set a max-width for consistency, let it be responsive */
     max-width: 400px; /* Adjust this to match your iframe's max width for the large player */
+    height: 470px; /*anti-crush fix*/
     margin-left: auto; /* Center the embed if it's smaller than the container */
     margin-right: auto;
 }
