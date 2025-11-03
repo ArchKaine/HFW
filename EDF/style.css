@@ -343,20 +343,245 @@ footer {
 }
 
 
-/* style.css additions for active lore navigation link */
-nav.lore-nav ul li a.active {
-    color: var(--color-primary-accent, #e74c3c); /* Use a defined accent color or a strong red */
-    font-weight: bold;
-    /* You can add more styling here, e.g., a background, border, or text shadow */
-    /* background-color: rgba(231, 76, 60, 0.1); */
-    /* border-left: 3px solid var(--color-primary-accent, #e74c3c); */
-    /* padding-left: 5px; */
+/* --- DYNAMIC SIDEBAR LAYOUT STYLING (General Use) --- */
+
+/* Local variable for the small header height, derived from your .hero-small */
+/* Ensure this matches your .hero-small's actual height when it's minimized */
+:root {
+    --header-effective-height-for-sticky: 250px; /* From your .hero-small min-height */
+    /* Define a specific font for sidebar headings if it's different from --font-heading or --font-body */
+    --font-sidebar-heading: 'MedievalSharp', cursive; /* Example for a distinct sidebar font */
+    --sidebar-default-width: 250px; /* Default width for the dynamic sidebar */
 }
 
-/* Optional: Add some padding/margin to section headings so fixed header doesn't cover them */
+/* Adjust main-content padding to allow the sidebar-layout to breathe */
+/* This section can be kept if you want specific padding around sidebar layouts */
+.main-content {
+    padding: var(--spacing-lg) 0;
+    background-color: var(--color-dark-bg); /* Explicitly set to your background color */
+}
+
+/* Main layout for pages with a dynamic sidebar (e.g., lore, documentation, guides) */
+.sidebar-layout {
+    display: grid;
+    grid-template-columns: var(--sidebar-default-width) 1fr; /* Sidebar width | Main content */
+    gap: var(--spacing-lg); /* Space between sidebar and main content */
+    align-items: start; /* Aligns content to the top */
+    background: var(--color-medium-dark); /* Using your defined medium-dark for the container */
+    padding: var(--spacing-xl); /* Generous padding inside the sidebar layout */
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
+}
+
+/* Styling for the sticky dynamic sidebar (e.g., Table of Contents, Navigation Menu) */
+.dynamic-sidebar {
+    position: sticky; /* Makes it stick as you scroll */
+    /* top: Position from the top of the viewport when it becomes sticky.
+       Calculated to be below your fixed header. */
+    top: calc(var(--header-effective-height-for-sticky) + var(--spacing-md));
+    /* height: Ensures it doesn't push the footer off-screen, considering header and some bottom margin */
+    height: calc(100vh - var(--header-effective-height-for-sticky) - (2 * var(--spacing-md)));
+    overflow-y: auto; /* Adds scrollbar if sidebar content is too long */
+    padding-right: var(--spacing-md); /* Space from the border */
+    padding-bottom: var(--spacing-md);
+    border-right: 1px solid var(--color-ash-grey); /* Subtle separator using your ash-grey */
+}
+
+/* Sidebar navigation headings and list */
+.sidebar-nav h3 {
+    font-family: var(--font-sidebar-heading); /* Using your new sidebar heading font variable */
+    color: var(--color-accent-gold); /* Using your accent gold for sidebar title */
+    font-size: 1.4rem;
+    margin-bottom: var(--spacing-sm);
+    padding-left: var(--spacing-sm); /* Align with list items */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-nav ul li {
+    margin-bottom: 5px;
+}
+
+.sidebar-nav ul li a {
+    display: block; /* Makes the whole list item clickable */
+    padding: 8px var(--spacing-sm); /* Padding for click area and text */
+    text-decoration: none;
+    color: var(--text-light); /* Default link color */
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    line-height: 1.3;
+}
+
+.sidebar-nav ul li a:hover {
+    color: var(--color-accent-orange); /* Using your accent orange for hover */
+    background-color: rgba(var(--color-accent-orange-rgb), 0.1); /* Subtle hover background */
+    border-radius: 3px;
+}
+
+/* Active link styling (for JavaScript highlighting) */
+.sidebar-nav ul li a.active {
+    color: var(--color-accent-orange); /* Active link color */
+    font-weight: 500; /* Use a medium weight from Montserrat, or normal if Metal Mania */
+    background-color: rgba(var(--color-accent-orange-rgb), 0.15); /* Slightly stronger active background */
+    border-left: 3px solid var(--color-accent-red); /* Highlight bar using your accent red */
+    padding-left: calc(var(--spacing-sm) - 3px); /* Adjust padding for border */
+}
+
+/* Main content area (e.g., article body, documentation text) */
+.main-content-area {
+    padding-left: var(--spacing-md); /* Push content slightly from the sidebar */
+}
+
+/* Styling for the actual body of the content within the main area */
+.content-body {
+    background-color: var(--color-dark-bg); /* Your dark background for the text block */
+    padding: var(--spacing-lg);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    margin-top: var(--spacing-lg); /* Space after the intro text */
+}
+
+.content-body h2 {
+    font-family: var(--font-heading); /* Using your Metal Mania for section titles */
+    color: var(--color-accent-gold); /* Your accent gold for section titles */
+    border-bottom: 2px solid var(--color-ash-grey); /* Subtle separator */
+    padding-bottom: var(--spacing-sm);
+    margin-top: var(--spacing-xl); /* More space above new sections */
+    text-align: left;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px rgba(var(--color-accent-gold-rgb), 0.3);
+}
+
+.content-body h3 {
+    font-family: var(--font-body); /* Using your body font for sub-sections */
+    color: var(--color-accent-red); /* Your accent red for sub-section titles */
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+}
+
+.content-body p {
+    font-family: var(--font-body); /* Using your body font */
+    color: var(--text-light); /* Your light text color */
+    margin-bottom: 1em;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.content-body strong {
+    color: var(--color-accent-orange); /* Highlight strong text with accent orange */
+    font-weight: 500; /* Use a medium weight from Montserrat */
+}
+
+.content-body ul,
+.content-body ol {
+    font-family: var(--font-body); /* Using your body font */
+    color: var(--text-light); /* Your light text color */
+    margin-left: 25px;
+    margin-bottom: 1em;
+    list-style: disc; /* Default list style */
+}
+
+.content-body ol {
+    list-style: decimal;
+}
+
+.content-body ul li,
+.content-body ol li {
+    margin-bottom: 5px;
+}
+
+/* Ensure section headings for anchors account for fixed header */
+/* This is crucial for smooth scrolling to sections without them being hidden under the header */
 section[id] {
-    padding-top: 60px; /* Adjust this value if your fixed header is taller */
-    margin-top: -60px; /* Counter-act the padding-top to keep content position */
+    /* Offset by header height + some spacing, to prevent text from being hidden under fixed header */
+    padding-top: calc(var(--header-effective-height-for-sticky) + var(--spacing-md));
+    margin-top: calc(-1 * (var(--header-effective-height-for-sticky) + var(--spacing-md)));
+}
+
+/* --- RESPONSIVENESS for DYNAMIC SIDEBAR LAYOUT --- */
+
+@media (max-width: 992px) { /* Medium screens */
+    .sidebar-layout {
+        grid-template-columns: 200px 1fr; /* Smaller sidebar */
+        gap: var(--spacing-md);
+    }
+    .dynamic-sidebar {
+        top: calc(var(--header-effective-height-for-sticky) + var(--spacing-sm));
+        height: calc(100vh - var(--header-effective-height-for-sticky) - (2 * var(--spacing-sm)));
+    }
+}
+
+@media (max-width: 768px) { /* Tablets and small laptops */
+    .sidebar-layout {
+        grid-template-columns: 1fr; /* Stack columns on smaller screens */
+        gap: var(--spacing-md);
+    }
+    .dynamic-sidebar {
+        position: static; /* No longer sticky on small screens */
+        height: auto; /* Height adapts to content */
+        overflow-y: visible;
+        border-right: none;
+        padding-right: 0;
+        padding-bottom: var(--spacing-md);
+        border-bottom: 1px solid var(--color-ash-grey); /* Add border at bottom */
+    }
+    .sidebar-nav h3 {
+        text-align: center; /* Center TOC title on small screens */
+        margin-bottom: var(--spacing-md);
+    }
+    .sidebar-nav ul {
+        display: flex; /* Horizontal scrollable TOC on small screens */
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: var(--spacing-sm); /* Space for scrollbar */
+        justify-content: flex-start; /* Align items to start for scrolling */
+    }
+    .sidebar-nav ul li {
+        flex-shrink: 0; /* Prevent items from shrinking */
+        margin-right: var(--spacing-sm);
+    }
+    .sidebar-nav ul li a {
+        padding: 5px var(--spacing-sm);
+        border: 1px solid var(--color-ash-grey);
+        border-radius: 5px;
+    }
+    .sidebar-nav ul li a.active {
+        border-bottom: 3px solid var(--color-accent-red); /* Highlight active */
+        border-left: none; /* Remove left border */
+        padding-left: var(--spacing-sm); /* Reset padding */
+        background-color: rgba(var(--color-accent-red-rgb), 0.1);
+    }
+    .main-content-area {
+        padding-left: 0; /* No extra padding on small screens */
+    }
+    .content-body h2 {
+        font-size: 1.8rem;
+    }
+    .content-body h3 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) { /* Mobile phones */
+    .sidebar-nav ul {
+        justify-content: initial; /* Allow horizontal scroll to start from left */
+    }
+    .content-body h2 {
+        font-size: 1.5rem;
+    }
+    .content-body h3 {
+        font-size: 1.1rem;
+    }
 }
 
 
