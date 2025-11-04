@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Metal+Mania&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Metal+Mania&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
     <header class="hero-section hero-small">
         <div class="header-overlay">
-            <div class="header-container">
+            <div class="header-container container">
                 <div class="logo-wrapper">
                     <a href="index.html" class="logo">Dragon's Forge</a>
                 </div>
@@ -39,10 +40,62 @@
     <main class="main-content">
         <section class="container page-section">
             <h2 class="text-center">Connect with Us</h2>
-            <p class="text-center">Whether for inquiries, collaborations, or just to share your thoughts on the journey.</p>
-            <div style="height: 500px; background-color: var(--color-medium-dark); margin-top: var(--spacing-xl); display: flex; align-items: center; justify-content: center;">
-                <p style="font-size: 1.5rem; color: var(--color-ash-grey);">[ Contact Form / Social Links ]</p>
+            <p class="text-center">Whether for inquiries, collaborations, or just to share your thoughts on the journey of Dragon's Forge.</p>
+            
+            <div class="contact-grid">
+                <div class="contact-form-container">
+                    <h3>Send a Message</h3>
+                    <form action="#" method="POST" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="7" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+
+                <div class="contact-info-container">
+                    <h3>Connect Elsewhere</h3>
+                    <p>Find Dragon's Forge across the digital realm and join the community.</p>
+                    
+                    <ul class="social-links">
+                        <li>
+                            <a href="https://dragonsforge.bandcamp.com" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-bandcamp"></i> Bandcamp
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.youtube.com/channel/UCxF7nrgncCX7FfkKEmLS0Sw" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-youtube"></i> YouTube
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/dragonsforge" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-twitter"></i> Twitter/X
+                            </a>
+                        </li>
+                        </ul>
+
+                    <div class="direct-email-info">
+                        <h4>Direct Email</h4>
+                        <p>For direct inquiries, you can also reach the Forge Master at:</p>
+                        <p><a href="mailto:deobfuscateme_eternaldragonsforge@gmail.com">deobfuscateme_eternaldragonsforge@gmail.com</a></p>
+                    </div>
+                </div>
             </div>
+
         </section>
     </main>
 
@@ -52,5 +105,6 @@
         </div>
     </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
