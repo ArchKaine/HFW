@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const sections = mainContentArea.querySelectorAll('section[id], .content-body[id]');
     if (sections.length === 0) return;
 
-    // --- NEW: Get reference to the header element ---
     const headerElement = document.querySelector('header.hero-section'); 
     if (!headerElement) {
         console.error("Scrollspy: Header element with class 'hero-section' not found. Cannot determine dynamic offset.");
@@ -17,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const baseHeaderHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-effective-height-for-sticky')) || 250; 
-    const headerBottomBuffer = 5; // A small buffer below the header when it's visible
+    const headerBottomBuffer = 5; 
 
     let isScrollingFromClick = false;
     let scrollTimeout;
@@ -27,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentActiveId = null; 
 
     const setActiveLink = (id) => {
-        if (currentActiveId === id) return; 
+        if (currentActiveId === id) return; // Prevent unnecessary DOM updates if already active
 
         navLinks.forEach(link => {
             if (link.getAttribute('href') === `#${id}`) {
@@ -49,13 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 isScrollingFromClick = true; 
                 setActiveLink(targetId); 
 
-                // --- NEW: Dynamic scroll offset for click ---
                 const headerRect = headerElement.getBoundingClientRect();
-                let scrollOffset = 0; // Default to top of viewport
-                if (headerRect.bottom > 0) { // If header is still visible on screen
-                    scrollOffset = headerRect.height; // Scroll below the header's current height
+                let scrollOffset = 0; 
+                if (headerRect.bottom > 0) { 
+                    scrollOffset = headerRect.height; 
                 }
-                // Add an extra small buffer if the header is visible
                 const adjustedOffsetTop = targetElement.getBoundingClientRect().top + window.scrollY - scrollOffset - (scrollOffset > 0 ? headerBottomBuffer : 0);
                 
                 window.scrollTo({
@@ -77,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     let scrollHandlerTimeout;
-    const debounceScrollDelay = 50; 
+    const debounceScrollDelay = 80; // Slightly increased debounce delay
 
     const handleWindowScroll = () => {
         clearTimeout(scrollHandlerTimeout);
@@ -91,15 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('scroll', handleWindowScroll);
 
-    // --- Centralized function to determine and apply active state ---
+    // --- Centralized function to determine and apply active state (Unified Logic) ---
     const updateActiveState = () => {
         const currentScrollY = window.scrollY;
-        const scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
 
-        // --- NEW: Determine effective detection line ---
+        // Determine effective detection line based on header visibility
         const headerRect = headerElement.getBoundingClientRect();
-        let effectiveDetectionLine = headerBottomBuffer; // Default detection line: small buffer from viewport top
-        if (headerRect.bottom > 0) { // If header is visible on screen, adjust detection line to below it
+        let effectiveDetectionLine = headerBottomBuffer; 
+        if (headerRect.bottom > 0) { 
             effectiveDetectionLine = headerRect.height + headerBottomBuffer;
         }
 
@@ -110,28 +106,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isScrolledToBottom && sections.length > 0) {
             newActiveId = sections[sections.length - 1].id;
         } 
-        // --- Priority 2: Use scroll direction and element position relative to effectiveDetectionLine ---
+        // --- Priority 2: Find the topmost section that has crossed the detection line ---
         else {
-            if (scrollDirection === 'down') {
-                for (let i = sections.length - 1; i >= 0; i--) { 
-                    const rect = sections[i].getBoundingClientRect();
-                    if (rect.top <= effectiveDetectionLine) {
-                        newActiveId = sections[i].id;
-                        break;
-                    }
-                }
-            } else { // Scrolling up
-                for (let i = 0; i < sections.length; i++) {
-                    const rect = sections[i].getBoundingClientRect();
-                    // If the section's top has passed the detection line, or it's very close and on screen
-                    if (rect.top <= effectiveDetectionLine + 50 && rect.bottom > 0) { 
-                        newActiveId = sections[i].id;
-                        break;
-                    }
+            // Iterate through sections from bottom to top (reversed order)
+            // This ensures we pick the highest section whose top is AT OR ABOVE the detection line.
+            for (let i = sections.length - 1; i >= 0; i--) {
+                const rect = sections[i].getBoundingClientRect();
+                if (rect.top <= effectiveDetectionLine) {
+                    newActiveId = sections[i].id;
+                    break; 
                 }
             }
 
-            // Fallback for very top of the page (before first section) if nothing else is active
+            // Fallback for very top of the page if no section has crossed the line yet
             if (!newActiveId && currentScrollY < (headerRect.height || baseHeaderHeight) + 100 && sections.length > 0) {
                 newActiveId = sections[0].id;
             }
@@ -140,19 +127,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (newActiveId) {
             setActiveLink(newActiveId);
         } else {
+            // If nothing is active, default to first link if available
             if (sections.length > 0) {
                 setActiveLink(sections[0].id);
             } else {
-                navLinks.forEach(link => link.classList.remove('active')); 
+                navLinks.forEach(link => link.classList.remove('active')); // Clear all if no sections
             }
         }
+        lastScrollY = currentScrollY; // Update lastScrollY *after* state update
     };
+
 
     const updateActiveLinkOnLoad = () => {
         const currentScrollY = window.scrollY;
         let initialActiveId = null;
 
-        // --- NEW: Determine effective detection line for initial load ---
         const headerRect = headerElement.getBoundingClientRect();
         let effectiveDetectionLine = headerBottomBuffer; 
         if (headerRect.bottom > 0) { 
@@ -163,14 +152,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isScrolledToBottom && sections.length > 0) {
             initialActiveId = sections[sections.length - 1].id;
         } else {
-            for (let i = 0; i < sections.length; i++) {
+            for (let i = sections.length - 1; i >= 0; i--) { // Iterate backwards
                 const rect = sections[i].getBoundingClientRect();
-                if (rect.top <= effectiveDetectionLine + 50 && rect.bottom > 0) { 
+                if (rect.top <= effectiveDetectionLine) { 
                     initialActiveId = sections[i].id;
                     break;
                 }
             }
-            // Fallback for very top of the page
             if (!initialActiveId && sections.length > 0 && currentScrollY < (headerRect.height || baseHeaderHeight) + 100) {
                 initialActiveId = sections[0].id; 
             }
