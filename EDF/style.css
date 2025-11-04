@@ -945,4 +945,9 @@ section[id] {
     .hero-content {
         margin-bottom: 5vh;
     }
+
+    /* --- Global Utility Classes --- */
+    .hidden {
+        display: none; /* Hides the honeypot field from human users */
+    }
 }
